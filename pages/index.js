@@ -1,9 +1,12 @@
-import { Button } from "@mui/material";
+import DefaultLayout from "components/layout/DefaultLayout";
 
 export default function Home() {
   return (
-    <div>
-      <Button>LALALA</Button>
-    </div>
+    <DefaultLayout
+      title="Services"
+      secondaryText="Keep track of services and their status."
+    >
+      LALALALALA
+    </DefaultLayout>
   );
 }
