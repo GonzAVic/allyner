@@ -51,6 +51,45 @@ const theme = () => {
           },
         },
       },
+
+      MuiTextField: {
+        defaultProps: {
+          variant: "outlined",
+          fullWidth: true,
+          sx: { mb: 2 },
+          InputLabelProps: {
+            shrink: true,
+          },
+        },
+        styleOverrides: {
+          root: {
+            // Body Style
+            marginTop: 30,
+            "& input, .MuiSelect-select": {
+              padding: "10px 14px",
+              paddingTop: 8,
+              // color: evefColorConfig.palette.mediumBlue,
+            },
+            "& input": {
+              color: "initial",
+            },
+
+            "& fieldset": {
+              border: "1px solid #DCDFEA",
+              borderRadius: 8,
+            },
+
+            "& label": {
+              transform: "translate(0px, -24px)",
+            },
+
+            // Select
+            "& .MuiSelect-select": {
+              color: "initial",
+            },
+          },
+        },
+      },
     },
   });
 };
