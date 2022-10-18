@@ -15,6 +15,11 @@ const theme = () => {
         fontWeight: 500,
         marginBottom: 8,
       },
+      h3: {
+        fontSize: 18,
+        fontWeight: 500,
+        marginBottom: 8,
+      },
       label: {
         fontSize: 16,
         fontWeight: 500,
@@ -63,8 +68,10 @@ const theme = () => {
         },
         styleOverrides: {
           root: {
-            // Body Style
-            marginTop: 30,
+            "& .MuiInputBase-root": {
+              marginTop: 8,
+            },
+
             "& input, .MuiSelect-select": {
               padding: "10px 14px",
               paddingTop: 8,
@@ -75,12 +82,19 @@ const theme = () => {
             },
 
             "& fieldset": {
+              background: "#FFFFFF",
               border: "1px solid #DCDFEA",
               borderRadius: 8,
             },
 
             "& label": {
-              transform: "translate(0px, -24px)",
+              fontSize: 12,
+              fontWeight: 500,
+              display: "contents",
+              padding: 80,
+            },
+            "& legend": {
+              display: "none",
             },
 
             // Select

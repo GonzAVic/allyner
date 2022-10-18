@@ -1,24 +1,44 @@
-// import typeDefs from "db/models/typeDefs";
-import connectDb from "db/config/index";
+import { ApolloServer } from "apollo-server-micro";
+import Cors from "micro-cors";
+
+import typeDefs from "db/models/typeDefs";
+import connectDB from "db/config/index";
 
 // CONTROLLERS
-// import companyController from "controllers/companyController";
+import businessController from "controllers/businessController";
+import serviceController from "controllers/serviceController";
 
-// MODELS
-// import Asset from "db/models/Asset.model";
+connectDB();
 
-connectDb();
+const cors = Cors();
 
 const resolvers = {
   Query: {
+    ...businessController.queries,
+    ...serviceController.queries,
   },
   Mutation: {
-  },
+    ...serviceController.mutations
+  }
 };
 
-export const schema = makeExecutableSchema({
+const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
+});
+
+const startServer = apolloServer.start();
+
+export default cors(async function handler(req, res) {
+  if (req.method === "OPTIONS") {
+    res.end();
+    return false;
+  }
+
+  await startServer;
+  await apolloServer.createHandler({
+    path: "/api/graphql",
+  })(req, res);
 });
 
 export const config = {
@@ -26,9 +46,3 @@ export const config = {
     bodyParser: false,
   },
 };
-
-export default new ApolloServer({
-  schema,
-}).createHandler({
-  path: "/api/graphql",
-});
