@@ -16,7 +16,7 @@ const ServicePreview = ({ title, description }) => {
       <div
         className="content"
         dangerouslySetInnerHTML={{ __html: description }}
-      ></div>
+      />
     </Container>
   );
 };

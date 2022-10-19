@@ -20,21 +20,21 @@ const MenuBar = ({ editor }) => {
         onClick={() => editor.chain().focus().toggleBold().run()}
         className={editor.isActive("bold") ? "is-active" : ""}
       >
-        <FormatBoldIcon />
+        <FormatBoldIcon fontSize="small" />
       </IconButton>
       <IconButton
         size="small"
         onClick={() => editor.chain().focus().toggleItalic().run()}
         className={editor.isActive("italic") ? "is-active" : ""}
       >
-        <FormatItalicIcon />
+        <FormatItalicIcon fontSize="small" />
       </IconButton>
       <IconButton
         size="small"
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={editor.isActive("bulletList") ? "is-active" : ""}
       >
-        <FormatListBulletedIcon />
+        <FormatListBulletedIcon fontSize="small" />
       </IconButton>
     </MenuContainer>
   );
@@ -76,7 +76,8 @@ const Container = styled("div")({
 });
 
 const MenuContainer = styled("div")({
-  padding: 8,
+  padding: 2,
+  borderBottom: "1px solid #DCDFEA",
 
   "& svg": {
     fill: "#98A2B3",

@@ -114,6 +114,8 @@ const theme = () => {
             // Select
             "& .MuiSelect-select": {
               color: "initial",
+              background: "#FFFFFF",
+              border: "1px solid #DCDFEA",
             },
           },
         },
