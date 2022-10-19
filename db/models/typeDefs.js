@@ -22,6 +22,14 @@ const typeDefs = gql`
     # businessId: ID!
   }
 
+  type Pricing {
+    type: PricingType!
+    durationHours: Int
+    durationMinutes: Int
+    amount: Int!
+    isOriginal: Boolean!
+  }
+
   # INPUTS
   input ServiceInput {
     title: String
@@ -39,11 +47,18 @@ const typeDefs = gql`
     createService(input: ServiceInput): Service
   }
 
+  # ENUMS
   enum Industries {
     TECH
     ARQUITECTURE
     ACCOUNTANCY
     GAMMING
+  }
+
+  enum PricingType {
+    FIXED
+    BY_TIME
+    FREE
   }
 `;
 

@@ -40,10 +40,23 @@ const theme = () => {
         fontSize: 14,
         fontWeight: 500,
       },
+      // allVariants: {
+      //   display: "block",
+      // },
     },
 
     // COMPONENTS
     components: {
+      MuiTypography: {
+        defaultProps: {
+          variantMapping: {
+            label: "p",
+            button: "div",
+            small: "div",
+          },
+        },
+      },
+
       MuiButton: {
         defaultProps: {
           variant: "contained",
@@ -69,7 +82,7 @@ const theme = () => {
         styleOverrides: {
           root: {
             "& .MuiInputBase-root": {
-              marginTop: 8,
+              // marginTop: 8,
             },
 
             "& input, .MuiSelect-select": {
@@ -79,12 +92,13 @@ const theme = () => {
             },
             "& input": {
               color: "initial",
-            },
-
-            "& fieldset": {
               background: "#FFFFFF",
               border: "1px solid #DCDFEA",
               borderRadius: 8,
+            },
+
+            "& fieldset": {
+              border: "none",
             },
 
             "& label": {

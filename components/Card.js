@@ -5,7 +5,9 @@ import { Typography } from "@mui/material";
 const Card = ({ children, title }) => {
   return (
     <Container>
-      <Typography variant="label">{title}</Typography>
+      <Typography variant="label" sx={{ mb: 1 }}>
+        {title}
+      </Typography>
       {children}
     </Container>
   );
