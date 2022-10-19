@@ -6,6 +6,7 @@ import { TextField, Button, MenuItem } from "@mui/material";
 
 // COMPONENTS
 import Card from "components/Card";
+import Tiptap from "components/TipTap";
 import ServicePreview from "components/ServicePreview";
 import DefaultLayout from "components/layout/DefaultLayout";
 
@@ -44,6 +45,10 @@ export default function Home() {
     },
   });
 
+  const handleDescriptionChange = (value) => {
+    formik.setFieldValue("description", value);
+  };
+
   return (
     <DefaultLayout title={formik.values.title || "Service name"}>
       <Container>
@@ -54,11 +59,10 @@ export default function Home() {
                 name="title"
                 value={formik.values.title}
                 onChange={formik.handleChange}
-                sx={{ mb: 2 }}
               />
             </Card>
             <Card title="Description">
-              <TextField label="label" sx={{ mb: 2 }} />
+              <Tiptap onUpdate={handleDescriptionChange} />
             </Card>
             <Card title="Avatar">
               <TextField label="label" sx={{ mb: 2 }} />
@@ -94,8 +98,12 @@ export default function Home() {
             </Button>
           </form>
         </LeftSide>
+
         <RightSide>
-          <ServicePreview title={formik.values.title || "Service name"} />
+          <ServicePreview
+            title={formik.values.title || "Service name"}
+            description={formik.values.description}
+          />
         </RightSide>
       </Container>
     </DefaultLayout>

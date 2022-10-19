@@ -2,7 +2,7 @@
 import { styled } from "@mui/system";
 import { Typography, Button } from "@mui/material";
 
-const ServicePreview = ({ title }) => {
+const ServicePreview = ({ title, description }) => {
   return (
     <Container>
       <Typography variant="h3">Preview</Typography>
@@ -13,6 +13,10 @@ const ServicePreview = ({ title }) => {
         </div>
         <Button>Book Now</Button>
       </Header>
+      <div
+        className="content"
+        dangerouslySetInnerHTML={{ __html: description }}
+      ></div>
     </Container>
   );
 };
