@@ -2,7 +2,9 @@
 import { styled } from "@mui/system";
 import { Typography, Button } from "@mui/material";
 
-const ServicePreview = ({ title, description }) => {
+const ServicePreview = ({
+  previewData: { title, description, callToAction },
+}) => {
   return (
     <Container>
       <Typography variant="h3">Preview</Typography>
@@ -11,7 +13,7 @@ const ServicePreview = ({ title, description }) => {
           <Typography variant="h2">{title}</Typography>
           <Typography variant="h3">$53 / Hour</Typography>
         </div>
-        <Button>Book Now</Button>
+        <Button>{callToAction}</Button>
       </Header>
       <div
         className="content"

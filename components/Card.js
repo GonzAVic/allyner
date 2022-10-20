@@ -5,7 +5,7 @@ import { Typography } from "@mui/material";
 const Card = ({ children, title }) => {
   return (
     <Container>
-      <Typography variant="label" sx={{ mb: 1 }}>
+      <Typography variant="label" sx={{ mb: 1, textTransform: "capitalize" }}>
         {title}
       </Typography>
       {children}
@@ -14,6 +14,7 @@ const Card = ({ children, title }) => {
 };
 
 const Container = styled("div")(({ theme }) => ({
+  position: "relative",
   padding: 24,
   border: "1px solid #DCDFEA",
   borderRadius: 12,

@@ -68,6 +68,34 @@ const theme = () => {
             textTransform: "capitalize",
           },
         },
+        variants: [
+          {
+            props: { variant: "secondary" },
+            style: {
+              background: "#FCFCFD",
+              color: "#667085",
+            },
+          },
+        ],
+      },
+
+      MuiSwitch: {
+        defaultProps: {
+          size: "small",
+        },
+      },
+
+      MuiIconButton: {
+        defaultProps: {
+          size: "small",
+        },
+        styleOverrides: {
+          root: {
+            "& svg": {
+              fill: "#667085",
+            },
+          },
+        },
       },
 
       MuiTextField: {
