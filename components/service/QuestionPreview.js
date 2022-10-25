@@ -18,6 +18,7 @@ const QuestionPreview = ({ previewData: question }) => {
 const Container = styled("div")({
   background: "#F9F9FB",
   padding: 32,
+  flex: 1,
 });
 
 const QuestionContainer = styled("div")({

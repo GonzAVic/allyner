@@ -8,15 +8,15 @@ const SidebarItem = ({ label, href, isActive, icon }) => {
       variant="text"
       component="a"
       href={href}
-      isActive={isActive}
       startIcon={icon}
+      isActive={isActive}
     >
       {label}
     </Container>
   );
 };
 
-const Container = styled(Button)(({ theme }) => ({
+const Container = styled(Button)(({ isActive }) => ({
   display: "flex",
   justifyContent: "flex-start",
 }));

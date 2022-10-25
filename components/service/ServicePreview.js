@@ -26,6 +26,7 @@ const ServicePreview = ({
 const Container = styled("div")({
   background: "#F9F9FB",
   padding: 32,
+  flex: 1,
 });
 
 const Header = styled("div")({
