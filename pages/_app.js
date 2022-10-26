@@ -3,6 +3,10 @@ import Head from "next/head";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider } from "@emotion/react";
+
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+
 import theme from "../config/theme";
 import createEmotionCache from "../config/createEmotionCache";
 import "../styles/globals.css";
@@ -17,10 +21,12 @@ export default function MyApp(props) {
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <ThemeProvider theme={theme()}>
-        <CssBaseline />
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <LocalizationProvider dateAdapter={AdapterMoment}>
+        <ThemeProvider theme={theme()}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </LocalizationProvider>
     </CacheProvider>
   );
 }

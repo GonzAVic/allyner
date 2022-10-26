@@ -1,36 +1,50 @@
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography, TextField, MenuItem } from "@mui/material";
+import { Typography } from "@mui/material";
+
+// COMPONENTS
+import ResponseShortText from "./ResponseShortText";
+import ResponseLongText from "./ResponseLongText";
+import ResponseDropdown from "./ResponseDropdown";
+import ResponseDatePicker from "./ResponseDatePicker";
+import ResponseTimePicker from "./ResponseTimePicker";
+import ResponseFile from "./ResponseFile";
+import ResponseMultipleChoice from "./ResponseMultipleChoice";
 
 const renderAnswerComponent = (questionType, options) => {
   switch (questionType) {
     case "short text":
-      return <TextField />;
+      return <ResponseShortText />;
     case "long text":
-      return <TextField rows={5} maxRows={5} multiline />;
+      return <ResponseLongText />;
     case "dropdown":
-      return (
-        <TextField select>
-          {options.map((option) => (
-            <MenuItem key={option} value={option}>
-              {option}
-            </MenuItem>
-          ))}
-        </TextField>
-      );
+      return <ResponseDropdown options={options} />;
+    case "date":
+      return <ResponseDatePicker />;
+    case "time":
+      return <ResponseTimePicker />;
+    case "file":
+      return <ResponseFile />;
+    case "multiple choice":
+      return <ResponseMultipleChoice options={options} />;
   }
 };
 
-const QuestionPreview = ({ previewData: question }) => {
+const QuestionPreview = ({ previewData: question = {} }) => {
   return (
     <Container>
       <Typography variant="h3">Preview</Typography>
 
       <QuestionContainer>
         <Typography variant="h2">
-          {question.sentence}{question.isRequired && "*"}
+          {question.sentence || "Title placeholder"}
+          {question.isRequired && "*"}
         </Typography>
-        <Typography sx={{ mb: 3 }}>{question.description}</Typography>
+        {question.withDescription && (
+          <Typography sx={{ mb: 3 }}>
+            {question.description || "Description placeholder"}
+          </Typography>
+        )}
 
         {renderAnswerComponent(question.type, question.options)}
       </QuestionContainer>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik, FieldArray, FormikProvider } from "formik";
 
 // MATERIAL UI
@@ -10,6 +10,7 @@ import QuestionCard from "./QuestionCard";
 
 const ServiceQuestionnaire = ({ updatePreviewData }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [activeQuestion, setActiveQuestion] = useState(null);
 
   const formik = useFormik({
     initialValues: {
@@ -19,6 +20,11 @@ const ServiceQuestionnaire = ({ updatePreviewData }) => {
       console.log("-> values: ", values);
     },
   });
+
+  useEffect(() => {
+    const activeQuestionData = formik.values.questions[activeQuestion];
+    updatePreviewData(activeQuestionData);
+  }, [formik.values, activeQuestion]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -57,7 +63,7 @@ const ServiceQuestionnaire = ({ updatePreviewData }) => {
                       index={index}
                       question={question}
                       formik={formik}
-                      updatePreviewData={updatePreviewData}
+                      setActiveQuestion={setActiveQuestion}
                     />
                   );
                 })}

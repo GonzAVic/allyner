@@ -11,13 +11,12 @@ import {
 } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
-import PreviewIcon from "@mui/icons-material/Preview";
 import AddIcon from "@mui/icons-material/Add";
 
 // COMPONENTS
 import Card from "components/Card";
 
-const QuestionCard = ({ question, index, formik, updatePreviewData }) => {
+const QuestionCard = ({ question, index, formik, setActiveQuestion }) => {
   const updateQuestionAttr = (attribute, value) => {
     formik.setFieldValue(`questions[${index}].${attribute}`, value);
   };
@@ -29,6 +28,10 @@ const QuestionCard = ({ question, index, formik, updatePreviewData }) => {
     ]);
   };
 
+  const activeQuestion = () => {
+    setActiveQuestion(index);
+  };
+
   return (
     <Card title={question.type}>
       <TextField
@@ -36,11 +39,9 @@ const QuestionCard = ({ question, index, formik, updatePreviewData }) => {
         name="sentence"
         value={question.sentence}
         onChange={(event) => updateQuestionAttr("sentence", event.target.value)}
+        onFocus={activeQuestion}
       />
       <ActionsContainer>
-        <IconButton onClick={() => updatePreviewData(question)}>
-          <PreviewIcon fontSize="small" />
-        </IconButton>
         <IconButton>
           <ContentCopyIcon fontSize="small" />
         </IconButton>
@@ -57,6 +58,7 @@ const QuestionCard = ({ question, index, formik, updatePreviewData }) => {
           onChange={(event) =>
             updateQuestionAttr("description", event.target.value)
           }
+          onFocus={activeQuestion}
         />
       )}
 
@@ -67,6 +69,7 @@ const QuestionCard = ({ question, index, formik, updatePreviewData }) => {
           onChange={(event) =>
             updateQuestionAttr("withDescription", event.target.checked)
           }
+          onFocus={activeQuestion}
         />
       </Box>
       <Box className="space-between-centered" sx={{ mb: 1 }}>
@@ -76,6 +79,7 @@ const QuestionCard = ({ question, index, formik, updatePreviewData }) => {
           onChange={(event) =>
             updateQuestionAttr("isRequired", event.target.checked)
           }
+          onFocus={activeQuestion}
         />
       </Box>
       <Box className="space-between-centered" sx={{ mb: 1 }}>
@@ -83,20 +87,25 @@ const QuestionCard = ({ question, index, formik, updatePreviewData }) => {
         <Switch size="small" />
       </Box>
 
-      <Divider sx={{ mt: 3, mb: 3 }} />
+      {questionWithOptions.includes(question.type) && (
+        <>
+          <Divider sx={{ mt: 3, mb: 3 }} />
 
-      {question.options.map((op, i) => {
-        return (
-          <TextField
-            key={i}
-            name={`questions[${index}].options[${i}]`}
-            value={question.options[i]}
-            onChange={(event) =>
-              updateQuestionAttr(`options[${i}]`, event.target.value)
-            }
-          />
-        );
-      })}
+          {question.options.map((op, i) => {
+            return (
+              <TextField
+                key={i}
+                name={`questions[${index}].options[${i}]`}
+                value={question.options[i]}
+                onChange={(event) =>
+                  updateQuestionAttr(`options[${i}]`, event.target.value)
+                }
+                onFocus={activeQuestion}
+              />
+            );
+          })}
+        </>
+      )}
 
       <Button
         variant="text"
@@ -109,6 +118,8 @@ const QuestionCard = ({ question, index, formik, updatePreviewData }) => {
     </Card>
   );
 };
+
+const questionWithOptions = ["dropdown", "multiple choice"];
 
 const ActionsContainer = styled("div")({
   position: "absolute",
