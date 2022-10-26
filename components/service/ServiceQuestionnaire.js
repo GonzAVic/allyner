@@ -23,6 +23,7 @@ const ServiceQuestionnaire = ({ updatePreviewData }) => {
 
   useEffect(() => {
     const activeQuestionData = formik.values.questions[activeQuestion];
+    if (!activeQuestionData) return;
     updatePreviewData(activeQuestionData);
   }, [formik.values, activeQuestion]);
 

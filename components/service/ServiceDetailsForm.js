@@ -131,9 +131,6 @@ const ServiceDetailsForm = ({ updatePreviewData }) => {
           }}
         />
       </Card>
-      <Button fullWidth type="submit">
-        Save
-      </Button>
     </form>
   );
 };

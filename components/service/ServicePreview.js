@@ -2,9 +2,8 @@
 import { styled } from "@mui/system";
 import { Typography, Button } from "@mui/material";
 
-const ServicePreview = ({
-  previewData: { title, description, callToAction },
-}) => {
+const ServicePreview = ({ previewData }) => {
+  const { title, description, callToAction } = previewData;
   return (
     <Container>
       <Typography variant="h3">Preview</Typography>
