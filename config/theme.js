@@ -98,6 +98,17 @@ const theme = () => {
         },
       },
 
+      MuiInputBase: {
+        styleOverrides: {
+          root: {
+            color: "initial",
+            background: "#FFFFFF",
+            border: "1px solid #DCDFEA",
+            borderRadius: 8,
+          },
+        },
+      },
+
       MuiTextField: {
         defaultProps: {
           variant: "outlined",
@@ -118,12 +129,6 @@ const theme = () => {
               paddingTop: 8,
               // color: evefColorConfig.palette.mediumBlue,
             },
-            "& input": {
-              color: "initial",
-              background: "#FFFFFF",
-              border: "1px solid #DCDFEA",
-              borderRadius: 8,
-            },
 
             "& fieldset": {
               border: "none",
@@ -137,13 +142,6 @@ const theme = () => {
             },
             "& legend": {
               display: "none",
-            },
-
-            // Select
-            "& .MuiSelect-select": {
-              color: "initial",
-              background: "#FFFFFF",
-              border: "1px solid #DCDFEA",
             },
           },
         },

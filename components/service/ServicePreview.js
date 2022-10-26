@@ -10,7 +10,7 @@ const ServicePreview = ({
       <Typography variant="h3">Preview</Typography>
       <Header>
         <div>
-          <Typography variant="h2">{title}</Typography>
+          <Typography variant="h2">{title || "Untitled"}</Typography>
           <Typography variant="h3">$53 / Hour</Typography>
         </div>
         <Button>{callToAction}</Button>

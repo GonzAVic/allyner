@@ -10,6 +10,8 @@ import DefaultLayout from "components/layout/DefaultLayout";
 import ServiceDetailsForm from "components/service/ServiceDetailsForm";
 import ServiceQuestionnaire from "components/service/ServiceQuestionnaire";
 import QuestionPreview from "components/service/QuestionPreview";
+import CheckoutForm from "components/service/CheckoutForm";
+import CheckoutPreview from "components/service/CheckoutPreview";
 
 const displayStep = (step) => {
   const steps = {
@@ -21,13 +23,17 @@ const displayStep = (step) => {
       form: <ServiceQuestionnaire />,
       preview: <QuestionPreview />,
     },
+    checkout: {
+      form: <CheckoutForm />,
+      preview: <CheckoutPreview />,
+    },
   };
   return steps[step];
 };
 
 const NewService = () => {
   const [previewData, setPreviewData] = useState({});
-  const [currentStep, setCurrentStep] = useState("details");
+  const [currentStep, setCurrentStep] = useState("questionnaire");
 
   const updatePreviewData = (data) => {
     setPreviewData(data);
@@ -46,7 +52,9 @@ const NewService = () => {
         >
           In Take Quesitons
         </Button>
-        <Button variant="secondary">Booking</Button>
+        <Button variant="secondary" onClick={() => setCurrentStep("checkout")}>
+          Booking
+        </Button>
       </div>
       <Container>
         <LeftSide>

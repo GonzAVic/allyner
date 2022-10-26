@@ -7,10 +7,12 @@ import {
   Typography,
   Divider,
   IconButton,
+  Button,
 } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PreviewIcon from "@mui/icons-material/Preview";
+import AddIcon from "@mui/icons-material/Add";
 
 // COMPONENTS
 import Card from "components/Card";
@@ -18,6 +20,13 @@ import Card from "components/Card";
 const QuestionCard = ({ question, index, formik, updatePreviewData }) => {
   const updateQuestionAttr = (attribute, value) => {
     formik.setFieldValue(`questions[${index}].${attribute}`, value);
+  };
+
+  const handleAddOption = () => {
+    formik.setFieldValue(`questions[${index}].options`, [
+      ...question.options,
+      "new option",
+    ]);
   };
 
   return (
@@ -74,7 +83,29 @@ const QuestionCard = ({ question, index, formik, updatePreviewData }) => {
         <Switch size="small" />
       </Box>
 
-      <Divider sx={{ mt: 3 }} />
+      <Divider sx={{ mt: 3, mb: 3 }} />
+
+      {question.options.map((op, i) => {
+        return (
+          <TextField
+            key={i}
+            name={`questions[${index}].options[${i}]`}
+            value={question.options[i]}
+            onChange={(event) =>
+              updateQuestionAttr(`options[${i}]`, event.target.value)
+            }
+          />
+        );
+      })}
+
+      <Button
+        variant="text"
+        size="small"
+        onClick={handleAddOption}
+        startIcon={<AddIcon />}
+      >
+        Add new option
+      </Button>
     </Card>
   );
 };
