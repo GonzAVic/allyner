@@ -34,15 +34,22 @@ const displayStep = (step) => {
 const NewService = () => {
   const [previewData, setPreviewData] = useState({});
   const [currentStep, setCurrentStep] = useState("details");
+  const [ctaData, setCtaData] = useState({});
 
   const updatePreviewData = (data) => {
     setPreviewData(data);
   };
 
+  const updateCta = (newData) => {
+    setCtaData(newData);
+  };
+
+  console.log("-> ctaData: ", ctaData);
+
   return (
     <DefaultLayout
       title={"Service name"}
-      cta={{ text: "Save", withNoIcon: true }}
+      cta={{ text: "Save", withNoIcon: true, ...ctaData }}
     >
       <div>
         <Button variant="secondary" onClick={() => setCurrentStep("details")}>
@@ -64,6 +71,7 @@ const NewService = () => {
           <Pedro>
             {React.cloneElement(displayStep(currentStep).form, {
               updatePreviewData,
+              updateCta,
             })}
           </Pedro>
         </LeftSide>

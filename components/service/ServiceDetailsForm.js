@@ -1,5 +1,8 @@
 import { useEffect } from "react";
 import { useFormik } from "formik";
+import { useMutation } from "@apollo/client";
+
+import { CREATE_SERVICE } from "graphql/apiql";
 
 // MATERIAL UI
 import {
@@ -14,7 +17,9 @@ import {
 import Card from "components/Card";
 import Tiptap from "components/TipTap";
 
-const ServiceDetailsForm = ({ updatePreviewData }) => {
+const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
+  const [updateCompanyFn] = useMutation(CREATE_SERVICE);
+
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -31,11 +36,29 @@ const ServiceDetailsForm = ({ updatePreviewData }) => {
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
       console.log("-> values: ", values);
+      // updateCompanyFn
     },
   });
 
+
   useEffect(() => {
     updatePreviewData(formik.values);
+    updateCta({
+      text: "This is pedro",
+      fn: () => {
+        updateCompanyFn({
+          variables: {
+            input: {
+              title: "New service",
+              description: "This is the description",
+              callToAction: "Book now",
+              cover: "cover.com",
+              isOriginal: true,
+            },
+          },
+        });
+      },
+    });
   }, [formik.values]);
 
   const handleDescriptionChange = (value) => {
