@@ -10,6 +10,7 @@ const typeDefs = gql`
   }
 
   type Service {
+    id: ID!
     title: String!
     description: String!
     callToAction: String!
@@ -41,6 +42,7 @@ const typeDefs = gql`
 
   type Query {
     getBusiness: Business
+    getServices(businessId: ID!): [Service]
   }
 
   type Mutation {

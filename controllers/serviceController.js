@@ -2,12 +2,12 @@ import Service from "db/models/Service.model";
 
 const createService = async (_, args) => {
   try {
-    console.log("-> createService");
-    console.log("-> args: ", args);
     let { input } = args;
+    input.isOriginal = true;
+    input.cover = "cover.com";
+
     const service = await new Service(input);
     service.save();
-    console.log("-> service: ", service);
     return service;
   } catch (error) {
     console.log("-> error: ", error);
@@ -15,7 +15,16 @@ const createService = async (_, args) => {
   }
 };
 
-const queries = {};
+const getServices = async () => {
+  try {
+    const services = await Service.find({});
+    return services;
+  } catch (error) {
+    return error;
+  }
+};
+
+const queries = { getServices };
 
 const mutations = { createService };
 

@@ -7,7 +7,6 @@ import { CREATE_SERVICE } from "graphql/apiql";
 // MATERIAL UI
 import {
   TextField,
-  Button,
   MenuItem,
   Box,
   InputAdornment,
@@ -49,11 +48,10 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
         updateCompanyFn({
           variables: {
             input: {
-              title: "New service",
-              description: "This is the description",
-              callToAction: "Book now",
-              cover: "cover.com",
-              isOriginal: true,
+              title: formik.values.title,
+              description: formik.values.description,
+              callToAction: formik.values.callToAction,
+              cover: formik.values.cover,
             },
           },
         });

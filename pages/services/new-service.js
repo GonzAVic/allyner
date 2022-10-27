@@ -44,8 +44,6 @@ const NewService = () => {
     setCtaData(newData);
   };
 
-  console.log("-> ctaData: ", ctaData);
-
   return (
     <DefaultLayout
       title={"Service name"}
