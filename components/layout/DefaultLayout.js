@@ -7,10 +7,12 @@ import AddIcon from "@mui/icons-material/Add";
 import Sidebar from "./Sidebar";
 
 const DefaultLayout = ({ children, title, secondaryText, cta }) => {
-  const ctaProps = {};
+  const ctaProps = { startIcon: <AddIcon /> };
   if (cta) {
     if (cta.fn) ctaProps.onClick = cta.fn;
     if (cta.href) ctaProps.href = cta.href;
+    if (cta.href) ctaProps.href = cta.href;
+    if (cta.withNoIcon) ctaProps.startIcon = null;
   }
 
   return (
@@ -22,11 +24,7 @@ const DefaultLayout = ({ children, title, secondaryText, cta }) => {
             <Typography variant="h2">{title}</Typography>
             <Typography>{secondaryText}</Typography>
           </div>
-          {cta && (
-            <Button startIcon={<AddIcon />} {...ctaProps}>
-              {cta.text}
-            </Button>
-          )}
+          {cta && <Button {...ctaProps}>{cta.text}</Button>}
         </ContentTop>
         <ChildrenContainer>{children}</ChildrenContainer>
       </Content>

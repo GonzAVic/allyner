@@ -33,14 +33,17 @@ const displayStep = (step) => {
 
 const NewService = () => {
   const [previewData, setPreviewData] = useState({});
-  const [currentStep, setCurrentStep] = useState("questionnaire");
+  const [currentStep, setCurrentStep] = useState("details");
 
   const updatePreviewData = (data) => {
     setPreviewData(data);
   };
 
   return (
-    <DefaultLayout title={"Service name"}>
+    <DefaultLayout
+      title={"Service name"}
+      cta={{ text: "Save", withNoIcon: true }}
+    >
       <div>
         <Button variant="secondary" onClick={() => setCurrentStep("details")}>
           Details

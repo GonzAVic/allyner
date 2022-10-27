@@ -16,7 +16,13 @@ import AddIcon from "@mui/icons-material/Add";
 // COMPONENTS
 import Card from "components/Card";
 
-const QuestionCard = ({ question, index, formik, setActiveQuestion }) => {
+const QuestionCard = ({
+  question,
+  index,
+  formik,
+  setActiveQuestion,
+  removeQuestion,
+}) => {
   const updateQuestionAttr = (attribute, value) => {
     formik.setFieldValue(`questions[${index}].${attribute}`, value);
   };
@@ -45,7 +51,7 @@ const QuestionCard = ({ question, index, formik, setActiveQuestion }) => {
         <IconButton>
           <ContentCopyIcon fontSize="small" />
         </IconButton>
-        <IconButton>
+        <IconButton onClick={removeQuestion}>
           <DeleteIcon fontSize="small" />
         </IconButton>
       </ActionsContainer>
@@ -104,17 +110,16 @@ const QuestionCard = ({ question, index, formik, setActiveQuestion }) => {
               />
             );
           })}
+          <Button
+            variant="text"
+            size="small"
+            onClick={handleAddOption}
+            startIcon={<AddIcon />}
+          >
+            Add new option
+          </Button>
         </>
       )}
-
-      <Button
-        variant="text"
-        size="small"
-        onClick={handleAddOption}
-        startIcon={<AddIcon />}
-      >
-        Add new option
-      </Button>
     </Card>
   );
 };

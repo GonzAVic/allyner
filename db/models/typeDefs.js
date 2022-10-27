@@ -34,8 +34,8 @@ const typeDefs = gql`
   input ServiceInput {
     title: String
     description: String
-    callToAction: String
     cover: String
+    callToAction: String
     isOriginal: Boolean
   }
 

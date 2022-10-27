@@ -65,6 +65,9 @@ const ServiceQuestionnaire = ({ updatePreviewData }) => {
                       question={question}
                       formik={formik}
                       setActiveQuestion={setActiveQuestion}
+                      removeQuestion={() => {
+                        arrayHelpers.remove(index);
+                      }}
                     />
                   );
                 })}
