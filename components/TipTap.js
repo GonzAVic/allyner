@@ -43,7 +43,7 @@ const MenuBar = ({ editor }) => {
 const Tiptap = ({ onUpdate }) => {
   const editor = useEditor({
     extensions: [StarterKit],
-    content: "<p>Hello World! 🌎️</p>",
+    content: "<p></p>",
   });
 
   if (editor) {

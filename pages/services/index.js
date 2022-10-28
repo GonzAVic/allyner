@@ -23,7 +23,6 @@ const Services = () => {
     if (getServicesFnHelper.loading) return;
     if (!getServicesFnHelper.data) return;
     const data = getServicesFnHelper.data.getServices;
-    console.log("-> data: ", data);
     setServices(data);
   }, [getServicesFnHelper]);
 
@@ -43,9 +42,9 @@ const Services = () => {
   );
 };
 const columns = [
-  { field: "id", headerName: "Title", width: 70 },
-  { field: "title", headerName: "Title", width: 70 },
-  { field: "description", headerName: "Description", width: 130 },
+  { field: "id", headerName: "ID" },
+  { field: "title", headerName: "Title", width: 150 },
+  { field: "description", headerName: "Description", width: 300 },
 ];
 
 const rows = [

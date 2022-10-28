@@ -17,6 +17,11 @@ const ServiceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  status: {
+    type: String,
+    required: true,
+    default: "unpublished",
+  },
   isOriginal: {
     type: Boolean,
     required: true,

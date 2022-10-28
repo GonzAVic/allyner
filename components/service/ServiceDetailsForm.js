@@ -5,12 +5,7 @@ import { useMutation } from "@apollo/client";
 import { CREATE_SERVICE } from "graphql/apiql";
 
 // MATERIAL UI
-import {
-  TextField,
-  MenuItem,
-  Box,
-  InputAdornment,
-} from "@mui/material";
+import { TextField, MenuItem, Box, InputAdornment } from "@mui/material";
 
 // COMPONENTS
 import Card from "components/Card";
@@ -24,9 +19,9 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
       title: "",
       description: "",
       cover: "",
-      callToAction: "BOOK_NOW",
+      callToAction: "Book Now",
 
-      pricingType: "FREE",
+      pricingType: "FIXED",
       pricingDurationHours: "",
       pricingDurationMinutes: "",
       pricingAmount: "",
@@ -39,11 +34,9 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
     },
   });
 
-
   useEffect(() => {
     updatePreviewData(formik.values);
     updateCta({
-      text: "This is pedro",
       fn: () => {
         updateCompanyFn({
           variables: {
@@ -83,13 +76,13 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
       <Card title="CTA">
         <TextField
           name="callToAction"
-          value={formik.values.callToAction || "BOOK_NOW"}
+          value={formik.values.callToAction || "Book Now"}
           onChange={formik.handleChange}
           select
         >
           {CTA_OPTIONS.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
+            <MenuItem key={option} value={option}>
+              {option}
             </MenuItem>
           ))}
         </TextField>
@@ -109,48 +102,53 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
             </MenuItem>
           ))}
         </TextField>
-
-        <Box className="row-2" sx={{ alignItems: "flex-end" }}>
+        {formik.values.pricingType === "BY_TIME" && (
+          <Box className="row-2" sx={{ alignItems: "flex-end" }}>
+            <TextField
+              label="Duration"
+              name="pricingDurationHours"
+              value={formik.values.pricingDurationHours}
+              onChange={formik.handleChange}
+              select
+            >
+              {PRICE_DURATION_HOURS.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              name="pricingDurationMinutes"
+              value={formik.values.pricingDurationMinutes}
+              onChange={formik.handleChange}
+              select
+            >
+              {PRICE_DURATION_MINUTES.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Box>
+        )}
+        {formik.values.pricingType !== "FREE" && (
           <TextField
-            label="Duration"
-            name="pricingDurationHours"
-            value={formik.values.pricingDurationHours}
+            label="Price"
+            name="pricingAmount"
+            value={formik.values.pricingAmount}
             onChange={formik.handleChange}
-            select
-          >
-            {PRICE_DURATION_HOURS.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            name="pricingDurationMinutes"
-            value={formik.values.pricingDurationMinutes}
-            onChange={formik.handleChange}
-            select
-          >
-            {PRICE_DURATION_MINUTES.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Box>
-
-        <TextField
-          label="Price"
-          name="pricingAmount"
-          value={formik.values.pricingAmount}
-          onChange={formik.handleChange}
-          type="number"
-          InputProps={{
-            startAdornment: <InputAdornment position="start">$</InputAdornment>,
-            endAdornment: (
-              <InputAdornment position="end">/ Hour</InputAdornment>
-            ),
-          }}
-        />
+            type="number"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">$</InputAdornment>
+              ),
+              endAdornment:
+                formik.values.pricingType === "BY_TIME" ? (
+                  <InputAdornment position="end">/ Hour</InputAdornment>
+                ) : null,
+            }}
+          />
+        )}
       </Card>
     </form>
   );
@@ -225,15 +223,6 @@ const PRICE_DURATION_MINUTES = [
   },
 ];
 
-const CTA_OPTIONS = [
-  {
-    value: "BOOK_NOW",
-    label: "Book Now",
-  },
-  {
-    value: "GET_A_QUOTE",
-    label: "Get A Quote",
-  },
-];
+const CTA_OPTIONS = ["Book Now", "Get A Quote"];
 
 export default ServiceDetailsForm;
