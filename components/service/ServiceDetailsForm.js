@@ -21,16 +21,23 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
       cover: "",
       callToAction: "Book Now",
 
-      pricingType: "FIXED",
-      pricingDurationHours: "",
-      pricingDurationMinutes: "",
-      pricingAmount: "",
-      pricingIsFree: false,
+      pricing: {
+        type: "FIXED",
+        durationHours: 1,
+        durationMinutes: 0,
+        amount: 50,
+      },
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
       console.log("-> values: ", values);
-      // updateCompanyFn
+      updateCompanyFn({
+        variables: {
+          input: {
+            ...values,
+          },
+        },
+      });
     },
   });
 
@@ -38,16 +45,7 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
     updatePreviewData(formik.values);
     updateCta({
       fn: () => {
-        updateCompanyFn({
-          variables: {
-            input: {
-              title: formik.values.title,
-              description: formik.values.description,
-              callToAction: formik.values.callToAction,
-              cover: formik.values.cover,
-            },
-          },
-        });
+        formik.submitForm();
       },
     });
   }, [formik.values]);
@@ -91,8 +89,8 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
       <Card title="Pricing">
         <TextField
           label="Pricing Type"
-          name="pricingType"
-          value={formik.values.pricingType}
+          name="pricing.type"
+          value={formik.values.pricing.type}
           onChange={formik.handleChange}
           select
         >
@@ -102,12 +100,12 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
             </MenuItem>
           ))}
         </TextField>
-        {formik.values.pricingType === "BY_TIME" && (
+        {formik.values.pricing.type === "BY_TIME" && (
           <Box className="row-2" sx={{ alignItems: "flex-end" }}>
             <TextField
               label="Duration"
-              name="pricingDurationHours"
-              value={formik.values.pricingDurationHours}
+              name="pricing.durationHours"
+              value={formik.values.pricing.durationHours}
               onChange={formik.handleChange}
               select
             >
@@ -118,8 +116,8 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
               ))}
             </TextField>
             <TextField
-              name="pricingDurationMinutes"
-              value={formik.values.pricingDurationMinutes}
+              name="pricing.durationMinutes"
+              value={formik.values.pricing.durationMinutes}
               onChange={formik.handleChange}
               select
             >
@@ -131,11 +129,11 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
             </TextField>
           </Box>
         )}
-        {formik.values.pricingType !== "FREE" && (
+        {formik.values.pricing.type !== "FREE" && (
           <TextField
             label="Price"
-            name="pricingAmount"
-            value={formik.values.pricingAmount}
+            name="pricing.amount"
+            value={formik.values.pricing.amount}
             onChange={formik.handleChange}
             type="number"
             InputProps={{
@@ -143,7 +141,7 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
                 <InputAdornment position="start">$</InputAdornment>
               ),
               endAdornment:
-                formik.values.pricingType === "BY_TIME" ? (
+                formik.values.pricing.type === "BY_TIME" ? (
                   <InputAdornment position="end">/ Hour</InputAdornment>
                 ) : null,
             }}
@@ -171,54 +169,54 @@ const PRICING_TYPES = [
 
 const PRICE_DURATION_HOURS = [
   {
-    value: "1",
+    value: 1,
     label: "1 Hour",
   },
   {
-    value: "2",
+    value: 2,
     label: "2 Hours",
   },
   {
-    value: "3",
+    value: 3,
     label: "3 Hours",
   },
   {
-    value: "4",
+    value: 4,
     label: "4 Hours",
   },
   {
-    value: "5",
+    value: 5,
     label: "5 Hours",
   },
   {
-    value: "6",
+    value: 6,
     label: "6 Hours",
   },
   {
-    value: "7",
+    value: 7,
     label: "7 Hours",
   },
   {
-    value: "8",
+    value: 8,
     label: "8 Hours",
   },
 ];
 
 const PRICE_DURATION_MINUTES = [
   {
-    value: "0",
+    value: 0,
     label: "0 Minutes",
   },
   {
-    value: "15",
+    value: 15,
     label: "15 Minutes",
   },
   {
-    value: "30",
+    value: 30,
     label: "30 Minutes",
   },
   {
-    value: "45",
+    value: 45,
     label: "45 Minutes",
   },
 ];

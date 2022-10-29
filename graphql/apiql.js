@@ -9,7 +9,7 @@ export const GET_SERVICES = gql`
       description
       callToAction
       cover
-      isOriginal
+      status
     }
   }
 `;

@@ -1,13 +1,24 @@
 import Service from "db/models/Service.model";
+import Pricing from "db/models/Pricing.model";
 
 const createService = async (_, args) => {
   try {
     let { input } = args;
-    input.isOriginal = true;
-    input.cover = "cover.com";
 
-    const service = await new Service(input);
+    const pricingInput = { ...input.pricing, isOriginal: true };
+    const pricing = await new Pricing(pricingInput);
+    pricing.save();
+
+    const serviceInput = {
+      ...input,
+      pricing: pricing._id,
+      cover: "LALALA",
+      isOriginal: true,
+    };
+    const service = await new Service(serviceInput);
     service.save();
+
+    console.log('-> service: ', service);
     return service;
   } catch (error) {
     console.log("-> error: ", error);

@@ -45,6 +45,8 @@ const columns = [
   { field: "id", headerName: "ID" },
   { field: "title", headerName: "Title", width: 150 },
   { field: "description", headerName: "Description", width: 300 },
+  { field: "status", headerName: "Status", width: 300 },
+  { field: "status", headerName: "Actions", width: 300 },
 ];
 
 const rows = [

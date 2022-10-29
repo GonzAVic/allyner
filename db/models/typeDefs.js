@@ -15,11 +15,11 @@ const typeDefs = gql`
     description: String!
     callToAction: String!
     cover: String!
+    status: ServiceStatus!
     isOriginal: Boolean!
 
-    # pricing: Pricing!
+    pricing: Pricing!
     # questionnaire: [Question]!
-    # status: ServiceStatus!
     # businessId: ID!
   }
 
@@ -38,6 +38,16 @@ const typeDefs = gql`
     cover: String
     callToAction: String
     isOriginal: Boolean
+
+    # Pricing
+    pricing: PricingInput!
+  }
+
+  input PricingInput {
+    type: PricingType!
+    durationHours: Int
+    durationMinutes: Int
+    amount: Int!
   }
 
   type Query {
@@ -55,6 +65,11 @@ const typeDefs = gql`
     ARQUITECTURE
     ACCOUNTANCY
     GAMMING
+  }
+
+  enum ServiceStatus {
+    UNPUBLISHED
+    ACTIVE
   }
 
   enum PricingType {

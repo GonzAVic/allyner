@@ -20,12 +20,17 @@ const ServiceSchema = new mongoose.Schema({
   status: {
     type: String,
     required: true,
-    default: "unpublished",
+    default: "UNPUBLISHED",
   },
   isOriginal: {
     type: Boolean,
     required: true,
     default: false,
+  },
+  pricing: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Pricing",
   },
 });
 
