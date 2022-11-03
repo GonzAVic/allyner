@@ -1,18 +1,16 @@
+import Link from "next/link";
+
 // MATERIAL UI
 import { styled } from "@mui/system";
 import { Button } from "@mui/material";
 
-const SidebarItem = ({ label, href, isActive, icon }) => {
+const SidebarItem = ({ label, href = "/services", isActive, icon }) => {
   return (
-    <Container
-      variant="text"
-      component="a"
-      href={href}
-      startIcon={icon}
-      isActive={isActive}
-    >
-      {label}
-    </Container>
+    <Link href={href}>
+      <Container variant="text" startIcon={icon} isActive={isActive}>
+        {label}
+      </Container>
+    </Link>
   );
 };
 

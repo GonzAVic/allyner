@@ -17,8 +17,12 @@ const Sidebar = () => {
       <div>
         <SidebarItem label="Home" icon={<HomeOutlinedIcon />} />
         <SidebarItem label="Orders" icon={<SignalCellularAltRoundedIcon />} />
-        <SidebarItem label="Services" icon={<LayersOutlinedIcon />} />
-        <SidebarItem label="Customrs" icon={<PeopleOutlineOutlinedIcon />} />
+        <SidebarItem
+          label="Services"
+          icon={<LayersOutlinedIcon />}
+          href="/services"
+        />
+        <SidebarItem label="Customers" icon={<PeopleOutlineOutlinedIcon />} />
       </div>
       <div>
         <SidebarItem label="Support" icon={<SupportIcon />} />

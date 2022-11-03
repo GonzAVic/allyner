@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useMutation, useLazyQuery, useQuery } from "@apollo/client";
 
 // MATERIAL UI
 import { DataGrid } from "@mui/x-data-grid";
+import { IconButton } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
@@ -41,24 +44,37 @@ const Services = () => {
     </DefaultLayout>
   );
 };
+
+const renderActions = (props) => {
+  const { hasFocus, value } = props;
+  return (
+    <div>
+      <Link href={`/services/${value}`}>
+        <IconButton>
+          <EditIcon />
+        </IconButton>
+      </Link>
+    </div>
+  );
+};
+
 const columns = [
-  { field: "id", headerName: "ID" },
   { field: "title", headerName: "Title", width: 150 },
-  { field: "description", headerName: "Description", width: 300 },
   { field: "status", headerName: "Status", width: 300 },
   { field: "status", headerName: "Actions", width: 300 },
+  { field: "id", headerName: "Actions", renderCell: renderActions },
 ];
 
 const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: <div>LALALALA</div> },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
+  { id: 1, title: "This is pedro" },
+  { id: 2, title: "Lannister" },
+  { id: 3, title: "Lannister" },
+  { id: 4, title: "Stark" },
+  { id: 5, title: "Targaryen" },
+  { id: 6, title: "Melisandre" },
+  { id: 7, title: "Clifford" },
+  { id: 8, title: "Frances" },
+  { id: 9, title: "Roxie" },
 ];
 
 export default Services;

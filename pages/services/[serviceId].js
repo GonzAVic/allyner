@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
@@ -32,9 +33,13 @@ const displayStep = (step) => {
 };
 
 const NewService = () => {
+  const router = useRouter();
+
   const [previewData, setPreviewData] = useState({});
   const [currentStep, setCurrentStep] = useState("details");
   const [ctaData, setCtaData] = useState({});
+
+  const { serviceId } = router.query;
 
   const updatePreviewData = (data) => {
     setPreviewData(data);
@@ -57,15 +62,10 @@ const NewService = () => {
           variant="secondary"
           onClick={() => setCurrentStep("questionnaire")}
           sx={{ ml: 2, mr: 2 }}
-          disabled
         >
           In Take Quesitons
         </Button>
-        <Button
-          variant="secondary"
-          onClick={() => setCurrentStep("checkout")}
-          disabled
-        >
+        <Button variant="secondary" onClick={() => setCurrentStep("checkout")}>
           Booking
         </Button>
       </div>

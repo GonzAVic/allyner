@@ -11,7 +11,7 @@ import ResponseFile from "./ResponseFile";
 import ResponseMultipleChoice from "./ResponseMultipleChoice";
 import ResponsePictureChoice from "./ResponsePictureChoice";
 
-const renderAnswerComponent = (questionType, options, selectionType) => {
+const renderAnswerComponent = (questionType, options, isMultiple) => {
   switch (questionType) {
     case "short text":
       return <ResponseShortText />;
@@ -27,16 +27,13 @@ const renderAnswerComponent = (questionType, options, selectionType) => {
       return <ResponsePictureChoice options={options} />;
     case "multiple choice":
       return (
-        <ResponseMultipleChoice
-          options={options}
-          isMultiple={selectionType === "MULTIPLE"}
-        />
+        <ResponseMultipleChoice options={options} isMultiple={isMultiple} />
       );
   }
 };
 
 const QuestionPreview = ({ previewData: question = {} }) => {
-  console.log("-> question: ", question);
+  const isMultiple = question.selectionType === "MULTIPLE";
   return (
     <Container>
       <Typography variant="h3">Preview</Typography>
@@ -51,12 +48,13 @@ const QuestionPreview = ({ previewData: question = {} }) => {
             {question.description || "Description placeholder"}
           </Typography>
         )}
-
-        {renderAnswerComponent(
-          question.type,
-          question.options,
-          question.selectionType
+        {isMultiple && (
+          <Typography variant="small" sx={{ mb: 2 }}>
+            Select multiple
+          </Typography>
         )}
+
+        {renderAnswerComponent(question.type, question.options, isMultiple)}
       </QuestionContainer>
     </Container>
   );
