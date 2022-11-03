@@ -7,11 +7,11 @@ import ResponseShortText from "./ResponseShortText";
 import ResponseLongText from "./ResponseLongText";
 import ResponseDropdown from "./ResponseDropdown";
 import ResponseDatePicker from "./ResponseDatePicker";
-import ResponseTimePicker from "./ResponseTimePicker";
 import ResponseFile from "./ResponseFile";
 import ResponseMultipleChoice from "./ResponseMultipleChoice";
+import ResponsePictureChoice from "./ResponsePictureChoice";
 
-const renderAnswerComponent = (questionType, options) => {
+const renderAnswerComponent = (questionType, options, selectionType) => {
   switch (questionType) {
     case "short text":
       return <ResponseShortText />;
@@ -21,16 +21,22 @@ const renderAnswerComponent = (questionType, options) => {
       return <ResponseDropdown options={options} />;
     case "date":
       return <ResponseDatePicker />;
-    case "time":
-      return <ResponseTimePicker />;
     case "file":
       return <ResponseFile />;
+    case "picture choice":
+      return <ResponsePictureChoice options={options} />;
     case "multiple choice":
-      return <ResponseMultipleChoice options={options} />;
+      return (
+        <ResponseMultipleChoice
+          options={options}
+          isMultiple={selectionType === "MULTIPLE"}
+        />
+      );
   }
 };
 
 const QuestionPreview = ({ previewData: question = {} }) => {
+  console.log("-> question: ", question);
   return (
     <Container>
       <Typography variant="h3">Preview</Typography>
@@ -46,7 +52,11 @@ const QuestionPreview = ({ previewData: question = {} }) => {
           </Typography>
         )}
 
-        {renderAnswerComponent(question.type, question.options)}
+        {renderAnswerComponent(
+          question.type,
+          question.options,
+          question.selectionType
+        )}
       </QuestionContainer>
     </Container>
   );

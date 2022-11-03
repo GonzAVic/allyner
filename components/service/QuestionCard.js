@@ -3,7 +3,7 @@ import { styled } from "@mui/system";
 import {
   TextField,
   Switch,
-  Box,
+  MenuItem,
   Typography,
   Divider,
   IconButton,
@@ -15,6 +15,8 @@ import AddIcon from "@mui/icons-material/Add";
 
 // COMPONENTS
 import Card from "components/Card";
+import PropertyControl from "components/PropertyControl";
+import Uploader from "components/Uploader";
 
 const QuestionCard = ({
   question,
@@ -36,6 +38,13 @@ const QuestionCard = ({
 
   const activeQuestion = () => {
     setActiveQuestion(index);
+  };
+
+  const handleFileUploaded = (values) => {
+    formik.setFieldValue(`questions[${index}].options`, [
+      ...question.options,
+      ...values,
+    ]);
   };
 
   return (
@@ -68,7 +77,7 @@ const QuestionCard = ({
         />
       )}
 
-      <Box className="space-between-centered" sx={{ mb: 1 }}>
+      <PropertyControl>
         <Typography variant="small">With Description</Typography>
         <Switch
           checked={question.withDescription}
@@ -77,8 +86,8 @@ const QuestionCard = ({
           }
           onFocus={activeQuestion}
         />
-      </Box>
-      <Box className="space-between-centered" sx={{ mb: 1 }}>
+      </PropertyControl>
+      <PropertyControl>
         <Typography variant="small">Required</Typography>
         <Switch
           checked={question.isRequired}
@@ -87,11 +96,28 @@ const QuestionCard = ({
           }
           onFocus={activeQuestion}
         />
-      </Box>
-      <Box className="space-between-centered" sx={{ mb: 1 }}>
-        <Typography variant="small">Selection Type</Typography>
-        <Switch size="small" />
-      </Box>
+      </PropertyControl>
+      {questionsWithMultiple.includes(question.type) && (
+        <PropertyControl>
+          <Typography variant="small">Selection Type</Typography>
+          <TextField
+            name="selectionType"
+            value={formik.values.selectionType}
+            onChange={(event) =>
+              updateQuestionAttr("selectionType", event.target.value)
+            }
+            sx={{ mb: 0, width: "fit-content" }}
+            size="medium"
+            select
+          >
+            {SELECTION_TYPE.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+        </PropertyControl>
+      )}
 
       {questionWithOptions.includes(question.type) && (
         <>
@@ -120,16 +146,37 @@ const QuestionCard = ({
           </Button>
         </>
       )}
+
+      {question.type === "picture choice" && (
+        <>
+          <Divider sx={{ mt: 3, mb: 3 }} />
+
+          <Uploader onFilesUploaded={handleFileUploaded} />
+        </>
+      )}
     </Card>
   );
 };
 
 const questionWithOptions = ["dropdown", "multiple choice"];
 
+const questionsWithMultiple = ["multiple choice", "picture choice", "date"];
+
 const ActionsContainer = styled("div")({
   position: "absolute",
   top: 16,
   right: 16,
 });
+
+const SELECTION_TYPE = [
+  {
+    value: "SINGLE",
+    label: "Single select",
+  },
+  {
+    value: "MULTIPLE",
+    label: "Multiple select",
+  },
+];
 
 export default QuestionCard;

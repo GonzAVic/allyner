@@ -1,11 +1,34 @@
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography } from "@mui/material";
+import { Typography, TextField } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-const Uploader = () => {
+const Uploader = ({ onFilesUploaded }) => {
+  const handleUpload = async (e) => {
+    const { files } = e.target;
+
+    const filesArray = Array.from(files);
+    const imagesUrl = filesArray.map(async (file) => {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("fileName", file.name);
+      // Check that file is in proper format before making request
+      const response = await fetch(`/api/upload`, {
+        method: "POST",
+        body: formData,
+        "Content-Type": "image/jpeg",
+      });
+      const data = await response.json();
+      console.log("-> data.url: ", data.url);
+      return data.url;
+    });
+    Promise.all(imagesUrl).then((values) => {
+      if (onFilesUploaded) onFilesUploaded(values);
+    });
+  };
+
   return (
-    <Container>
+    <Container type="file" onChange={handleUpload}>
       <CloudUploadIcon sx={{ mb: 2 }} />
       <Typography vatiant="label" sx={{ mb: 1, textAlign: "center" }}>
         <span>Click to upload</span> or drag and drop
@@ -17,7 +40,7 @@ const Uploader = () => {
   );
 };
 
-const Container = styled("div")({
+const Container = styled(TextField)({
   background: "#FFFFFF",
   border: "1px solid #DCDFEA",
   borderRadius: 8,

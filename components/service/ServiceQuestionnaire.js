@@ -42,6 +42,7 @@ const ServiceQuestionnaire = ({ updatePreviewData }) => {
       withDescription: false,
       description: "",
       isRequired: false,
+      selectionType: "SINGLE",
       options: [],
     });
     handleClose();
@@ -104,9 +105,7 @@ const QUESTION_TYPES = [
   "short text",
   "long text",
   "file",
-  "address",
   "date",
-  "time",
 ];
 
 export default ServiceQuestionnaire;
