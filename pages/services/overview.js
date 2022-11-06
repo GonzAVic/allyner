@@ -39,7 +39,7 @@ const NewService = () => {
   const [currentStep, setCurrentStep] = useState("details");
   const [ctaData, setCtaData] = useState({});
 
-  const { serviceId } = router.query;
+  const isNewService = router.query.id === "new";
 
   const updatePreviewData = (data) => {
     setPreviewData(data);
@@ -52,7 +52,11 @@ const NewService = () => {
   return (
     <DefaultLayout
       title={"Service name"}
-      cta={{ text: "Create", withNoIcon: true, ...ctaData }}
+      cta={{
+        text: isNewService ? "Create" : "save",
+        withNoIcon: true,
+        ...ctaData,
+      }}
     >
       <div>
         <Button variant="secondary" onClick={() => setCurrentStep("details")}>
@@ -62,10 +66,15 @@ const NewService = () => {
           variant="secondary"
           onClick={() => setCurrentStep("questionnaire")}
           sx={{ ml: 2, mr: 2 }}
+          disabled={isNewService}
         >
           In Take Quesitons
         </Button>
-        <Button variant="secondary" onClick={() => setCurrentStep("checkout")}>
+        <Button
+          variant="secondary"
+          onClick={() => setCurrentStep("checkout")}
+          disabled={isNewService}
+        >
           Booking
         </Button>
       </div>

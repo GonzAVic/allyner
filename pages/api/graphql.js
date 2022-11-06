@@ -8,6 +8,9 @@ import connectDB from "db/config/index";
 import businessController from "controllers/businessController";
 import serviceController from "controllers/serviceController";
 
+// Models
+import Pricing from "db/models/Pricing.model";
+
 connectDB();
 
 const cors = Cors();
@@ -18,8 +21,15 @@ const resolvers = {
     ...serviceController.queries,
   },
   Mutation: {
-    ...serviceController.mutations
-  }
+    ...serviceController.mutations,
+  },
+
+  Service: {
+    pricing: async (parent) => {
+      const pricing = await Pricing.findById(parent.pricing);
+      return pricing;
+    },
+  },
 };
 
 const apolloServer = new ApolloServer({

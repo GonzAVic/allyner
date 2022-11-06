@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useFormik } from "formik";
+import { useRouter } from "next/router";
 import { useMutation } from "@apollo/client";
 
 import { CREATE_SERVICE } from "graphql/apiql";
@@ -10,34 +11,42 @@ import { TextField, MenuItem, Box, InputAdornment } from "@mui/material";
 // COMPONENTS
 import Card from "components/Card";
 import Tiptap from "components/TipTap";
+import useService from "utils/useService";
 
 const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
-  const [updateCompanyFn] = useMutation(CREATE_SERVICE);
+  const router = useRouter();
+  const { service } = useService(router.query.id);
+
+  const [createServiceFn, createServiceHpr] = useMutation(CREATE_SERVICE);
+
+  const isNewService = router.query.id === "new";
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      title: "",
-      description: "",
-      cover: "",
-      callToAction: "Book Now",
+      title: service ? service.title : "",
+      description: service ? service.description : "",
+      cover: service ? service.cover : "",
+      callToAction: service ? service.callToAction : "",
 
       pricing: {
-        type: "FIXED",
-        durationHours: 1,
-        durationMinutes: 0,
-        amount: 50,
+        type: service ? service.pricing.type : "FIXED",
+        durationHours: service ? service.pricing.durationHours : 1,
+        durationMinutes: service ? service.pricing.durationMinutes : 0,
+        amount: service ? service.pricing.amount : 50,
       },
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
-      console.log("-> values: ", values);
-      updateCompanyFn({
-        variables: {
-          input: {
-            ...values,
+      if (isNewService)
+        createServiceFn({
+          variables: {
+            input: {
+              ...values,
+            },
           },
-        },
-      });
+        });
+      else console.log("-> TODO: update the service");
     },
   });
 
@@ -50,9 +59,22 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
     });
   }, [formik.values]);
 
+  useEffect(() => {
+    if (!createServiceHpr.called) return;
+    if (!createServiceHpr.data) return;
+    console.log("-> createServiceHpr.data: ");
+    const newService = createServiceHpr.data.createService;
+
+    router.push({
+      pathname: `/services/overview`,
+      query: { id: newService.id },
+    });
+  }, [createServiceHpr]);
+
   const handleDescriptionChange = (value) => {
     formik.setFieldValue("description", value);
   };
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <Card title="Title">
@@ -64,11 +86,18 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
       </Card>
 
       <Card title="Description">
-        <Tiptap onUpdate={handleDescriptionChange} />
+        <Tiptap
+          onUpdate={handleDescriptionChange}
+          initialValue={service ? service.description : null}
+        />
       </Card>
 
       <Card title="Avatar">
-        <TextField />
+        <TextField
+          name="cover"
+          value={formik.values.cover}
+          onChange={formik.handleChange}
+        />
       </Card>
 
       <Card title="CTA">

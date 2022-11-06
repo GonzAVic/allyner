@@ -3,6 +3,7 @@ import { gql } from "apollo-server-micro";
 const typeDefs = gql`
   # MODELS
   type Business {
+    id: ID!
     name: String!
     industry: Industries!
     # onboarding: Onboarding!
@@ -24,6 +25,7 @@ const typeDefs = gql`
   }
 
   type Pricing {
+    id: ID!
     type: PricingType!
     durationHours: Int
     durationMinutes: Int
@@ -53,6 +55,7 @@ const typeDefs = gql`
   type Query {
     getBusiness: Business
     getServices(businessId: ID!): [Service]
+    getService(serviceId: ID!): Service
   }
 
   type Mutation {

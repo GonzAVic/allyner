@@ -40,10 +40,10 @@ const MenuBar = ({ editor }) => {
   );
 };
 
-const Tiptap = ({ onUpdate }) => {
+const Tiptap = ({ onUpdate, initialValue }) => {
   const editor = useEditor({
     extensions: [StarterKit],
-    content: "<p></p>",
+    content: initialValue || "<p></p>",
   });
 
   if (editor) {

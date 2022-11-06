@@ -33,7 +33,7 @@ const Services = () => {
     <DefaultLayout
       title="Services"
       secondaryText="Keep track of services and their status."
-      cta={{ text: "Add Service", href: "/services/new-service" }}
+      cta={{ text: "Add Service", href: "/services/overview/?id=new" }}
     >
       <DataGrid
         rows={services}
@@ -46,10 +46,10 @@ const Services = () => {
 };
 
 const renderActions = (props) => {
-  const { hasFocus, value } = props;
+  const { value } = props;
   return (
     <div>
-      <Link href={`/services/${value}`}>
+      <Link href={`/services/overview/?id=${value}`}>
         <IconButton>
           <EditIcon />
         </IconButton>
@@ -61,20 +61,7 @@ const renderActions = (props) => {
 const columns = [
   { field: "title", headerName: "Title", width: 150 },
   { field: "status", headerName: "Status", width: 300 },
-  { field: "status", headerName: "Actions", width: 300 },
   { field: "id", headerName: "Actions", renderCell: renderActions },
-];
-
-const rows = [
-  { id: 1, title: "This is pedro" },
-  { id: 2, title: "Lannister" },
-  { id: 3, title: "Lannister" },
-  { id: 4, title: "Stark" },
-  { id: 5, title: "Targaryen" },
-  { id: 6, title: "Melisandre" },
-  { id: 7, title: "Clifford" },
-  { id: 8, title: "Frances" },
-  { id: 9, title: "Roxie" },
 ];
 
 export default Services;

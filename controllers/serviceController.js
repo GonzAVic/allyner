@@ -18,7 +18,7 @@ const createService = async (_, args) => {
     const service = await new Service(serviceInput);
     service.save();
 
-    console.log('-> service: ', service);
+    console.log("-> service: ", service);
     return service;
   } catch (error) {
     console.log("-> error: ", error);
@@ -35,7 +35,19 @@ const getServices = async () => {
   }
 };
 
-const queries = { getServices };
+const getService = async (_, args) => {
+  try {
+    let { serviceId } = args;
+    console.log("-> serviceId: ", serviceId);
+    const service = await Service.findById(serviceId);
+    console.log("-> service: ", service);
+    return service;
+  } catch (error) {
+    return error;
+  }
+};
+
+const queries = { getServices, getService };
 
 const mutations = { createService };
 
