@@ -34,6 +34,11 @@ export const GET_SERVICE = gql`
       questionnaire {
         id
         type
+        sentence
+        description
+        withDescription
+        isMultiple
+        isRequired
       }
     }
   }

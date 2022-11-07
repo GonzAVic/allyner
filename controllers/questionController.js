@@ -7,18 +7,24 @@ const updateQuestionnaire = async (_, args) => {
   const service = await Service.findById(serviceId);
   // TODO: handle no service
 
-  const questions = input.map((q) => {
-    const newQuestion = new Question(q);
-    newQuestion.save();
-    // TODO: handle new vs existing question
-    return newQuestion;
+  const questionsIdPromises = input.map(async (q) => {
+    if (q.id === "new") {
+      const newQuestion = new Question(q);
+      newQuestion.save();
+      return newQuestion.id;
+    } else {
+      const question = await Question.findOneAndUpdate({ _id: q.id }, q, {
+        new: true,
+      });
+      return question.id;
+    }
   });
 
-  const questionsId = questions.map((q) => q._id);
-  service.questionnaire = questionsId;
-  service.save();
-
-  return service;
+  Promise.all(questionsIdPromises).then((questionsId) => {
+    service.questionnaire = questionsId;
+    service.save();
+    return service;
+  });
 };
 
 const queries = {};

@@ -33,7 +33,6 @@ const ServiceQuestionnaire = ({ updatePreviewData, updateCta, serviceId }) => {
           isMultiple: q.selectionType !== "SINGLE",
         });
       });
-      console.log("-> dataReq: ", dataReq);
       updateQuestionnaireFn({
         variables: { input: dataReq, serviceId },
       });

@@ -5,13 +5,24 @@ const QuestionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  sentence: {
+    type: String,
+    default: "",
+  },
+  description: {
+    type: String,
+    default: "",
+  },
   value: {
     type: String,
-    required: false,
     default: "",
   },
   options: {
     type: [String],
+    required: false,
+  },
+  withDescription: {
+    type: Boolean,
     required: false,
   },
   isMultiple: {

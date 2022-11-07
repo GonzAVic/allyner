@@ -35,9 +35,12 @@ const typeDefs = gql`
 
   type Question {
     id: ID!
+    sentence: String!
+    description: String!
     type: QuestionType!
     value: String!
     options: [String]
+    withDescription: Boolean!
     isMultiple: Boolean!
     isRequired: Boolean!
     isOriginal: Boolean!
@@ -69,6 +72,7 @@ const typeDefs = gql`
     sentence: String
     description: String
     options: [String]
+    withDescription: Boolean!
     isMultiple: Boolean!
     isRequired: Boolean!
   }

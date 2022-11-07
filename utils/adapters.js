@@ -10,8 +10,10 @@ export const serviceAdapter = (data) => {
   if (data.description !== undefined)
     serviceParsed.description = data.description;
   if (data.options !== undefined) serviceParsed.options = data.options;
-  if (data.isRequired !== undefined) serviceParsed.isMultiple = data.isMultiple;
+  if (data.isMultiple !== undefined) serviceParsed.isMultiple = data.isMultiple;
   if (data.isRequired !== undefined) serviceParsed.isRequired = data.isRequired;
+
+  serviceParsed.withDescription = data.withDescription;
 
   return serviceParsed;
 };
