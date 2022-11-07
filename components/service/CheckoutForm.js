@@ -1,3 +1,7 @@
+import { useEffect } from "react";
+import { useFormik } from "formik";
+import { useMutation } from "@apollo/client";
+
 // MATERIAL UI
 import {
   TextField,
@@ -8,8 +12,41 @@ import {
 
 // COMPONENTS
 import Card from "components/Card";
+import useService from "utils/useService";
+import { UPDATE_SERVICE_CHECKOUT } from "graphql/apiql";
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ updateCta, serviceId }) => {
+  const { service } = useService(serviceId);
+
+  const [updateServiceCheckoutFn, updateServiceCheckoutHpr] = useMutation(
+    UPDATE_SERVICE_CHECKOUT
+  );
+
+  useEffect(() => {
+    updateCta({
+      fn: () => {
+        formik.submitForm();
+      },
+    });
+  }, []);
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      checkoutTitle: service ? service.checkoutTitle : "",
+      checkoutMessage: service ? service.checkoutMessage : "",
+    },
+    // validationSchema: createLoginSchema(),
+    onSubmit: (values) => {
+      updateServiceCheckoutFn({
+        variables: {
+          input: values,
+          serviceId,
+        },
+      });
+    },
+  });
+
   return (
     <div>
       <Card title="Order Details"></Card>
@@ -17,13 +54,15 @@ const CheckoutForm = () => {
       <Card title="Order Confirmation Page">
         <TextField
           label="Custom Headline"
-          value={"formik.values.title"}
-          // onChange={formik.handleChange}
+          name="checkoutTitle"
+          value={formik.values.checkoutTitle}
+          onChange={formik.handleChange}
         />
         <TextField
           label="Custom Message"
-          // value={formik.values.title}
-          // onChange={formik.handleChange}
+          name="checkoutMessage"
+          value={formik.values.checkoutMessage}
+          onChange={formik.handleChange}
           rows={5}
           maxRows={5}
           multiline

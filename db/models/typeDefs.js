@@ -19,6 +19,10 @@ const typeDefs = gql`
     status: ServiceStatus!
     isOriginal: Boolean!
 
+    checkoutTitle: String!
+    checkoutMessage: String!
+    isGuestCheckoutEnabled: Boolean!
+
     pricing: Pricing!
     questionnaire: [Question]!
     # businessId: ID!
@@ -54,8 +58,13 @@ const typeDefs = gql`
     callToAction: String
     isOriginal: Boolean
 
-    # Pricing
     pricing: PricingInput!
+  }
+
+  input ServiceCheckoutInput {
+    checkoutTitle: String
+    checkoutMessage: String
+    isGuestCheckoutEnabled: Boolean
   }
 
   input PricingInput {
@@ -90,6 +99,7 @@ const typeDefs = gql`
   type Mutation {
     createService(input: ServiceInput): Service
     updateQuestionnaire(input: [QuestionInput], serviceId: ID!): Service
+    updateServiceCheckout(input: ServiceCheckoutInput, serviceId: ID!): Service
   }
 
   # ENUMS

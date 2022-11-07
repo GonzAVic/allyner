@@ -23,6 +23,7 @@ export const GET_SERVICE = gql`
       callToAction
       cover
       status
+
       pricing {
         id
         type
@@ -31,6 +32,7 @@ export const GET_SERVICE = gql`
         amount
         isOriginal
       }
+
       questionnaire {
         id
         type
@@ -40,6 +42,10 @@ export const GET_SERVICE = gql`
         isMultiple
         isRequired
       }
+
+      checkoutTitle
+      checkoutMessage
+      isGuestCheckoutEnabled
     }
   }
 `;
@@ -61,6 +67,14 @@ export const CREATE_SERVICE = gql`
 export const UPDATE_QUESTIONNAIRE = gql`
   mutation ($input: [QuestionInput], $serviceId: ID!) {
     updateQuestionnaire(input: $input, serviceId: $serviceId) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_SERVICE_CHECKOUT = gql`
+  mutation ($input: ServiceCheckoutInput, $serviceId: ID!) {
+    updateServiceCheckout(input: $input, serviceId: $serviceId) {
       id
     }
   }

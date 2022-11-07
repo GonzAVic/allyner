@@ -18,10 +18,22 @@ const createService = async (_, args) => {
     const service = await new Service(serviceInput);
     service.save();
 
-    console.log("-> service: ", service);
     return service;
   } catch (error) {
-    console.log("-> error: ", error);
+    return error;
+  }
+};
+
+const updateServiceCheckout = async (_, args) => {
+  try {
+    let { input, serviceId } = args;
+    const service = await Service.findById(serviceId);
+    service.checkoutTitle = input.checkoutTitle;
+    service.checkoutMessage = input.checkoutMessage;
+    service.isGuestCheckoutEnabled = input.isGuestCheckoutEnabled || false;
+    service.save();
+    return service;
+  } catch (error) {
     return error;
   }
 };
@@ -47,7 +59,7 @@ const getService = async (_, args) => {
 
 const queries = { getServices, getService };
 
-const mutations = { createService };
+const mutations = { createService, updateServiceCheckout };
 
 module.exports = {
   queries,

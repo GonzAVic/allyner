@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const ServiceSchema = new mongoose.Schema({
   title: {
     type: String,
+    default: "Untitled service",
     required: true,
   },
   description: {
@@ -11,7 +12,7 @@ const ServiceSchema = new mongoose.Schema({
   },
   callToAction: {
     type: String,
-    default: "LALALA",
+    default: "",
   },
   cover: {
     type: String,
@@ -23,6 +24,21 @@ const ServiceSchema = new mongoose.Schema({
     required: true,
     default: "UNPUBLISHED",
   },
+
+  checkoutTitle: {
+    type: String,
+    default: "",
+  },
+  checkoutMessage: {
+    type: String,
+    default: "",
+  },
+  isGuestCheckoutEnabled: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
+
   isOriginal: {
     type: Boolean,
     required: true,
