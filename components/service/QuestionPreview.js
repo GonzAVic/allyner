@@ -12,20 +12,22 @@ import ResponseMultipleChoice from "./ResponseMultipleChoice";
 import ResponsePictureChoice from "./ResponsePictureChoice";
 
 const renderAnswerComponent = (questionType, options, isMultiple) => {
+  console.log("-> questionType: ", questionType);
+
   switch (questionType) {
-    case "short text":
+    case "SHORT_TEXT":
       return <ResponseShortText />;
-    case "long text":
+    case "LONG_TEXT":
       return <ResponseLongText />;
-    case "dropdown":
+    case "DROPDOWN":
       return <ResponseDropdown options={options} />;
-    case "date":
+    case "DATE":
       return <ResponseDatePicker />;
-    case "file":
+    case "FILE":
       return <ResponseFile />;
-    case "picture choice":
+    case "PICTURE":
       return <ResponsePictureChoice options={options} />;
-    case "multiple choice":
+    case "MULTIPLE":
       return (
         <ResponseMultipleChoice options={options} isMultiple={isMultiple} />
       );

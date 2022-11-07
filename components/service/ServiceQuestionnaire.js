@@ -126,13 +126,13 @@ const QuestionTypeOption = styled(MenuItem)({
 });
 
 const QUESTION_TYPES = [
-  "dropdown",
-  "multiple",
-  "picture",
-  "short text",
-  "long text",
-  "file",
-  "date",
+  "DROPDOWN",
+  "MULTIPLE",
+  "PICTURE",
+  "SHORT_TEXT",
+  "LONG_TEXT",
+  "FILE",
+  "DATE",
 ];
 
 export default ServiceQuestionnaire;
