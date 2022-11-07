@@ -31,6 +31,10 @@ export const GET_SERVICE = gql`
         amount
         isOriginal
       }
+      questionnaire {
+        id
+        type
+      }
     }
   }
 `;
@@ -45,6 +49,14 @@ export const CREATE_SERVICE = gql`
       callToAction
       cover
       isOriginal
+    }
+  }
+`;
+
+export const UPDATE_QUESTIONNAIRE = gql`
+  mutation ($input: [QuestionInput], $serviceId: ID!) {
+    updateQuestionnaire(input: $input, serviceId: $serviceId) {
+      id
     }
   }
 `;

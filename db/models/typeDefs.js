@@ -20,7 +20,7 @@ const typeDefs = gql`
     isOriginal: Boolean!
 
     pricing: Pricing!
-    # questionnaire: [Question]!
+    questionnaire: [Question]!
     # businessId: ID!
   }
 
@@ -30,6 +30,16 @@ const typeDefs = gql`
     durationHours: Int
     durationMinutes: Int
     amount: Int!
+    isOriginal: Boolean!
+  }
+
+  type Question {
+    id: ID!
+    type: QuestionType!
+    value: String!
+    options: [String]
+    isMultiple: Boolean!
+    isRequired: Boolean!
     isOriginal: Boolean!
   }
 
@@ -52,6 +62,21 @@ const typeDefs = gql`
     amount: Int!
   }
 
+  # TODO: validate required attributes
+  input QuestionInput {
+    id: ID!
+    type: QuestionType
+    sentence: String
+    description: String
+    options: [String]
+    isMultiple: Boolean!
+    isRequired: Boolean!
+  }
+
+  input QuestionResponseInput {
+    id: ID!
+  }
+
   type Query {
     getBusiness: Business
     getServices(businessId: ID!): [Service]
@@ -60,6 +85,7 @@ const typeDefs = gql`
 
   type Mutation {
     createService(input: ServiceInput): Service
+    updateQuestionnaire(input: [QuestionInput], serviceId: ID!): Service
   }
 
   # ENUMS
@@ -68,6 +94,16 @@ const typeDefs = gql`
     ARQUITECTURE
     ACCOUNTANCY
     GAMMING
+  }
+
+  enum QuestionType {
+    DROPDOWN
+    MULTIPLE
+    PICTURE
+    SHORT_TEXT
+    LONG_TEXT
+    FILE
+    DATE
   }
 
   enum ServiceStatus {

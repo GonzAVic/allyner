@@ -69,7 +69,7 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
       pathname: `/services/overview`,
       query: { id: newService.id },
     });
-  }, [createServiceHpr]);
+  }, [createServiceHpr.data]);
 
   const handleDescriptionChange = (value) => {
     formik.setFieldValue("description", value);

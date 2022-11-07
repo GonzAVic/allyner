@@ -8,14 +8,16 @@ const ServiceSchema = new mongoose.Schema({
   description: {
     type: String,
     required: true,
+    default: "",
   },
   callToAction: {
     type: String,
-    required: true,
+    default: "LALALA",
   },
   cover: {
     type: String,
     required: true,
+    default: "coverplaceholder.com",
   },
   status: {
     type: String,
@@ -31,6 +33,11 @@ const ServiceSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "Pricing",
+  },
+  questionnaire: {
+    type: [mongoose.Schema.Types.ObjectId],
+    required: true,
+    default: [],
   },
 });
 

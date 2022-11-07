@@ -38,9 +38,7 @@ const getServices = async () => {
 const getService = async (_, args) => {
   try {
     let { serviceId } = args;
-    console.log("-> serviceId: ", serviceId);
     const service = await Service.findById(serviceId);
-    console.log("-> service: ", service);
     return service;
   } catch (error) {
     return error;

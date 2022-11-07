@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useFormik, FieldArray, FormikProvider } from "formik";
+import { useMutation } from "@apollo/client";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
@@ -7,17 +8,35 @@ import { Button, Menu, MenuItem } from "@mui/material";
 
 // COMPONENTS
 import QuestionCard from "./QuestionCard";
+import { UPDATE_QUESTIONNAIRE } from "graphql/apiql";
+import { serviceAdapter } from "utils/adapters";
+import useService from "utils/useService";
 
-const ServiceQuestionnaire = ({ updatePreviewData }) => {
+const ServiceQuestionnaire = ({ updatePreviewData, updateCta, serviceId }) => {
+  const [updateQuestionnaireFn, updateQuestionnaireHpr] =
+    useMutation(UPDATE_QUESTIONNAIRE);
+
+  const { service } = useService(serviceId);
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [activeQuestion, setActiveQuestion] = useState(null);
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      questions: [],
+      questions: service ? service.questionnaire : [],
     },
     onSubmit: (values) => {
-      console.log("-> values: ", values);
+      const dataReq = values.questions.map((q) => {
+        return serviceAdapter({
+          ...q,
+          isMultiple: q.selectionType !== "SINGLE",
+        });
+      });
+      console.log("-> dataReq: ", dataReq);
+      updateQuestionnaireFn({
+        variables: { input: dataReq, serviceId },
+      });
     },
   });
 
@@ -26,6 +45,14 @@ const ServiceQuestionnaire = ({ updatePreviewData }) => {
     if (!activeQuestionData) return;
     updatePreviewData(activeQuestionData);
   }, [formik.values, activeQuestion]);
+
+  useEffect(() => {
+    updateCta({
+      fn: () => {
+        formik.submitForm();
+      },
+    });
+  }, []);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -37,13 +64,14 @@ const ServiceQuestionnaire = ({ updatePreviewData }) => {
 
   const handleCreateNewQuestion = (type, arrayHelpers) => {
     arrayHelpers.push({
+      id: "new",
       type: type,
       sentence: "",
+      selectionType: "SINGLE",
       withDescription: false,
       description: "",
-      isRequired: false,
-      selectionType: "SINGLE",
       options: [],
+      isRequired: false,
     });
     handleClose();
   };
@@ -100,8 +128,8 @@ const QuestionTypeOption = styled(MenuItem)({
 
 const QUESTION_TYPES = [
   "dropdown",
-  "multiple choice",
-  "picture choice",
+  "multiple",
+  "picture",
   "short text",
   "long text",
   "file",

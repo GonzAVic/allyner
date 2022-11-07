@@ -84,6 +84,7 @@ const NewService = () => {
             {React.cloneElement(displayStep(currentStep).form, {
               updatePreviewData,
               updateCta,
+              serviceId: router.query.id,
             })}
           </Pedro>
         </LeftSide>
