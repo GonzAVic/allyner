@@ -72,6 +72,14 @@ export const UPDATE_QUESTIONNAIRE = gql`
   }
 `;
 
+export const UPDATE_SERVICE_DETAILS = gql`
+  mutation ($input: ServiceInput, $serviceId: ID!) {
+    updateServiceDetails(input: $input, serviceId: $serviceId) {
+      id
+    }
+  }
+`;
+
 export const UPDATE_SERVICE_CHECKOUT = gql`
   mutation ($input: ServiceCheckoutInput, $serviceId: ID!) {
     updateServiceCheckout(input: $input, serviceId: $serviceId) {

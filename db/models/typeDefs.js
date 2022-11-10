@@ -98,6 +98,7 @@ const typeDefs = gql`
 
   type Mutation {
     createService(input: ServiceInput): Service
+    updateServiceDetails(input: ServiceInput, serviceId: ID!): Service
     updateQuestionnaire(input: [QuestionInput], serviceId: ID!): Service
     updateServiceCheckout(input: ServiceCheckoutInput, serviceId: ID!): Service
   }

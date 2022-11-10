@@ -3,7 +3,7 @@ import { styled } from "@mui/system";
 import { Typography, TextField } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-const Uploader = ({ onFilesUploaded }) => {
+const Uploader = ({ onFilesUploaded, multiple = false }) => {
   const handleUpload = async (e) => {
     const { files } = e.target;
 
@@ -28,19 +28,30 @@ const Uploader = ({ onFilesUploaded }) => {
   };
 
   return (
-    <Container type="file" onChange={handleUpload}>
-      <CloudUploadIcon sx={{ mb: 2 }} />
-      <Typography vatiant="label" sx={{ mb: 1, textAlign: "center" }}>
-        <span>Click to upload</span> or drag and drop
-      </Typography>
-      <Typography vatiant="label" sx={{ textAlign: "center" }}>
-        SVG, PNG, JPG, GIF or video (min. 1280x720px, 72 DPI)
-      </Typography>
-    </Container>
+    <>
+      <input
+        type="file"
+        id="imgupload"
+        onChange={handleUpload}
+        style={{ display: "none" }}
+        multiple={multiple}
+      />
+      <label for="imgupload">
+        <Container>
+          <CloudUploadIcon sx={{ mb: 2 }} />
+          <Typography vatiant="label" sx={{ mb: 1, textAlign: "center" }}>
+            <span>Click to upload</span> or drag and drop
+          </Typography>
+          <Typography vatiant="label" sx={{ textAlign: "center" }}>
+            SVG, PNG, JPG, GIF or video (min. 1280x720px, 72 DPI)
+          </Typography>
+        </Container>
+      </label>
+    </>
   );
 };
 
-const Container = styled(TextField)({
+const Container = styled("div")({
   background: "#FFFFFF",
   border: "1px solid #DCDFEA",
   borderRadius: 8,

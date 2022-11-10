@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { useMutation } from "@apollo/client";
 
-import { CREATE_SERVICE } from "graphql/apiql";
+import { CREATE_SERVICE, UPDATE_SERVICE_DETAILS } from "graphql/apiql";
 
 // MATERIAL UI
 import { TextField, MenuItem, Box, InputAdornment } from "@mui/material";
@@ -11,13 +11,17 @@ import { TextField, MenuItem, Box, InputAdornment } from "@mui/material";
 // COMPONENTS
 import Card from "components/Card";
 import Tiptap from "components/TipTap";
+import Uploader from "components/Uploader";
 import useService from "utils/useService";
 
-const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
+const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
   const router = useRouter();
   const { service } = useService(router.query.id);
 
   const [createServiceFn, createServiceHpr] = useMutation(CREATE_SERVICE);
+  const [updateServiceDetailsFn, updateServiceDetailsHpr] = useMutation(
+    UPDATE_SERVICE_DETAILS
+  );
 
   const isNewService = router.query.id === "new";
 
@@ -41,12 +45,12 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
       if (isNewService)
         createServiceFn({
           variables: {
-            input: {
-              ...values,
-            },
+            input: values,
           },
         });
-      else console.log("-> TODO: update the service");
+      else {
+        updateServiceDetailsFn({ variables: { input: values, serviceId } });
+      }
     },
   });
 
@@ -62,7 +66,6 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
   useEffect(() => {
     if (!createServiceHpr.called) return;
     if (!createServiceHpr.data) return;
-    console.log("-> createServiceHpr.data: ");
     const newService = createServiceHpr.data.createService;
 
     router.push({
@@ -73,6 +76,10 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
 
   const handleDescriptionChange = (value) => {
     formik.setFieldValue("description", value);
+  };
+
+  const handleCoverChange = (imageUrls) => {
+    formik.setFieldValue("cover", imageUrls[0]);
   };
 
   return (
@@ -93,11 +100,7 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta }) => {
       </Card>
 
       <Card title="Avatar">
-        <TextField
-          name="cover"
-          value={formik.values.cover}
-          onChange={formik.handleChange}
-        />
+        <Uploader onFilesUploaded={handleCoverChange} />
       </Card>
 
       <Card title="CTA">

@@ -9,6 +9,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "allyner-1.sfo3.digitaloceanspaces.com",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
     ],
   },
 };
