@@ -11,6 +11,7 @@ import QuestionCard from "./QuestionCard";
 import { UPDATE_QUESTIONNAIRE } from "graphql/apiql";
 import { serviceAdapter } from "utils/adapters";
 import useService from "utils/useService";
+import { questionTypes } from "utils/constants";
 
 const ServiceQuestionnaire = ({ updatePreviewData, updateCta, serviceId }) => {
   const [updateQuestionnaireFn, updateQuestionnaireHpr] =
@@ -103,12 +104,14 @@ const ServiceQuestionnaire = ({ updatePreviewData, updateCta, serviceId }) => {
                   Add New Question
                 </Button>
                 <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-                  {QUESTION_TYPES.map((qt) => (
+                  {questionTypes().map((qt) => (
                     <QuestionTypeOption
-                      key={qt}
-                      onClick={() => handleCreateNewQuestion(qt, arrayHelpers)}
+                      key={qt.value}
+                      onClick={() =>
+                        handleCreateNewQuestion(qt.value, arrayHelpers)
+                      }
                     >
-                      {qt}
+                      {qt.label}
                     </QuestionTypeOption>
                   ))}
                 </Menu>
@@ -124,15 +127,5 @@ const ServiceQuestionnaire = ({ updatePreviewData, updateCta, serviceId }) => {
 const QuestionTypeOption = styled(MenuItem)({
   textTransform: "capitalize",
 });
-
-const QUESTION_TYPES = [
-  "DROPDOWN",
-  "MULTIPLE",
-  "PICTURE",
-  "SHORT_TEXT",
-  "LONG_TEXT",
-  "FILE",
-  "DATE",
-];
 
 export default ServiceQuestionnaire;

@@ -12,8 +12,6 @@ import ResponseMultipleChoice from "./ResponseMultipleChoice";
 import ResponsePictureChoice from "./ResponsePictureChoice";
 
 const renderAnswerComponent = (questionType, options, isMultiple) => {
-  console.log("-> questionType: ", questionType);
-
   switch (questionType) {
     case "SHORT_TEXT":
       return <ResponseShortText />;

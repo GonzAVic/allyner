@@ -1,28 +1,32 @@
 import { gql } from "@apollo/client";
 
+// Fragments
+const SERVICE_FRAGMENT = gql`
+  fragment ServiceFields on Service {
+    id
+    title
+    description
+    callToAction
+    cover
+    status
+  }
+`;
+
 // QUERIES
 export const GET_SERVICES = gql`
+  ${SERVICE_FRAGMENT}
   query ($businessId: ID!) {
     getServices(businessId: $businessId) {
-      id
-      title
-      description
-      callToAction
-      cover
-      status
+      ...ServiceFields
     }
   }
 `;
 
 export const GET_SERVICE = gql`
+  ${SERVICE_FRAGMENT}
   query ($serviceId: ID!) {
     getService(serviceId: $serviceId) {
-      id
-      title
-      description
-      callToAction
-      cover
-      status
+      ...ServiceFields
 
       pricing {
         id
@@ -39,6 +43,7 @@ export const GET_SERVICE = gql`
         sentence
         description
         withDescription
+        options
         isMultiple
         isRequired
       }
@@ -52,38 +57,37 @@ export const GET_SERVICE = gql`
 
 // MUTATIONS
 export const CREATE_SERVICE = gql`
+  ${SERVICE_FRAGMENT}
   mutation ($input: ServiceInput) {
     createService(input: $input) {
-      id
-      title
-      description
-      callToAction
-      cover
-      isOriginal
+      ...ServiceFields
     }
   }
 `;
 
 export const UPDATE_QUESTIONNAIRE = gql`
+  ${SERVICE_FRAGMENT}
   mutation ($input: [QuestionInput], $serviceId: ID!) {
     updateQuestionnaire(input: $input, serviceId: $serviceId) {
-      id
+      ...ServiceFields
     }
   }
 `;
 
 export const UPDATE_SERVICE_DETAILS = gql`
+  ${SERVICE_FRAGMENT}
   mutation ($input: ServiceInput, $serviceId: ID!) {
     updateServiceDetails(input: $input, serviceId: $serviceId) {
-      id
+      ...ServiceFields
     }
   }
 `;
 
 export const UPDATE_SERVICE_CHECKOUT = gql`
+  ${SERVICE_FRAGMENT}
   mutation ($input: ServiceCheckoutInput, $serviceId: ID!) {
     updateServiceCheckout(input: $input, serviceId: $serviceId) {
-      id
+      ...ServiceFields
     }
   }
 `;

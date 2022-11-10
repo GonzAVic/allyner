@@ -17,6 +17,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Card from "components/Card";
 import PropertyControl from "components/PropertyControl";
 import Uploader from "components/Uploader";
+import { questionTypes } from "utils/constants";
 
 const QuestionCard = ({
   question,
@@ -48,7 +49,7 @@ const QuestionCard = ({
   };
 
   return (
-    <Card title={question.type}>
+    <Card title={questionTypes(null, question.type)}>
       <TextField
         label={"Question"}
         name="sentence"
@@ -158,7 +159,7 @@ const QuestionCard = ({
   );
 };
 
-const questionWithOptions = ["dropdown", "multiple choice"];
+const questionWithOptions = ["DROPDOWN", "MULTIPLE"];
 
 const questionsWithMultiple = ["multiple choice", "picture choice", "date"];
 
