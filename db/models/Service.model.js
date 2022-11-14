@@ -22,7 +22,7 @@ const ServiceSchema = new mongoose.Schema({
   status: {
     type: String,
     required: true,
-    default: "UNPUBLISHED",
+    default: "DRAFT",
   },
 
   checkoutTitle: {

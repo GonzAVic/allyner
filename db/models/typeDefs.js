@@ -122,7 +122,7 @@ const typeDefs = gql`
   }
 
   enum ServiceStatus {
-    UNPUBLISHED
+    DRAFT
     ACTIVE
   }
 

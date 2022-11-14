@@ -75,7 +75,7 @@ const CheckoutForm = ({ updateCta, serviceId }) => {
 
       <Card title="Service Request Link">
         <Typography variant="small" sx={{ mb: 2, mt: 2 }}>
-          You can copy and paste this link to share this service's bookingfrom
+          You can copy and paste this link to share this service is booking from
           with your customers
         </Typography>
         <TextField

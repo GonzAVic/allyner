@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useMutation, useLazyQuery, useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 
 // MATERIAL UI
 import { DataGrid } from "@mui/x-data-grid";
-import { IconButton } from "@mui/material";
+import { IconButton, TextField, MenuItem } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import LayersIcon from "@mui/icons-material/Layers";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
+import { serviceStatus } from "utils/constants";
 import { GET_SERVICES } from "graphql/apiql";
 
 const Services = () => {
@@ -54,14 +57,33 @@ const renderActions = (props) => {
           <EditIcon />
         </IconButton>
       </Link>
+      <IconButton>
+        <LayersIcon />
+      </IconButton>
+      <IconButton>
+        <DeleteIcon />
+      </IconButton>
     </div>
+  );
+};
+// serviceStatus
+const renderStatus = (props) => {
+  const { value } = props;
+  return (
+    <TextField value={value} sx={{ mb: 0 }} select>
+      {serviceStatus().map((e) => (
+        <MenuItem key={e.value} value={e.value}>
+          {e.label}
+        </MenuItem>
+      ))}
+    </TextField>
   );
 };
 
 const columns = [
-  { field: "title", headerName: "Title", width: 150 },
-  { field: "status", headerName: "Status", width: 300 },
-  { field: "id", headerName: "Actions", renderCell: renderActions },
+  { field: "title", headerName: "Title", flex: 2 },
+  { field: "status", headerName: "Status", renderCell: renderStatus, flex: 1 },
+  { field: "id", headerName: "Actions", renderCell: renderActions, flex: 1 },
 ];
 
 export default Services;
