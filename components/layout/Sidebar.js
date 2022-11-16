@@ -1,3 +1,5 @@
+import { useSession, signIn, signOut } from "next-auth/react";
+
 // MATERIAL UI
 import { styled } from "@mui/system";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -20,14 +22,18 @@ const Sidebar = () => {
         <SidebarItem
           label="Services"
           icon={<LayersOutlinedIcon />}
-          href="/services"
+          href="/b-dashboard/services"
         />
         <SidebarItem label="Customers" icon={<PeopleOutlineOutlinedIcon />} />
       </div>
       <div>
         <SidebarItem label="Support" icon={<SupportIcon />} />
         <SidebarItem label="Settings" icon={<SettingsOutlinedIcon />} />
-        <SidebarItem label="Log Out" icon={<LogoutOutlinedIcon />} />
+        <SidebarItem
+          label="Log Out"
+          icon={<LogoutOutlinedIcon />}
+          onClick={signOut}
+        />
       </div>
     </Container>
   );

@@ -69,7 +69,7 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
     const newService = createServiceHpr.data.createService;
 
     router.push({
-      pathname: `/services/overview`,
+      pathname: `/b-dashboard/services/overview`,
       query: { id: newService.id },
     });
   }, [createServiceHpr.data]);

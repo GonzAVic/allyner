@@ -2,10 +2,31 @@ import { gql } from "apollo-server-micro";
 
 const typeDefs = gql`
   # MODELS
+  type User {
+    id: ID!
+    email: String!
+    type: String
+  }
+
+  type BUser {
+    id: ID!
+    email: String!
+    name: String!
+    lastName: String!
+    companyName: String!
+  }
+
+  type CUser {
+    id: ID!
+    email: String!
+  }
+
   type Business {
     id: ID!
     name: String!
-    industry: Industries!
+    industry: String!
+
+    # owner: ID!
     # onboarding: Onboarding!
     # services: [Service!]!
   }
@@ -104,12 +125,6 @@ const typeDefs = gql`
   }
 
   # ENUMS
-  enum Industries {
-    TECH
-    ARQUITECTURE
-    ACCOUNTANCY
-    GAMMING
-  }
 
   enum QuestionType {
     DROPDOWN
