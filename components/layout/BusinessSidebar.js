@@ -1,4 +1,4 @@
-import { useSession, signIn, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
@@ -13,22 +13,34 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 // COMPONENTS
 import SidebarItem from "./SidebarItem";
 
-const Sidebar = () => {
+const BusinessSidebar = () => {
   return (
     <Container>
       <div>
-        <SidebarItem label="Home" icon={<HomeOutlinedIcon />} />
-        <SidebarItem label="Orders" icon={<SignalCellularAltRoundedIcon />} />
+        <SidebarItem label="Home" icon={<HomeOutlinedIcon />} href="/" />
+        <SidebarItem
+          label="Orders"
+          icon={<SignalCellularAltRoundedIcon />}
+          href="/orders"
+        />
         <SidebarItem
           label="Services"
           icon={<LayersOutlinedIcon />}
-          href="/b-dashboard/services"
+          href="/services"
         />
-        <SidebarItem label="Customers" icon={<PeopleOutlineOutlinedIcon />} />
+        <SidebarItem
+          label="Customers"
+          icon={<PeopleOutlineOutlinedIcon />}
+          href="/customers"
+        />
       </div>
       <div>
-        <SidebarItem label="Support" icon={<SupportIcon />} />
-        <SidebarItem label="Settings" icon={<SettingsOutlinedIcon />} />
+        <SidebarItem label="Support" icon={<SupportIcon />} href="/support" />
+        <SidebarItem
+          label="Settings"
+          icon={<SettingsOutlinedIcon />}
+          href="/settings"
+        />
         <SidebarItem
           label="Log Out"
           icon={<LogoutOutlinedIcon />}
@@ -48,4 +60,4 @@ const Container = styled("div")({
   height: "100vh",
 });
 
-export default Sidebar;
+export default BusinessSidebar;

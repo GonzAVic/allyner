@@ -2,18 +2,11 @@ import { gql } from "apollo-server-micro";
 
 const typeDefs = gql`
   # MODELS
-  type User {
-    id: ID!
-    email: String!
-    type: String
-  }
-
   type BUser {
     id: ID!
     email: String!
     name: String!
     lastName: String!
-    companyName: String!
   }
 
   type CUser {
