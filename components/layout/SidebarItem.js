@@ -17,6 +17,11 @@ const SidebarItem = ({ label, href = "/services", isActive, icon }) => {
 const Container = styled(Button)(({ isActive }) => ({
   display: "flex",
   justifyContent: "flex-start",
+  fontWeight: 400,
+  fontSize: 16,
+  color: "#73839D",
+  marginTop: 4,
+  marginBottom: 4,
 }));
 
 export default SidebarItem;

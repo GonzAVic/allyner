@@ -21,7 +21,7 @@ const DefaultLayout = ({ children, title, secondaryText, cta }) => {
       <Content>
         <ContentTop>
           <div>
-            <Typography variant="h2">{title}</Typography>
+            <Typography variant="h4">{title}</Typography>
             <Typography>{secondaryText}</Typography>
           </div>
           {cta && <Button {...ctaProps}>{cta.text}</Button>}

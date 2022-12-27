@@ -7,18 +7,28 @@ const theme = () => {
   return createTheme({
     typography: {
       h1: {
-        fontSize: 30,
-        fontWeight: 500,
+        fontSize: 64,
+        fontWeight: 700,
       },
       h2: {
-        fontSize: 24,
-        fontWeight: 500,
-        marginBottom: 8,
+        fontSize: 48,
+        fontWeight: 600,
       },
       h3: {
-        fontSize: 18,
-        fontWeight: 500,
-        marginBottom: 8,
+        fontSize: 40,
+        fontWeight: 600,
+      },
+      h4: {
+        fontSize: 32,
+        fontWeight: 600,
+      },
+      h5: {
+        fontSize: 24,
+        fontWeight: 600,
+      },
+      h6: {
+        fontSize: 20,
+        fontWeight: 600,
       },
       label: {
         fontSize: 16,
@@ -37,8 +47,8 @@ const theme = () => {
         fontWeight: 400,
       },
       button: {
-        fontSize: 14,
-        fontWeight: 500,
+        fontSize: 15,
+        fontWeight: 600,
       },
       // allVariants: {
       //   display: "block",
