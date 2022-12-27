@@ -1,3 +1,5 @@
+import { signOut } from "next-auth/react";
+
 // MATERIAL UI
 import { styled } from "@mui/system";
 import { Divider } from "@mui/material";
@@ -12,7 +14,7 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 // COMPONENTS
 import SidebarItem from "./SidebarItem";
 
-const Sidebar = () => {
+const BusinessSidebar = () => {
   return (
     <Container>
       <SidebarItem label="Home" icon={<HomeOutlinedIcon />} />
@@ -42,4 +44,4 @@ const Container = styled("div")({
   height: "100vh",
 });
 
-export default Sidebar;
+export default BusinessSidebar;

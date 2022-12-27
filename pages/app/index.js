@@ -8,7 +8,7 @@ import { Button } from "@mui/material";
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
 
-export default function Home() {
+export default function Index() {
   return (
     <DefaultLayout title={"Service name"}>
       <Button variant="secondary" onClick={() => signIn()}>

@@ -4,7 +4,20 @@ import Link from "next/link";
 import { styled } from "@mui/system";
 import { Button } from "@mui/material";
 
-const SidebarItem = ({ label, href = "/services", isActive, icon }) => {
+const SidebarItem = ({
+  label,
+  href = "/services",
+  isActive,
+  icon,
+  onClick,
+}) => {
+  if (onClick)
+    return (
+      <Container variant="text" startIcon={icon} onClick={onClick}>
+        {label}
+      </Container>
+    );
+
   return (
     <Link href={href}>
       <Container variant="text" startIcon={icon} isActive={isActive}>

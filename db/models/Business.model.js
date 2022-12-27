@@ -9,6 +9,12 @@ const BusinessSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "User",
+  },
 });
 
 const Business = mongoose.model("business", BusinessSchema);

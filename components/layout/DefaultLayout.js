@@ -4,9 +4,10 @@ import { Typography, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 // COMPONENTS
-import Sidebar from "./Sidebar";
+import BusinessSidebar from "./BusinessSidebar";
+import ClientSidebar from "components/layout/ClientSidebar";
 
-const DefaultLayout = ({ children, title, secondaryText, cta }) => {
+const DefaultLayout = ({ children, userType, title, secondaryText, cta }) => {
   const ctaProps = { startIcon: <AddIcon /> };
   if (cta) {
     if (cta.fn) ctaProps.onClick = cta.fn;
@@ -17,7 +18,7 @@ const DefaultLayout = ({ children, title, secondaryText, cta }) => {
 
   return (
     <Container>
-      <Sidebar />
+      {userType === "client" ? <ClientSidebar /> : <BusinessSidebar />}
       <Content>
         <ContentTop>
           <div>

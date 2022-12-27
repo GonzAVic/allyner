@@ -11,6 +11,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
+import BusinessHOC from "components/BusinessHOC";
 import { serviceStatus } from "utils/constants";
 import { GET_SERVICES } from "graphql/apiql";
 
@@ -33,18 +34,23 @@ const Services = () => {
   }, [getServicesFnHelper]);
 
   return (
-    <DefaultLayout
-      title="Services"
-      secondaryText="Keep track of services and their status."
-      cta={{ text: "Add Service", href: "/services/overview/?id=new" }}
-    >
-      <DataGrid
-        rows={services}
-        columns={columns}
-        pageSize={7}
-        rowsPerPageOptions={[7]}
-      />
-    </DefaultLayout>
+    <BusinessHOC>
+      <DefaultLayout
+        title="Services"
+        secondaryText="Keep track of services and their status."
+        cta={{
+          text: "Add Service",
+          href: "/b-dashboard/services/overview/?id=new",
+        }}
+      >
+        <DataGrid
+          rows={services}
+          columns={columns}
+          pageSize={7}
+          rowsPerPageOptions={[7]}
+        />
+      </DefaultLayout>
+    </BusinessHOC>
   );
 };
 
@@ -52,7 +58,7 @@ const renderActions = (props) => {
   const { value } = props;
   return (
     <div>
-      <Link href={`/services/overview/?id=${value}`}>
+      <Link href={`/b-dashboard/services/overview/?id=${value}`}>
         <IconButton>
           <EditIcon />
         </IconButton>
