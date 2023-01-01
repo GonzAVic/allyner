@@ -4,7 +4,16 @@ import { createTheme } from "@mui/material/styles";
 // seconday #667085
 
 const theme = () => {
+  const { palette } = createTheme({
+    palette: {
+      text: {
+        secondary: "#73839D",
+      },
+    },
+  });
+
   return createTheme({
+    ...{ palette },
     typography: {
       h1: {
         fontSize: 64,
