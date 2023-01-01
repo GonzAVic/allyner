@@ -37,7 +37,7 @@ const ServiceCard = ({ service = {} }) => {
         src={"https://images.unsplash.com/photo-1661956601030-fdfb9c7e9e2f"}
         alt="Picture of the author"
       />
-      <Typography variant="h6" sx={{ mb: 1 }}>
+      <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
         {title}
       </Typography>
       <Typography className="description" sx={{ color: "#73839D" }}>
@@ -85,6 +85,7 @@ const Container = styled("div")({
     width: "100%",
     height: 200,
     objectFit: "cover",
+    borderRadius: 10,
   },
 
   "& .description": {

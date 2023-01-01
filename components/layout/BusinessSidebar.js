@@ -16,7 +16,6 @@ import SidebarItem from "./SidebarItem";
 const BusinessSidebar = () => {
   const router = useRouter();
 
-  console.log("-> router: ", router);
   return (
     <Container>
       <SidebarItem

@@ -2,16 +2,13 @@ import { useRouter } from "next/router";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography } from "@mui/material";
 
 // COMPONENTS
-import QuestionPreview from "components/service/QuestionPreview";
+import Question from "components/service/Question";
 import LayoutOne from "components/layout/LayoutOne";
 
 const ServiceWizard = () => {
   const router = useRouter();
-  console.log("-> router: ", router);
-  const { serviceId } = router.query;
 
   const question = {
     sentence: "Lorem ipsum title",
@@ -22,25 +19,10 @@ const ServiceWizard = () => {
     options: ["option 1", "option 2"],
   };
 
-  const isMultiple = question.selectionType === "MULTIPLE";
-
   return (
     <LayoutOne>
       <Container>
-        <Typography variant="h2">
-          {question.sentence || "Title placeholder"}
-          {question.isRequired && "*"}
-        </Typography>
-        {question.withDescription && (
-          <Typography sx={{ mb: 3 }}>
-            {question.description || "Description placeholder"}
-          </Typography>
-        )}
-        {isMultiple && (
-          <Typography variant="small" sx={{ mb: 2 }}>
-            Select multiple
-          </Typography>
-        )}
+        <Question question={question} />
       </Container>
     </LayoutOne>
   );
@@ -48,7 +30,12 @@ const ServiceWizard = () => {
 
 const Container = styled("div")({
   display: "flex",
-  flexDirection: "column",
+  background: "#FFFFFF",
+  width: "calc(100vw - 200px)",
+  height: "calc(100vh - 250px)",
+  borderRadius: 24,
+  margin: "auto",
+  padding: 32,
 });
 
 export default ServiceWizard;
