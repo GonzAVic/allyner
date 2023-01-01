@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Button } from "@mui/material";
+import { Button, Divider } from "@mui/material";
 
 // COMPONENTS
 import ServicePreview from "components/service/ServicePreview";
@@ -78,6 +78,7 @@ const NewService = () => {
           Booking
         </Button>
       </div>
+      <Divider sx={{ mb: 3, mt: 3 }} />
       <Container>
         <LeftSide>
           <Pedro>
@@ -100,17 +101,14 @@ const NewService = () => {
 };
 
 const Container = styled("div")({
-  marginTop: 16,
-  borderRadius: 12,
-  border: "1px solid #DCDFEA",
   display: "flex",
+  gap: 32,
   flex: 1,
   overflowY: "auto",
   overflowX: "hidden",
 });
 
 const LeftSide = styled("div")({
-  padding: 16,
   flex: 1,
   overflowY: "auto",
   overflowX: "hidden",
@@ -123,7 +121,6 @@ const Pedro = styled("div")({
 const RightSide = styled("div")({
   display: "flex",
   flex: 1,
-  borderLeft: "1px solid #DCDFEA",
 });
 
 export default NewService;

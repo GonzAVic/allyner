@@ -30,6 +30,10 @@ const theme = () => {
         fontSize: 20,
         fontWeight: 600,
       },
+      subtitle1: {
+        fontSize: 16,
+        fontWeight: 600,
+      },
       label: {
         fontSize: 16,
         fontWeight: 500,
@@ -80,10 +84,10 @@ const theme = () => {
         },
         variants: [
           {
-            props: { variant: "secondary" },
+            props: { variant: "dashed" },
             style: {
-              background: "#FCFCFD",
-              color: "#667085",
+              border: "1px dashed #B5BBC8",
+              color: "#73839D",
             },
           },
         ],
@@ -114,7 +118,18 @@ const theme = () => {
             color: "initial",
             background: "#FFFFFF",
             border: "1px solid #DCDFEA",
-            borderRadius: 8,
+            borderRadius: "8px !important",
+            padding: "12px 16px",
+
+            input: {
+              padding: 0,
+            },
+
+            "& .MuiSelect-select": {
+              paddingTop: 0,
+              paddingBottom: 0,
+              paddingLeft: 0,
+            },
           },
         },
       },
@@ -130,16 +145,6 @@ const theme = () => {
         },
         styleOverrides: {
           root: {
-            "& .MuiInputBase-root": {
-              // marginTop: 8,
-            },
-
-            "& input, .MuiSelect-select": {
-              padding: "10px 14px",
-              paddingTop: 8,
-              // color: evefColorConfig.palette.mediumBlue,
-            },
-
             "& fieldset": {
               border: "none",
             },

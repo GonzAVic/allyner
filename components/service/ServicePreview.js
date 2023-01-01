@@ -2,7 +2,10 @@ import Image from "next/image";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography, Button } from "@mui/material";
+import { Typography, Divider } from "@mui/material";
+
+// COMPONENTS
+import ServiceCard from "./ServiceCard";
 
 const ServicePreview = ({ previewData }) => {
   const { title, description, callToAction } = previewData;
@@ -13,8 +16,14 @@ const ServicePreview = ({ previewData }) => {
       : description;
   return (
     <Container>
-      <Typography variant="h3">Preview</Typography>
-      <CoverContainer>
+      <Typography variant="subtitle1" sx={{ ml: 4.125, mt: 1.5, mb: 1.5 }}>
+        Preview
+      </Typography>
+      <Divider />
+      <ServiceCardContainer>
+        <ServiceCard />
+      </ServiceCardContainer>
+      {/* <CoverContainer>
         <Image
           src={
             previewData.cover ||
@@ -34,14 +43,16 @@ const ServicePreview = ({ previewData }) => {
       <div
         className="content"
         dangerouslySetInnerHTML={{ __html: descriptionHtml }}
-      />
+      /> */}
     </Container>
   );
 };
 
 const Container = styled("div")({
-  background: "#F9F9FB",
-  padding: 32,
+  display: "flex",
+  flexDirection: "column",
+  background: "#FFFFFF",
+  borderRadius: 10,
   flex: 1,
 
   "& .content": {
@@ -49,21 +60,11 @@ const Container = styled("div")({
   },
 });
 
-const Header = styled("div")({
+const ServiceCardContainer = styled("div")({
   display: "flex",
-  justifyContent: "space-between",
-  alignItems: "flex-start",
-});
-
-const CoverContainer = styled("div")({
-  position: "relative",
-  width: "100%",
-  height: 257,
-  marginTop: 80,
-
-  img: {
-    borderRadius: 16,
-  },
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
 });
 
 export default ServicePreview;

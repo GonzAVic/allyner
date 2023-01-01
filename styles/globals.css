@@ -8,3 +8,24 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.service-cards-list-ctr {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.card {
+  padding: 24px;
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+
+.card .MuiTypography-subtitle1 {
+  color: #73839d;
+}
+
+.section-title {
+  margin-bottom: 16px;
+  color: #73839d;
+}

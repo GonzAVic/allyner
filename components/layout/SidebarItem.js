@@ -32,9 +32,11 @@ const Container = styled(Button)(({ isActive }) => ({
   justifyContent: "flex-start",
   fontWeight: 400,
   fontSize: 16,
-  color: "#73839D",
   marginTop: 4,
   marginBottom: 4,
+
+  color: isActive ? "#3C64C5" : "#73839D",
+  backgroundColor: isActive ? "rgba(114, 155, 255, 0.1)" : "initial",
 }));
 
 export default SidebarItem;

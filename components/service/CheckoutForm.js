@@ -8,10 +8,13 @@ import {
   FormControlLabel,
   Checkbox,
   Typography,
+  Box,
+  Button,
+  Chip,
 } from "@mui/material";
+import { styled } from "@mui/system";
 
 // COMPONENTS
-import Card from "components/Card";
 import useService from "utils/useService";
 import { UPDATE_SERVICE_CHECKOUT } from "graphql/apiql";
 
@@ -48,18 +51,39 @@ const CheckoutForm = ({ updateCta, serviceId }) => {
   });
 
   return (
-    <div>
-      <Card title="Order Details"></Card>
+    <Container>
+      <Typography className="section-title" variant="h6">
+        Other Details
+      </Typography>
+      <Box className="card">
+        <TextField placeholder="Enter status that will visible to your customer" />
+        <Chip label="Draft" />
+        <Chip label="In Progress" sx={{ ml: 1.5, mr: 1.5 }} />
+        <Chip label="Complete" />
+        <Typography
+          className="section-title"
+          variant="subtitle1"
+          sx={{ mt: 5 }}
+        >
+          Other Questions
+        </Typography>
+        <Button variant="dashed" fullWidth>
+          Add new question
+        </Button>
+      </Box>
 
-      <Card title="Order Confirmation Page">
+      <Typography className="section-title" variant="h6">
+        Other Details
+      </Typography>
+      <Box className="card">
+        <Typography variant="subtitle1">Custom Headline</Typography>
         <TextField
-          label="Custom Headline"
           name="checkoutTitle"
           value={formik.values.checkoutTitle}
           onChange={formik.handleChange}
         />
+        <Typography variant="subtitle1">Custom Message</Typography>
         <TextField
-          label="Custom Message"
           name="checkoutMessage"
           value={formik.values.checkoutMessage}
           onChange={formik.handleChange}
@@ -67,25 +91,36 @@ const CheckoutForm = ({ updateCta, serviceId }) => {
           maxRows={5}
           multiline
         />
-      </Card>
+      </Box>
 
-      <Card title="Checkout Options">
+      <Typography className="section-title" variant="h6">
+        Checkout Options
+      </Typography>
+      <Box className="card">
         <FormControlLabel control={<Checkbox />} label="Allow Gest Checkout" />
-      </Card>
+      </Box>
 
-      <Card title="Service Request Link">
-        <Typography variant="small" sx={{ mb: 2, mt: 2 }}>
-          You can copy and paste this link to share this service is booking from
-          with your customers
-        </Typography>
+      <Typography className="section-title" variant="h6">
+        Service URL
+      </Typography>
+      <Box className="card">
         <TextField
-          label="Custom Headline"
           value={"http://localhost:3000/services/new-service"}
           // onChange={formik.handleChange}
         />
-      </Card>
-    </div>
+        <Button size="small" sx={{ mr: 1 }}>
+          Copy URL
+        </Button>
+        <Button variant="outlined">Share</Button>
+      </Box>
+    </Container>
   );
 };
+
+const Container = styled("div")({
+  "& .card": {
+    marginBottom: 40,
+  },
+});
 
 export default CheckoutForm;

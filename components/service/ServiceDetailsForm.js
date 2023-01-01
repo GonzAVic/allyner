@@ -6,10 +6,15 @@ import { useMutation } from "@apollo/client";
 import { CREATE_SERVICE, UPDATE_SERVICE_DETAILS } from "graphql/apiql";
 
 // MATERIAL UI
-import { TextField, MenuItem, Box, InputAdornment } from "@mui/material";
+import {
+  TextField,
+  MenuItem,
+  Box,
+  InputAdornment,
+  Typography,
+} from "@mui/material";
 
 // COMPONENTS
-import Card from "components/Card";
 import Tiptap from "components/TipTap";
 import Uploader from "components/Uploader";
 import useService from "utils/useService";
@@ -69,7 +74,7 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
     const newService = createServiceHpr.data.createService;
 
     router.push({
-      pathname: `/b-dashboard/services/overview`,
+      pathname: `/app/services/overview`,
       query: { id: newService.id },
     });
   }, [createServiceHpr.data]);
@@ -84,26 +89,27 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Card title="Title">
+      <Typography className="section-title" variant="h6">
+        General Details
+      </Typography>
+      <Box className="card" sx={{ mb: 5 }}>
+        <Typography variant="subtitle1">Service name</Typography>
         <TextField
           name="title"
           value={formik.values.title}
           onChange={formik.handleChange}
         />
-      </Card>
 
-      <Card title="Description">
+        <Typography variant="subtitle1">Description</Typography>
         <Tiptap
           onUpdate={handleDescriptionChange}
           initialValue={service ? service.description : null}
         />
-      </Card>
 
-      <Card title="Avatar">
+        <Typography variant="subtitle1">Thumbnail</Typography>
         <Uploader onFilesUploaded={handleCoverChange} />
-      </Card>
 
-      <Card title="CTA">
+        <Typography variant="subtitle1">CTA</Typography>
         <TextField
           name="callToAction"
           value={formik.values.callToAction || "Book Now"}
@@ -116,11 +122,13 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
             </MenuItem>
           ))}
         </TextField>
-      </Card>
+      </Box>
 
-      <Card title="Pricing">
+      <Typography className="section-title" variant="h6">
+        Pricing
+      </Typography>
+      <Box className="card">
         <TextField
-          label="Pricing Type"
           name="pricing.type"
           value={formik.values.pricing.type}
           onChange={formik.handleChange}
@@ -135,7 +143,6 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
         {formik.values.pricing.type === "BY_TIME" && (
           <Box className="row-2" sx={{ alignItems: "flex-end" }}>
             <TextField
-              label="Duration"
               name="pricing.durationHours"
               value={formik.values.pricing.durationHours}
               onChange={formik.handleChange}
@@ -163,23 +170,13 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
         )}
         {formik.values.pricing.type !== "FREE" && (
           <TextField
-            label="Price"
             name="pricing.amount"
             value={formik.values.pricing.amount}
             onChange={formik.handleChange}
             type="number"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">$</InputAdornment>
-              ),
-              endAdornment:
-                formik.values.pricing.type === "BY_TIME" ? (
-                  <InputAdornment position="end">/ Hour</InputAdornment>
-                ) : null,
-            }}
           />
         )}
-      </Card>
+      </Box>
     </form>
   );
 };

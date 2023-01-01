@@ -36,7 +36,7 @@ const QuestionPreview = ({ previewData: question = {} }) => {
   const isMultiple = question.selectionType === "MULTIPLE";
   return (
     <Container>
-      <Typography variant="h3">Preview</Typography>
+      <Typography variant="subtitle1">Preview</Typography>
 
       <QuestionContainer>
         <Typography variant="h2">
