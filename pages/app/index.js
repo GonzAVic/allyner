@@ -11,7 +11,9 @@ import ServiceCard from "components/service/ServiceCard";
 export default function Index() {
   return (
     <DefaultLayout title="Good Evening Harman">
-      <Typography variant="h5">Your Services</Typography>
+      <Typography variant="h5" sx={{ mb: 3 }}>
+        Your Services
+      </Typography>
       <ServiceCard />
     </DefaultLayout>
   );
