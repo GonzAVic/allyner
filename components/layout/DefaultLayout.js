@@ -12,7 +12,6 @@ const DefaultLayout = ({ children, userType, title, secondaryText, cta }) => {
   if (cta) {
     if (cta.fn) ctaProps.onClick = cta.fn;
     if (cta.href) ctaProps.href = cta.href;
-    if (cta.href) ctaProps.href = cta.href;
     if (cta.withNoIcon) ctaProps.startIcon = null;
   }
 
