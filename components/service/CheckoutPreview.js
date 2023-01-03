@@ -1,9 +1,13 @@
-import React from 'react'
+// COMPONENTS
+import PreviewContainer from "components/PreviewContainer";
+import ServiceCheckout from "./ServiceCheckout";
 
 const CheckoutPreview = () => {
   return (
-    <div>CheckoutPreview</div>
-  )
-}
+    <PreviewContainer>
+      <ServiceCheckout />
+    </PreviewContainer>
+  );
+};
 
-export default CheckoutPreview
+export default CheckoutPreview;
