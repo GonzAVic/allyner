@@ -6,6 +6,12 @@ import { createTheme } from "@mui/material/styles";
 const theme = () => {
   const { palette } = createTheme({
     palette: {
+      primary: {
+        main: "#3C64C5",
+      },
+      error: {
+        main: "#C30000",
+      },
       text: {
         secondary: "#73839D",
       },
@@ -87,7 +93,7 @@ const theme = () => {
         styleOverrides: {
           root: {
             borderRadius: 12,
-            padding: "12px 16px",
+            padding: "8px 22px",
             textTransform: "capitalize",
           },
         },
@@ -100,6 +106,16 @@ const theme = () => {
             },
           },
         ],
+      },
+
+      MuiFormHelperText: {
+        styleOverrides: {
+          root: {
+            "&:first-letter": {
+              textTransform: "capitalize",
+            },
+          },
+        },
       },
 
       MuiSwitch: {
@@ -126,7 +142,7 @@ const theme = () => {
           root: {
             color: "initial",
             background: "#FFFFFF",
-            border: "1px solid #DCDFEA",
+            // border: "1px solid #DCDFEA",
             borderRadius: "8px !important",
             padding: "12px 16px",
 
@@ -149,24 +165,23 @@ const theme = () => {
           fullWidth: true,
           sx: { mb: 2 },
           InputLabelProps: {
-            shrink: true,
+            // shrink: true,
           },
         },
         styleOverrides: {
           root: {
-            "& fieldset": {
-              border: "none",
-            },
-
-            "& label": {
-              fontSize: 12,
-              fontWeight: 500,
-              display: "contents",
-              padding: 80,
-            },
-            "& legend": {
-              display: "none",
-            },
+            // "& fieldset": {
+            //   border: "none",
+            // },
+            // "& label": {
+            //   fontSize: 12,
+            //   fontWeight: 500,
+            //   display: "contents",
+            //   padding: 80,
+            // },
+            // "& legend": {
+            //   display: "none",
+            // },
           },
         },
       },

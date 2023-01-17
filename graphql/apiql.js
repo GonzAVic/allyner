@@ -22,45 +22,31 @@ export const GET_SERVICES = gql`
   }
 `;
 
-export const GET_SERVICE = gql`
-  ${SERVICE_FRAGMENT}
-  query ($serviceId: ID!) {
-    getService(serviceId: $serviceId) {
-      ...ServiceFields
-
-      pricing {
-        id
-        type
-        durationHours
-        durationMinutes
-        amount
-        isOriginal
-      }
-
-      questionnaire {
-        id
-        type
-        sentence
-        description
-        withDescription
-        options
-        isMultiple
-        isRequired
-      }
-
-      checkoutTitle
-      checkoutMessage
-      isGuestCheckoutEnabled
+export const FIND_SERVICE = gql`
+  query ($id: Int!) {
+    findService(id: $id) {
+      businessId
+      createdAt
+      description
+      id
+      name
+      updatedAt
     }
   }
 `;
 
 // MUTATIONS
 export const CREATE_SERVICE = gql`
-  ${SERVICE_FRAGMENT}
-  mutation ($input: ServiceInput) {
+  mutation ($input: CreateServiceInput!) {
     createService(input: $input) {
-      ...ServiceFields
+      service {
+        businessId
+        createdAt
+        description
+        id
+        name
+        updatedAt
+      }
     }
   }
 `;
@@ -74,11 +60,17 @@ export const UPDATE_QUESTIONNAIRE = gql`
   }
 `;
 
-export const UPDATE_SERVICE_DETAILS = gql`
-  ${SERVICE_FRAGMENT}
-  mutation ($input: ServiceInput, $serviceId: ID!) {
-    updateServiceDetails(input: $input, serviceId: $serviceId) {
-      ...ServiceFields
+export const UPDATE_SERVICE = gql`
+  mutation ($input: UpdateServiceInput!) {
+    updateService(input: $input) {
+      service {
+        businessId
+        createdAt
+        description
+        id
+        name
+        updatedAt
+      }
     }
   }
 `;

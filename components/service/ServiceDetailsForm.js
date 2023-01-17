@@ -3,16 +3,10 @@ import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { useMutation } from "@apollo/client";
 
-import { CREATE_SERVICE, UPDATE_SERVICE_DETAILS } from "graphql/apiql";
+import { CREATE_SERVICE, UPDATE_SERVICE } from "graphql/apiql";
 
 // MATERIAL UI
-import {
-  TextField,
-  MenuItem,
-  Box,
-  InputAdornment,
-  Typography,
-} from "@mui/material";
+import { TextField, MenuItem, Box, Typography } from "@mui/material";
 
 // COMPONENTS
 import Tiptap from "components/TipTap";
@@ -22,27 +16,26 @@ import useService from "utils/useService";
 const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
   const router = useRouter();
   const { service } = useService(router.query.id);
+  console.log("-> service: ", service);
 
   const [createServiceFn, createServiceHpr] = useMutation(CREATE_SERVICE);
-  const [updateServiceDetailsFn, updateServiceDetailsHpr] = useMutation(
-    UPDATE_SERVICE_DETAILS
-  );
+  const [updateServiceFn, updateServiceHpr] = useMutation(UPDATE_SERVICE);
 
   const isNewService = router.query.id === "new";
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: service ? service.title : "",
+      name: service ? service.name : "",
       description: service ? service.description : "",
       cover: service ? service.cover : "",
       callToAction: service ? service.callToAction : "",
 
       pricing: {
-        type: service ? service.pricing.type : "FIXED",
-        durationHours: service ? service.pricing.durationHours : 1,
-        durationMinutes: service ? service.pricing.durationMinutes : 0,
-        amount: service ? service.pricing.amount : 50,
+        type: "FIXED",
+        durationHours: 1,
+        durationMinutes: 0,
+        amount: 50,
       },
     },
     // validationSchema: createLoginSchema(),
@@ -50,11 +43,27 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
       if (isNewService)
         createServiceFn({
           variables: {
-            input: values,
+            input: {
+              attributes: {
+                name: values.name,
+                description: values.description,
+                businessId: 1,
+              },
+            },
           },
         });
       else {
-        updateServiceDetailsFn({ variables: { input: values, serviceId } });
+        updateServiceFn({
+          variables: {
+            input: {
+              id: service.id,
+              attributes: {
+                name: values.name,
+                businessId: service.businessId,
+              },
+            },
+          },
+        });
       }
     },
   });
@@ -71,7 +80,7 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
   useEffect(() => {
     if (!createServiceHpr.called) return;
     if (!createServiceHpr.data) return;
-    const newService = createServiceHpr.data.createService;
+    const newService = createServiceHpr.data.createService.service;
 
     router.push({
       pathname: `/app/services/overview`,
@@ -95,8 +104,8 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
       <Box className="card" sx={{ mb: 5 }}>
         <Typography variant="subtitle1">Service name</Typography>
         <TextField
-          name="title"
-          value={formik.values.title}
+          name="name"
+          value={formik.values.name}
           onChange={formik.handleChange}
         />
 

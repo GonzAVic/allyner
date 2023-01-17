@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useMutation, useLazyQuery } from "@apollo/client";
 
-import { GET_SERVICE } from "graphql/apiql";
+import { FIND_SERVICE } from "graphql/apiql";
 
 const useService = (serviceId) => {
-  const [getServiceFn, getServiceFnHelper] = useLazyQuery(GET_SERVICE);
+  const [getServiceFn, getServiceFnHelper] = useLazyQuery(FIND_SERVICE);
 
   const [service, setService] = useState(null);
 
@@ -13,16 +13,17 @@ const useService = (serviceId) => {
 
     getServiceFn({
       variables: {
-        serviceId: serviceId,
+        id: Number(serviceId),
       },
     });
   }, [serviceId]);
 
   useEffect(() => {
+    console.log("-> getServiceFnHelper: ", getServiceFnHelper);
     if (!getServiceFnHelper.called) return;
     if (!getServiceFnHelper.data) return;
 
-    setService(getServiceFnHelper.data.getService);
+    setService(getServiceFnHelper.data.findService);
   }, [getServiceFnHelper]);
 
   return {

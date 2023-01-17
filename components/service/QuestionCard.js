@@ -18,10 +18,9 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
 
 // COMPONENTS
-import Card from "components/Card";
-import PropertyControl from "components/PropertyControl";
 import Uploader from "components/Uploader";
 import { questionTypes } from "utils/constants";
 
@@ -46,6 +45,16 @@ const QuestionCard = ({
     ]);
   };
 
+  const handleRemoveOption = (optionIndex) => {
+    let options_ = [...question.options];
+
+    options_ = options_.filter((o, index) => {
+      return index !== optionIndex;
+    });
+
+    formik.setFieldValue(`questions[${index}].options`, options_);
+  };
+
   const activeQuestion = () => {
     setActiveQuestion(index);
   };
@@ -67,7 +76,7 @@ const QuestionCard = ({
 
   return (
     <Box className="card" sx={{ mb: 1.5 }}>
-      <TextField
+      <QuestionTypeTitle
         value={question.type}
         onChange={(event) => updateQuestionAttr("type", event.target.value)}
         sx={{ mb: 1, width: "fit-content" }}
@@ -79,7 +88,7 @@ const QuestionCard = ({
             {option.label}
           </MenuItem>
         ))}
-      </TextField>
+      </QuestionTypeTitle>
 
       <TextField
         name="sentence"
@@ -144,22 +153,29 @@ const QuestionCard = ({
           </Box>
           {question.options.map((op, i) => {
             return (
-              <TextField
-                key={i}
-                name={`questions[${index}].options[${i}]`}
-                value={question.options[i]}
-                onChange={(event) =>
-                  updateQuestionAttr(`options[${i}]`, event.target.value)
-                }
-                onFocus={activeQuestion}
-              />
+              <Box className="space-between-centered" sx={{ gap: 2, mb: 2 }}>
+                <TextField
+                  key={i}
+                  name={`questions[${index}].options[${i}]`}
+                  value={question.options[i]}
+                  onChange={(event) =>
+                    updateQuestionAttr(`options[${i}]`, event.target.value)
+                  }
+                  onFocus={activeQuestion}
+                  sx={{ mb: 0 }}
+                />
+                <IconButton onClick={() => handleRemoveOption(i)}>
+                  <CloseIcon />
+                </IconButton>
+              </Box>
             );
           })}
           <Button
-            variant="text"
+            variant="dashed"
             size="small"
             onClick={handleAddOption}
             startIcon={<AddIcon />}
+            fullWidth
           >
             Add new option
           </Button>
@@ -238,6 +254,15 @@ const ActionsContainer = styled("div")({
   alignItems: "center",
   justifyContent: "space-between",
   marginTop: 24,
+});
+
+const QuestionTypeTitle = styled(TextField)({
+  "& *": {
+    color: "#B5BBC8",
+  },
+  "& fieldset": {
+    border: "none",
+  },
 });
 
 const SELECTION_TYPE = [

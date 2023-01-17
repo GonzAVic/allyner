@@ -11,10 +11,8 @@ const defaultOptions = {
   },
 };
 
-const host = process.env.NEXT_PUBLIC_HOST;
-
 const client = new ApolloClient({
-  uri: `${host}/api/graphql`,
+  uri: `https://allyner-api-dev.herokuapp.com/graphql`,
   cache: new InMemoryCache(),
   defaultOptions,
 });
