@@ -25,7 +25,8 @@ const ServiceQuestionnaire = ({ updatePreviewData, updateCta, serviceId }) => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      questions: service ? service.questionnaire : [],
+      // questions: service ? service.questionnaire : [],
+      questions: [],
     },
     onSubmit: (values) => {
       const dataReq = values.questions.map((q) => {

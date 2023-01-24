@@ -19,7 +19,6 @@ const useService = (serviceId) => {
   }, [serviceId]);
 
   useEffect(() => {
-    console.log("-> getServiceFnHelper: ", getServiceFnHelper);
     if (!getServiceFnHelper.called) return;
     if (!getServiceFnHelper.data) return;
 

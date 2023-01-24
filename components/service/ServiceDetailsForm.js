@@ -13,10 +13,13 @@ import Tiptap from "components/TipTap";
 import Uploader from "components/Uploader";
 import useService from "utils/useService";
 
-const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
+const ServiceDetailsForm = ({
+  updatePreviewData,
+  updateDiffBanner,
+  serviceId,
+}) => {
   const router = useRouter();
   const { service } = useService(router.query.id);
-  console.log("-> service: ", service);
 
   const [createServiceFn, createServiceHpr] = useMutation(CREATE_SERVICE);
   const [updateServiceFn, updateServiceHpr] = useMutation(UPDATE_SERVICE);
@@ -29,26 +32,41 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
       name: service ? service.name : "",
       description: service ? service.description : "",
       cover: service ? service.cover : "",
-      callToAction: service ? service.callToAction : "",
-
-      pricing: {
-        type: "FIXED",
-        durationHours: 1,
-        durationMinutes: 0,
-        amount: 50,
-      },
+      callToAction:
+        service && service.callToAction ? service.callToAction : "Book Now",
+      pricingType:
+        service && service.pricingType ? service.pricingType : "FREE",
+      durationHours:
+        service && service.pricingDuration ? service.pricingDuration % 60 : 1,
+      durationMinutes:
+        service && service.pricingDuration
+          ? ((service.pricingDuration / 60) % 1) * 60
+          : 15,
+      pricingAmount:
+        service && service.pricingAmount ? service.pricingAmount : 50,
+      status: service && service.status ? service.status : "DRAFT",
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
+      const pricingDuration =
+        values.durationHours * 60 + values.durationMinutes;
+      const attributes = {
+        name: values.name,
+        description: values.description,
+        businessId: 1,
+        pricingDuration,
+        pricingAmount: values.pricingAmount,
+        // pricingType: values.pricingType,
+        callToAction: values.callToAction,
+        cover: "",
+        status: values.status,
+      };
+      console.log("-> attributes: ", attributes);
       if (isNewService)
         createServiceFn({
           variables: {
             input: {
-              attributes: {
-                name: values.name,
-                description: values.description,
-                businessId: 1,
-              },
+              attributes,
             },
           },
         });
@@ -57,10 +75,7 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
           variables: {
             input: {
               id: service.id,
-              attributes: {
-                name: values.name,
-                businessId: service.businessId,
-              },
+              attributes,
             },
           },
         });
@@ -70,10 +85,16 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
 
   useEffect(() => {
     updatePreviewData(formik.values);
-    updateCta({
-      fn: () => {
-        formik.submitForm();
+    const initialValuesString = JSON.stringify(formik.initialValues);
+    const currentValuesString = JSON.stringify(formik.values);
+    const areCurrentAndInitialValuesEqual =
+      initialValuesString === currentValuesString;
+    updateDiffBanner({
+      onSave: () => formik.submitForm(),
+      onDiscard: () => {
+        formik.handleReset();
       },
+      isVisible: !areCurrentAndInitialValuesEqual,
     });
   }, [formik.values]);
 
@@ -98,7 +119,7 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Typography className="section-title" variant="h6">
+      <Typography className="section-title" variant="subtitle1">
         General Details
       </Typography>
       <Box className="card" sx={{ mb: 5 }}>
@@ -134,12 +155,30 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
       </Box>
 
       <Typography className="section-title" variant="h6">
+        Status
+      </Typography>
+      <Box className="card" sx={{ mb: 5 }}>
+        <TextField
+          name="status"
+          value={formik.values.status}
+          onChange={formik.handleChange}
+          select
+        >
+          {STATUS.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Box>
+
+      <Typography className="section-title" variant="h6">
         Pricing
       </Typography>
-      <Box className="card">
+      <Box className="card" sx={{ mb: 5 }}>
         <TextField
-          name="pricing.type"
-          value={formik.values.pricing.type}
+          name="pricingType"
+          value={formik.values.pricingType}
           onChange={formik.handleChange}
           select
         >
@@ -149,11 +188,11 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
             </MenuItem>
           ))}
         </TextField>
-        {formik.values.pricing.type === "BY_TIME" && (
-          <Box className="row-2" sx={{ alignItems: "flex-end" }}>
+        {formik.values.pricingType === "BY_TIME" && (
+          <Box className="row-2" sx={{ alignItems: "flex-end", mt: 2 }}>
             <TextField
-              name="pricing.durationHours"
-              value={formik.values.pricing.durationHours}
+              name="durationHours"
+              value={formik.values.durationHours}
               onChange={formik.handleChange}
               select
             >
@@ -164,8 +203,8 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
               ))}
             </TextField>
             <TextField
-              name="pricing.durationMinutes"
-              value={formik.values.pricing.durationMinutes}
+              name="durationMinutes"
+              value={formik.values.durationMinutes}
               onChange={formik.handleChange}
               select
             >
@@ -177,14 +216,25 @@ const ServiceDetailsForm = ({ updatePreviewData, updateCta, serviceId }) => {
             </TextField>
           </Box>
         )}
-        {formik.values.pricing.type !== "FREE" && (
+        {formik.values.pricingType !== "FREE" && (
           <TextField
-            name="pricing.amount"
-            value={formik.values.pricing.amount}
+            name="pricingAmount"
+            value={formik.values.pricingAmount}
             onChange={formik.handleChange}
             type="number"
+            sx={{ mt: 2 }}
           />
         )}
+      </Box>
+
+      <Typography className="section-title" variant="h6">
+        Service URL
+      </Typography>
+      <Box className="card">
+        <TextField
+          name="serviceUrl"
+          value="https://allyner.com/service/dsfjsaaw8213-23182/services1"
+        />
       </Box>
     </form>
   );
@@ -238,6 +288,46 @@ const PRICE_DURATION_HOURS = [
     value: 8,
     label: "8 Hours",
   },
+  {
+    value: 9,
+    label: "9 Hours",
+  },
+  {
+    value: 10,
+    label: "10 Hours",
+  },
+  {
+    value: 11,
+    label: "11 Hours",
+  },
+  {
+    value: 12,
+    label: "12 Hours",
+  },
+  {
+    value: 13,
+    label: "13 Hours",
+  },
+  {
+    value: 14,
+    label: "14 Hours",
+  },
+  {
+    value: 15,
+    label: "15 Hours",
+  },
+  {
+    value: 16,
+    label: "16 Hours",
+  },
+  {
+    value: 17,
+    label: "17 Hours",
+  },
+  {
+    value: 18,
+    label: "18 Hours",
+  },
 ];
 
 const PRICE_DURATION_MINUTES = [
@@ -256,6 +346,21 @@ const PRICE_DURATION_MINUTES = [
   {
     value: 45,
     label: "45 Minutes",
+  },
+];
+
+const STATUS = [
+  {
+    value: "DRAFT",
+    label: "Draft",
+  },
+  {
+    value: "IN_PROGRESS",
+    label: "In Progress",
+  },
+  {
+    value: "COMPLETE",
+    label: "Complete",
   },
 ];
 

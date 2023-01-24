@@ -21,8 +21,16 @@
   background-color: #ffffff;
 }
 
+.card .MuiTypography-subtitle1:first-of-type {
+  margin-top: 0;
+}
 .card .MuiTypography-subtitle1 {
   color: #73839d;
+  margin-top: 32px;
+}
+
+.card .MuiFormControl-root {
+  margin-bottom: 0;
 }
 
 .section-title {

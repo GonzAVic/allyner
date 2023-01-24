@@ -105,6 +105,20 @@ const theme = () => {
               color: "#73839D",
             },
           },
+          {
+            props: { variant: "tab" },
+            style: {
+              background: "#FFFFFF",
+              color: "#73839D",
+            },
+          },
+          {
+            props: { variant: "tab-active" },
+            style: {
+              background: "rgba(0, 71, 255, 0.1)",
+              color: "#3C64C5",
+            },
+          },
         ],
       },
 

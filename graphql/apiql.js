@@ -31,6 +31,11 @@ export const FIND_SERVICE = gql`
       id
       name
       updatedAt
+      callToAction
+      pricingAmount
+      pricingDuration
+      pricingType
+      status
     }
   }
 `;
@@ -70,6 +75,10 @@ export const UPDATE_SERVICE = gql`
         id
         name
         updatedAt
+        callToAction
+        pricingAmount
+        pricingDuration
+        status
       }
     }
   }

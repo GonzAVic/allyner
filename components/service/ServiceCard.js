@@ -27,7 +27,7 @@ const ServiceCard = ({ service = {} }) => {
   };
 
   const handleEdit = () => {
-    router.push({ pathname: "/app/services/overview", query: { id: 3 } });
+    router.push({ pathname: "/app/services/overview", query: { id: 2 } });
   };
 
   return (

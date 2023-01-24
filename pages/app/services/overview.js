@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 // MATERIAL UI
 import { styled } from "@mui/system";
 import { Button, Divider } from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
 
 // COMPONENTS
 import ServicePreview from "components/service/ServicePreview";
@@ -37,7 +38,7 @@ const NewService = () => {
 
   const [previewData, setPreviewData] = useState({});
   const [currentStep, setCurrentStep] = useState("details");
-  const [ctaData, setCtaData] = useState({});
+  const [diffBannerData, setDiffBannerData] = useState({}); // { onSave, onDiscard, isVisible }
 
   const isNewService = router.query.id === "new";
 
@@ -45,37 +46,34 @@ const NewService = () => {
     setPreviewData(data);
   };
 
-  const updateCta = (newData) => {
-    setCtaData(newData);
+  const updateDiffBanner = (newData) => {
+    setDiffBannerData(newData);
   };
 
   return (
     <DefaultLayout
       title={"Service name"}
-      cta={{
-        text: isNewService ? "Create" : "save",
-        withNoIcon: true,
-        ...ctaData,
+      diffBanner={{
+        onDiscard: diffBannerData.onDiscard,
+        onSave: diffBannerData.onSave,
+        isVisible: diffBannerData.isVisible,
       }}
     >
       <div>
-        <Button variant="secondary" onClick={() => setCurrentStep("details")}>
+        <Button
+          variant={`tab${currentStep === "details" ? "-active" : ""}`}
+          onClick={() => setCurrentStep("details")}
+          startIcon={<CheckIcon />}
+        >
           Details
         </Button>
         <Button
-          variant="secondary"
+          variant={`tab${currentStep === "questionnaire" ? "-active" : ""}`}
           onClick={() => setCurrentStep("questionnaire")}
           sx={{ ml: 2, mr: 2 }}
           disabled={isNewService}
         >
           In Take Quesitons
-        </Button>
-        <Button
-          variant="secondary"
-          onClick={() => setCurrentStep("checkout")}
-          disabled={isNewService}
-        >
-          Booking
         </Button>
       </div>
       <Divider sx={{ mb: 3, mt: 3 }} />
@@ -84,7 +82,7 @@ const NewService = () => {
           <Pedro>
             {React.cloneElement(displayStep(currentStep).form, {
               updatePreviewData,
-              updateCta,
+              updateDiffBanner,
               serviceId: router.query.id,
             })}
           </Pedro>

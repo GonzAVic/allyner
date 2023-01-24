@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 
@@ -45,6 +46,10 @@ const Tiptap = ({ onUpdate, initialValue }) => {
     extensions: [StarterKit],
     content: initialValue || "<p></p>",
   });
+
+  useEffect(() => {
+    if (editor) editor.commands.setContent(initialValue);
+  }, [initialValue]);
 
   if (editor) {
     editor.on("update", ({ editor }) => {
