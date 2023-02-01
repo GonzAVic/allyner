@@ -13,10 +13,7 @@ import ServiceCard from "components/service/ServiceCard";
 
 export default function Index() {
   return (
-    <DefaultLayout
-      title="Good Evening Harman"
-      cta={{ text: "Add new service" }}
-    >
+    <DefaultLayout title="Good Evening Harman">
       <div className="service-cards-list-ctr">
         <HomeCard
           label="Total Session"

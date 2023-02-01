@@ -14,7 +14,7 @@ Default.args = {
   question: {
     type: "short text",
     sentence: "What problem you are trying to solve?",
-    withDescription: false,
+    isDescriptionActive: false,
     isRequired: false,
   },
 };

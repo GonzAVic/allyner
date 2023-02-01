@@ -5,6 +5,13 @@ import * as yup from "yup";
 import { styled } from "@mui/system";
 import { Typography, TextField, Button, Alert } from "@mui/material";
 
+// OTHER
+import Asset1 from "assets/asset-1.svg";
+import Asset2 from "assets/asset-2.svg";
+import Asset3 from "assets/asset-3.svg";
+import Asset4 from "assets/asset-4.svg";
+import AllynerLogo from "assets/allyner-logo.svg";
+
 const BusinessSignin = () => {
   const formik = useFormik({
     validateOnChange: false,
@@ -20,6 +27,12 @@ const BusinessSignin = () => {
 
   return (
     <Container onSubmit={formik.handleSubmit}>
+      <Asset sx={{ top: -130, left: -40 }} src={Asset1.src} />
+      <Asset sx={{ top: -80, right: -40 }} src={Asset2.src} />
+      <Asset sx={{ bottom: -130, left: -40 }} src={Asset3.src} />
+      <Asset sx={{ bottom: -130, right: -40 }} src={Asset4.src} />
+
+      <img className="logo" src={AllynerLogo.src} />
       <Typography variant="h4" sx={{ mt: 4, textAlign: "center" }}>
         Hi. Wlecome ✋
       </Typography>
@@ -67,7 +80,16 @@ const Container = styled("form")({
   width: "calc(100vw - 40px)",
   maxWidth: 360,
   margin: "auto",
-  marginTop: 175,
+  marginTop: 100,
+
+  ".logo": {
+    margin: "auto",
+    display: "block",
+  },
+});
+
+const Asset = styled("img")({
+  position: "absolute",
 });
 
 export default BusinessSignin;

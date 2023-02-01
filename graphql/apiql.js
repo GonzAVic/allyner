@@ -36,6 +36,7 @@ export const FIND_SERVICE = gql`
       pricingDuration
       pricingType
       status
+      cover
     }
   }
 `;
@@ -52,15 +53,6 @@ export const CREATE_SERVICE = gql`
         name
         updatedAt
       }
-    }
-  }
-`;
-
-export const UPDATE_QUESTIONNAIRE = gql`
-  ${SERVICE_FRAGMENT}
-  mutation ($input: [QuestionInput], $serviceId: ID!) {
-    updateQuestionnaire(input: $input, serviceId: $serviceId) {
-      ...ServiceFields
     }
   }
 `;
@@ -84,11 +76,20 @@ export const UPDATE_SERVICE = gql`
   }
 `;
 
-export const UPDATE_SERVICE_CHECKOUT = gql`
-  ${SERVICE_FRAGMENT}
-  mutation ($input: ServiceCheckoutInput, $serviceId: ID!) {
-    updateServiceCheckout(input: $input, serviceId: $serviceId) {
-      ...ServiceFields
+export const CREATE_QUESTION = gql`
+  mutation ($input: CreateQuestionInput!) {
+    createQuestion(input: $input) {
+      question {
+        businessId
+        createdAt
+        description
+        id
+        isDescriptionActive
+        isRequired
+        questionType
+        title
+        updatedAt
+      }
     }
   }
 `;

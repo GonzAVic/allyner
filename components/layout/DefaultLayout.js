@@ -21,7 +21,7 @@ const DefaultLayout = ({
     if (cta.href) ctaProps.href = cta.href;
     if (cta.withNoIcon) ctaProps.startIcon = null;
   }
-  
+
   return (
     <Container>
       {userType === "client" ? <ClientSidebar /> : <BusinessSidebar />}
@@ -60,6 +60,7 @@ const Content = styled("div")({
   display: "flex",
   flexDirection: "column",
   flex: 1,
+  height: "80%",
 });
 
 const ContentTop = styled("div")({
@@ -87,9 +88,8 @@ const NavigationBar = styled("div")({
   display: "flex",
   justifyContent: "flex-end",
   alignItems: "center",
-  height: 74,
   background: "#FFFFFF",
-  padding: "0 32px",
+  padding: "16px 32px",
 });
 
 const DiffBanner = ({ diffBanner }) => {
@@ -115,9 +115,8 @@ const DiffBannerContainer = styled("div")({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  height: 74,
   background: "rgba(114, 155, 255, 0.16)",
-  padding: "0 32px",
+  padding: "16px 32px",
 });
 
 export default DefaultLayout;

@@ -13,7 +13,7 @@ export const serviceAdapter = (data) => {
   if (data.isMultiple !== undefined) serviceParsed.isMultiple = data.isMultiple;
   if (data.isRequired !== undefined) serviceParsed.isRequired = data.isRequired;
 
-  serviceParsed.withDescription = data.withDescription;
+  serviceParsed.isDescriptionActive = data.isDescriptionActive;
 
   return serviceParsed;
 };

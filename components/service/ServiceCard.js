@@ -3,16 +3,25 @@ import { useRouter } from "next/router";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography, IconButton, Chip, Menu, MenuItem } from "@mui/material";
+import {
+  Typography,
+  IconButton,
+  Chip,
+  Menu,
+  MenuItem,
+  Box,
+} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+
+// OTHER
+import NoThumbnail from "assets/no-thumbnail.png";
 
 const ServiceCard = ({ service = {} }) => {
   const router = useRouter();
 
-  const {
-    title = "Service Untitled",
-    description = "Service description goes here...",
-  } = service;
+  const name = service.name || "Service Untitled";
+  const description = service.description || "Service description goes here...";
+  const cover = service.cover || NoThumbnail.src;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -34,15 +43,18 @@ const ServiceCard = ({ service = {} }) => {
     <Container>
       <img
         className="cover"
-        src={"https://images.unsplash.com/photo-1661956601030-fdfb9c7e9e2f"}
+        src={cover}
         alt="Picture of the author"
+        sx={{ height: 200 }}
       />
       <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
-        {title}
+        {name}
       </Typography>
-      <Typography className="description" sx={{ color: "#73839D" }}>
-        {description}
-      </Typography>
+      <Box
+        className="description"
+        sx={{ color: "#73839D" }}
+        dangerouslySetInnerHTML={{ __html: description }}
+      />
       <BottomContainer>
         <Typography variant="h5">$58/hr</Typography>
         <div>
@@ -79,6 +91,7 @@ const Container = styled("div")({
   borderRadius: 16,
   background: "#FFFFFF",
   width: 354,
+  height: 484,
   border: "1px solid #EFF1F5",
 
   "& .cover": {

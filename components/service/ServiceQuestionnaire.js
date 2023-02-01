@@ -4,18 +4,20 @@ import { useMutation } from "@apollo/client";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Button, Menu, MenuItem } from "@mui/material";
+import { Button, Menu, MenuItem, Typography } from "@mui/material";
 
 // COMPONENTS
 import QuestionCard from "./QuestionCard";
-import { UPDATE_QUESTIONNAIRE } from "graphql/apiql";
-import { serviceAdapter } from "utils/adapters";
+import { CREATE_QUESTION } from "graphql/apiql";
 import useService from "utils/useService";
 import { questionTypes } from "utils/constants";
 
-const ServiceQuestionnaire = ({ updatePreviewData, updateCta, serviceId }) => {
-  const [updateQuestionnaireFn, updateQuestionnaireHpr] =
-    useMutation(UPDATE_QUESTIONNAIRE);
+const ServiceQuestionnaire = ({
+  updatePreviewData,
+  serviceId,
+  updateDiffBanner,
+}) => {
+  const [createQuestionFn, createQuestionHpr] = useMutation(CREATE_QUESTION);
 
   const { service } = useService(serviceId);
 
@@ -29,14 +31,22 @@ const ServiceQuestionnaire = ({ updatePreviewData, updateCta, serviceId }) => {
       questions: [],
     },
     onSubmit: (values) => {
-      const dataReq = values.questions.map((q) => {
-        return serviceAdapter({
-          ...q,
-          isMultiple: q.selectionType !== "SINGLE",
+      console.log("-> values: ", values);
+      values.questions.forEach((q) => {
+        const attributes = {
+          businessId: 1,
+          title: q.title,
+          description: q.description,
+          isRequired: q.isRequired,
+          isDescriptionActive: q.isDescriptionActive,
+        };
+        createQuestionFn({
+          variables: {
+            input: {
+              attributes,
+            },
+          },
         });
-      });
-      updateQuestionnaireFn({
-        variables: { input: dataReq, serviceId },
       });
     },
   });
@@ -48,12 +58,22 @@ const ServiceQuestionnaire = ({ updatePreviewData, updateCta, serviceId }) => {
   }, [formik.values, activeQuestion]);
 
   useEffect(() => {
-    updateCta({
-      fn: () => {
-        formik.submitForm();
+    const initialValuesString = JSON.stringify(formik.initialValues);
+    const currentValuesString = JSON.stringify(formik.values);
+    const areCurrentAndInitialValuesEqual =
+      initialValuesString === currentValuesString;
+    console.log(
+      "-> areCurrentAndInitialValuesEqual: ",
+      areCurrentAndInitialValuesEqual
+    );
+    updateDiffBanner({
+      onSave: () => formik.submitForm(),
+      onDiscard: () => {
+        formik.handleReset();
       },
+      isVisible: !areCurrentAndInitialValuesEqual,
     });
-  }, []);
+  }, [formik.values]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -67,9 +87,9 @@ const ServiceQuestionnaire = ({ updatePreviewData, updateCta, serviceId }) => {
     arrayHelpers.push({
       id: "new",
       type: type,
-      sentence: "",
+      title: "",
       selectionType: "SINGLE",
-      withDescription: false,
+      isDescriptionActive: false,
       description: "",
       options: [],
       isRequired: false,
@@ -82,6 +102,9 @@ const ServiceQuestionnaire = ({ updatePreviewData, updateCta, serviceId }) => {
   return (
     <FormikProvider value={formik}>
       <form onSubmit={formik.handleSubmit}>
+        <Typography className="section-title" variant="subtitle1">
+          Questions
+        </Typography>
         <FieldArray
           name="questions"
           render={(arrayHelpers) => {
@@ -101,7 +124,7 @@ const ServiceQuestionnaire = ({ updatePreviewData, updateCta, serviceId }) => {
                     />
                   );
                 })}
-                <Button onClick={handleClick} fullWidth>
+                <Button variant="dashed" onClick={handleClick} fullWidth>
                   Add New Question
                 </Button>
                 <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>

@@ -91,14 +91,15 @@ const QuestionCard = ({
       </QuestionTypeTitle>
 
       <TextField
-        name="sentence"
-        value={question.sentence}
-        onChange={(event) => updateQuestionAttr("sentence", event.target.value)}
+        name="title"
+        value={question.title}
+        onChange={(event) => updateQuestionAttr("title", event.target.value)}
         onFocus={activeQuestion}
+        sx={{ mb: "16px !important" }}
       />
-      {question.withDescription && (
+      {question.isDescriptionActive && (
         <TextField
-          sx={{ mb: 3 }}
+          sx={{ mb: "16px !important" }}
           name="description"
           value={question.description}
           onChange={(event) =>
@@ -228,14 +229,14 @@ const QuestionCard = ({
             <MenuItem
               onClick={() => {
                 updateQuestionAttr(
-                  "withDescription",
-                  !question.withDescription
+                  "isDescriptionActive",
+                  !question.isDescriptionActive
                 );
                 closeMenu();
               }}
               onFocus={activeQuestion}
             >
-              <Checkbox checked={question.withDescription} />
+              <Checkbox checked={question.isDescriptionActive} />
               <Typography>Show Description</Typography>
             </MenuItem>
           </Menu>

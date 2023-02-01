@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
+import { Box } from "@mui/material";
 
 // COMPONENTS
 import Question from "components/service/Question";
@@ -14,25 +15,27 @@ const ServiceWizard = () => {
     sentence: "Lorem ipsum title",
     description: "Lorem ipsum description",
     type: "MULTIPLE",
-    withDescription: true,
+    isDescriptionActive: true,
     isRequired: true,
     options: ["option 1", "option 2"],
   };
 
   return (
-    <LayoutOne>
-      <Container>
-        <Question question={question} />
-      </Container>
-    </LayoutOne>
+    <Box sx={{ height: "75vh", flex: 1, display: "flex" }}>
+      <LayoutOne>
+        <Container>
+          <Question question={question} number={1} />
+        </Container>
+      </LayoutOne>
+    </Box>
   );
 };
 
 const Container = styled("div")({
   display: "flex",
+  flex: 1,
+  alignItems: "center",
   background: "#FFFFFF",
-  width: "calc(100vw - 200px)",
-  height: "calc(100vh - 250px)",
   borderRadius: 24,
   margin: "auto",
   padding: 32,

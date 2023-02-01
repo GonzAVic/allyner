@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Button, Divider } from "@mui/material";
+import { Button, Divider, Box } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 
 // COMPONENTS
@@ -79,13 +79,11 @@ const NewService = () => {
       <Divider sx={{ mb: 3, mt: 3 }} />
       <Container>
         <LeftSide>
-          <Pedro>
-            {React.cloneElement(displayStep(currentStep).form, {
-              updatePreviewData,
-              updateDiffBanner,
-              serviceId: router.query.id,
-            })}
-          </Pedro>
+          {React.cloneElement(displayStep(currentStep).form, {
+            updatePreviewData,
+            updateDiffBanner,
+            serviceId: router.query.id,
+          })}
         </LeftSide>
 
         <RightSide>

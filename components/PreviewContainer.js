@@ -7,7 +7,7 @@ const PreviewContainer = ({ children }) => {
   return (
     <Container>
       <Typography
-      className="section-title"
+        className="section-title"
         variant="subtitle1"
         color="text.secondary"
         sx={{ display: "flex", alignItems: "center" }}
@@ -31,9 +31,8 @@ const Content = styled("div")({
   borderRadius: 10,
   background: "#FFFFFF",
   display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
   flex: 1,
+  overflow: "hidden",
 });
 
 export default PreviewContainer;

@@ -1,6 +1,6 @@
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Button } from "@mui/material";
 
 // COMPONENTS
 import ResponseShortText from "./ResponseShortText";
@@ -40,8 +40,8 @@ const Question = ({ question, number }) => {
         {number}. {question.sentence || "Title placeholder"}
         {question.isRequired && "*"}
       </Typography>
-      {question.withDescription && (
-        <Typography sx={{ mb: 3 }}>
+      {question.isDescriptionActive && (
+        <Typography sx={{ mt: 1, color: "#73839D" }}>
           {question.description || "Description placeholder"}
         </Typography>
       )}
@@ -50,12 +50,18 @@ const Question = ({ question, number }) => {
           Select multiple
         </Typography>
       )}
-
+      <Box sx={{ height: 16 }} />
       {renderAnswerComponent(question.type, question.options, isMultiple)}
+      <Box className="row-2" sx={{ alignItems: "center" }}>
+        <Button>OK</Button>
+        <Typography>press Enter</Typography>
+      </Box>
     </Container>
   );
 };
 
-const Container = styled(Box)({});
+const Container = styled(Box)({
+  width: "100%",
+});
 
 export default Question;

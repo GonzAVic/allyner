@@ -1,29 +1,38 @@
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography, TextField } from "@mui/material";
+import { Typography, Box, IconButton } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-const Uploader = ({ onFilesUploaded, multiple = false }) => {
+// OTHER
+import { uploadFile } from "utils/s3client";
+
+const Uploader = ({
+  onFilesUploaded,
+  onFileUploaded,
+  onFilesLoaded = () => {},
+  multiple = false,
+}) => {
   const handleUpload = async (e) => {
     const { files } = e.target;
 
     const filesArray = Array.from(files);
-    const imagesUrl = filesArray.map(async (file) => {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("fileName", file.name);
-      // Check that file is in proper format before making request
-      const response = await fetch(`/api/upload`, {
-        method: "POST",
-        body: formData,
-        "Content-Type": "image/jpeg",
-      });
-      const data = await response.json();
-      console.log("-> data.url: ", data.url);
-      return data.url;
+    const filesParams = filesArray.map((file) => {
+      const uploadParams = {
+        Bucket: "allyner-dev",
+        Key: `${Date.now()}-${file.name}`,
+        Body: file,
+        ContentType: file.type,
+      };
+      return uploadParams;
     });
-    Promise.all(imagesUrl).then((values) => {
-      if (onFilesUploaded) onFilesUploaded(values);
+    onFilesLoaded(filesParams);
+    filesParams.forEach(async (fp) => {
+      const fileUrl = await uploadFile(fp);
+      if (!multiple && onFileUploaded) {
+        onFileUploaded(fileUrl);
+      }
     });
   };
 
@@ -34,7 +43,7 @@ const Uploader = ({ onFilesUploaded, multiple = false }) => {
         id="imgupload"
         onChange={handleUpload}
         style={{ display: "none" }}
-        multiple={multiple}
+        multiple={Boolean(multiple)}
       />
       <label for="imgupload">
         <Container>
@@ -62,6 +71,45 @@ const Container = styled("div")({
 
   span: {
     color: "#444CE7",
+  },
+});
+
+const FileItem = () => {
+  return (
+    <FIContainer>
+      <FIFileIconCtr>
+        <InsertDriveFileOutlinedIcon />
+      </FIFileIconCtr>
+      <Box sx={{ width: "100%" }}>
+        <Typography variant="label" sx={{ mt: 1, mb: 1 }}>
+          Tech design requirements.pdf
+        </Typography>
+        <Typography variant="label">4.2 MB</Typography>
+      </Box>
+      <IconButton>
+        <DeleteOutlineIcon />
+      </IconButton>
+    </FIContainer>
+  );
+};
+
+const FIContainer = styled("div")({
+  border: "1px solid #EAECF0",
+  borderRadius: 8,
+  padding: 16,
+  display: "flex",
+  alignItems: "flex-start",
+  gap: 16,
+});
+
+const FIFileIconCtr = styled("div")({
+  border: "4px solid #F9F5FF",
+  background: "#F4EBFF",
+  padding: 10,
+  borderRadius: 40,
+
+  svg: {
+    fill: "#7F56D9",
   },
 });
 

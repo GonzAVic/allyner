@@ -58,10 +58,9 @@ const ServiceDetailsForm = ({
         pricingAmount: values.pricingAmount,
         // pricingType: values.pricingType,
         callToAction: values.callToAction,
-        cover: "",
+        cover: values.cover,
         status: values.status,
       };
-      console.log("-> attributes: ", attributes);
       if (isNewService)
         createServiceFn({
           variables: {
@@ -113,8 +112,8 @@ const ServiceDetailsForm = ({
     formik.setFieldValue("description", value);
   };
 
-  const handleCoverChange = (imageUrls) => {
-    formik.setFieldValue("cover", imageUrls[0]);
+  const handleCoverChange = (fileUrl) => {
+    formik.setFieldValue("cover", fileUrl);
   };
 
   return (
@@ -137,7 +136,7 @@ const ServiceDetailsForm = ({
         />
 
         <Typography variant="subtitle1">Thumbnail</Typography>
-        <Uploader onFilesUploaded={handleCoverChange} />
+        <Uploader onFileUploaded={handleCoverChange} />
 
         <Typography variant="subtitle1">CTA</Typography>
         <TextField
@@ -352,15 +351,11 @@ const PRICE_DURATION_MINUTES = [
 const STATUS = [
   {
     value: "DRAFT",
-    label: "Draft",
+    label: "Active",
   },
   {
     value: "IN_PROGRESS",
-    label: "In Progress",
-  },
-  {
-    value: "COMPLETE",
-    label: "Complete",
+    label: "Inactive",
   },
 ];
 
