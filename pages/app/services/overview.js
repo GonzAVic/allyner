@@ -110,10 +110,6 @@ const LeftSide = styled("div")({
   overflowX: "hidden",
 });
 
-const Pedro = styled("div")({
-  overflow: "auto",
-});
-
 const RightSide = styled("div")({
   display: "flex",
   flex: 1,

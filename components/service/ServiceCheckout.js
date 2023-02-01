@@ -1,18 +1,11 @@
-import { useState } from "react";
-
 // MATERIAL UI
 import { styled } from "@mui/system";
 import { Typography, IconButton, Box } from "@mui/material";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CheckIcon from "@mui/icons-material/Check";
 
 const ServiceCheckout = () => {
-  const [isConfirmationPage, setIsConfirmationPage] = useState(false);
-
   return (
     <Container>
-      <Header />
       <Box sx={{ textAlign: "center" }}>
         <CheckBackground>
           <CheckIcon />
@@ -46,28 +39,8 @@ const CheckBackground = styled("div")({
   marginBottom: 32,
 
   svg: {
-    transform: "scale(2)"
-  }
-});
-
-const Header = () => {
-  return (
-    <HContainer>
-      <IconButton>
-        <ArrowBackIosNewIcon />
-      </IconButton>
-      <Typography variant="h6">Confirmation Page</Typography>
-      <IconButton>
-        <ArrowForwardIosIcon />
-      </IconButton>
-    </HContainer>
-  );
-};
-
-const HContainer = styled("div")({
-  display: "flex",
-  justifyContent: "space-between",
-  marginBottom: 70,
+    transform: "scale(2)",
+  },
 });
 
 export default ServiceCheckout;

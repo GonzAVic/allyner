@@ -22,11 +22,4 @@ const Container = styled("div")({
   alignItems: "center",
 });
 
-const ServiceCardContainer = styled("div")({
-  display: "flex",
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "center",
-});
-
 export default ServicePreview;
