@@ -154,7 +154,11 @@ const QuestionCard = ({
           </Box>
           {question.options.map((op, i) => {
             return (
-              <Box className="space-between-centered" sx={{ gap: 2, mb: 2 }}>
+              <Box
+                key={option.i}
+                className="space-between-centered"
+                sx={{ gap: 2, mb: 2 }}
+              >
                 <TextField
                   key={i}
                   name={`questions[${index}].options[${i}]`}
