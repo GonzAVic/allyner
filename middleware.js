@@ -4,10 +4,15 @@ export default function middleware(req) {
   const { pathname } = req.nextUrl;
   const hostname = req.headers.get("host");
 
+  console.log("-> pathname: ", pathname);
+  console.log("-> hostname: ", hostname);
+
   const currentHost =
     process.env.NODE_ENV === "production"
       ? hostname?.replace(`.allyner.vercel.app`, "")
       : hostname?.replace(`.localhost:3001`, "");
+
+  console.log("-> currentHost: ", currentHost);
 
   if (pathname.startsWith(`/_sites`)) {
     return new Response(null, { status: 404 });
@@ -18,7 +23,6 @@ export default function middleware(req) {
     if (currentHost === "app") {
       const nextUrl = req.nextUrl.clone();
       const newPathname = `/app${pathname}`;
-      console.log("-> newPathname: ", newPathname);
       nextUrl.pathname = newPathname;
       return NextResponse.rewrite(nextUrl);
     }
@@ -32,7 +36,6 @@ export default function middleware(req) {
 
     // For users
     const newPathname = `/_sites/${currentHost}${pathname}`;
-    console.log("-> newPathname: ", newPathname);
     const nextUrl = req.nextUrl.clone();
     nextUrl.pathname = newPathname;
     return NextResponse.rewrite(nextUrl);
