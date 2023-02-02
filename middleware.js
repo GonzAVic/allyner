@@ -6,7 +6,7 @@ export default function middleware(req) {
 
   const currentHost =
     process.env.NODE_ENV === "production"
-      ? hostname?.replace(`.domain.com`, "")
+      ? hostname?.replace(`.allyner.vercel.app`, "")
       : hostname?.replace(`.localhost:3001`, "");
 
   if (pathname.startsWith(`/_sites`)) {
