@@ -18,6 +18,7 @@ export const authOptions = {
       const { user, account, profile } = props;
     },
   },
+  secret: "pedritopedroso123764",
 };
 
 export default NextAuth(authOptions);
