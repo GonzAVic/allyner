@@ -15,6 +15,9 @@ import QuestionPreview from "components/service/QuestionPreview";
 import CheckoutForm from "components/service/CheckoutForm";
 import CheckoutPreview from "components/service/CheckoutPreview";
 
+// OTHERS
+import useService from "utils/useService";
+
 const displayStep = (step) => {
   const steps = {
     details: {
@@ -35,6 +38,8 @@ const displayStep = (step) => {
 
 const NewService = () => {
   const router = useRouter();
+  const { service } = useService(router.query.id);
+  console.log("-> service: ", service);
 
   const [previewData, setPreviewData] = useState({});
   const [currentStep, setCurrentStep] = useState("details");

@@ -4,15 +4,15 @@ import { Typography, Box } from "@mui/material";
 
 const QuestionResponse = ({ number, sentence, response }) => {
   return (
-    <div>
-      <Typography variant="h6" sx={{ mb: 2 }}>
+    <Box sx={{ mb: 4 }}>
+      <Typography sx={{ mb: 2 }}>
         {number}. {sentence}
       </Typography>
       <ResponseContainer>
-        <Typography sx={{ color: "#B5BBC8" }}>Answer</Typography>
-        <Typography variant="h6">{response}</Typography>
+        <Typography sx={{ color: "#B5BBC8", mb: 1 }}>Answer</Typography>
+        <Typography>{response}</Typography>
       </ResponseContainer>
-    </div>
+    </Box>
   );
 };
 

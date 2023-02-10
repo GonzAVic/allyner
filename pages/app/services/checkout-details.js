@@ -1,30 +1,66 @@
+import { useFormik } from "formik";
+
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography } from "@mui/material";
+import { Typography, Box, TextField, Button } from "@mui/material";
 
 // COMPONENTS
+import Tiptap from "components/TipTap";
 import DefaultLayout from "components/layout/DefaultLayout";
 import ServicesTabs from "components/ServicesTabs";
 import PreviewContainer from "components/PreviewContainer";
+import CheckoutQuestionCard from "components/CheckoutQuestionCard";
+import PedroPreview from "components/service/PedroPreview";
 
 const Page = () => {
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {},
+    // validationSchema: createLoginSchema(),
+    onSubmit: (values) => {
+      console.log("-> values: ", values);
+    },
+  });
+
+  const handleCoverChange = () => {};
+
   return (
-    <DefaultLayout title="Checkout Details">
+    <DefaultLayout title="Service Booking">
       <ServicesTabs />
 
       <Container>
         <LeftSide>
           <Typography className="section-title" variant="subtitle1">
-            Checkout Details
+            Checkout Headline
           </Typography>
+          <Box className="card" sx={{ mb: 5 }}>
+            <Typography variant="subtitle1">Checkout Headline</Typography>
+            <TextField
+              name="name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+            />
+
+            <Typography variant="subtitle1">Checkout Message</Typography>
+            <Tiptap onUpdate={() => {}} initialValue={null} />
+          </Box>
 
           <Typography className="section-title" variant="subtitle1">
-            Order Details
+            Other Details
           </Typography>
+          <CheckoutQuestionCard />
+          <Button variant="dashed" fullWidth>
+            Add new field
+          </Button>
         </LeftSide>
 
+        {/**** RIGHT SIDE ****/}
         <RightSide>
-          <PreviewContainer>Almost There</PreviewContainer>
+          <PreviewContainer>
+            <PreviewContent>
+              <PedroPreview />
+            </PreviewContent>
+          </PreviewContainer>
         </RightSide>
       </Container>
     </DefaultLayout>
@@ -48,6 +84,13 @@ const LeftSide = styled("div")({
 const RightSide = styled("div")({
   display: "flex",
   flex: 1,
+});
+
+const PreviewContent = styled("div")({
+  marginTop: 150,
+  width: "100%",
+  display: "flex",
+  justifyContent: "center",
 });
 
 export default Page;
