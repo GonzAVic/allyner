@@ -56,9 +56,16 @@ const NewService = () => {
     setDiffBannerData(newData);
   };
 
+  const title = () => {
+    if (previewData.name !== undefined) {
+      return previewData.name || "Service name";
+    }
+    return service.name || "Service name";
+  };
+
   return (
     <DefaultLayout
-      title={"Service name"}
+      title={title()}
       diffBanner={{
         onDiscard: diffBannerData.onDiscard,
         onSave: diffBannerData.onSave,
