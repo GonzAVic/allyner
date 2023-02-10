@@ -45,8 +45,6 @@ const NewService = () => {
   const [diffBannerData, setDiffBannerData] = useState({}); // { onSave, onDiscard, isVisible }
 
   const isNewService = router.query.id === "new";
-  console.log("-> service: ", service);
-  console.log("-> previewData: ", previewData);
 
   const updatePreviewData = (data) => {
     setPreviewData(data);
@@ -57,6 +55,8 @@ const NewService = () => {
   };
 
   const title = () => {
+    console.log('-> previewData: ', previewData)
+    console.log('-> service.name: ', service.name)
     if (previewData.name !== undefined) {
       return previewData.name || "Service name";
     }
