@@ -19,7 +19,7 @@ export default function middleware(req) {
     console.log("-> pathname: ", pathname);
     console.log("-> hostname: ", hostname);
     console.log("-> currentHost: ", currentHost);
-    if (pathname.startsWith("/app")) {
+    if (pathname.startsWith("/app") || hostname === "allyner.vercel.app") {
       const nextUrl = req.nextUrl.clone();
       const newPathname = `${pathname}`;
       nextUrl.pathname = newPathname;
