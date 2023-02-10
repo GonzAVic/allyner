@@ -39,13 +39,14 @@ const displayStep = (step) => {
 const NewService = () => {
   const router = useRouter();
   const { service } = useService(router.query.id);
-  console.log("-> service: ", service);
 
   const [previewData, setPreviewData] = useState({});
   const [currentStep, setCurrentStep] = useState("details");
   const [diffBannerData, setDiffBannerData] = useState({}); // { onSave, onDiscard, isVisible }
 
   const isNewService = router.query.id === "new";
+  console.log("-> service: ", service);
+  console.log("-> previewData: ", previewData);
 
   const updatePreviewData = (data) => {
     setPreviewData(data);
