@@ -15,7 +15,10 @@ import PedroPreview from "components/service/PedroPreview";
 const Page = () => {
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: {},
+    initialValues: {
+      headline: "",
+      messgage: "",
+    },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
       console.log("-> values: ", values);
@@ -36,13 +39,19 @@ const Page = () => {
           <Box className="card" sx={{ mb: 5 }}>
             <Typography variant="subtitle1">Checkout Headline</Typography>
             <TextField
-              name="name"
-              value={formik.values.name}
+              name="headline"
+              value={formik.values.headline}
               onChange={formik.handleChange}
             />
-
             <Typography variant="subtitle1">Checkout Message</Typography>
-            <Tiptap onUpdate={() => {}} initialValue={null} />
+            <TextField
+              name="messgage"
+              value={formik.values.messgage}
+              onChange={formik.handleChange}
+              multiline
+              rows={3}
+              maxRows={5}
+            />
           </Box>
 
           <Typography className="section-title" variant="subtitle1">

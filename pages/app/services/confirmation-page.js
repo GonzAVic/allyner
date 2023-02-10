@@ -14,7 +14,10 @@ import ServiceCheckout from "components/service/ServiceCheckout";
 const Page = () => {
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: {},
+    initialValues: {
+      headline: "",
+      message: "",
+    },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
       console.log("-> values: ", values);
@@ -33,13 +36,20 @@ const Page = () => {
           <Box className="card" sx={{ mb: 5 }}>
             <Typography variant="subtitle1">Confirmation Headline</Typography>
             <TextField
-              name="name"
-              value={formik.values.name}
+              name="headline"
+              value={formik.values.headline}
               onChange={formik.handleChange}
             />
 
             <Typography variant="subtitle1">Confirmation Message</Typography>
-            <Tiptap onUpdate={() => {}} initialValue={null} />
+            <TextField
+              name="message"
+              value={formik.values.message}
+              onChange={formik.handleChange}
+              multiline
+              rows={3}
+              maxRows={5}
+            />
           </Box>
         </LeftSide>
 
