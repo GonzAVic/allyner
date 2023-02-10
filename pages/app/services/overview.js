@@ -12,8 +12,6 @@ import DefaultLayout from "components/layout/DefaultLayout";
 import ServiceDetailsForm from "components/service/ServiceDetailsForm";
 import ServiceQuestionnaire from "components/service/ServiceQuestionnaire";
 import QuestionPreview from "components/service/QuestionPreview";
-import CheckoutForm from "components/service/CheckoutForm";
-import CheckoutPreview from "components/service/CheckoutPreview";
 
 // OTHERS
 import useService from "utils/useService";
@@ -27,10 +25,6 @@ const displayStep = (step) => {
     questionnaire: {
       form: <ServiceQuestionnaire />,
       preview: <QuestionPreview />,
-    },
-    checkout: {
-      form: <CheckoutForm />,
-      preview: <CheckoutPreview />,
     },
   };
   return steps[step];
@@ -55,12 +49,10 @@ const NewService = () => {
   };
 
   const title = () => {
-    console.log('-> previewData: ', previewData)
-    console.log('-> service.name: ', service.name)
     if (previewData.name !== undefined) {
       return previewData.name || "Service name";
     }
-    return service.name || "Service name";
+    return service ? service.name || "Service name" : "Service name";
   };
 
   return (
