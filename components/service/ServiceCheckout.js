@@ -3,20 +3,19 @@ import { styled } from "@mui/system";
 import { Typography, IconButton, Box } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 
-const ServiceCheckout = () => {
+const ServiceCheckout = ({ headline, message }) => {
   return (
     <Container>
       <Box sx={{ textAlign: "center" }}>
         <CheckBackground>
           <CheckIcon />
         </CheckBackground>
-        <Typography variant="h5">Thank You!</Typography>
+        <Typography variant="h5">{headline || "Default UI value"}</Typography>
         <Typography
           color="text.secondary"
           sx={{ maxWidth: 320, margin: "auto", mt: 2 }}
         >
-          Thank for choosing porject managment, lorem ipsum color diamet,
-          paterair.
+          {message || "Default UI value"}
         </Typography>
       </Box>
     </Container>

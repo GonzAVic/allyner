@@ -56,7 +56,10 @@ const Page = () => {
         <RightSide>
           <PreviewContainer>
             <PreviewContent>
-              <ServiceCheckout />
+              <ServiceCheckout
+                headline={formik.values.headline}
+                message={formik.values.message}
+              />
             </PreviewContent>
           </PreviewContainer>
         </RightSide>

@@ -17,7 +17,7 @@ const Page = () => {
     enableReinitialize: true,
     initialValues: {
       headline: "",
-      messgage: "",
+      message: "",
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
@@ -45,8 +45,8 @@ const Page = () => {
             />
             <Typography variant="subtitle1">Checkout Message</Typography>
             <TextField
-              name="messgage"
-              value={formik.values.messgage}
+              name="message"
+              value={formik.values.message}
               onChange={formik.handleChange}
               multiline
               rows={3}
@@ -67,7 +67,10 @@ const Page = () => {
         <RightSide>
           <PreviewContainer>
             <PreviewContent>
-              <PedroPreview />
+              <PedroPreview
+                headline={formik.values.headline}
+                message={formik.values.message}
+              />
             </PreviewContent>
           </PreviewContainer>
         </RightSide>

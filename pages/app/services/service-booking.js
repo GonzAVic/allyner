@@ -1,11 +1,13 @@
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography } from "@mui/material";
+import { Typography, TextField, IconButton } from "@mui/material";
 
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
 import ServicesTabs from "components/ServicesTabs";
 import PreviewContainer from "components/PreviewContainer";
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const Page = () => {
   return (
@@ -17,6 +19,8 @@ const Page = () => {
           <Typography className="section-title" variant="subtitle1">
             Order Status
           </Typography>
+
+          <Status />
         </LeftSide>
 
         <RightSide>
@@ -44,6 +48,24 @@ const LeftSide = styled("div")({
 const RightSide = styled("div")({
   display: "flex",
   flex: 1,
+});
+
+const Status = () => {
+  return (
+    <SContainer className="card">
+      <DragIndicatorIcon />
+      <TextField value="Todo" />
+      <IconButton>
+        <DeleteIcon />
+      </IconButton>
+    </SContainer>
+  );
+};
+
+const SContainer = styled("div")({
+  display: "flex",
+  alignItems: "center",
+  gap: 16,
 });
 
 export default Page;

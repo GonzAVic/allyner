@@ -1,16 +1,15 @@
 // MATERIAL UI
 import { Box, Typography, TextField, Button } from "@mui/material";
 
-const PedroPreview = () => {
+const PedroPreview = ({ headline, message }) => {
   return (
     <div>
       <Box sx={{ textAlign: "center" }}>
         <Typography variant="h5" sx={{ mb: 2 }}>
-          Almost there!
+          {headline || "Default UI value"}
         </Typography>
         <Typography color="text.secondary" sx={{ mb: 4 }}>
-          We just need a little more information to finalize your service
-          request
+          {message || "Default UI value"}
         </Typography>
       </Box>
 
