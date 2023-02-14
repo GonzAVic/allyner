@@ -109,49 +109,11 @@ const QuestionCard = ({
         />
       )}
 
-      {/* {questionsWithMultiple.includes(question.type) && (
-        <PropertyControl>
-          <Typography variant="small">Selection Type</Typography>
-          <TextField
-            name="selectionType"
-            value={formik.values.selectionType}
-            onChange={(event) =>
-              updateQuestionAttr("selectionType", event.target.value)
-            }
-            sx={{ mb: 0, width: "fit-content" }}
-            size="medium"
-            select
-          >
-            {SELECTION_TYPE.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-        </PropertyControl>
-      )} */}
-
       {questionWithOptions.includes(question.type) && (
         <>
-          <Box className="space-between-centered" sx={{ mb: 2 }}>
-            <Typography variant="subtitle1">Options</Typography>
-            <TextField
-              name="selectionType"
-              value={formik.values.selectionType}
-              onChange={(event) =>
-                updateQuestionAttr("selectionType", event.target.value)
-              }
-              sx={{ mb: 0, width: "fit-content" }}
-              size="medium"
-              select
-            >
-              {SELECTION_TYPE.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Box>
+          <Typography variant="subtitle1" sx={{ mb: 1 }}>
+            Options
+          </Typography>
           {question.options.map((op, i) => {
             return (
               <Box
@@ -250,9 +212,12 @@ const QuestionCard = ({
   );
 };
 
-const questionWithOptions = ["DROPDOWN", "MULTIPLE"];
-
-const questionsWithMultiple = ["multiple choice", "picture choice", "date"];
+const questionWithOptions = [
+  "DROPDOWN",
+  "MULTIPLE",
+  "SINGLE_SELECT",
+  "MULTIPLE_SELECT",
+];
 
 const ActionsContainer = styled("div")({
   display: "flex",

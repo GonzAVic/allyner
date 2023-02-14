@@ -25,7 +25,12 @@ const renderAnswerComponent = (questionType, options, isMultiple) => {
       return <ResponseFile />;
     case "PICTURE":
       return <ResponsePictureChoice options={options} />;
-    case "MULTIPLE":
+    case "SINGLE_SELECT":
+      console.log("-> SINGLE_SELECT");
+      return (
+        <ResponseMultipleChoice options={options} isMultiple={isMultiple} />
+      );
+    case "MULTIPLE_SELECT":
       return (
         <ResponseMultipleChoice options={options} isMultiple={isMultiple} />
       );
@@ -37,7 +42,7 @@ const Question = ({ question, number }) => {
   return (
     <Container>
       <Typography variant="h5">
-        {number}. {question.sentence || "Title placeholder"}
+        {number}. {question.title || "Title placeholder"}
         {question.isRequired && "*"}
       </Typography>
       {question.isDescriptionActive && (

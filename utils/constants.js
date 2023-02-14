@@ -1,22 +1,6 @@
 export const questionTypes = (pick, valueToLabel) => {
   const values = [
     {
-      value: "DROPDOWN",
-      label: "Dropdown",
-    },
-    {
-      value: "MULTIPLE",
-      label: "Multiple",
-    },
-    {
-      value: "PICTURE",
-      label: "Picture",
-    },
-    {
-      value: "DROPDOWN",
-      label: "Dropdown",
-    },
-    {
       value: "SHORT_TEXT",
       label: "Short Text",
     },
@@ -25,8 +9,20 @@ export const questionTypes = (pick, valueToLabel) => {
       label: "Long Text",
     },
     {
+      value: "DROPDOWN",
+      label: "Dropdown",
+    },
+    {
+      value: "SINGLE_SELECT",
+      label: "Single Select",
+    },
+    {
+      value: "MULTIPLE_SELECT",
+      label: "Multple Select",
+    },
+    {
       value: "FILE",
-      label: "File",
+      label: "File Upload",
     },
     {
       value: "DATE",

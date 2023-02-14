@@ -31,7 +31,6 @@ const ServiceQuestionnaire = ({
       questions: [],
     },
     onSubmit: (values) => {
-      console.log("-> values: ", values);
       values.questions.forEach((q) => {
         const attributes = {
           businessId: 1,
@@ -62,10 +61,6 @@ const ServiceQuestionnaire = ({
     const currentValuesString = JSON.stringify(formik.values);
     const areCurrentAndInitialValuesEqual =
       initialValuesString === currentValuesString;
-    console.log(
-      "-> areCurrentAndInitialValuesEqual: ",
-      areCurrentAndInitialValuesEqual
-    );
     updateDiffBanner({
       onSave: () => formik.submitForm(),
       onDiscard: () => {
