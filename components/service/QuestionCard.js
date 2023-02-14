@@ -117,7 +117,7 @@ const QuestionCard = ({
           {question.options.map((op, i) => {
             return (
               <Box
-                key={option.i}
+                key={op.i}
                 className="space-between-centered"
                 sx={{ gap: 2, mb: 2 }}
               >

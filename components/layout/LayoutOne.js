@@ -1,6 +1,6 @@
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography, IconButton, Box } from "@mui/material";
+import { Typography, IconButton, Box, LinearProgress } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -15,6 +15,7 @@ const LayoutOne = ({ children }) => {
         <Typography variant="h6">Product Management</Typography>
         <Box sx={{ width: 24, height: 24 }} />
       </Header>
+      <LinearProgress variant="determinate" value={30} />
       <ContentContainer>{children}</ContentContainer>
       <ActionsContainer>
         <Action sx={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}>
