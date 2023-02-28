@@ -68,22 +68,6 @@ const rows = [
 
 const Container = styled("div")({
   display: "contents",
-
-  ".MuiDataGrid-root": {
-    border: "none",
-  },
-
-  ".MuiDataGrid-columnHeadersInner": {
-    background: "#FFFFFF",
-  },
-
-  ".MuiDataGrid-iconSeparator": {
-    display: "none",
-  },
-
-  ".MuiDataGrid-row": {
-    background: "white",
-  },
 });
 
 export default orders;

@@ -41,6 +41,25 @@ export const FIND_SERVICE = gql`
   }
 `;
 
+export const LIST_QUESTIONS = gql`
+  query ($surveyId: Int!) {
+    listQuestions(surveyId: $surveyId) {
+      businessId
+      createdAt
+      description
+      id
+      isDescriptionActive
+      isRequired
+      options
+      order
+      questionType
+      surveyId
+      title
+      updatedAt
+    }
+  }
+`;
+
 // MUTATIONS
 export const CREATE_SERVICE = gql`
   mutation ($input: CreateServiceInput!) {

@@ -41,6 +41,10 @@ const Container = styled("div")({
   display: "flex",
   flex: 1,
   flexDirection: "column",
+
+  ".MuiLinearProgress-root": {
+    background: "transparent",
+  },
 });
 
 const Header = styled("div")({

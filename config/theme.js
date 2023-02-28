@@ -122,6 +122,15 @@ const theme = () => {
         ],
       },
 
+      MuiDataGrid: {
+        styleOverrides: {
+          root: { border: "none" },
+          columnHeadersInner: { background: "#FFFFFF" },
+          iconSeparator: { display: "none" },
+          row: { background: "white" },
+        },
+      },
+
       MuiFormHelperText: {
         styleOverrides: {
           root: {

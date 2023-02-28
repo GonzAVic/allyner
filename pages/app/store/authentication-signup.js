@@ -3,13 +3,14 @@ import { useFormik } from "formik";
 // MATERIAL UI
 import { styled } from "@mui/system";
 import { Typography, Box, TextField, Button } from "@mui/material";
+import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import LinkIcon from "@mui/icons-material/Link";
 
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
-import ServicesTabs from "components/ServicesTabs";
-import CheckoutQuestionCard from "components/CheckoutQuestionCard";
-import PedroPreview from "components/service/PedroPreview";
+import StoreTabs from "components/StoreTabs";
 import PreviewLayout from "components/layout/PreviewLayout";
+import ClientSignup from "components/ClientSignup";
 
 const Page = () => {
   const formik = useFormik({
@@ -24,48 +25,66 @@ const Page = () => {
     },
   });
 
-  const handleCoverChange = () => {};
+  const initialValuesString = JSON.stringify(formik.initialValues);
+  const currentValuesString = JSON.stringify(formik.values);
+  const areCurrentAndInitialValuesEqual =
+    initialValuesString === currentValuesString;
 
   return (
-    <DefaultLayout title="Service Booking">
-      <ServicesTabs />
+    <DefaultLayout
+      title="Store/Authentication"
+      diffBanner={{ isVisible: !areCurrentAndInitialValuesEqual }}
+    >
+      <StoreTabs />
 
       <PreviewLayout
         previewComponent={
-          <PedroPreview
+          <ClientSignup
             headline={formik.values.headline}
             message={formik.values.message}
           />
         }
       >
         <Typography className="section-title" variant="subtitle1">
-          Checkout Headline
+          General Details
         </Typography>
         <Box className="card" sx={{ mb: 5 }}>
-          <Typography variant="subtitle1">Checkout Headline</Typography>
+          <Typography variant="subtitle1">Headline</Typography>
           <TextField
             name="headline"
             value={formik.values.headline}
             onChange={formik.handleChange}
           />
-          <Typography variant="subtitle1">Checkout Message</Typography>
+          <Typography variant="subtitle1">Message</Typography>
           <TextField
             name="message"
             value={formik.values.message}
             onChange={formik.handleChange}
-            multiline
-            rows={3}
-            maxRows={5}
           />
         </Box>
 
         <Typography className="section-title" variant="subtitle1">
-          Other Details
+          Sign Up Form
         </Typography>
-        <CheckoutQuestionCard />
-        <Button variant="dashed" fullWidth sx={{ mt: 3 }}>
-          Add new field
-        </Button>
+        <Box className="card" sx={{ mb: 5 }}>
+          <Typography variant="subtitle1">Headline</Typography>
+          Handle add multiple questions in here
+        </Box>
+
+        <Typography className="section-title" variant="subtitle1">
+          Sign In URL
+        </Typography>
+        <Box className="card" sx={{ mb: 5 }}>
+          <TextField
+            value={"http://localhost:3000/app/store/authentication-signin"}
+          />
+          <Button variant="text" startIcon={<LinkIcon />}>
+            Copy Link
+          </Button>
+          <Button variant="text" startIcon={<ShareOutlinedIcon />}>
+            Share
+          </Button>
+        </Box>
       </PreviewLayout>
     </DefaultLayout>
   );
@@ -88,13 +107,6 @@ const LeftSide = styled("div")({
 const RightSide = styled("div")({
   display: "flex",
   flex: 1,
-});
-
-const PreviewContent = styled("div")({
-  marginTop: 150,
-  width: "100%",
-  display: "flex",
-  justifyContent: "center",
 });
 
 export default Page;

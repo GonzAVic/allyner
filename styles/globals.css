@@ -27,6 +27,7 @@
 .card .MuiTypography-subtitle1 {
   color: #73839d;
   margin-top: 32px;
+  margin-bottom: 8px;
 }
 
 .card .MuiFormControl-root {

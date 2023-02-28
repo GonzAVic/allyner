@@ -10,9 +10,9 @@ const ServicesTabs = ({ currentTab }) => {
     <Box sx={{ paddingBottom: 3, borderBottom: "1px solid #D4D9E6", mb: 3 }}>
       <Button
         variant={`tab${
-          router.pathname.includes("service-booking") ? "-active" : ""
+          router.pathname.includes("order-status") ? "-active" : ""
         }`}
-        href="/app/services/service-booking"
+        href="/app/services/order-status"
       >
         Order Status
       </Button>

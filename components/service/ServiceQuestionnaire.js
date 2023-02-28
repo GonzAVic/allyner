@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useFormik, FieldArray, FormikProvider } from "formik";
-import { useMutation } from "@apollo/client";
+import { useMutation, useLazyQuery } from "@apollo/client";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
@@ -8,7 +8,9 @@ import { Button, Menu, MenuItem, Typography } from "@mui/material";
 
 // COMPONENTS
 import QuestionCard from "./QuestionCard";
-import { CREATE_QUESTION } from "graphql/apiql";
+
+// OTHER
+import { CREATE_QUESTION, LIST_QUESTIONS } from "graphql/apiql";
 import useService from "utils/useService";
 import { questionTypes } from "utils/constants";
 
@@ -18,6 +20,7 @@ const ServiceQuestionnaire = ({
   updateDiffBanner,
 }) => {
   const [createQuestionFn, createQuestionHpr] = useMutation(CREATE_QUESTION);
+  const [getServiceFn, getServiceFnHelper] = useLazyQuery(FIND_SERVICE);
 
   const { service } = useService(serviceId);
 

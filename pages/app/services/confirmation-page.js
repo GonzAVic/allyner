@@ -8,7 +8,7 @@ import { Typography, Box, TextField } from "@mui/material";
 import Tiptap from "components/TipTap";
 import DefaultLayout from "components/layout/DefaultLayout";
 import ServicesTabs from "components/ServicesTabs";
-import PreviewContainer from "components/PreviewContainer";
+import PreviewLayout from "components/layout/PreviewLayout";
 import ServiceCheckout from "components/service/ServiceCheckout";
 
 const Page = () => {
@@ -28,42 +28,36 @@ const Page = () => {
     <DefaultLayout title="Confirmation Page">
       <ServicesTabs />
 
-      <Container>
-        <LeftSide>
-          <Typography className="section-title" variant="subtitle1">
-            Order Confirmation Page
-          </Typography>
-          <Box className="card" sx={{ mb: 5 }}>
-            <Typography variant="subtitle1">Confirmation Headline</Typography>
-            <TextField
-              name="headline"
-              value={formik.values.headline}
-              onChange={formik.handleChange}
-            />
+      <PreviewLayout
+        previewComponent={
+          <ServiceCheckout
+            headline={formik.values.headline}
+            message={formik.values.message}
+          />
+        }
+      >
+        <Typography className="section-title" variant="subtitle1">
+          Order Confirmation Page
+        </Typography>
+        <Box className="card" sx={{ mb: 5 }}>
+          <Typography variant="subtitle1">Confirmation Headline</Typography>
+          <TextField
+            name="headline"
+            value={formik.values.headline}
+            onChange={formik.handleChange}
+          />
 
-            <Typography variant="subtitle1">Confirmation Message</Typography>
-            <TextField
-              name="message"
-              value={formik.values.message}
-              onChange={formik.handleChange}
-              multiline
-              rows={3}
-              maxRows={5}
-            />
-          </Box>
-        </LeftSide>
-
-        <RightSide>
-          <PreviewContainer>
-            <PreviewContent>
-              <ServiceCheckout
-                headline={formik.values.headline}
-                message={formik.values.message}
-              />
-            </PreviewContent>
-          </PreviewContainer>
-        </RightSide>
-      </Container>
+          <Typography variant="subtitle1">Confirmation Message</Typography>
+          <TextField
+            name="message"
+            value={formik.values.message}
+            onChange={formik.handleChange}
+            multiline
+            rows={3}
+            maxRows={5}
+          />
+        </Box>
+      </PreviewLayout>
     </DefaultLayout>
   );
 };
