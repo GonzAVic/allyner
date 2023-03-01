@@ -1,7 +1,11 @@
+import { useState } from "react";
+
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography, Button, Avatar } from "@mui/material";
+import { Typography, Button, Avatar, IconButton } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import AddIcon from "@mui/icons-material/Add";
+import MenuIcon from "@mui/icons-material/Menu";
 
 // COMPONENTS
 import BusinessSidebar from "./BusinessSidebar";
@@ -15,6 +19,10 @@ const DefaultLayout = ({
   cta,
   diffBanner,
 }) => {
+  const isResponsive = useMediaQuery("(max-width:768px)");
+
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
+
   const ctaProps = { startIcon: <AddIcon /> };
   if (cta) {
     if (cta.fn) ctaProps.onClick = cta.fn;
@@ -24,7 +32,19 @@ const DefaultLayout = ({
 
   return (
     <Container>
-      {userType === "client" ? <ClientSidebar /> : <BusinessSidebar />}
+      {userType === "client" ? (
+        <ClientSidebar isResponsive={isResponsive} isMenuOpen={isMenuOpen} />
+      ) : (
+        <BusinessSidebar isResponsive={isResponsive} isMenuOpen={isMenuOpen} />
+      )}
+      {isResponsive && (
+        <IconButton
+          sx={{ position: "absolute", top: 18, left: 16 }}
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          <MenuIcon />
+        </IconButton>
+      )}
       <RightContent>
         {Boolean(diffBanner) && diffBanner.isVisible ? (
           <DiffBanner diffBanner={diffBanner} />

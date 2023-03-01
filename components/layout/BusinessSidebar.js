@@ -13,11 +13,11 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 // COMPONENTS
 import SidebarItem from "./SidebarItem";
 
-const BusinessSidebar = () => {
+const BusinessSidebar = ({ isResponsive, isMenuOpen }) => {
   const router = useRouter();
 
   return (
-    <Container>
+    <Container isResponsive={isResponsive} isMenuOpen={isMenuOpen}>
       <SidebarItem
         label="Home"
         href="/app/"
@@ -45,20 +45,19 @@ const BusinessSidebar = () => {
 
       <Divider sx={{ mt: 2, mb: 2 }} />
 
-      {/* <SidebarItem label="Support" icon={<SupportIcon />} />
-      <SidebarItem label="Settings" icon={<SettingsOutlinedIcon />} /> */}
       <SidebarItem label="Log Out" icon={<LogoutOutlinedIcon />} />
     </Container>
   );
 };
 
-const Container = styled("div")({
-  display: "flex",
+const Container = styled("div")(({ theme, isResponsive, isMenuOpen }) => ({
+  display: isMenuOpen && isResponsive ? "none" : "flex",
+  position: isMenuOpen && isResponsive ? "absolute" : "relative",
   flexDirection: "column",
   justifyContent: "flex-start",
   width: 275,
   padding: 32,
   height: "100vh",
-});
+}));
 
 export default BusinessSidebar;
