@@ -26,7 +26,6 @@ const renderAnswerComponent = (questionType, options, isMultiple) => {
     case "PICTURE":
       return <ResponsePictureChoice options={options} />;
     case "SINGLE_SELECT":
-      console.log("-> SINGLE_SELECT");
       return (
         <ResponseMultipleChoice options={options} isMultiple={isMultiple} />
       );
@@ -37,7 +36,7 @@ const renderAnswerComponent = (questionType, options, isMultiple) => {
   }
 };
 
-const Question = ({ question, number }) => {
+const Question = ({ question, number, onNext }) => {
   const isMultiple = question.selectionType === "MULTIPLE";
   return (
     <Container>
@@ -56,9 +55,9 @@ const Question = ({ question, number }) => {
         </Typography>
       )}
       <Box sx={{ height: 16 }} />
-      {renderAnswerComponent(question.type, question.options, isMultiple)}
+      {renderAnswerComponent(question.questionType, question.options, isMultiple)}
       <Box className="row-2" sx={{ alignItems: "center" }}>
-        <Button>OK</Button>
+        <Button onClick={onNext}>OK</Button>
         <Typography>press Enter</Typography>
       </Box>
     </Container>

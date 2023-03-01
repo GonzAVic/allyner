@@ -8,7 +8,7 @@ import { Typography, Box, TextField, Button } from "@mui/material";
 import DefaultLayout from "components/layout/DefaultLayout";
 import ServicesTabs from "components/ServicesTabs";
 import CheckoutQuestionCard from "components/CheckoutQuestionCard";
-import PedroPreview from "components/service/PedroPreview";
+import CheckoutDetailsForm from "components/service/CheckoutDetailsForm";
 import PreviewLayout from "components/layout/PreviewLayout";
 
 const Page = () => {
@@ -32,7 +32,7 @@ const Page = () => {
 
       <PreviewLayout
         previewComponent={
-          <PedroPreview
+          <CheckoutDetailsForm
             headline={formik.values.headline}
             message={formik.values.message}
           />
