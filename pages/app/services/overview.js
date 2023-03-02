@@ -7,11 +7,12 @@ import { Button, Divider, Box } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 
 // COMPONENTS
-import ServicePreview from "components/service/ServicePreview";
 import DefaultLayout from "components/layout/DefaultLayout";
 import ServiceDetailsForm from "components/service/ServiceDetailsForm";
 import ServiceQuestionnaire from "components/service/ServiceQuestionnaire";
-import QuestionPreview from "components/service/QuestionPreview";
+import PreviewLayout from "components/layout/PreviewLayout";
+import ServiceCard from "components/service/ServiceCard";
+import Question from "components/service/Question";
 
 // OTHERS
 import useService from "utils/useService";
@@ -20,11 +21,11 @@ const displayStep = (step) => {
   const steps = {
     details: {
       form: <ServiceDetailsForm />,
-      preview: <ServicePreview />,
+      preview: <ServiceCard />,
     },
     questionnaire: {
       form: <ServiceQuestionnaire />,
-      preview: <QuestionPreview />,
+      preview: <Question />,
     },
   };
   return steps[step];
@@ -82,21 +83,20 @@ const NewService = () => {
         </Button>
       </div>
       <Divider sx={{ mb: 3, mt: 3 }} />
-      <Container>
-        <LeftSide>
-          {React.cloneElement(displayStep(currentStep).form, {
-            updatePreviewData,
-            updateDiffBanner,
-            serviceId: router.query.id,
-          })}
-        </LeftSide>
 
-        <RightSide>
-          {React.cloneElement(displayStep(currentStep).preview, {
-            previewData,
-          })}
-        </RightSide>
-      </Container>
+      <PreviewLayout
+        previewComponent={React.cloneElement(displayStep(currentStep).preview, {
+          service: previewData,
+          question: previewData,
+          number: 1,
+        })}
+      >
+        {React.cloneElement(displayStep(currentStep).form, {
+          updatePreviewData,
+          updateDiffBanner,
+          serviceId: router.query.id,
+        })}
+      </PreviewLayout>
     </DefaultLayout>
   );
 };
