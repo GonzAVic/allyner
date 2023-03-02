@@ -33,6 +33,7 @@ const Content = styled("div")({
   display: "flex",
   flex: 1,
   overflow: "hidden",
+  padding: 16,
 });
 
 export default PreviewContainer;

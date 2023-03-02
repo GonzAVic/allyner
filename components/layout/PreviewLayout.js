@@ -1,21 +1,49 @@
+import { useState } from "react";
+
 // MATERIAL UI
 import { styled } from "@mui/system";
+import { Button } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 
 // COMPONENTS
 import PreviewContainer from "components/PreviewContainer";
+import PreviewContainerMobile from "components/PreviewContainerMobile";
 
 const PreviewLayout = ({ children, previewComponent }) => {
+  const isMobile = useMediaQuery("(max-width:768px)");
+
+  const [isMobilePreviewOpen, setIsMobilePreviewOpen] = useState(false);
+
   return (
     <Container>
       {/**** LEFT SIDE ****/}
-      <LeftSide>{children}</LeftSide>
+      <LeftSide>
+        {isMobile && (
+          <MobilePreviewButton
+            variant="text"
+            startIcon={<VisibilityOutlinedIcon />}
+            onClick={() => setIsMobilePreviewOpen(true)}
+          >
+            Preview
+          </MobilePreviewButton>
+        )}
+        {children}
+      </LeftSide>
 
       {/**** RIGHT SIDE ****/}
-      <RightSide>
-        <PreviewContainer>
-          <PreviewContent>{previewComponent}</PreviewContent>
-        </PreviewContainer>
-      </RightSide>
+      {!isMobile && (
+        <RightSide>
+          <PreviewContainer>
+            <PreviewContent>{previewComponent}</PreviewContent>
+          </PreviewContainer>
+        </RightSide>
+      )}
+      {isMobile && isMobilePreviewOpen && (
+        <PreviewContainerMobile close={() => setIsMobilePreviewOpen(false)}>
+          {previewComponent}
+        </PreviewContainerMobile>
+      )}
     </Container>
   );
 };
@@ -29,6 +57,7 @@ const Container = styled("div")({
 });
 
 const LeftSide = styled("div")({
+  position: "relative",
   flex: 1,
   overflowY: "auto",
   overflowX: "hidden",
@@ -44,6 +73,12 @@ const PreviewContent = styled("div")({
   width: "100%",
   display: "flex",
   justifyContent: "center",
+});
+
+const MobilePreviewButton = styled(Button)({
+  position: "absolute",
+  right: -18,
+  top: -8,
 });
 
 export default PreviewLayout;

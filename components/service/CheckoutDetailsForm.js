@@ -1,10 +1,10 @@
 // MATERIAL UI
 import { Box, Typography, TextField, Button } from "@mui/material";
 
-const PedroPreview = ({ headline, message, cta: cta_ }) => {
+const CheckoutDetailsForm = ({ headline, message, cta: cta_ }) => {
   const cta = { text: "Book Now", fn: () => {} };
-  if (cta_.text) cta.text = cta_.text;
-  if (cta_.fn) cta.fn = cta_.fn;
+  if (cta_ && cta_.text) cta.text = cta_.text;
+  if (cta_ && cta_.fn) cta.fn = cta_.fn;
   return (
     <div>
       <Box sx={{ textAlign: "center" }}>
@@ -34,4 +34,4 @@ const PedroPreview = ({ headline, message, cta: cta_ }) => {
   );
 };
 
-export default PedroPreview;
+export default CheckoutDetailsForm;

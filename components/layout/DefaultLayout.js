@@ -19,7 +19,7 @@ const DefaultLayout = ({
   cta,
   diffBanner,
 }) => {
-  const isResponsive = useMediaQuery("(max-width:768px)");
+  const isResponsive = useMediaQuery("(max-width:978px)");
 
   const [isMenuOpen, setIsMenuOpen] = useState(true);
 
