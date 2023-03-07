@@ -5,27 +5,55 @@ import { styled } from "@mui/system";
 import { Typography, Box, TextField } from "@mui/material";
 
 // COMPONENTS
-import Tiptap from "components/TipTap";
 import DefaultLayout from "components/layout/DefaultLayout";
 import ServicesTabs from "components/ServicesTabs";
 import PreviewLayout from "components/layout/PreviewLayout";
 import ServiceCheckout from "components/service/ServiceCheckout";
 
+// OTHER
+import useBusiness from "utils/useBusiness";
+
 const Page = () => {
+  const { business, updateBusiness } = useBusiness();
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      headline: "",
-      message: "",
+      headline: business?.additionalSettings.confirmationHeadline,
+      message: business?.additionalSettings.confirmationMessage,
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
       console.log("-> values: ", values);
+
+      const attributes = {
+        additionalSettings: JSON.stringify({
+          ...business.additionalSettings,
+          confirmationHeadline: values.headline,
+          confirmationMessage: values.message,
+        }),
+      };
+
+      updateBusiness(attributes);
     },
   });
 
+  const initialValuesString = JSON.stringify(formik.initialValues);
+  const currentValuesString = JSON.stringify(formik.values);
+  const areCurrentAndInitialValuesEqual =
+    initialValuesString === currentValuesString;
+
   return (
-    <DefaultLayout title="Confirmation Page">
+    <DefaultLayout
+      title="Confirmation Page"
+      diffBanner={{
+        onSave: () => formik.submitForm(),
+        onDiscard: () => {
+          formik.handleReset();
+        },
+        isVisible: !areCurrentAndInitialValuesEqual,
+      }}
+    >
       <ServicesTabs />
 
       <PreviewLayout

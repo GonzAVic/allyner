@@ -22,6 +22,19 @@ export const GET_SERVICES = gql`
   }
 `;
 
+export const FIND_BUSINESS = gql`
+  query ($id: Int!) {
+    findBusiness(id: $id) {
+      additionalSettings
+      createdAt
+      description
+      id
+      name
+      updatedAt
+    }
+  }
+`;
+
 export const FIND_SERVICE = gql`
   query ($id: Int!) {
     findService(id: $id) {
@@ -109,6 +122,22 @@ export const CREATE_QUESTION = gql`
         title
         updatedAt
       }
+    }
+  }
+`;
+
+export const UPDATE_BUSINESS = gql`
+  mutation ($input: UpdateBusinessInput!) {
+    updateBusiness(input: $input) {
+      business {
+        additionalSettings
+        createdAt
+        description
+        id
+        name
+        updatedAt
+      }
+      clientMutationId
     }
   }
 `;

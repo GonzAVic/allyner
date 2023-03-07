@@ -11,8 +11,13 @@ import LayoutOne from "components/layout/LayoutOne";
 import CheckoutDetailsForm from "components/service/CheckoutDetailsForm";
 import ServiceCheckout from "components/service/ServiceCheckout";
 
+// OTHER
+import useBusiness from "utils/useBusiness";
+
 const ServiceWizard = () => {
   const router = useRouter();
+  const { business } = useBusiness();
+
   const [questions, setQuestions] = useState([]);
   const [questionIndex, setQuestionsIndex] = useState(0);
   const [currentStep, setCurrentStep] = useState("questionnaire");
@@ -34,6 +39,7 @@ const ServiceWizard = () => {
     setCurrentStep("confimationPage");
   };
 
+  if (!business) return "Loading business...";
   return (
     <Box sx={{ height: "75vh", flex: 1, display: "flex" }}>
       <LayoutOne>
@@ -47,10 +53,17 @@ const ServiceWizard = () => {
           )}
           {currentStep === "checkoutDetails" && (
             <CheckoutDetailsForm
+              headline={business.additionalSettings.checkoutHeadline}
+              message={business.additionalSettings.checkoutMessage}
               cta={{ text: "Book Now", fn: handleCheckoutAction }}
             />
           )}
-          {currentStep === "confimationPage" && <ServiceCheckout />}
+          {currentStep === "confimationPage" && (
+            <ServiceCheckout
+              headline={business.additionalSettings.confirmationHeadline}
+              message={business.additionalSettings.confirmationMessage}
+            />
+          )}
         </Container>
       </LayoutOne>
     </Box>
@@ -61,6 +74,7 @@ const Container = styled("div")({
   display: "flex",
   flex: 1,
   alignItems: "center",
+  justifyContent: "center",
   background: "#FFFFFF",
   borderRadius: 24,
   margin: "auto",

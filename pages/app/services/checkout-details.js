@@ -11,23 +11,49 @@ import CheckoutQuestionCard from "components/CheckoutQuestionCard";
 import CheckoutDetailsForm from "components/service/CheckoutDetailsForm";
 import PreviewLayout from "components/layout/PreviewLayout";
 
+// OTHER
+import useBusiness from "utils/useBusiness";
+
 const Page = () => {
+  const { business, updateBusiness } = useBusiness();
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      headline: "",
-      message: "",
+      headline: business?.additionalSettings.checkoutHeadline,
+      message: business?.additionalSettings.checkoutMessage,
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
-      console.log("-> values: ", values);
+      const attributes = {
+        additionalSettings: JSON.stringify({
+          ...business.additionalSettings,
+          checkoutHeadline: values.headline,
+          checkoutMessage: values.message,
+        }),
+      };
+      updateBusiness(attributes);
     },
   });
 
   const handleCoverChange = () => {};
 
+  const initialValuesString = JSON.stringify(formik.initialValues);
+  const currentValuesString = JSON.stringify(formik.values);
+  const areCurrentAndInitialValuesEqual =
+    initialValuesString === currentValuesString;
+
   return (
-    <DefaultLayout title="Service Booking">
+    <DefaultLayout
+      title="Service Booking"
+      diffBanner={{
+        onSave: () => formik.submitForm(),
+        onDiscard: () => {
+          formik.handleReset();
+        },
+        isVisible: !areCurrentAndInitialValuesEqual,
+      }}
+    >
       <ServicesTabs />
 
       <PreviewLayout

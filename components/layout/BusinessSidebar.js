@@ -9,6 +9,7 @@ import SignalCellularAltRoundedIcon from "@mui/icons-material/SignalCellularAltR
 import PeopleOutlineOutlinedIcon from "@mui/icons-material/PeopleOutlineOutlined";
 import LayersOutlinedIcon from "@mui/icons-material/LayersOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import SettingsIcon from '@mui/icons-material/Settings';
 
 // COMPONENTS
 import SidebarItem from "./SidebarItem";
@@ -39,8 +40,17 @@ const BusinessSidebar = ({ isResponsive, isMenuOpen }) => {
       <SidebarItem
         label="Customers"
         href="/app/customers"
-        isActive={router.asPath.includes("/customers")}
+        isActive={router.asPath.includes("/settings")}
         icon={<PeopleOutlineOutlinedIcon />}
+      />
+
+      <Divider sx={{ mt: 2, mb: 2 }} />
+
+      <SidebarItem
+        label="Settings"
+        href="/app/settings"
+        isActive={router.asPath.includes("/customers")}
+        icon={<SettingsIcon />}
       />
 
       <Divider sx={{ mt: 2, mb: 2 }} />

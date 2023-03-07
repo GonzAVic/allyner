@@ -6,7 +6,7 @@ import CheckIcon from "@mui/icons-material/Check";
 const ServiceCheckout = ({ headline, message }) => {
   return (
     <Container>
-      <Box sx={{ textAlign: "center" }}>
+      <Box sx={{ textAlign: "center", justifyContent: "center" }}>
         <CheckBackground>
           <CheckIcon />
         </CheckBackground>
@@ -22,9 +22,7 @@ const ServiceCheckout = ({ headline, message }) => {
   );
 };
 
-const Container = styled("div")({
-  minWidth: 410,
-});
+const Container = styled("div")({});
 
 const CheckBackground = styled("div")({
   width: 126,

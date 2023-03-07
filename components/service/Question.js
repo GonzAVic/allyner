@@ -55,8 +55,12 @@ const Question = ({ question, number, onNext }) => {
         </Typography>
       )}
       <Box sx={{ height: 16 }} />
-      {renderAnswerComponent(question.questionType, question.options, isMultiple)}
-      <Box className="row-2" sx={{ alignItems: "center" }}>
+      {renderAnswerComponent(
+        question.questionType,
+        question.options,
+        isMultiple
+      )}
+      <Box className="row-2" sx={{ alignItems: "center", mt: 2 }}>
         <Button onClick={onNext}>OK</Button>
         <Typography>press Enter</Typography>
       </Box>
