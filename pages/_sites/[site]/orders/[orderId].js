@@ -1,10 +1,8 @@
-import React from "react";
-
 // COMPONENTS
 import OderOverview from "components/OrderOverview";
 
 const Page = () => {
-  return <OderOverview />;
+  return <OderOverview userType="client" />;
 };
 
 export default Page;

@@ -1,7 +1,7 @@
 // MATERIAL UI
 import { Typography, TextField, Button } from "@mui/material";
 
-const ClientSignup = ({ headline, message }) => {
+const ClientSignup = ({ headline, message, additionalQuestions }) => {
   return (
     <div>
       <Typography variant="h4" sx={{ textAlign: "center" }}>

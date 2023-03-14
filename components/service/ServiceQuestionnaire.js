@@ -10,7 +10,7 @@ import { Button, Menu, MenuItem, Typography } from "@mui/material";
 import QuestionCard from "./QuestionCard";
 
 // OTHER
-import { CREATE_QUESTION, LIST_QUESTIONS } from "graphql/apiql";
+import { CREATE_QUESTION } from "graphql/apiql";
 import useService from "utils/useService";
 import { questionTypes } from "utils/constants";
 
@@ -20,9 +20,8 @@ const ServiceQuestionnaire = ({
   updateDiffBanner,
 }) => {
   const [createQuestionFn, createQuestionHpr] = useMutation(CREATE_QUESTION);
-  const [getServiceFn, getServiceFnHelper] = useLazyQuery(FIND_SERVICE);
 
-  const { service } = useService(serviceId);
+  const { service } = useService(serviceId, { fetchQuestions: true });
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [activeQuestion, setActiveQuestion] = useState(null);
@@ -37,6 +36,8 @@ const ServiceQuestionnaire = ({
       values.questions.forEach((q) => {
         const attributes = {
           businessId: 1,
+          // TODO: remove surveyId
+          surveyId: 1,
           title: q.title,
           description: q.description,
           isRequired: q.isRequired,

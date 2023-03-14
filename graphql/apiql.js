@@ -54,9 +54,27 @@ export const FIND_SERVICE = gql`
   }
 `;
 
+export const FIND_SERVICE_REQUEST = gql`
+  query ($id: Int!) {
+    findServiceRequest(id: $id) {
+      additionalInfo
+      businessId
+      createdAt
+      frozenQuestions
+      frozenService
+      id
+      orderStatusId
+      status
+      surveyId
+      updatedAt
+      userId
+    }
+  }
+`;
+
 export const LIST_QUESTIONS = gql`
-  query ($surveyId: Int!) {
-    listQuestions(surveyId: $surveyId) {
+  query ($serviceId: ID!) {
+    listQuestions(serviceId: $serviceId) {
       businessId
       createdAt
       description
@@ -138,6 +156,26 @@ export const UPDATE_BUSINESS = gql`
         updatedAt
       }
       clientMutationId
+    }
+  }
+`;
+
+export const CREATE_SERVICE_REQUEST = gql`
+  mutation ($input: CreateServiceRequestInput!) {
+    createServiceRequest(input: $input) {
+      serviceRequest {
+        additionalInfo
+        businessId
+        createdAt
+        frozenQuestions
+        frozenService
+        id
+        orderStatusId
+        status
+        surveyId
+        updatedAt
+        userId
+      }
     }
   }
 `;

@@ -5,23 +5,33 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
-const LayoutOne = ({ children }) => {
+const LayoutOne = ({
+  children,
+  onArrowDown,
+  onArrowUp,
+  title,
+  progressValue = 0,
+}) => {
   return (
     <Container>
       <Header>
         <IconButton>
           <ArrowBackIcon />
         </IconButton>
-        <Typography variant="h6">Product Management</Typography>
+        <Typography variant="h6">{title}</Typography>
         <Box sx={{ width: 24, height: 24 }} />
       </Header>
-      <LinearProgress variant="determinate" value={30} />
+      <LinearProgress variant="determinate" value={progressValue} />
       <ContentContainer>{children}</ContentContainer>
       <ActionsContainer>
-        <Action sx={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}>
+        <Action
+          onClick={onArrowDown}
+          sx={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+        >
           <KeyboardArrowDownIcon fontSize="small" />
         </Action>
         <Action
+          onClick={onArrowUp}
           sx={{
             ml: 0.4,
             mr: 1,

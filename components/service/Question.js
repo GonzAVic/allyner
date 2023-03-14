@@ -11,37 +11,12 @@ import ResponseFile from "./ResponseFile";
 import ResponseMultipleChoice from "./ResponseMultipleChoice";
 import ResponsePictureChoice from "./ResponsePictureChoice";
 
-const renderAnswerComponent = (questionType, options, isMultiple) => {
-  switch (questionType) {
-    case "SHORT_TEXT":
-      return <ResponseShortText />;
-    case "LONG_TEXT":
-      return <ResponseLongText />;
-    case "DROPDOWN":
-      return <ResponseDropdown options={options} />;
-    case "DATE":
-      return <ResponseDatePicker />;
-    case "FILE":
-      return <ResponseFile />;
-    case "PICTURE":
-      return <ResponsePictureChoice options={options} />;
-    case "SINGLE_SELECT":
-      return (
-        <ResponseMultipleChoice options={options} isMultiple={isMultiple} />
-      );
-    case "MULTIPLE_SELECT":
-      return (
-        <ResponseMultipleChoice options={options} isMultiple={isMultiple} />
-      );
-  }
-};
-
-const Question = ({ question, number, onNext }) => {
+const Question = ({ question, questionIndex, onNext, onResponse }) => {
   const isMultiple = question.selectionType === "MULTIPLE";
   return (
     <Container>
       <Typography variant="h5">
-        {number}. {question.title || "Title placeholder"}
+        {questionIndex + 1}. {question.title || "Title placeholder"}
         {question.isRequired && "*"}
       </Typography>
       {question.isDescriptionActive && (
@@ -55,11 +30,7 @@ const Question = ({ question, number, onNext }) => {
         </Typography>
       )}
       <Box sx={{ height: 16 }} />
-      {renderAnswerComponent(
-        question.questionType,
-        question.options,
-        isMultiple
-      )}
+      {renderAnswerComponent(questionIndex, question, isMultiple, onResponse)}
       <Box className="row-2" sx={{ alignItems: "center", mt: 2 }}>
         <Button onClick={onNext}>OK</Button>
         <Typography>press Enter</Typography>
@@ -71,5 +42,85 @@ const Question = ({ question, number, onNext }) => {
 const Container = styled(Box)({
   width: "100%",
 });
+
+const renderAnswerComponent = (
+  questionIndex,
+  question,
+  isMultiple,
+  onResponse
+) => {
+  switch (question.questionType) {
+    case "SHORT_TEXT":
+      return (
+        <ResponseShortText
+          onResponse={onResponse}
+          questionIndex={questionIndex}
+          question={question}
+        />
+      );
+    case "LONG_TEXT":
+      return (
+        <ResponseLongText
+          onResponse={onResponse}
+          questionIndex={questionIndex}
+          question={question}
+        />
+      );
+    case "DROPDOWN":
+      return (
+        <ResponseDropdown
+          options={question.options}
+          onResponse={onResponse}
+          questionIndex={questionIndex}
+          question={question}
+        />
+      );
+    case "DATE":
+      return (
+        <ResponseDatePicker
+          onResponse={onResponse}
+          questionIndex={questionIndex}
+          question={question}
+        />
+      );
+    case "FILE":
+      return (
+        <ResponseFile
+          onResponse={onResponse}
+          questionIndex={questionIndex}
+          question={question}
+        />
+      );
+    case "PICTURE":
+      return (
+        <ResponsePictureChoice
+          options={question.options}
+          onResponse={onResponse}
+          questionIndex={questionIndex}
+          question={question}
+        />
+      );
+    case "SINGLE_SELECT":
+      return (
+        <ResponseMultipleChoice
+          options={question.options}
+          isMultiple={isMultiple}
+          onResponse={onResponse}
+          questionIndex={questionIndex}
+          question={question}
+        />
+      );
+    case "MULTIPLE_SELECT":
+      return (
+        <ResponseMultipleChoice
+          options={question.options}
+          isMultiple={isMultiple}
+          onResponse={onResponse}
+          questionIndex={questionIndex}
+          question={question}
+        />
+      );
+  }
+};
 
 export default Question;
