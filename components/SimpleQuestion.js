@@ -1,6 +1,5 @@
-import React from "react";
-
 // MATERIAL UI
+import { styled } from "@mui/system";
 import {
   Typography,
   Box,
@@ -9,11 +8,18 @@ import {
   Switch,
   IconButton,
 } from "@mui/material";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
 // OTHER
 import { sUQuestionTypes } from "utils/constants";
 
-const SimpleQuestion = ({ question, updateQuestionAttr }) => {
+const SimpleQuestion = ({
+  question = {},
+  index = 0,
+  updateQuestionAttr = () => {},
+  deleteQuestion = () => {},
+}) => {
   return (
     <div>
       <QuestionTypeTitle
@@ -40,20 +46,42 @@ const SimpleQuestion = ({ question, updateQuestionAttr }) => {
       />
       <ActionsContainer>
         <div className="space-between-centered">
-          <Switch checked={true} onChange={() => {}} />
+          <Switch
+            checked={question.isRequired}
+            onChange={(event) =>
+              updateQuestionAttr("isRequired", event.target.checked, index)
+            }
+          />
           <Typography>Required</Typography>
         </div>
         <Box>
           <IconButton>
-            <ContentCopyIcon />
+            <ContentCopyIcon fontSize="small" />
           </IconButton>
-          <IconButton>
-            <DeleteOutlineOutlinedIcon />
+          <IconButton onClick={() => deleteQuestion(index)}>
+            <DeleteOutlineOutlinedIcon fontSize="small" />
           </IconButton>
         </Box>
       </ActionsContainer>
     </div>
   );
 };
+
+const QuestionTypeTitle = styled(TextField)({
+  "& *": {
+    color: "#B5BBC8",
+  },
+  "& fieldset": {
+    border: "none",
+  },
+});
+
+const ActionsContainer = styled("div")({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  height: 54,
+  marginBottom: 16,
+});
 
 export default SimpleQuestion;

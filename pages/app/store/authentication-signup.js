@@ -10,19 +10,16 @@ import {
   Button,
   MenuItem,
   Menu,
-  Switch,
-  IconButton,
 } from "@mui/material";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import LinkIcon from "@mui/icons-material/Link";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
 import StoreTabs from "components/StoreTabs";
 import PreviewLayout from "components/layout/PreviewLayout";
 import ClientSignup from "components/ClientSignup";
+import SimpleQuestion from "components/SimpleQuestion";
 
 // OTHER
 import useBusiness from "utils/useBusiness";
@@ -61,6 +58,7 @@ const Page = () => {
     arrayHelpers.push({
       questionType: type,
       title: "",
+      isRequired: false,
     });
     handleClose();
   };
@@ -75,6 +73,14 @@ const Page = () => {
 
   const updateQuestionAttr = (attribute, value, index) => {
     formik.setFieldValue(`questionnaire[${index}].${attribute}`, value);
+  };
+
+  const deleteQuestion = (index) => {
+    const newQuestionnaire = formik.values.questionnaire.filter((q, qIndex) => {
+      if (index !== qIndex) return q;
+    });
+    console.log("-> newQuestionnaire: ", newQuestionnaire);
+    formik.setFieldValue("questionnaire", newQuestionnaire);
   };
 
   const initialValuesString = JSON.stringify(formik.initialValues);
@@ -128,6 +134,12 @@ const Page = () => {
             Sign Up Form
           </Typography>
           <Box className="card" sx={{ mb: 5 }}>
+            {/* <SimpleQuestion
+              question={{ title: "Email", questionType: "SHORT_TEXT" }}
+            />
+            <SimpleQuestion
+              question={{ title: "Password", questionType: "SHORT_TEXT" }}
+            /> */}
             <FieldArray
               name="questionnaire"
               render={(arrayHelpers) => {
@@ -135,52 +147,12 @@ const Page = () => {
                   <>
                     {formik.values.questionnaire.map((question, index) => {
                       return (
-                        <div>
-                          <QuestionTypeTitle
-                            value={question.questionType}
-                            onChange={(event) =>
-                              updateQuestionAttr(
-                                "questionType",
-                                event.target.value,
-                                index
-                              )
-                            }
-                            sx={{ mb: 1, width: "fit-content" }}
-                            size="small"
-                            select
-                          >
-                            {sUQuestionTypes().map((option) => (
-                              <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                              </MenuItem>
-                            ))}
-                          </QuestionTypeTitle>
-                          <TextField
-                            name="title"
-                            value={question.title}
-                            onChange={(event) =>
-                              updateQuestionAttr(
-                                "title",
-                                event.target.value,
-                                index
-                              )
-                            }
-                          />
-                          <ActionsContainer>
-                            <div className="space-between-centered">
-                              <Switch checked={true} onChange={() => {}} />
-                              <Typography>Required</Typography>
-                            </div>
-                            <Box>
-                              <IconButton>
-                                <ContentCopyIcon />
-                              </IconButton>
-                              <IconButton>
-                                <DeleteOutlineOutlinedIcon />
-                              </IconButton>
-                            </Box>
-                          </ActionsContainer>
-                        </div>
+                        <SimpleQuestion
+                          question={question}
+                          index={index}
+                          updateQuestionAttr={updateQuestionAttr}
+                          deleteQuestion={deleteQuestion}
+                        />
                       );
                     })}
 
@@ -230,24 +202,8 @@ const Page = () => {
   );
 };
 
-const QuestionTypeTitle = styled(TextField)({
-  "& *": {
-    color: "#B5BBC8",
-  },
-  "& fieldset": {
-    border: "none",
-  },
-});
-
 const QuestionTypeOption = styled(MenuItem)({
   textTransform: "capitalize",
-});
-
-const ActionsContainer = styled("div")({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  height: 36,
 });
 
 export default Page;
