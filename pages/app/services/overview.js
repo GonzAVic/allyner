@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 
 // MATERIAL UI
-import { styled } from "@mui/system";
-import { Button, Divider, Box } from "@mui/material";
+import { Button, Divider } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 
 // COMPONENTS
@@ -100,24 +99,5 @@ const NewService = () => {
     </DefaultLayout>
   );
 };
-
-const Container = styled("div")({
-  display: "flex",
-  gap: 32,
-  flex: 1,
-  overflowY: "auto",
-  overflowX: "hidden",
-});
-
-const LeftSide = styled("div")({
-  flex: 1,
-  overflowY: "auto",
-  overflowX: "hidden",
-});
-
-const RightSide = styled("div")({
-  display: "flex",
-  flex: 1,
-});
 
 export default NewService;

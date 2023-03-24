@@ -17,3 +17,23 @@ export const serviceAdapter = (data) => {
 
   return serviceParsed;
 };
+
+export const questionAdapter = (data = {}, isSimple = false) => {
+  let question = {
+    title: data.title || "",
+    type: data.type || "SHORT_TEXT",
+    isRequired: data.isRequired || false,
+  };
+
+  if (isSimple) return question;
+
+  question = {
+    ...question,
+    options: data.options || [],
+    description: data.description || "",
+    selectionType: data.selectionType || "SINGLE",
+    isDescriptionActive: data.isDescriptionActive || false,
+  };
+
+  return question;
+};

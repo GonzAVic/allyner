@@ -49,7 +49,7 @@ const renderAnswerComponent = (
   isMultiple,
   onResponse
 ) => {
-  switch (question.questionType) {
+  switch (question.type) {
     case "SHORT_TEXT":
       return (
         <ResponseShortText

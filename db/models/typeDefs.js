@@ -2,142 +2,48 @@ import { gql } from "apollo-server-micro";
 
 const typeDefs = gql`
   # MODELS
-  type BUser {
-    id: ID!
-    email: String!
-    name: String!
-    lastName: String!
-  }
-
-  type CUser {
-    id: ID!
-    email: String!
-  }
-
   type Business {
     id: ID!
-    name: String!
-    industry: String!
-
-    # owner: ID!
-    # onboarding: Onboarding!
-    # services: [Service!]!
+    name: String
+    industry: String
+    additionalData: String
   }
 
   type Service {
     id: ID!
-    title: String!
-    description: String!
-    callToAction: String!
-    cover: String!
-    status: ServiceStatus!
-    isOriginal: Boolean!
-
-    checkoutTitle: String!
-    checkoutMessage: String!
-    isGuestCheckoutEnabled: Boolean!
-
-    pricing: Pricing!
-    questionnaire: [Question]!
-    # businessId: ID!
-  }
-
-  type Pricing {
-    id: ID!
-    type: PricingType!
-    durationHours: Int
-    durationMinutes: Int
-    amount: Int!
-    isOriginal: Boolean!
-  }
-
-  type Question {
-    id: ID!
-    sentence: String!
-    description: String!
-    type: QuestionType!
-    value: String!
-    options: [String]
-    withDescription: Boolean!
-    isMultiple: Boolean!
-    isRequired: Boolean!
-    isOriginal: Boolean!
-  }
-
-  # INPUTS
-  input ServiceInput {
-    title: String
+    name: String
     description: String
     cover: String
     callToAction: String
-    isOriginal: Boolean
-
-    pricing: PricingInput!
+    status: String
+    questionList: String
   }
 
-  input ServiceCheckoutInput {
-    checkoutTitle: String
-    checkoutMessage: String
-    isGuestCheckoutEnabled: Boolean
+  input BusinessInput {
+    name: String
+    industry: String
+    additionalData: String
   }
 
-  input PricingInput {
-    type: PricingType!
-    durationHours: Int
-    durationMinutes: Int
-    amount: Int!
-  }
-
-  # TODO: validate required attributes
-  input QuestionInput {
-    id: ID!
-    type: QuestionType
-    sentence: String
+  input ServiceInput {
+    name: String
     description: String
-    options: [String]
-    withDescription: Boolean!
-    isMultiple: Boolean!
-    isRequired: Boolean!
-  }
-
-  input QuestionResponseInput {
-    id: ID!
+    cover: String
+    callToAction: String
+    status: String
+    questionList: String
   }
 
   type Query {
-    getBusiness: Business
-    getServices(businessId: ID!): [Service]
+    getBusiness(businessId: ID!): Business
     getService(serviceId: ID!): Service
   }
 
   type Mutation {
-    createService(input: ServiceInput): Service
-    updateServiceDetails(input: ServiceInput, serviceId: ID!): Service
-    updateQuestionnaire(input: [QuestionInput], serviceId: ID!): Service
-    updateServiceCheckout(input: ServiceCheckoutInput, serviceId: ID!): Service
-  }
+    createBusiness(input: BusinessInput!): Business
 
-  # ENUMS
-
-  enum QuestionType {
-    DROPDOWN
-    MULTIPLE
-    PICTURE
-    SHORT_TEXT
-    LONG_TEXT
-    FILE
-    DATE
-  }
-
-  enum ServiceStatus {
-    DRAFT
-    ACTIVE
-  }
-
-  enum PricingType {
-    FIXED
-    BY_TIME
-    FREE
+    createService(input: ServiceInput!): Service
+    updateService(input: ServiceInput!, serviceId: ID!): Service
   }
 `;
 

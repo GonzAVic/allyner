@@ -3,18 +3,21 @@ import mongoose from "mongoose";
 const BusinessSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
   },
   industry: {
     type: String,
+  },
+  additionalData: {
+    type: String,
     required: true,
+    default: "{}",
   },
 
-  owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: "User",
-  },
+  // owner: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   required: true,
+  //   ref: "User",
+  // },
 });
 
 const Business = mongoose.model("business", BusinessSchema);

@@ -1,21 +1,13 @@
 import Service from "db/models/Service.model";
-import Pricing from "db/models/Pricing.model";
 
 const createService = async (_, args) => {
   try {
     let { input } = args;
 
-    const pricingInput = { ...input.pricing, isOriginal: true };
-    const pricing = await new Pricing(pricingInput);
-    pricing.save();
-
-    const serviceInput = {
+    const service = await new Service({
       ...input,
-      pricing: pricing._id,
-      cover: "https://images.unsplash.com/photo-1561070791-2526d30994b5",
-      isOriginal: true,
-    };
-    const service = await new Service(serviceInput);
+      businessId: "6413c7297fbdc9ad02f44f7d",
+    });
     service.save();
 
     return service;
@@ -24,46 +16,15 @@ const createService = async (_, args) => {
   }
 };
 
-const updateServiceDetails = async (_, args) => {
+const updateService = async (_, args) => {
   try {
     let { input, serviceId } = args;
-    const service = await Service.findById(serviceId);
 
-    service.title = input.title;
-    service.description = input.description;
-    service.cover = input.cover;
-    service.callToAction = input.callToAction;
-
-    await Pricing.findOneAndUpdate({ _id: service.pricing }, input.pricing, {
+    const service = await Service.findOneAndUpdate({ _id: serviceId }, input, {
       new: true,
     });
 
-    service.save();
-
     return service;
-  } catch (error) {
-    return error;
-  }
-};
-
-const updateServiceCheckout = async (_, args) => {
-  try {
-    let { input, serviceId } = args;
-    const service = await Service.findById(serviceId);
-    service.checkoutTitle = input.checkoutTitle;
-    service.checkoutMessage = input.checkoutMessage;
-    service.isGuestCheckoutEnabled = input.isGuestCheckoutEnabled || false;
-    service.save();
-    return service;
-  } catch (error) {
-    return error;
-  }
-};
-
-const getServices = async () => {
-  try {
-    const services = await Service.find({});
-    return services;
   } catch (error) {
     return error;
   }
@@ -79,12 +40,13 @@ const getService = async (_, args) => {
   }
 };
 
-const queries = { getServices, getService };
+const queries = {
+  getService,
+};
 
 const mutations = {
   createService,
-  updateServiceCheckout,
-  updateServiceDetails,
+  updateService,
 };
 
 module.exports = {

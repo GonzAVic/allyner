@@ -3,7 +3,7 @@ import { useMutation, useLazyQuery } from "@apollo/client";
 
 import { UPDATE_BUSINESS, FIND_BUSINESS } from "graphql/apiql";
 
-const BUSINESS_ID = 1;
+const BUSINESS_ID = 2;
 
 const useBusiness = (businessId) => {
   const [findBusinessFn, findBusinessHpr] = useLazyQuery(FIND_BUSINESS);
@@ -12,7 +12,7 @@ const useBusiness = (businessId) => {
   const [business, setBusiness] = useState(null);
 
   useEffect(() => {
-    findBusinessFn({ variables: { id: BUSINESS_ID } });
+    findBusinessFn({ variables: { id: Number(BUSINESS_ID) } });
   }, []);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const useBusiness = (businessId) => {
 
   const updateBusiness = (data) => {
     updateBusinessFn({
-      variables: { input: { attributes: data, id: BUSINESS_ID } },
+      variables: { input: { attributes: data, id: Number(BUSINESS_ID) } },
     });
   };
 

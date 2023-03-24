@@ -1,20 +1,30 @@
 import Business from "db/models/Business.model";
 
 const getBusiness = async (_, args) => {
-  const business = {
-    name: "pedro",
-    industry: "TECH",
-  };
+  try {
+    let { businessId } = args;
 
-  console.log("-> business: ", business);
-  return business;
+    const business = await Business.findById(businessId);
+
+    return business;
+  } catch (error) {
+    return error;
+  }
 };
 
-const createBusiness = async () => {
+const createBusiness = async (_, args) => {
   try {
+    let { input } = args;
+
+    console.log("-> input: ", input);
+
     const business = await new Business(input);
     business.save();
-  } catch (error) {}
+
+    return business;
+  } catch (error) {
+    return error;
+  }
 };
 
 const queries = {

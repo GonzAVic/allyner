@@ -19,23 +19,22 @@ const ServiceDetailsForm = ({
   serviceId,
 }) => {
   const router = useRouter();
-  const { service } = useService(router.query.id);
+  const { service, updateService, createService } = useService(router.query.id);
 
   const [createServiceFn, createServiceHpr] = useMutation(CREATE_SERVICE);
-  const [updateServiceFn, updateServiceHpr] = useMutation(UPDATE_SERVICE);
 
   const isNewService = router.query.id === "new";
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: service ? service.name : "",
-      description: service ? service.description : "",
-      cover: service ? service.cover : "",
+      name: service?.name,
+      description: service?.description,
+      cover: service?.cover,
       callToAction:
         service && service.callToAction ? service.callToAction : "Book Now",
-      pricingType:
-        service && service.pricingType ? service.pricingType : "FREE",
+      // TODO: Change pricintType to String
+      pricingType: service && service.pricingType ? service.pricingType : 1,
       durationHours:
         service && service.pricingDuration ? service.pricingDuration % 60 : 1,
       durationMinutes:
@@ -56,28 +55,16 @@ const ServiceDetailsForm = ({
         businessId: 1,
         pricingDuration,
         pricingAmount: values.pricingAmount,
-        // pricingType: values.pricingType,
+        pricingType: values.pricingType,
         callToAction: values.callToAction,
         cover: values.cover,
         status: values.status,
       };
-      if (isNewService)
-        createServiceFn({
-          variables: {
-            input: {
-              attributes,
-            },
-          },
-        });
-      else {
-        updateServiceFn({
-          variables: {
-            input: {
-              id: service.id,
-              attributes,
-            },
-          },
-        });
+
+      if (isNewService) {
+        createService(attributes);
+      } else {
+        updateService(attributes);
       }
     },
   });
@@ -96,17 +83,6 @@ const ServiceDetailsForm = ({
       isVisible: !areCurrentAndInitialValuesEqual,
     });
   }, [formik.values]);
-
-  useEffect(() => {
-    if (!createServiceHpr.called) return;
-    if (!createServiceHpr.data) return;
-    const newService = createServiceHpr.data.createService.service;
-
-    router.push({
-      pathname: `/app/services/overview`,
-      query: { id: newService.id },
-    });
-  }, [createServiceHpr.data]);
 
   const handleDescriptionChange = (value) => {
     formik.setFieldValue("description", value);

@@ -45,6 +45,7 @@ export const FIND_SERVICE = gql`
       name
       updatedAt
       callToAction
+      questionsInfo
       pricingAmount
       pricingDuration
       pricingType

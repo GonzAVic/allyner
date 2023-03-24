@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useFormik, FieldArray, FormikProvider } from "formik";
-import { useMutation, useLazyQuery } from "@apollo/client";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
@@ -10,18 +9,18 @@ import { Button, Menu, MenuItem, Typography } from "@mui/material";
 import QuestionCard from "./QuestionCard";
 
 // OTHER
-import { CREATE_QUESTION } from "graphql/apiql";
 import useService from "utils/useService";
 import { questionTypes } from "utils/constants";
+import { questionAdapter } from "utils/adapters";
 
 const ServiceQuestionnaire = ({
   updatePreviewData,
   serviceId,
   updateDiffBanner,
 }) => {
-  const [createQuestionFn, createQuestionHpr] = useMutation(CREATE_QUESTION);
-
-  const { service } = useService(serviceId, { fetchQuestions: true });
+  const { service, updateService } = useService(serviceId, {
+    fetchQuestions: true,
+  });
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [activeQuestion, setActiveQuestion] = useState(null);
@@ -29,28 +28,10 @@ const ServiceQuestionnaire = ({
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      // questions: service ? service.questionnaire : [],
-      questions: [],
+      questions: service ? service.questionsInfo : [],
     },
     onSubmit: (values) => {
-      values.questions.forEach((q) => {
-        const attributes = {
-          businessId: 1,
-          // TODO: remove surveyId
-          surveyId: 1,
-          title: q.title,
-          description: q.description,
-          isRequired: q.isRequired,
-          isDescriptionActive: q.isDescriptionActive,
-        };
-        createQuestionFn({
-          variables: {
-            input: {
-              attributes,
-            },
-          },
-        });
-      });
+      updateService({ questionsInfo: values.questions });
     },
   });
 
@@ -83,16 +64,7 @@ const ServiceQuestionnaire = ({
   };
 
   const handleCreateNewQuestion = (type, arrayHelpers) => {
-    arrayHelpers.push({
-      id: "new",
-      type: type,
-      title: "",
-      selectionType: "SINGLE",
-      isDescriptionActive: false,
-      description: "",
-      options: [],
-      isRequired: false,
-    });
+    arrayHelpers.push(questionAdapter({ type }));
     handleClose();
   };
 

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useLazyQuery } from "@apollo/client";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
@@ -17,45 +16,24 @@ import useBusiness from "utils/useBusiness";
 import useService from "utils/useService";
 import useServiceReq from "utils/useServiceReq";
 import { useKeyPress, ARROW_DOWN, ARROW_UP } from "utils/useKeyPress";
-import { LIST_QUESTIONS } from "graphql/apiql";
 
 const ServiceWizard = () => {
   const router = useRouter();
   const { business } = useBusiness();
-  const { service } = useService(1);
+  const { service } = useService(router.query.serviceId);
   const { createServiceReq } = useServiceReq();
   const isArrowDownPressed = useKeyPress(ARROW_DOWN);
   const isArrowUpPressed = useKeyPress(ARROW_UP);
-
-  // TODO: REMOVE this and use the useService code
-  const [listQuestionsFn, listQuestionsHpr] = useLazyQuery(LIST_QUESTIONS);
 
   const [questions, setQuestions] = useState([]);
   const [questionIndex, setQuestionsIndex] = useState(0);
   const [currentStep, setCurrentStep] = useState("questionnaire");
 
   useEffect(() => {
-    if (!router.query.serviceId) return;
-    listQuestionsFn({
-      variables: {
-        serviceId: router.query.serviceId,
-      },
-    });
-  }, [router.query.serviceId]);
-
-  useEffect(() => {
-    if (!listQuestionsHpr.called) return;
-    if (!listQuestionsHpr.data) return;
-
-    setQuestions([
-      question,
-      question2,
-      question3,
-      question4,
-      // question5,
-      question6,
-    ]);
-  }, [listQuestionsHpr]);
+    if (!service) return;
+    console.log("-> service: ", service);
+    setQuestions(service.questionsInfo);
+  }, [service]);
 
   useEffect(() => {
     if (isArrowUpPressed) handlePrevQuestion();
@@ -96,7 +74,7 @@ const ServiceWizard = () => {
     setQuestions(quesitonsParsed);
   };
 
-  if (!business) return "Loading business...";
+  if (!business || !service) return "Loading data...";
   return (
     <Box sx={{ height: "75vh", flex: 1, display: "flex" }}>
       <LayoutOne
