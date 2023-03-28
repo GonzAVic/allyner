@@ -1,7 +1,7 @@
 // MATERIAL UI
 import { Typography, TextField, Button } from "@mui/material";
 
-const ClientSignup = ({ headline, message, additionalQuestions }) => {
+const ClientSignup = ({ headline, message, additionalQuestions = [] }) => {
   return (
     <div>
       <Typography variant="h4" sx={{ textAlign: "center" }}>
@@ -16,6 +16,15 @@ const ClientSignup = ({ headline, message, additionalQuestions }) => {
       </Typography>
       <TextField label="Email" />
       <TextField label="Password" />
+      {additionalQuestions.map((q, index) => {
+        return (
+          <TextField
+            label={q.title || "[COPY] default value"}
+            multiline={q.questionType === "LONG_TEXT"}
+            rows={3}
+          />
+        );
+      })}
       <Button fullWidth>Sign In</Button>
     </div>
   );

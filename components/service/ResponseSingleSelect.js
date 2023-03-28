@@ -6,16 +6,14 @@ import {
   Radio,
 } from "@mui/material";
 
-const ResponseMultipleChoice = ({ options }) => {
-  const handleRadioChange = () => {};
-
+const ResponseSingleSelect = ({ options, onResponse, questionIndex }) => {
   return (
     <FormControl>
       <RadioGroup
         aria-labelledby="demo-controlled-radio-buttons-group"
         name="controlled-radio-buttons-group"
         // value={value}
-        onChange={handleRadioChange}
+        onChange={(e) => onResponse(questionIndex, e.target.value)}
       >
         {options.map((option, index) => {
           return (
@@ -32,4 +30,4 @@ const ResponseMultipleChoice = ({ options }) => {
   );
 };
 
-export default ResponseMultipleChoice;
+export default ResponseSingleSelect;

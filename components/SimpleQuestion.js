@@ -21,7 +21,7 @@ const SimpleQuestion = ({
   deleteQuestion = () => {},
 }) => {
   return (
-    <div>
+    <Box className="card" sx={{ mb: 2 }}>
       <QuestionTypeTitle
         value={question.questionType}
         onChange={(event) =>
@@ -40,9 +40,9 @@ const SimpleQuestion = ({
       <TextField
         name="title"
         value={question.title}
-        onChange={(event) =>
-          updateQuestionAttr("title", event.target.value, index)
-        }
+        onChange={(event) => {
+          updateQuestionAttr("title", event.target.value, index);
+        }}
       />
       <ActionsContainer>
         <div className="space-between-centered">
@@ -63,7 +63,7 @@ const SimpleQuestion = ({
           </IconButton>
         </Box>
       </ActionsContainer>
-    </div>
+    </Box>
   );
 };
 

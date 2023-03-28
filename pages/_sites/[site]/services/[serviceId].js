@@ -31,7 +31,6 @@ const ServiceWizard = () => {
 
   useEffect(() => {
     if (!service) return;
-    console.log("-> service: ", service);
     setQuestions(service.questionsInfo);
   }, [service]);
 

@@ -3,6 +3,7 @@ import { styled } from "@mui/system";
 import { Typography, Box } from "@mui/material";
 
 const QuestionResponse = ({ number, sentence, answer }) => {
+  console.log("-> answer: ", typeof answer);
   return (
     <Box sx={{ mb: 4 }}>
       <Typography sx={{ mb: 2 }}>
@@ -10,7 +11,9 @@ const QuestionResponse = ({ number, sentence, answer }) => {
       </Typography>
       <ResponseContainer>
         <Typography sx={{ color: "#B5BBC8", mb: 1 }}>Answer</Typography>
-        <Typography>{answer}</Typography>
+        <Typography>
+          {typeof answer === "string" ? answer : answer.join(", ")}
+        </Typography>
       </ResponseContainer>
     </Box>
   );

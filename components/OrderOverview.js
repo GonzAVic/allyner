@@ -36,7 +36,7 @@ const OderOverview = ({ userType }) => {
           <Typography className="section-title" variant="subtitle1">
             Order details
           </Typography>
-          <Box className="card">
+          <Box className="card" sx={{ mb: 3 }}>
             <OrderItem label="Order ID" value={`#${serviceReq.id}`} />
             <OrderItem label="Price" value="$57" />
             <OrderItem
@@ -49,6 +49,20 @@ const OderOverview = ({ userType }) => {
             />
             <OrderItem label="Last update date" value="16/01/2023" />
           </Box>
+
+
+          {userType !== "client" && (
+            <>
+              <Typography className="section-title" variant="subtitle1">
+                Checkout Details
+              </Typography>
+              <Box className="card">
+                <OrderItem label="Customer Name" value="Alwi Hesa" />
+                <OrderItem label="Customer Email" value="alwi@gmail.com" />
+                <OrderItem label="Client Account" value="Yes" />
+              </Box>
+            </>
+          )}
         </div>
 
         <div>

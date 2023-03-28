@@ -12,16 +12,31 @@ import StoreTabs from "components/StoreTabs";
 import PreviewLayout from "components/layout/PreviewLayout";
 import ClientSignin from "components/ClientSignin";
 
+// OTHER
+import useBusiness from "utils/useBusiness";
+
 const Page = () => {
+  const { business, updateBusiness } = useBusiness();
+  console.log("-> business: ", business);
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      headline: "",
-      message: "",
+      headline: business?.additionalSettings.signInHeadline,
+      message: business?.additionalSettings.signInMessage,
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
       console.log("-> values: ", values);
+
+      const attributes = {
+        additionalSettings: JSON.stringify({
+          ...business.additionalSettings,
+          signInHeadline: values.headline,
+          signInMessage: values.message,
+        }),
+      };
+      updateBusiness(attributes);
     },
   });
   const initialValuesString = JSON.stringify(formik.initialValues);
@@ -32,7 +47,13 @@ const Page = () => {
   return (
     <DefaultLayout
       title="Store/Authentication"
-      diffBanner={{ isVisible: !areCurrentAndInitialValuesEqual }}
+      diffBanner={{
+        onSave: () => formik.submitForm(),
+        onDiscard: () => {
+          formik.handleReset();
+        },
+        isVisible: !areCurrentAndInitialValuesEqual,
+      }}
     >
       <StoreTabs />
 

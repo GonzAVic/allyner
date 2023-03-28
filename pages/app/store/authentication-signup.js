@@ -35,8 +35,8 @@ const Page = () => {
     initialValues: {
       headline: business?.additionalSettings.signUpHeadline,
       message: business?.additionalSettings.signUpMessage,
-      questionnaire: business
-        ? business.additionalSettings.signUpQuestionnaire
+      additionalQuestions: business
+        ? business.additionalSettings.signUpQuestionnaire || []
         : [],
     },
     // validationSchema: createLoginSchema(),
@@ -46,11 +46,10 @@ const Page = () => {
           ...business.additionalSettings,
           signUpHeadline: values.headline,
           signUpMessage: values.message,
-          signUpQuestionnaire: values.questionnaire,
+          signUpQuestionnaire: values.additionalQuestions,
         }),
       };
       updateBusiness(attributes);
-      console.log("-> values: ", values);
     },
   });
 
@@ -72,15 +71,16 @@ const Page = () => {
   };
 
   const updateQuestionAttr = (attribute, value, index) => {
-    formik.setFieldValue(`questionnaire[${index}].${attribute}`, value);
+    formik.setFieldValue(`additionalQuestions[${index}].${attribute}`, value);
   };
 
   const deleteQuestion = (index) => {
-    const newQuestionnaire = formik.values.questionnaire.filter((q, qIndex) => {
-      if (index !== qIndex) return q;
-    });
-    console.log("-> newQuestionnaire: ", newQuestionnaire);
-    formik.setFieldValue("questionnaire", newQuestionnaire);
+    const newQuestionnaire = formik.values.additionalQuestions.filter(
+      (q, qIndex) => {
+        if (index !== qIndex) return q;
+      }
+    );
+    formik.setFieldValue("additionalQuestions", newQuestionnaire);
   };
 
   const initialValuesString = JSON.stringify(formik.initialValues);
@@ -109,6 +109,7 @@ const Page = () => {
             <ClientSignup
               headline={formik.values.headline}
               message={formik.values.message}
+              additionalQuestions={formik.values.additionalQuestions}
             />
           }
         >
@@ -133,7 +134,7 @@ const Page = () => {
           <Typography className="section-title" variant="subtitle1">
             Sign Up Form
           </Typography>
-          <Box className="card" sx={{ mb: 5 }}>
+          <Box  sx={{ mb: 5 }}>
             {/* <SimpleQuestion
               question={{ title: "Email", questionType: "SHORT_TEXT" }}
             />
@@ -141,20 +142,22 @@ const Page = () => {
               question={{ title: "Password", questionType: "SHORT_TEXT" }}
             /> */}
             <FieldArray
-              name="questionnaire"
+              name="additionalQuestions"
               render={(arrayHelpers) => {
                 return (
                   <>
-                    {formik.values.questionnaire.map((question, index) => {
-                      return (
-                        <SimpleQuestion
-                          question={question}
-                          index={index}
-                          updateQuestionAttr={updateQuestionAttr}
-                          deleteQuestion={deleteQuestion}
-                        />
-                      );
-                    })}
+                    {formik.values.additionalQuestions.map(
+                      (question, index) => {
+                        return (
+                          <SimpleQuestion
+                            question={question}
+                            index={index}
+                            updateQuestionAttr={updateQuestionAttr}
+                            deleteQuestion={deleteQuestion}
+                          />
+                        );
+                      }
+                    )}
 
                     <Button
                       variant="dashed"

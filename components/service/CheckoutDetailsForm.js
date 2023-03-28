@@ -1,7 +1,12 @@
 // MATERIAL UI
 import { Box, Typography, TextField, Button } from "@mui/material";
 
-const CheckoutDetailsForm = ({ headline, message, cta: cta_ }) => {
+const CheckoutDetailsForm = ({
+  headline,
+  message,
+  cta: cta_,
+  additionalQuestions = [],
+}) => {
   const cta = { text: "Book Now", fn: () => {} };
   if (cta_ && cta_.text) cta.text = cta_.text;
   if (cta_ && cta_.fn) cta.fn = cta_.fn;
@@ -25,8 +30,19 @@ const CheckoutDetailsForm = ({ headline, message, cta: cta_ }) => {
       <TextField placeholder="Email" />
 
       <Typography variant="subtitle1">Other Details</Typography>
-      <TextField value="Name" />
-      <TextField value="Birthday" />
+      <TextField label="Name" />
+      <TextField label="Birthday" />
+
+      {additionalQuestions.map((q, index) => {
+        return (
+          <TextField
+            label={q.title || "[COPY] default value"}
+            multiline={q.questionType === "LONG_TEXT"}
+            rows={3}
+          />
+        );
+      })}
+
       <Button onClick={cta.fn} fullWidth>
         {cta.text}
       </Button>

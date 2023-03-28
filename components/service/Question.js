@@ -10,6 +10,7 @@ import ResponseDatePicker from "./ResponseDatePicker";
 import ResponseFile from "./ResponseFile";
 import ResponseMultipleChoice from "./ResponseMultipleChoice";
 import ResponsePictureChoice from "./ResponsePictureChoice";
+import ResponseSingleSelect from "./ResponseSingleSelect";
 
 const Question = ({ question, questionIndex, onNext, onResponse }) => {
   const isMultiple = question.selectionType === "MULTIPLE";
@@ -102,7 +103,7 @@ const renderAnswerComponent = (
       );
     case "SINGLE_SELECT":
       return (
-        <ResponseMultipleChoice
+        <ResponseSingleSelect
           options={question.options}
           isMultiple={isMultiple}
           onResponse={onResponse}
