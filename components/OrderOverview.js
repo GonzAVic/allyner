@@ -1,8 +1,9 @@
+import { useContext } from "react";
 import { useRouter } from "next/router";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Button } from "@mui/material";
 
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
@@ -10,14 +11,26 @@ import QuestionResponse from "components/QuestionResponse";
 
 // OTHER
 import useServiceReq from "utils/useServiceReq";
+import { AppContext } from "AppContext";
 
 const OderOverview = ({ userType }) => {
   const router = useRouter();
+  const { modalRepo } = useContext(AppContext);
   const { serviceReq } = useServiceReq(router.query.orderId);
 
   if (!serviceReq) return "Loading serviceReq";
   return (
-    <DefaultLayout title="Order Details" userType={userType}>
+    <DefaultLayout
+      title="Order Details"
+      userType={userType}
+      titleRightRender={() => {
+        return (
+          <Button onClick={() => modalRepo.open("CancelOrder")}>
+            Update Status
+          </Button>
+        );
+      }}
+    >
       <Content>
         <div>
           {userType !== "client" && (
@@ -27,7 +40,10 @@ const OderOverview = ({ userType }) => {
               </Typography>
               <Box className="card" sx={{ mb: 3 }}>
                 <OrderItem label="Customer Name" value="Alwi Hesa" />
-                <OrderItem label="Customer Email" value="alwi@gmail.com" />
+                <OrderItem
+                  label="Customer Email"
+                  value={serviceReq.additionalInfo.clientEmail}
+                />
                 <OrderItem label="Client Account" value="Yes" />
               </Box>
             </>
@@ -50,19 +66,14 @@ const OderOverview = ({ userType }) => {
             <OrderItem label="Last update date" value="16/01/2023" />
           </Box>
 
-
-          {userType !== "client" && (
-            <>
-              <Typography className="section-title" variant="subtitle1">
-                Checkout Details
-              </Typography>
-              <Box className="card">
-                <OrderItem label="Customer Name" value="Alwi Hesa" />
-                <OrderItem label="Customer Email" value="alwi@gmail.com" />
-                <OrderItem label="Client Account" value="Yes" />
-              </Box>
-            </>
-          )}
+          <Typography className="section-title" variant="subtitle1">
+            Checkout Details
+          </Typography>
+          <Box className="card">
+            {serviceReq.additionalInfo.additionalQuestions.map((aq) => {
+              return <OrderItem label={aq.title} value={aq.answer} />;
+            })}
+          </Box>
         </div>
 
         <div>
@@ -70,7 +81,7 @@ const OderOverview = ({ userType }) => {
             In-take question
           </Typography>
           <Box className="card">
-            {serviceReq.additionalInfo.map((q, index) => {
+            {serviceReq.answers.map((q, index) => {
               return (
                 <QuestionResponse
                   key={index}

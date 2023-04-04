@@ -81,7 +81,6 @@ const ActionsContainer = styled("div")({
   alignItems: "center",
   justifyContent: "space-between",
   height: 54,
-  marginBottom: 16,
 });
 
 export default SimpleQuestion;

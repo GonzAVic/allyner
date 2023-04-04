@@ -11,7 +11,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import DefaultLayout from "components/layout/DefaultLayout";
 import ServiceCard from "components/service/ServiceCard";
 
-export default function Index() {
+export default function Index({ pedro }) {
   return (
     <DefaultLayout title="Good Evening Harman">
       <div className="service-cards-list-ctr">

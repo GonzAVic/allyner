@@ -10,12 +10,16 @@ import Question from "components/service/Question";
 import LayoutOne from "components/layout/LayoutOne";
 import CheckoutDetailsForm from "components/service/CheckoutDetailsForm";
 import ServiceCheckout from "components/service/ServiceCheckout";
+import ClientSignin from "components/ClientSignin";
+import ClientSignup from "components/ClientSignup";
 
 // OTHER
 import useBusiness from "utils/useBusiness";
 import useService from "utils/useService";
 import useServiceReq from "utils/useServiceReq";
 import { useKeyPress, ARROW_DOWN, ARROW_UP } from "utils/useKeyPress";
+
+const USER = false;
 
 const ServiceWizard = () => {
   const router = useRouter();
@@ -28,6 +32,8 @@ const ServiceWizard = () => {
   const [questions, setQuestions] = useState([]);
   const [questionIndex, setQuestionsIndex] = useState(0);
   const [currentStep, setCurrentStep] = useState("questionnaire");
+
+  console.log("-> business: ", business);
 
   useEffect(() => {
     if (!service) return;
@@ -42,13 +48,6 @@ const ServiceWizard = () => {
   const handleNextQuestion = () => {
     if (questionIndex + 1 === questions.length) {
       setCurrentStep("checkoutDetails");
-      createServiceReq({
-        businessId: 1,
-        surveyId: 1,
-        userId: 2,
-        orderStatusId: 1,
-        additionalInfo: JSON.stringify(questions),
-      });
       return;
     }
 
@@ -61,8 +60,23 @@ const ServiceWizard = () => {
     setQuestionsIndex(questionIndex - 1);
   };
 
-  const handleCheckoutAction = () => {
-    setCurrentStep("confimationPage");
+  const handleCheckoutAction = (data) => {
+    createServiceReq({
+      businessId: 1,
+      surveyId: 1,
+      userId: 2,
+      orderStatusId: 1,
+      answers: JSON.stringify(questions),
+      additionalInfo: data,
+    });
+  };
+
+  const displaySigninView = () => {
+    setCurrentStep("signin");
+  };
+
+  const displaySignupView = () => {
+    setCurrentStep("signup");
   };
 
   const onResponse = (questionIndex, answer) => {
@@ -94,13 +108,34 @@ const ServiceWizard = () => {
             <CheckoutDetailsForm
               headline={business.additionalSettings.checkoutHeadline}
               message={business.additionalSettings.checkoutMessage}
+              additionalQuestions={
+                business.additionalSettings.checkoutAdditionalInfo
+              }
               cta={{ text: "Book Now", fn: handleCheckoutAction }}
+              onLogin={displaySigninView}
             />
           )}
           {currentStep === "confimationPage" && (
             <ServiceCheckout
               headline={business.additionalSettings.confirmationHeadline}
               message={business.additionalSettings.confirmationMessage}
+            />
+          )}
+          {currentStep === "signin" && (
+            <ClientSignin
+              headline={business.additionalSettings.signInHeadline}
+              message={business.additionalSettings.signInMessage}
+              onSignup={displaySignupView}
+            />
+          )}
+          {currentStep === "signup" && (
+            <ClientSignup
+              headline={business.additionalSettings.signUpHeadline}
+              message={business.additionalSettings.signUpMessage}
+              additionalQuestions={
+                business.additionalSettings.signUpQuestionnaire
+              }
+              onSignup={displaySignupView}
             />
           )}
         </Container>
@@ -119,63 +154,5 @@ const Container = styled("div")({
   margin: "auto",
   padding: 32,
 });
-
-const question = {
-  title: "How many pets do you have?",
-  description: "This is a random description",
-  questionType: "MULTIPLE_SELECT",
-  isDescriptionActive: true,
-  isRequired: true,
-  options: [
-    "I have 1 pet",
-    "I have more than 4 pets",
-    "I have more than 10 pets",
-  ],
-};
-const question2 = {
-  title: "What is the name of your firts pet?",
-  description: "Another random description (This quesiton is not required)",
-  questionType: "SHORT_TEXT",
-  isDescriptionActive: true,
-  isRequired: false,
-};
-const question3 = {
-  title: "What is the name of your firts pet?",
-  description: "Another random description (This quesiton is not required)",
-  questionType: "LONG_TEXT",
-  isDescriptionActive: true,
-  isRequired: false,
-};
-const question4 = {
-  title: "What is the name of your firts pet?",
-  description: "Another random description (This quesiton is not required)",
-  questionType: "DROPDOWN",
-  isDescriptionActive: true,
-  isRequired: false,
-  options: [
-    "I have 1 pet",
-    "I have more than 4 pets",
-    "I have more than 10 pets",
-  ],
-};
-const question5 = {
-  title: "What is the name of your firts pet?",
-  description: "Another random description (This quesiton is not required)",
-  questionType: "DATE",
-  isDescriptionActive: true,
-  isRequired: false,
-};
-const question6 = {
-  title: "What is the name of your firts pet?",
-  description: "Another random description (This quesiton is not required)",
-  questionType: "SINGLE_SELECT",
-  isDescriptionActive: true,
-  isRequired: false,
-  options: [
-    "I have 1 pet",
-    "I have more than 4 pets",
-    "I have more than 10 pets",
-  ],
-};
 
 export default ServiceWizard;

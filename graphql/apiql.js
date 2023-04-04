@@ -65,6 +65,7 @@ export const FIND_SERVICE_REQUEST = gql`
       frozenService
       id
       orderStatusId
+      answers
       status
       surveyId
       updatedAt

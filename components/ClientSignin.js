@@ -1,7 +1,7 @@
 // MATERIAL UI
 import { Typography, TextField, Button } from "@mui/material";
 
-const ClientSignin = ({ headline, message }) => {
+const ClientSignin = ({ headline, message, onSignup = () => {} }) => {
   return (
     <div>
       <Typography variant="h4" sx={{ textAlign: "center" }}>
@@ -16,7 +16,29 @@ const ClientSignin = ({ headline, message }) => {
       </Typography>
       <TextField label="Email" />
       <TextField label="Password" />
-      <Button fullWidth>Sign In</Button>
+      <Button sx={{ mb: 5 }} fullWidth>
+        Sign In
+      </Button>
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        sx={{ textAlign: "center" }}
+      >
+        Don’t have an account?
+        <Typography
+          variant="body2"
+          color="primary"
+          sx={{
+            display: "inline-block",
+            ml: 1,
+            fontWeight: 700,
+            cursor: "pointer",
+          }}
+          onClick={onSignup}
+        >
+          Sign up
+        </Typography>
+      </Typography>
     </div>
   );
 };

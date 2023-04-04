@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useRouter } from "next/router";
 
 // MATERIAL UI
@@ -15,6 +15,7 @@ import Question from "components/service/Question";
 
 // OTHERS
 import useService from "utils/useService";
+import { AppContext } from "AppContext";
 
 const displayStep = (step) => {
   const steps = {
@@ -32,6 +33,7 @@ const displayStep = (step) => {
 
 const NewService = () => {
   const router = useRouter();
+  const { modalRepo } = useContext(AppContext);
   const { service } = useService(router.query.id);
 
   const [previewData, setPreviewData] = useState({});
@@ -62,6 +64,17 @@ const NewService = () => {
         onDiscard: diffBannerData.onDiscard,
         onSave: diffBannerData.onSave,
         isVisible: diffBannerData.isVisible,
+      }}
+      onBack={() => {}}
+      titleRightRender={() => {
+        return (
+          <Button
+            variant="outlined"
+            onClick={() => modalRepo.open("DeleteService")}
+          >
+            Update Status
+          </Button>
+        );
       }}
     >
       <div>

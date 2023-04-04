@@ -1,9 +1,10 @@
 // MATERIAL UI
-import { Typography, TextField, Button } from "@mui/material";
+import { styled } from "@mui/system";
+import { Typography, TextField, Button, Box } from "@mui/material";
 
 const ClientSignup = ({ headline, message, additionalQuestions = [] }) => {
   return (
-    <div>
+    <Container>
       <Typography variant="h4" sx={{ textAlign: "center" }}>
         {headline || "Sign up now"}
       </Typography>
@@ -25,9 +26,14 @@ const ClientSignup = ({ headline, message, additionalQuestions = [] }) => {
           />
         );
       })}
-      <Button fullWidth>Sign In</Button>
-    </div>
+      <Button fullWidth>Sign Up</Button>
+    </Container>
   );
 };
+
+
+const Container = styled(Box)({
+  maxWidth: 650,
+});
 
 export default ClientSignup;

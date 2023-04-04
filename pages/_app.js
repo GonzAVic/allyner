@@ -1,24 +1,28 @@
 import * as React from "react";
 import Head from "next/head";
-import CssBaseline from "@mui/material/CssBaseline";
 import { SessionProvider } from "next-auth/react";
-import { ThemeProvider } from "@mui/material/styles";
-// import { CacheProvider } from "@emotion/react";
-import { ApolloProvider } from "@apollo/client";
 
+// MATERIAL UI
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 
+// OTHER
 import "../styles/globals.css";
 import theme from "../config/theme";
-// import createEmotionCache from "../config/createEmotionCache";
+import { ApolloProvider } from "@apollo/client";
 import { client } from "graphql/apolloClient";
+import { AppContext } from "../AppContext";
+import useModalRepo from "utils/useModalRepo";
 
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
-  // emotionCache = clientSideEmotionCache,
 }) {
+  const modalRepo = useModalRepo();
+
+  const contextObject = { modalRepo };
   return (
     <SessionProvider session={session}>
       <Head>
@@ -27,8 +31,11 @@ export default function App({
       <ApolloProvider client={client}>
         <LocalizationProvider dateAdapter={AdapterMoment}>
           <ThemeProvider theme={theme()}>
-            <CssBaseline />
-            <Component {...pageProps} />
+            <AppContext.Provider value={contextObject}>
+              {Boolean(modalRepo.currentModal) && modalRepo.currentModal}
+              <CssBaseline />
+              <Component {...pageProps} />
+            </AppContext.Provider>
           </ThemeProvider>
         </LocalizationProvider>
       </ApolloProvider>

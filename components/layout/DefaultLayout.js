@@ -2,10 +2,18 @@ import { useState } from "react";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography, Button, Avatar, IconButton } from "@mui/material";
+import {
+  Typography,
+  Button,
+  Avatar,
+  IconButton,
+  Chip,
+  Box,
+} from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import AddIcon from "@mui/icons-material/Add";
 import MenuIcon from "@mui/icons-material/Menu";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 // COMPONENTS
 import BusinessSidebar from "./BusinessSidebar";
@@ -14,13 +22,15 @@ import ClientSidebar from "components/layout/ClientSidebar";
 const DefaultLayout = ({
   children,
   userType,
-  title,
   secondaryText,
   cta,
   diffBanner,
+  title,
+  titleChip,
+  titleRightRender,
+  onBack,
 }) => {
   const isResponsive = useMediaQuery("(max-width:978px)");
-
   const [isMenuOpen, setIsMenuOpen] = useState(true);
 
   const ctaProps = { startIcon: <AddIcon /> };
@@ -53,12 +63,24 @@ const DefaultLayout = ({
             <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
           </NavigationBar>
         )}
+
         <Content>
           <ContentTop>
-            <div>
-              <Typography variant="h4">{title}</Typography>
+            <Box sx={{ width: "100%" }}>
+              <TitleContainer>
+                <Box sx={{ display: "flex" }}>
+                  {onBack && (
+                    <IconButton onClick={onBack} sx={{ mr: 3 }}>
+                      <ArrowBackIcon />
+                    </IconButton>
+                  )}
+                  <Typography variant="h4">{title}</Typography>
+                </Box>
+
+                {titleRightRender && <div>{titleRightRender()}</div>}
+              </TitleContainer>
               <Typography>{secondaryText}</Typography>
-            </div>
+            </Box>
             {cta && <Button {...ctaProps}>{cta.text}</Button>}
           </ContentTop>
           <ChildrenContainer>{children}</ChildrenContainer>
@@ -110,6 +132,11 @@ const NavigationBar = styled("div")({
   alignItems: "center",
   background: "#FFFFFF",
   padding: "16px 32px",
+});
+
+const TitleContainer = styled("div")({
+  display: "flex",
+  justifyContent: "space-between",
 });
 
 const DiffBanner = ({ diffBanner }) => {

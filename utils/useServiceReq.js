@@ -23,7 +23,9 @@ const useServiceReq = (serviceReqId) => {
     if (!findServiceReqHpr.called) return;
     if (!findServiceReqHpr.data) return;
 
+    
     const serviceReq_ = { ...findServiceReqHpr.data.findServiceRequest };
+    console.log('-> serviceReq_: ', serviceReq_)
     serviceReq_.frozenService = JSON.parse(serviceReq_.frozenService);
     const frozenServiceCreatedAt = new Date(
       serviceReq_.frozenService.createdAt
@@ -33,7 +35,7 @@ const useServiceReq = (serviceReqId) => {
       serviceReq_.frozenService.updatedAt
     );
     serviceReq_.frozenService.updatedAt = `${frozenServiceUpdatedAt.getDate()}/${frozenServiceUpdatedAt.getMonth()}/${frozenServiceUpdatedAt.getFullYear()}`;
-    serviceReq_.additionalInfo = JSON.parse(serviceReq_.additionalInfo);
+    serviceReq_.answers = JSON.parse(serviceReq_.answers);
     setServiceReq(serviceReq_);
   }, [findServiceReqHpr]);
 
