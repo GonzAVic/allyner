@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useFormik } from "formik";
 
 // MATERIAL UI
@@ -7,13 +8,14 @@ import { Typography, Box, TextField, MenuItem } from "@mui/material";
 import DefaultLayout from "components/layout/DefaultLayout";
 
 // OTHER
+import { AppContext } from "AppContext";
 import useBusiness from "utils/useBusiness";
 import { industries, currencies, timezones } from "utils/constants";
 
 function Page() {
-  const { business, updateBusiness } = useBusiness();
+  const { modalRepo } = useContext(AppContext);
 
-  console.log("-> business: ", business);
+  const { business, updateBusiness } = useBusiness();
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -30,6 +32,8 @@ function Page() {
       console.log("-> values: ", values);
       const values_ = { ...values };
       delete values_.name;
+
+      modalRepo.open("CropImage");
 
       const attributes = {
         name: values.name,

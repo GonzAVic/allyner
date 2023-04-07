@@ -4,11 +4,13 @@ import { useState } from "react";
 import DeleteServiceModal from "components/modals/DeleteServiceModal";
 import UpdateOrderStatusModal from "components/modals/UpdateOrderStatusModal";
 import CancelOrderModal from "components/modals/CancelOrderModal";
+import CropImageModal from "components/modals/CropImageModal";
 
 const useModalRepo = () => {
   const [currentModal, setCurrentModal] = useState(null);
 
   const open = (modalToOpen) => {
+    console.log("-> modalToOpen: ", modalToOpen);
     let component = null;
     switch (modalToOpen) {
       case "DeleteService":
@@ -19,6 +21,9 @@ const useModalRepo = () => {
         break;
       case "CancelOrder":
         component = <CancelOrderModal />;
+        break;
+      case "CropImage":
+        component = <CropImageModal />;
         break;
 
       default:
