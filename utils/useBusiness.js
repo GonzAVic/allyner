@@ -30,7 +30,10 @@ const useBusiness = (businessId) => {
     });
   };
 
-  return { business, updateBusiness };
+  let businessSubdomain = business?.name || "";
+  businessSubdomain = businessSubdomain.toLowerCase();
+
+  return { business, updateBusiness, businessSubdomain };
 };
 
 export default useBusiness;

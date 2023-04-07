@@ -1,4 +1,4 @@
-import React from "react";
+import { useContext } from "react";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
@@ -11,21 +11,27 @@ import {
   Button,
 } from "@mui/material";
 
+// OTHER
+import { AppContext } from "AppContext";
+
 const Modal = ({
   title = null,
   secondaryText = null,
   actions = null,
   withCancel,
 }) => {
+  const { modalRepo } = useContext(AppContext);
   return (
     <Container
       open={true}
       // onClose={handleClose}
     >
       <DialogTitle>{title}</DialogTitle>
-      <DialogContent>
-        <DialogContentText>{secondaryText}</DialogContentText>
-      </DialogContent>
+      {secondaryText && (
+        <DialogContent>
+          <DialogContentText>{secondaryText}</DialogContentText>
+        </DialogContent>
+      )}
 
       <DialogActions>
         {actions.map((act) => {
@@ -35,10 +41,14 @@ const Modal = ({
             fn = () => {},
             otherProps = {},
           } = act;
-          return <Button variant={variant}>{text}</Button>;
+          return (
+            <Button variant={variant} {...otherProps}>
+              {text}
+            </Button>
+          );
         })}
         {withCancel && (
-          <Button variant="contained" color="error">
+          <Button variant="contained" color="error" onClick={modalRepo.close}>
             Cancel
           </Button>
         )}
@@ -47,6 +57,14 @@ const Modal = ({
   );
 };
 
-const Container = styled(Dialog)({});
+const Container = styled(Dialog)({
+  ".MuiDialogActions-root": {
+    padding: "24px",
+  },
+
+  ".MuiDialog-paper": {
+    borderRadius: 12,
+  },
+});
 
 export default Modal;

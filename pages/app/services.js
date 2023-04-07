@@ -9,8 +9,9 @@ const Services = () => {
       <DefaultLayout
         title="Services"
         cta={{
-          text: "Add Service",
+          text: "Add New Services",
           href: "/app/services/overview/?id=new",
+          variant: "contained",
         }}
       >
         <div className="service-cards-list-ctr">

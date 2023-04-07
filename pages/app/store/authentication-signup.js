@@ -26,7 +26,7 @@ import useBusiness from "utils/useBusiness";
 import { sUQuestionTypes } from "utils/constants";
 
 const Page = () => {
-  const { business, updateBusiness } = useBusiness();
+  const { business, updateBusiness, businessSubdomain } = useBusiness();
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -134,7 +134,7 @@ const Page = () => {
           <Typography className="section-title" variant="subtitle1">
             Sign Up Form
           </Typography>
-          <Box  sx={{ mb: 5 }}>
+          <Box sx={{ mb: 5 }}>
             {/* <SimpleQuestion
               question={{ title: "Email", questionType: "SHORT_TEXT" }}
             />
@@ -190,7 +190,11 @@ const Page = () => {
           </Typography>
           <Box className="card" sx={{ mb: 5 }}>
             <TextField
-              value={"http://localhost:3000/app/store/authentication-signin"}
+              value={
+                "https://" +
+                businessSubdomain +
+                ".allyner.comstore/authentication-signup"
+              }
             />
             <Button variant="text" startIcon={<LinkIcon />}>
               Copy Link

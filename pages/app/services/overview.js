@@ -66,16 +66,7 @@ const NewService = () => {
         isVisible: diffBannerData.isVisible,
       }}
       onBack={() => {}}
-      titleRightRender={() => {
-        return (
-          <Button
-            variant="outlined"
-            onClick={() => modalRepo.open("DeleteService")}
-          >
-            Update Status
-          </Button>
-        );
-      }}
+      cta={{ text: "Update Status", fn: () => modalRepo.open("DeleteService") }}
     >
       <div>
         <Button

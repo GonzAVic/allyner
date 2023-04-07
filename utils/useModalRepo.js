@@ -28,8 +28,13 @@ const useModalRepo = () => {
     setCurrentModal(component);
   };
 
+  const close = () => {
+    setCurrentModal(null);
+  };
+
   return {
     open,
+    close,
 
     currentModal,
   };

@@ -71,7 +71,6 @@ const CheckoutDetailsForm = ({
 
       <Typography variant="subtitle1">Other Details</Typography>
       <TextField label="Name" />
-      <TextField label="Birthday" />
 
       {additionalQuestions.map((q, index) => {
         return (

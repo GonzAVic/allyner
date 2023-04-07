@@ -7,7 +7,12 @@ import LinkIcon from "@mui/icons-material/Link";
 import DefaultLayout from "components/layout/DefaultLayout";
 import PreviewLayout from "components/layout/PreviewLayout";
 
+// OTHER
+import useBusiness from "utils/useBusiness";
+
 const Page = () => {
+  const { businessSubdomain } = useBusiness();
+
   return (
     <DefaultLayout title="Online Store">
       <PreviewLayout previewComponent={"LALALALA"}>
@@ -16,7 +21,7 @@ const Page = () => {
         </Typography>
         <Box className="card" sx={{ mb: 5 }}>
           <Typography variant="subtitle1">Booking Page URL</Typography>
-          <TextField value="https://allyner.com/service/dsfjsaaw8213-23182/services1" />
+          <TextField value={"https://" + businessSubdomain + ".allyner.com"} />
           <Button variant="text" startIcon={<LinkIcon />}>
             Copy Link
           </Button>

@@ -24,7 +24,6 @@ const ServiceCard = ({ service = {} }) => {
   const cover = service.cover || NoThumbnail.src;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {

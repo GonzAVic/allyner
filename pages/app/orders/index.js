@@ -8,7 +8,7 @@ import DefaultLayout from "components/layout/DefaultLayout";
 
 const orders = () => {
   return (
-    <DefaultLayout title="Orders">
+    <DefaultLayout title="Orders" cta={{ text: "Create Order" }}>
       <Container className="pedro">
         <DataGrid
           rows={rows}

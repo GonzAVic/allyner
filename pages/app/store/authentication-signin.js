@@ -16,8 +16,7 @@ import ClientSignin from "components/ClientSignin";
 import useBusiness from "utils/useBusiness";
 
 const Page = () => {
-  const { business, updateBusiness } = useBusiness();
-  console.log("-> business: ", business);
+  const { business, updateBusiness, businessSubdomain } = useBusiness();
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -27,8 +26,6 @@ const Page = () => {
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
-      console.log("-> values: ", values);
-
       const attributes = {
         additionalSettings: JSON.stringify({
           ...business.additionalSettings,
@@ -88,7 +85,11 @@ const Page = () => {
         </Typography>
         <Box className="card" sx={{ mb: 5 }}>
           <TextField
-            value={"http://localhost:3000/app/store/authentication-signin"}
+            value={
+              "https://" +
+              businessSubdomain +
+              ".allyner.comstore/authentication-signin"
+            }
           />
           <Button variant="text" startIcon={<LinkIcon />}>
             Copy Link

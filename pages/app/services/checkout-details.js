@@ -15,7 +15,6 @@ import {
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
 import ServicesTabs from "components/ServicesTabs";
-import CheckoutQuestionCard from "components/CheckoutQuestionCard";
 import CheckoutDetailsForm from "components/service/CheckoutDetailsForm";
 import PreviewLayout from "components/layout/PreviewLayout";
 import SimpleQuestion from "components/SimpleQuestion";
@@ -40,7 +39,6 @@ const Page = () => {
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
-      console.log("-> values: ", values);
       const attributes = {
         additionalSettings: JSON.stringify({
           ...business.additionalSettings,

@@ -93,3 +93,91 @@ export const serviceStatus = (pick, valueToLabel) => {
 
   return values;
 };
+
+export const industries = [
+  "technologies",
+  "construction",
+  "science",
+  "agriculture",
+  "manufacturing",
+];
+
+export const currencies = (pick, valueToLabel) => {
+  const values = [
+    {
+      value: "RUB",
+      label: "Russian ruble",
+    },
+    {
+      value: "EUR",
+      label: "Euro",
+    },
+    {
+      value: "USD",
+      label: "United States Dollar",
+    },
+    {
+      value: "CAD",
+      label: "Canadian Dollar",
+    },
+  ];
+
+  if (Boolean(pick)) {
+    return values.map((e) => e[pick]);
+  }
+
+  if (valueToLabel) {
+    const element = values.find((e) => e.value === valueToLabel);
+    return element.label;
+  }
+
+  return values;
+};
+
+export const timezones = (pick, valueToLabel) => {
+  const values = [
+    {
+      value: "GMT-12:00",
+      label: "Dateline Standard Time",
+    },
+    {
+      value: "GMT-11:00",
+      label: "Samoa Standard Time",
+    },
+    {
+      value: "GMT-10:00",
+      label: "Hawaiian Standard Time",
+    },
+    {
+      value: "GMT-09:00",
+      label: "Alaskan Standard Time",
+    },
+    {
+      value: "GMT-08:00",
+      label: "Pacific Standard Time",
+    },
+    {
+      value: "GMT-07:00",
+      label: "Mountain Standard Time",
+    },
+    {
+      value: "GMT-06:00",
+      label: "Central Standard Time",
+    },
+    {
+      value: "GMT-05:00",
+      label: "Eastern Standard Time",
+    },
+  ];
+
+  if (Boolean(pick)) {
+    return values.map((e) => e[pick]);
+  }
+
+  if (valueToLabel) {
+    const element = values.find((e) => e.value === valueToLabel);
+    return element.label;
+  }
+
+  return values;
+};

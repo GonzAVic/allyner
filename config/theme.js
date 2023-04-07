@@ -182,6 +182,14 @@ const theme = () => {
         },
       },
 
+      MuiMenuItem: {
+        styleOverrides: {
+          root: {
+            textTransform: "capitalize",
+          },
+        },
+      },
+
       MuiTextField: {
         defaultProps: {
           variant: "outlined",

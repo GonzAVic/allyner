@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
@@ -9,10 +9,12 @@ import {
   IconButton,
   Chip,
   Box,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import AddIcon from "@mui/icons-material/Add";
 import MenuIcon from "@mui/icons-material/Menu";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 // COMPONENTS
@@ -27,17 +29,28 @@ const DefaultLayout = ({
   diffBanner,
   title,
   titleChip,
-  titleRightRender,
   onBack,
+  moreOptions,
 }) => {
   const isResponsive = useMediaQuery("(max-width:978px)");
   const [isMenuOpen, setIsMenuOpen] = useState(true);
 
-  const ctaProps = { startIcon: <AddIcon /> };
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const isMoreMenuOpened = Boolean(anchorEl);
+
+  const openMoreMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const closeMoreMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const ctaProps = { variant: "outlined" };
   if (cta) {
     if (cta.fn) ctaProps.onClick = cta.fn;
     if (cta.href) ctaProps.href = cta.href;
-    if (cta.withNoIcon) ctaProps.startIcon = null;
+    if (cta.variant) ctaProps.variant = cta.variant;
   }
 
   return (
@@ -66,23 +79,56 @@ const DefaultLayout = ({
 
         <Content>
           <ContentTop>
-            <Box sx={{ width: "100%" }}>
-              <TitleContainer>
-                <Box sx={{ display: "flex" }}>
-                  {onBack && (
-                    <IconButton onClick={onBack} sx={{ mr: 3 }}>
-                      <ArrowBackIcon />
-                    </IconButton>
-                  )}
-                  <Typography variant="h4">{title}</Typography>
-                </Box>
-
-                {titleRightRender && <div>{titleRightRender()}</div>}
-              </TitleContainer>
+            <Box>
+              <Box sx={{ display: "flex" }}>
+                {onBack && (
+                  <IconButtonBg onClick={onBack} size="large" sx={{ mr: 3 }}>
+                    <ArrowBackIcon />
+                  </IconButtonBg>
+                )}
+                <Typography variant="h4">{title}</Typography>
+              </Box>
               <Typography>{secondaryText}</Typography>
             </Box>
-            {cta && <Button {...ctaProps}>{cta.text}</Button>}
+
+            <div>
+              {cta && (
+                <Button onClick={cta.fn} {...ctaProps}>
+                  {cta.text}
+                </Button>
+              )}
+              {moreOptions && (
+                <>
+                  <IconButtonBg
+                    onClick={openMoreMenu}
+                    size="large"
+                    sx={{ ml: 2 }}
+                  >
+                    <MoreVertIcon />
+                  </IconButtonBg>
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={isMoreMenuOpened}
+                    onClose={closeMoreMenu}
+                  >
+                    {moreOptions.map((mo) => {
+                      return (
+                        <MenuItem
+                          onClick={() => {
+                            if (mo.fn) mo.fn();
+                            closeMoreMenu();
+                          }}
+                        >
+                          {mo.text}
+                        </MenuItem>
+                      );
+                    })}
+                  </Menu>
+                </>
+              )}
+            </div>
           </ContentTop>
+
           <ChildrenContainer>{children}</ChildrenContainer>
         </Content>
       </RightContent>
@@ -134,9 +180,9 @@ const NavigationBar = styled("div")({
   padding: "16px 32px",
 });
 
-const TitleContainer = styled("div")({
-  display: "flex",
-  justifyContent: "space-between",
+const IconButtonBg = styled(IconButton)({
+  background: "#FFFFFF",
+  borderRadius: 4,
 });
 
 const DiffBanner = ({ diffBanner }) => {

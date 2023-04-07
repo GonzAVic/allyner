@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography, Box, Button } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
@@ -23,13 +23,14 @@ const OderOverview = ({ userType }) => {
     <DefaultLayout
       title="Order Details"
       userType={userType}
-      titleRightRender={() => {
-        return (
-          <Button onClick={() => modalRepo.open("CancelOrder")}>
-            Update Status
-          </Button>
-        );
+      cta={{
+        text: "Update Status",
+        fn: () => modalRepo.open("UpdateOrderStatus"),
       }}
+      onBack={() => {}}
+      moreOptions={[
+        { text: "Cancel Order", fn: () => modalRepo.open("CancelOrder") },
+      ]}
     >
       <Content>
         <div>
