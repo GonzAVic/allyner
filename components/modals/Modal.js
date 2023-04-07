@@ -22,10 +22,7 @@ const Modal = ({
 }) => {
   const { modalRepo } = useContext(AppContext);
   return (
-    <Container
-      open={true}
-      // onClose={handleClose}
-    >
+    <Container open={true}>
       <DialogTitle>{title}</DialogTitle>
       {secondaryText && (
         <DialogContent>

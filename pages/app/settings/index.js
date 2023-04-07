@@ -6,6 +6,7 @@ import { Typography, Box, TextField, MenuItem } from "@mui/material";
 
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
+import Uploader from "components/Uploader";
 
 // OTHER
 import { AppContext } from "AppContext";
@@ -85,11 +86,7 @@ function Page() {
           onChange={formik.handleChange}
         />
         <Typography variant="subtitle1">Logo</Typography>
-        <TextField
-          name="headline"
-          value={"formik.values.headline"}
-          onChange={formik.handleChange}
-        />
+        <Uploader />
         <Typography variant="subtitle1">Industry</Typography>
         <TextField
           name="industry"
@@ -114,6 +111,7 @@ function Page() {
         <TextField
           name="currency"
           value={formik.values.currency}
+          defaultValue={formik.values.currency}
           onChange={formik.handleChange}
           sx={{ textTransform: "capitalize" }}
           select

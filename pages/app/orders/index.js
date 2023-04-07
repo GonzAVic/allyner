@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+
 // MATERIAL UI
 import { styled } from "@mui/system";
 import { Chip } from "@mui/material";
@@ -7,6 +9,15 @@ import { DataGrid } from "@mui/x-data-grid";
 import DefaultLayout from "components/layout/DefaultLayout";
 
 const orders = () => {
+  const router = useRouter();
+
+  const handleRowClick = (rowData) => {
+    router.push({
+      pathname: "/app/orders/[orderId]",
+      query: { orderId: rowData.id },
+    });
+  };
+
   return (
     <DefaultLayout title="Orders" cta={{ text: "Create Order" }}>
       <Container className="pedro">
@@ -18,6 +29,7 @@ const orders = () => {
           checkboxSelection
           disableSelectionOnClick
           experimentalFeatures={{ newEditingApi: true }}
+          onRowClick={handleRowClick}
         />
       </Container>
     </DefaultLayout>

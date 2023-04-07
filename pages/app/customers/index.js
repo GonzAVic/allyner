@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+
 // MATERIAL UI
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -5,6 +7,15 @@ import { DataGrid } from "@mui/x-data-grid";
 import DefaultLayout from "components/layout/DefaultLayout";
 
 const customers = () => {
+  const router = useRouter();
+
+  const handleRowClick = (rowData) => {
+    router.push({
+      pathname: "/app/customers/[customerId]",
+      query: { customerId: rowData.id },
+    });
+  };
+
   return (
     <DefaultLayout title="Customers">
       <DataGrid
@@ -15,6 +26,7 @@ const customers = () => {
         checkboxSelection
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
+        onRowClick={handleRowClick}
       />
     </DefaultLayout>
   );

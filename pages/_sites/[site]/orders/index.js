@@ -1,5 +1,6 @@
+import { useRouter } from "next/router";
+
 // MATERIAL UI
-import { styled } from "@mui/system";
 import { Chip } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -7,6 +8,15 @@ import { DataGrid } from "@mui/x-data-grid";
 import DefaultLayout from "components/layout/DefaultLayout";
 
 function Page() {
+  const router = useRouter();
+
+  const handleRowClick = (rowData) => {
+    router.push({
+      pathname: "/orders/[orderId]",
+      query: { orderId: rowData.id },
+    });
+  };
+
   return (
     <DefaultLayout title="Orders" userType="client">
       <DataGrid
@@ -17,6 +27,7 @@ function Page() {
         checkboxSelection
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
+        onRowClick={handleRowClick}
       />
     </DefaultLayout>
   );
