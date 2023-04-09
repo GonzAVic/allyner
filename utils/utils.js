@@ -24,3 +24,18 @@ export const createFormSchema = (additionalQuestions) => {
 
   return yup.object().shape(schemaAttributes);
 };
+
+export const diffBanner = (formik) => {
+  const initialValuesString = JSON.stringify(formik.initialValues);
+  const currentValuesString = JSON.stringify(formik.values);
+  const areCurrentAndInitialValuesEqual =
+    initialValuesString === currentValuesString;
+
+  return {
+    onSave: () => formik.submitForm(),
+    onDiscard: () => {
+      formik.handleReset();
+    },
+    isVisible: !areCurrentAndInitialValuesEqual,
+  };
+};

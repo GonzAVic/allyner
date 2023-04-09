@@ -22,6 +22,22 @@ export const GET_SERVICES = gql`
   }
 `;
 
+export const FIND_USER = gql`
+  query ($id: Int!) {
+    findUser(id: $id) {
+      businessId
+      createdAt
+      email
+      firstName
+      id
+      lastName
+      phoneNumber
+      role
+      updatedAt
+    }
+  }
+`;
+
 export const FIND_BUSINESS = gql`
   query ($id: Int!) {
     findBusiness(id: $id) {
@@ -181,6 +197,24 @@ export const CREATE_BUSINESS_USER = gql`
 export const CREATE_CLIENT_USER = gql`
   mutation ($input: CreateClientInput!) {
     createClient(input: $input) {
+      user {
+        businessId
+        createdAt
+        email
+        firstName
+        id
+        lastName
+        phoneNumber
+        role
+        updatedAt
+      }
+    }
+  }
+`;
+
+export const UPDATE_USER = gql`
+  mutation ($input: UpdateUserInput!) {
+    updateUser(input: $input) {
       user {
         businessId
         createdAt

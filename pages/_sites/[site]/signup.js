@@ -8,9 +8,7 @@ import useBusiness from "utils/useBusiness";
 
 const Page = () => {
   const { business } = useBusiness();
-  const { createClientUser } = useUser();
-
-  console.log("-> business: ", business);
+  const { createClientUser } = useUser(3);
 
   const handleSubmit = (data) => {
     console.log("-> data: ", data);
