@@ -22,6 +22,7 @@ const Page = () => {
   return (
     <DefaultLayout
       title="Profile"
+      userType="client"
       // diffBanner={{
       //   onSave: () => formik.submitForm(),
       //   onDiscard: () => {

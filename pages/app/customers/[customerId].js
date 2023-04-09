@@ -13,7 +13,7 @@ const CustomerDetails = () => {
     { label: "Timezone", value: "GMT + 8:00" },
   ];
   return (
-    <DefaultLayout title="Customer Details">
+    <DefaultLayout title="Customer Details" backHref="/app/customers">
       <Content>
         <div>
           <Typography className="section-title" variant="subtitle1">

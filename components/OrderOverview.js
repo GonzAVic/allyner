@@ -27,7 +27,7 @@ const OderOverview = ({ userType }) => {
         text: "Update Status",
         fn: () => modalRepo.open("UpdateOrderStatus"),
       }}
-      onBack={() => {}}
+      backHref={"/app/orders"}
       moreOptions={[
         { text: "Cancel Order", fn: () => modalRepo.open("CancelOrder") },
       ]}
@@ -71,9 +71,10 @@ const OderOverview = ({ userType }) => {
             Checkout Details
           </Typography>
           <Box className="card">
-            {serviceReq.additionalInfo.additionalQuestions.map((aq) => {
-              return <OrderItem label={aq.title} value={aq.answer} />;
-            })}
+            {serviceReq.additionalInfo.additionalQuestions &&
+              serviceReq.additionalInfo.additionalQuestions.map((aq) => {
+                return <OrderItem label={aq.title} value={aq.answer} />;
+              })}
           </Box>
         </div>
 

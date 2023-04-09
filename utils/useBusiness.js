@@ -1,13 +1,14 @@
 const { useState, useEffect } = require("react");
 import { useMutation, useLazyQuery } from "@apollo/client";
 
-import { UPDATE_BUSINESS, FIND_BUSINESS } from "graphql/apiql";
+import { UPDATE_BUSINESS, FIND_BUSINESS, CREATE_BUSINESS } from "graphql/apiql";
 
 const BUSINESS_ID = 2;
 
 const useBusiness = (businessId) => {
   const [findBusinessFn, findBusinessHpr] = useLazyQuery(FIND_BUSINESS);
   const [updateBusinessFn, updateBusinessHpr] = useMutation(UPDATE_BUSINESS);
+  const [createBusinessFn, createBusinessHpr] = useMutation(CREATE_BUSINESS);
 
   const [business, setBusiness] = useState(null);
 
@@ -30,10 +31,18 @@ const useBusiness = (businessId) => {
     });
   };
 
+  const createBusiness = async (data) => {
+    const response = await createBusinessFn({
+      variables: { input: { attributes: { ...data, description: "lalala" } } },
+    });
+    console.log("-> response: ", response);
+    return response;
+  };
+
   let businessSubdomain = business?.name || "";
   businessSubdomain = businessSubdomain.toLowerCase();
 
-  return { business, updateBusiness, businessSubdomain };
+  return { business, updateBusiness, businessSubdomain, createBusiness };
 };
 
 export default useBusiness;

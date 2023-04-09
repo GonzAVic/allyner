@@ -24,6 +24,7 @@ import SimpleQuestion from "components/SimpleQuestion";
 // OTHER
 import useBusiness from "utils/useBusiness";
 import { sUQuestionTypes } from "utils/constants";
+import { copyToClipBoard } from "utils/utils";
 
 const Page = () => {
   const { business, updateBusiness, businessSubdomain } = useBusiness();
@@ -89,6 +90,8 @@ const Page = () => {
     initialValuesString === currentValuesString;
 
   const open = Boolean(anchorEl);
+
+  const signUpUrl = "https://" + businessSubdomain + ".allyner.comstore/signup";
 
   return (
     <FormikProvider value={formik}>
@@ -189,14 +192,12 @@ const Page = () => {
             Sign In URL
           </Typography>
           <Box className="card" sx={{ mb: 5 }}>
-            <TextField
-              value={
-                "https://" +
-                businessSubdomain +
-                ".allyner.comstore/authentication-signup"
-              }
-            />
-            <Button variant="text" startIcon={<LinkIcon />}>
+            <TextField value={signUpUrl} />
+            <Button
+              variant="text"
+              startIcon={<LinkIcon />}
+              onClick={() => copyToClipBoard(signUpUrl)}
+            >
               Copy Link
             </Button>
             <Button variant="text" startIcon={<ShareOutlinedIcon />}>

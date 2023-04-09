@@ -17,6 +17,8 @@ import {
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
 // OTHER
+import useBusiness from "utils/useBusiness";
+import useUser from "utils/useUser";
 import Asset1 from "assets/asset-1.svg";
 import Asset2 from "assets/asset-2.svg";
 import Asset3 from "assets/asset-3.svg";
@@ -24,6 +26,8 @@ import Asset4 from "assets/asset-4.svg";
 import AllynerLogo from "assets/allyner-logo.svg";
 
 const BusinessSignup = () => {
+  const { createBusiness } = useBusiness();
+  const { createBusinessUser } = useUser();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const formik = useFormik({
@@ -36,8 +40,22 @@ const BusinessSignup = () => {
       industry: "",
     },
     validationSchema: createSignupSchema(),
-    onSubmit: (values) => {
-      console.log("-> values: ", values);
+    onSubmit: async (values) => {
+      const newBusiness = await createBusiness({
+        name: values.companyName,
+      });
+      if (
+        !newBusiness.data ||
+        !newBusiness.data.createBusiness ||
+        !newBusiness.data.createBusiness.business
+      )
+        return;
+      createBusinessUser({
+        firstName: values.name,
+        lastName: "string",
+        email: values.email,
+        businessId: newBusiness.data.createBusiness.business.id,
+      });
     },
   });
 
@@ -96,10 +114,10 @@ const BusinessSignup = () => {
       />
       <TextField
         label="Company Name"
-        name="name"
+        name="companyName"
         onChange={formik.handleChange}
-        helperText={formik.errors.name}
-        error={formik.errors.name}
+        helperText={formik.errors.companyName}
+        error={formik.errors.companyName}
       />
       <TextField
         label="Industry"
@@ -120,7 +138,7 @@ const BusinessSignup = () => {
         />
       </FormGroup>
 
-      <Button type="submit" fullWidth sx={{ mt: 4 }}>
+      <Button onClick={formik.submitForm} fullWidth sx={{ mt: 4 }}>
         Sign In
       </Button>
 

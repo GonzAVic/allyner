@@ -24,6 +24,7 @@ const useServiceReq = (serviceReqId) => {
     if (!findServiceReqHpr.data) return;
 
     const serviceReq_ = { ...findServiceReqHpr.data.findServiceRequest };
+    console.log('-> serviceReq_: ', serviceReq_)
     serviceReq_.frozenService = JSON.parse(serviceReq_.frozenService);
     const frozenServiceCreatedAt = new Date(
       serviceReq_.frozenService.createdAt

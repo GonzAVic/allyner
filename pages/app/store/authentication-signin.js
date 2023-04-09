@@ -1,7 +1,6 @@
 import { useFormik } from "formik";
 
 // MATERIAL UI
-import { styled } from "@mui/system";
 import { Typography, Box, TextField, Button } from "@mui/material";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import LinkIcon from "@mui/icons-material/Link";
@@ -14,6 +13,7 @@ import ClientSignin from "components/ClientSignin";
 
 // OTHER
 import useBusiness from "utils/useBusiness";
+import { copyToClipBoard } from "utils/utils";
 
 const Page = () => {
   const { business, updateBusiness, businessSubdomain } = useBusiness();
@@ -36,10 +36,13 @@ const Page = () => {
       updateBusiness(attributes);
     },
   });
+
   const initialValuesString = JSON.stringify(formik.initialValues);
   const currentValuesString = JSON.stringify(formik.values);
   const areCurrentAndInitialValuesEqual =
     initialValuesString === currentValuesString;
+
+  const signInUrl = "https://" + businessSubdomain + ".allyner.comstore/signin";
 
   return (
     <DefaultLayout
@@ -84,14 +87,12 @@ const Page = () => {
           Sign In URL
         </Typography>
         <Box className="card" sx={{ mb: 5 }}>
-          <TextField
-            value={
-              "https://" +
-              businessSubdomain +
-              ".allyner.comstore/authentication-signin"
-            }
-          />
-          <Button variant="text" startIcon={<LinkIcon />}>
+          <TextField value={signInUrl} />
+          <Button
+            variant="text"
+            startIcon={<LinkIcon />}
+            onClick={() => copyToClipBoard(signInUrl)}
+          >
             Copy Link
           </Button>
           <Button variant="text" startIcon={<ShareOutlinedIcon />}>
@@ -102,24 +103,5 @@ const Page = () => {
     </DefaultLayout>
   );
 };
-
-const Container = styled("div")({
-  display: "flex",
-  gap: 32,
-  flex: 1,
-  overflowY: "auto",
-  overflowX: "hidden",
-});
-
-const LeftSide = styled("div")({
-  flex: 1,
-  overflowY: "auto",
-  overflowX: "hidden",
-});
-
-const RightSide = styled("div")({
-  display: "flex",
-  flex: 1,
-});
 
 export default Page;

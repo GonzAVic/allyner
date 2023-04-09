@@ -65,7 +65,7 @@ const NewService = () => {
         onSave: diffBannerData.onSave,
         isVisible: diffBannerData.isVisible,
       }}
-      onBack={() => {}}
+      backHref="/app/services"
       cta={{ text: "Update Status", fn: () => modalRepo.open("DeleteService") }}
     >
       <div>

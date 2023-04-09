@@ -29,7 +29,7 @@ const DefaultLayout = ({
   diffBanner,
   title,
   titleChip,
-  onBack,
+  backHref,
   moreOptions,
 }) => {
   const isResponsive = useMediaQuery("(max-width:978px)");
@@ -81,8 +81,8 @@ const DefaultLayout = ({
           <ContentTop>
             <Box>
               <Box sx={{ display: "flex" }}>
-                {onBack && (
-                  <IconButtonBg onClick={onBack} size="large" sx={{ mr: 3 }}>
+                {backHref && (
+                  <IconButtonBg href={backHref} size="large" sx={{ mr: 3 }}>
                     <ArrowBackIcon />
                   </IconButtonBg>
                 )}

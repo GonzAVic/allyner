@@ -99,6 +99,7 @@ const Container = styled("form")({
   maxWidth: 650,
 });
 
+// TODO: Use utils function
 const createFormSchema = (additionalQuestions) => {
   const aQInitialValues = {};
   additionalQuestions.forEach((aq) => {

@@ -74,25 +74,6 @@ export const FIND_SERVICE_REQUEST = gql`
   }
 `;
 
-export const LIST_QUESTIONS = gql`
-  query ($serviceId: ID!) {
-    listQuestions(serviceId: $serviceId) {
-      businessId
-      createdAt
-      description
-      id
-      isDescriptionActive
-      isRequired
-      options
-      order
-      questionType
-      surveyId
-      title
-      updatedAt
-    }
-  }
-`;
-
 // MUTATIONS
 export const CREATE_SERVICE = gql`
   mutation ($input: CreateServiceInput!) {
@@ -123,24 +104,6 @@ export const UPDATE_SERVICE = gql`
         pricingAmount
         pricingDuration
         status
-      }
-    }
-  }
-`;
-
-export const CREATE_QUESTION = gql`
-  mutation ($input: CreateQuestionInput!) {
-    createQuestion(input: $input) {
-      question {
-        businessId
-        createdAt
-        description
-        id
-        isDescriptionActive
-        isRequired
-        questionType
-        title
-        updatedAt
       }
     }
   }
@@ -177,6 +140,57 @@ export const CREATE_SERVICE_REQUEST = gql`
         surveyId
         updatedAt
         userId
+      }
+    }
+  }
+`;
+
+export const CREATE_BUSINESS = gql`
+  mutation ($input: CreateBusinessInput!) {
+    createBusiness(input: $input) {
+      business {
+        additionalSettings
+        createdAt
+        description
+        id
+        name
+        updatedAt
+      }
+    }
+  }
+`;
+
+export const CREATE_BUSINESS_USER = gql`
+  mutation ($input: CreateBusinessUserInput!) {
+    createBusinessUser(input: $input) {
+      user {
+        businessId
+        createdAt
+        email
+        firstName
+        id
+        lastName
+        phoneNumber
+        role
+        updatedAt
+      }
+    }
+  }
+`;
+
+export const CREATE_CLIENT_USER = gql`
+  mutation ($input: CreateClientInput!) {
+    createClient(input: $input) {
+      user {
+        businessId
+        createdAt
+        email
+        firstName
+        id
+        lastName
+        phoneNumber
+        role
+        updatedAt
       }
     }
   }
