@@ -21,22 +21,27 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import BusinessSidebar from "./BusinessSidebar";
 import ClientSidebar from "components/layout/ClientSidebar";
 
+// OTHER
+import { diffBanner as diffBannerFn } from "utils/utils";
+
 const DefaultLayout = ({
   children,
   userType,
   secondaryText,
   cta,
-  diffBanner,
   title,
   titleChip,
   backHref,
   moreOptions,
+  formik,
 }) => {
   const isResponsive = useMediaQuery("(max-width:978px)");
   const [isMenuOpen, setIsMenuOpen] = useState(true);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMoreMenuOpened = Boolean(anchorEl);
+
+  const diffBanner = diffBannerFn(formik);
 
   const openMoreMenu = (event) => {
     setAnchorEl(event.currentTarget);

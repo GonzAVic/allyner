@@ -24,9 +24,10 @@ function Page() {
       name: business?.name,
       location: business?.additionalSettings?.location,
       phone: business?.additionalSettings?.phone,
-      industry: business?.additionalSettings?.industry,
+      industry: business?.additionalSettings?.industry || "",
 
-      currency: business?.additionalSettings?.currency,
+      currency: business?.additionalSettings?.currency || "",
+      timezone: business?.additionalSettings?.timezone || "",
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
@@ -47,22 +48,8 @@ function Page() {
     },
   });
 
-  const initialValuesString = JSON.stringify(formik.initialValues);
-  const currentValuesString = JSON.stringify(formik.values);
-  const areCurrentAndInitialValuesEqual =
-    initialValuesString === currentValuesString;
-
   return (
-    <DefaultLayout
-      title="Settings/Store Details"
-      diffBanner={{
-        onSave: () => formik.submitForm(),
-        onDiscard: () => {
-          formik.handleReset();
-        },
-        isVisible: !areCurrentAndInitialValuesEqual,
-      }}
-    >
+    <DefaultLayout title="Settings/Store Details" formik={formik}>
       <Typography className="section-title" variant="subtitle1">
         Checkout Headline
       </Typography>
@@ -124,8 +111,8 @@ function Page() {
         </TextField>
         <Typography variant="subtitle1">Timezone</Typography>
         <TextField
-          name="currency"
-          value={formik.values.currency}
+          name="timezone"
+          value={formik.values.timezone}
           onChange={formik.handleChange}
           sx={{ textTransform: "capitalize" }}
           select

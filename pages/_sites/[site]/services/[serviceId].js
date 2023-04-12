@@ -16,24 +16,25 @@ import ClientSignup from "components/ClientSignup";
 // OTHER
 import useBusiness from "utils/useBusiness";
 import useService from "utils/useService";
+import useUser from "utils/useUser";
 import useServiceReq from "utils/useServiceReq";
 import { useKeyPress, ARROW_DOWN, ARROW_UP } from "utils/useKeyPress";
 
-const USER = false;
+const USER = 3;
 
 const ServiceWizard = () => {
   const router = useRouter();
   const { business } = useBusiness();
   const { service } = useService(router.query.serviceId);
   const { createServiceReq } = useServiceReq();
+  const { createClientUser } = useUser();
   const isArrowDownPressed = useKeyPress(ARROW_DOWN);
   const isArrowUpPressed = useKeyPress(ARROW_UP);
 
   const [questions, setQuestions] = useState([]);
   const [questionIndex, setQuestionsIndex] = useState(0);
   const [currentStep, setCurrentStep] = useState("questionnaire");
-
-  console.log("-> business: ", business);
+  const [additionalInfo, setAdditionalInfo] = useState([]);
 
   useEffect(() => {
     if (!service) return;
@@ -60,19 +61,49 @@ const ServiceWizard = () => {
     setQuestionsIndex(questionIndex - 1);
   };
 
-  const handleCheckoutAction = (data) => {
-    createServiceReq({
+  const handleCheckoutAction = async () => {
+    const serviceReqData = {
+      businessId: 1,
+      surveyId: 1,
+      userId: 2,
+      orderStatusId: 1,
+      answers: JSON.stringify(questions),
+      additionalInfo: additionalInfo,
+    };
+
+    if (USER) {
+      serviceReqData.userId = USER;
+      const response = await createServiceReq(serviceReqData);
+      router.push({
+        pathname: "/orders/[orderId]",
+        query: { orderId: response.id },
+      });
+    } else {
+      const response = await createServiceReq(serviceReqData);
+      setCurrentStep("confimationPage");
+    }
+  };
+
+  const displaySigninView = () => {
+    setCurrentStep("signin");
+  };
+
+  const handleSignin = () => {
+    // TODO: signin, store token
+  };
+
+  const handleSignup = async () => {
+    // TODO: create a client user
+    const serviceReqData = {
       businessId: 1,
       surveyId: 1,
       userId: 2,
       orderStatusId: 1,
       answers: JSON.stringify(questions),
       additionalInfo: data,
-    });
-  };
-
-  const displaySigninView = () => {
-    setCurrentStep("signin");
+    };
+    serviceReqData.userId = USER;
+    const response = await createServiceReq(serviceReqData);
   };
 
   const displaySignupView = () => {
@@ -106,12 +137,21 @@ const ServiceWizard = () => {
           )}
           {currentStep === "checkoutDetails" && (
             <CheckoutDetailsForm
+              user={USER}
               headline={business.additionalSettings.checkoutHeadline}
               message={business.additionalSettings.checkoutMessage}
               additionalQuestions={
                 business.additionalSettings.checkoutAdditionalInfo
               }
-              cta={{ text: "Book Now", fn: handleCheckoutAction }}
+              cta={{
+                text: "Book Now",
+                fn: (data) => {
+                  setAdditionalInfo(data);
+                  setTimeout(() => {
+                    handleCheckoutAction();
+                  }, 250);
+                },
+              }}
               onLogin={displaySigninView}
             />
           )}
@@ -126,6 +166,7 @@ const ServiceWizard = () => {
               headline={business.additionalSettings.signInHeadline}
               message={business.additionalSettings.signInMessage}
               onSignup={displaySignupView}
+              onSubmit={handleSignin}
             />
           )}
           {currentStep === "signup" && (
@@ -133,9 +174,9 @@ const ServiceWizard = () => {
               headline={business.additionalSettings.signUpHeadline}
               message={business.additionalSettings.signUpMessage}
               additionalQuestions={
-                business.additionalSettings.signUpQuestionnaire
+                busadditionalQuestions.additionalSettings.signUpQuestionnaire
               }
-              onSignup={displaySignupView}
+              onSubmit={handleSignup}
             />
           )}
         </Container>

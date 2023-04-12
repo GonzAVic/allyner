@@ -1,3 +1,5 @@
+import { useFormik } from "formik";
+
 // MATERIAL UI
 import { styled } from "@mui/system";
 import { Typography, Box, TextField, Chip } from "@mui/material";
@@ -5,15 +7,39 @@ import { DataGrid } from "@mui/x-data-grid";
 
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
+import ListGroup from "components/ListGroup";
+
+// OTHER
+import useUser from "utils/useUser";
+import { diffBanner } from "utils/utils";
 
 const CustomerDetails = () => {
+  const { user, updateUser } = useUser(10);
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      firstName: user?.firstName,
+      email: user?.email,
+      phoneNumber: user?.phoneNumber,
+    },
+    // validationSchema: createLoginSchema(),
+    onSubmit: (values) => {
+      updateUser(values);
+    },
+  });
+
+  if (!user) return;
   const activityData = [
-    { label: "Sign Up Date", value: "July 8, 2022" },
-    { label: "Last Sign in Location", value: "Makassar, Indonesia" },
+    { label: "Sign Up Date", value: user.createdAt },
     { label: "Timezone", value: "GMT + 8:00" },
   ];
   return (
-    <DefaultLayout title="Customer Details" backHref="/app/customers">
+    <DefaultLayout
+      title="Customer Details"
+      backHref="/app/customers"
+      diffBanner={diffBanner(formik)}
+    >
       <Content>
         <div>
           <Typography className="section-title" variant="subtitle1">
@@ -21,17 +47,30 @@ const CustomerDetails = () => {
           </Typography>
           <Box className="card">
             <Typography variant="subtitle1">Name</Typography>
-            <TextField value="Harman Walia" />
+            <TextField
+              name="firstName"
+              value={formik.values.firstName}
+              onChange={formik.handleChange}
+            />
 
             <Typography variant="subtitle1">Email</Typography>
-            <TextField value="Harman Walia" sx={{ mb: "8px !important" }} />
+            <TextField
+              name="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              sx={{ mb: "8px !important" }}
+            />
             <Typography color="text.secondary">
               We’ll use this email if we need to contact you about your Allyner
               account.
             </Typography>
 
             <Typography variant="subtitle1">Phone Number</Typography>
-            <TextField value="Harman Walia" />
+            <TextField
+              name="phoneNumber"
+              value={formik.values.phoneNumber}
+              onChange={formik.handleChange}
+            />
 
             <Typography variant="subtitle1">Profile Picture</Typography>
           </Box>
@@ -65,41 +104,6 @@ const Content = styled("div")({
   gridTemplateColumns: "40% 1fr",
   gap: 24,
   marginBottom: 32,
-});
-
-const ListGroup = ({ data }) => {
-  return (
-    <div>
-      {data.map((d, index) => {
-        return (
-          <ListGroupItem key={index} className="list-group-item">
-            <Typography>{d.label}</Typography>
-            <Typography>{d.value}</Typography>
-          </ListGroupItem>
-        );
-      })}
-    </div>
-  );
-};
-
-const ListGroupItem = styled("div")({
-  padding: "20px 32px",
-  background: "#FFFFFF",
-  display: "grid",
-  gridTemplateColumns: "1fr 1fr",
-  gap: 16,
-  borderTop: "2px solid #eff1f5",
-
-  "&:first-child": {
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-    borderTop: "none",
-  },
-
-  "&:last-child": {
-    borderBottomLeftRadius: 12,
-    borderBottomRightRadius: 12,
-  },
 });
 
 const ServiceStatus = () => {

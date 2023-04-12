@@ -11,12 +11,14 @@ import QuestionResponse from "components/QuestionResponse";
 
 // OTHER
 import useServiceReq from "utils/useServiceReq";
+import useUser from "utils/useUser";
 import { AppContext } from "AppContext";
 
 const OderOverview = ({ userType }) => {
   const router = useRouter();
   const { modalRepo } = useContext(AppContext);
   const { serviceReq } = useServiceReq(router.query.orderId);
+  const { user } = useUser(serviceReq?.userId);
 
   if (!serviceReq) return "Loading serviceReq";
   return (
@@ -40,12 +42,12 @@ const OderOverview = ({ userType }) => {
                 Customer details
               </Typography>
               <Box className="card" sx={{ mb: 3 }}>
-                <OrderItem label="Customer Name" value="Alwi Hesa" />
+                <OrderItem label="Customer Name" value={user?.firstName} />
                 <OrderItem
                   label="Customer Email"
-                  value={serviceReq.additionalInfo.clientEmail}
+                  value={user?.email || serviceReq.additionalInfo.clientEmail}
                 />
-                <OrderItem label="Client Account" value="Yes" />
+                <OrderItem label="Client Account" value={user ? "Yes" : "No"} />
               </Box>
             </>
           )}

@@ -11,6 +11,7 @@ const CheckoutDetailsForm = ({
   cta: cta_,
   additionalQuestions = [],
   onLogin = () => {},
+  user,
 }) => {
   const aQInitialValues = {};
   additionalQuestions.forEach((aq) => {
@@ -28,7 +29,11 @@ const CheckoutDetailsForm = ({
       email: "",
       ...aQInitialValues,
     },
-    validationSchema: createFormSchema(additionalQuestions),
+
+    validationSchema: createFormSchema([
+      ...additionalQuestions,
+      { title: "email", isRequired: !Boolean(user) },
+    ]),
     onSubmit: (values) => {
       const values_ = { ...values };
       delete values_.email;
@@ -52,23 +57,26 @@ const CheckoutDetailsForm = ({
         </Typography>
       </Box>
 
-      <div className="space-between-centered">
-        <Typography variant="subtitle1">Contact Details</Typography>
-        <Typography color="text.secondary">
-          Already have an account?{" "}
-          <Button onClick={onLogin} variant="text">
-            Login
-          </Button>
-        </Typography>
-      </div>
-      <TextField
-        label="Email"
-        name="email"
-        onChange={formik.handleChange}
-        helperText={formik.errors.email}
-        error={formik.errors.email}
-      />
-
+      {!user && (
+        <>
+          <div className="space-between-centered">
+            <Typography variant="subtitle1">Contact Details</Typography>
+            <Typography color="text.secondary">
+              Already have an account?{" "}
+              <Button onClick={onLogin} variant="text">
+                Login
+              </Button>
+            </Typography>
+          </div>
+          <TextField
+            label="Email"
+            name="email"
+            onChange={formik.handleChange}
+            helperText={formik.errors.email}
+            error={formik.errors.email}
+          />
+        </>
+      )}
       <Typography variant="subtitle1">Other Details</Typography>
       <TextField label="Name" />
 

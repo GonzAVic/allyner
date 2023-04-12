@@ -38,22 +38,8 @@ const Page = () => {
     },
   });
 
-  const initialValuesString = JSON.stringify(formik.initialValues);
-  const currentValuesString = JSON.stringify(formik.values);
-  const areCurrentAndInitialValuesEqual =
-    initialValuesString === currentValuesString;
-
   return (
-    <DefaultLayout
-      title="Confirmation Page"
-      diffBanner={{
-        onSave: () => formik.submitForm(),
-        onDiscard: () => {
-          formik.handleReset();
-        },
-        isVisible: !areCurrentAndInitialValuesEqual,
-      }}
-    >
+    <DefaultLayout title="Confirmation Page" formik={formik}>
       <ServicesTabs />
 
       <PreviewLayout

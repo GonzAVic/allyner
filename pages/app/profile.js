@@ -12,7 +12,7 @@ import useUser from "utils/useUser";
 import { diffBanner } from "utils/utils";
 
 const Page = () => {
-  const { user, updateUser } = useUser(10);
+  const { user, updateUser } = useUser(3);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -29,11 +29,7 @@ const Page = () => {
 
   if (!user) return;
   return (
-    <DefaultLayout
-      title="Profile"
-      userType="client"
-      diffBanner={diffBanner(formik)}
-    >
+    <DefaultLayout title="Profile" diffBanner={diffBanner(formik)}>
       <Typography className="section-title" variant="subtitle1">
         Customer details
       </Typography>
@@ -59,14 +55,17 @@ const Page = () => {
       </Box>
 
       <Typography className="section-title" variant="subtitle1">
-        Customer details
+        Store Details
       </Typography>
       <ListGroup
-        data={[
-          { label: "Sign Up Date", value: user.createdAt },
-          { label: "Timezone", value: "lll" },
-        ]}
+        data={[{ label: "Stores", value: user.createdAt }]}
+        sx={{ mb: 4 }}
       />
+
+      <Typography className="section-title" variant="subtitle1">
+        Settings
+      </Typography>
+      <ListGroup data={[{ label: "Password", value: user.createdAt }]} />
     </DefaultLayout>
   );
 };

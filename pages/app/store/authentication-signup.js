@@ -84,27 +84,13 @@ const Page = () => {
     formik.setFieldValue("additionalQuestions", newQuestionnaire);
   };
 
-  const initialValuesString = JSON.stringify(formik.initialValues);
-  const currentValuesString = JSON.stringify(formik.values);
-  const areCurrentAndInitialValuesEqual =
-    initialValuesString === currentValuesString;
-
   const open = Boolean(anchorEl);
 
   const signUpUrl = "https://" + businessSubdomain + ".allyner.comstore/signup";
 
   return (
     <FormikProvider value={formik}>
-      <DefaultLayout
-        title="Store/Authentication"
-        diffBanner={{
-          onSave: () => formik.submitForm(),
-          onDiscard: () => {
-            formik.handleReset();
-          },
-          isVisible: !areCurrentAndInitialValuesEqual,
-        }}
-      >
+      <DefaultLayout title="Store/Authentication" formik={formik}>
         <StoreTabs />
 
         <PreviewLayout

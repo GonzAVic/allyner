@@ -1,10 +1,10 @@
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 
-const ListGroup = ({ data = [] }) => {
+const ListGroup = ({ data = [], sx = {} }) => {
   return (
-    <div>
+    <Box sx={sx}>
       {data.map((d, index) => {
         return (
           <ListGroupItem key={index} className="list-group-item">
@@ -13,7 +13,7 @@ const ListGroup = ({ data = [] }) => {
           </ListGroupItem>
         );
       })}
-    </div>
+    </Box>
   );
 };
 

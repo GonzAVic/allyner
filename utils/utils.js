@@ -26,6 +26,7 @@ export const createFormSchema = (additionalQuestions) => {
 };
 
 export const diffBanner = (formik) => {
+  if (!formik) return;
   const initialValuesString = JSON.stringify(formik.initialValues);
   const currentValuesString = JSON.stringify(formik.values);
   const areCurrentAndInitialValuesEqual =

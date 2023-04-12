@@ -7,9 +7,7 @@ import { FIND_SERVICE_REQUEST, CREATE_SERVICE_REQUEST } from "graphql/apiql";
 const useServiceReq = (serviceReqId) => {
   const [findServiceReqFn, findServiceReqHpr] =
     useLazyQuery(FIND_SERVICE_REQUEST);
-  const [createServiceReqFn, createServiceReqHpr] = useMutation(
-    CREATE_SERVICE_REQUEST
-  );
+  const [createServiceReqFn] = useMutation(CREATE_SERVICE_REQUEST);
 
   const [serviceReq, setServiceReq] = useState(null);
 
@@ -24,7 +22,6 @@ const useServiceReq = (serviceReqId) => {
     if (!findServiceReqHpr.data) return;
 
     const serviceReq_ = { ...findServiceReqHpr.data.findServiceRequest };
-    console.log('-> serviceReq_: ', serviceReq_)
     serviceReq_.frozenService = JSON.parse(serviceReq_.frozenService);
     const frozenServiceCreatedAt = new Date(
       serviceReq_.frozenService.createdAt
@@ -38,8 +35,12 @@ const useServiceReq = (serviceReqId) => {
     setServiceReq(serviceReq_);
   }, [findServiceReqHpr]);
 
-  const createServiceReq = (data) => {
-    createServiceReqFn({ variables: { input: { attributes: data } } });
+  const createServiceReq = async (data) => {
+    const response = await createServiceReqFn({
+      variables: { input: { attributes: data } },
+    });
+    console.log("-> createServiceReq response: ", response);
+    return response.data.createServiceRequest.serviceRequest;
   };
 
   return { serviceReq, createServiceReq };
