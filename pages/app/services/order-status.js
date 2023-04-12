@@ -12,61 +12,32 @@ import PreviewLayout from "components/layout/PreviewLayout";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const getItems = (count) =>
-  Array.from({ length: count }, (v, k) => k).map((k) => ({
-    id: `item-${k}`,
-    content: `item ${k}`,
-  }));
-
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  return result;
-};
-
-const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? "lightblue" : "lightgrey",
-  padding: grid,
-  width: 250,
-});
-
-const getItemStyle = (isDragging, draggableStyle) => ({
-  // some basic styles to make the items look a bit nicer
-  userSelect: "none",
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
-
-  // change background colour if dragging
-  background: isDragging ? "lightgreen" : "grey",
-
-  // styles we need to apply on draggables
-  ...draggableStyle,
-});
-
-const grid = 8;
-
 const Page = (result) => {
-  const [statuses, setStatuses] = useState(getItems(3));
+  const [collections, setCollections] = useState([
+    {
+      id: "1",
+      title: "not started",
+    },
+    {
+      id: "2",
+      title: "completed",
+    },
+  ]);
 
-  const onDragEnd = () => {
+  const onDragEnd = (result) => {
     // dropped outside the list
     if (!result.destination) {
       return;
     }
 
     const items = reorder(
-      this.state.items,
+      collections,
       result.source.index,
       result.destination.index
     );
 
-    this.setState({
-      items,
-    });
+    setCollections(items);
   };
-
   return (
     <DefaultLayout title="Service Booking">
       <ServicesTabs />
@@ -79,24 +50,16 @@ const Page = (result) => {
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="droppable">
             {(provided, snapshot) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}
-              >
-                {statuses.map((item, index) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {collections.map((item, index) => (
                   <Draggable key={item.id} draggableId={item.id} index={index}>
                     {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        style={getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
                       >
-                        {item.content}
+                        <Status />
                       </div>
                     )}
                   </Draggable>
@@ -111,24 +74,13 @@ const Page = (result) => {
   );
 };
 
-const Container = styled("div")({
-  display: "flex",
-  gap: 32,
-  flex: 1,
-  overflowY: "auto",
-  overflowX: "hidden",
-});
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
 
-const LeftSide = styled("div")({
-  flex: 1,
-  overflowY: "auto",
-  overflowX: "hidden",
-});
-
-const RightSide = styled("div")({
-  display: "flex",
-  flex: 1,
-});
+  return result;
+};
 
 const Status = () => {
   return (
@@ -147,6 +99,8 @@ const SContainer = styled("div")({
   alignItems: "center",
   gap: 16,
   padding: "16px !important",
+  marginBottom: 6,
+  marginTop: 6,
 });
 
 export default Page;
