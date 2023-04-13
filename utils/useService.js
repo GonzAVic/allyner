@@ -38,24 +38,19 @@ const useService = (serviceId, options = {}) => {
 
     const service = createServiceHpr.data.createService.service;
     router.push({
-      pathname: `/app/services/overview`,
+      pathname: `/app/services/details`,
       query: { id: service.id },
     });
   }, [createServiceHpr]);
 
   const updateService = (data) => {
-    console.log("-> serviceId: ", serviceId);
-    console.log("-> data: ", data);
     updateServiceFn({
       variables: {
         input: {
           id: serviceId,
           attributes: {
-            // FLAG 1
-            name: service.name,
-            description: service.description,
-            businessId: service.businessId,
             ...data,
+            businessId: Number(options.businessId),
           },
         },
       },
@@ -66,7 +61,7 @@ const useService = (serviceId, options = {}) => {
     createServiceFn({
       variables: {
         input: {
-          attributes: data,
+          attributes: { ...data, businessId: Number(options.businessId) },
         },
       },
     });

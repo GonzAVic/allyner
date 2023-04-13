@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 
@@ -13,11 +14,12 @@ import DefaultLayout from "components/layout/DefaultLayout";
 import ServiceDetailsTabs from "components/ServiceDetailsTabs";
 
 // OTHERS
-import useService from "utils/useService";
+import { BusinessContext } from "contexts/BusinessContext";
 
 const Page = () => {
   const router = useRouter();
-  const { service } = useService(router.query.id);
+  const { serviceRepo } = useContext(BusinessContext);
+  const { service, updateService, createService } = serviceRepo;
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -42,25 +44,29 @@ const Page = () => {
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
       console.log("-> values: ", values);
-      // const pricingDuration =
-      //   values.durationHours * 60 + values.durationMinutes;
-      // const attributes = {
-      //   name: values.name,
-      //   description: values.description,
-      //   businessId: 1,
-      //   pricingDuration,
-      //   pricingAmount: values.pricingAmount,
-      //   pricingType: values.pricingType,
-      //   callToAction: values.callToAction,
-      //   cover: values.cover,
-      //   status: values.status,
-      // };
+      const pricingDuration =
+        values.durationHours * 60 + values.durationMinutes;
+      const attributes = {
+        name: values.name,
+        description: values.description,
 
-      // if (isNewService) {
-      //   createService(attributes);
-      // } else {
-      //   updateService(attributes);
-      // }
+        // TODO: use correct bussiness ID
+        pricingDuration,
+        pricingAmount: values.pricingAmount,
+
+        // FLAG A
+        // pricingType: values.pricingType,
+        pricingType: 1,
+        callToAction: values.callToAction,
+        cover: values.cover,
+        status: values.status,
+      };
+
+      if (router.query.id === "new") {
+        createService(attributes);
+      } else {
+        updateService(attributes);
+      }
     },
   });
 
@@ -74,13 +80,17 @@ const Page = () => {
 
   return (
     <DefaultLayout
-      title={service?.name || "Service Name"}
+      title={formik.values.name || "Service Name"}
       backHref="/app/services"
       formik={formik}
     >
-      <ServiceDetailsTabs currentStep="details" serviceId={router.query.id} />
+      <ServiceDetailsTabs
+        currentStep="details"
+        serviceId={router.query.id}
+        isNewService={router.query.id === "new"}
+      />
 
-      <PreviewLayout previewComponent={<ServiceCard service={{}} />}>
+      <PreviewLayout previewComponent={<ServiceCard service={formik.values} />}>
         <form onSubmit={formik.handleSubmit}>
           <Typography className="section-title" variant="subtitle1">
             General Details

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import { useFormik, FieldArray, FormikProvider } from "formik";
 
@@ -14,14 +14,16 @@ import DefaultLayout from "components/layout/DefaultLayout";
 import ServiceDetailsTabs from "components/ServiceDetailsTabs";
 
 // OTHERS
-import useService from "utils/useService";
+import { BusinessContext } from "contexts/BusinessContext";
 
 import { questionTypes } from "utils/constants";
 import { questionAdapter } from "utils/adapters";
 
 const Page = () => {
   const router = useRouter();
-  const { service } = useService(router.query.id);
+
+  const { serviceRepo } = useContext(BusinessContext);
+  const { service, updateService } = serviceRepo;
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [activeQuestion, setActiveQuestion] = useState(null);
@@ -32,8 +34,7 @@ const Page = () => {
       questions: service ? service.questionsInfo : [],
     },
     onSubmit: (values) => {
-      console.log("-> values: ", values);
-      // updateService({ questionsInfo: values.questions });
+      updateService({ questionsInfo: values.questions });
     },
   });
 

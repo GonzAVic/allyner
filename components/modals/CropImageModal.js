@@ -9,7 +9,7 @@ import ZoomInIcon from "@mui/icons-material/ZoomIn";
 import ZoomOutIcon from "@mui/icons-material/ZoomOut";
 
 // OTHER
-import { AppContext } from "AppContext";
+import { AppContext } from "contexts/AppContext";
 
 const CropImageModal = () => {
   const { modalRepo } = useContext(AppContext);

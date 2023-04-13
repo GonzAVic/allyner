@@ -6,7 +6,7 @@ const createService = async (_, args) => {
 
     const service = await new Service({
       ...input,
-      businessId: "6413c7297fbdc9ad02f44f7d",
+      businesssssId: "6413c7297fbdc9ad02f44f7d",
     });
     service.save();
 

@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 
 // OTHER
-import { AppContext } from "AppContext";
+import { AppContext } from "contexts/AppContext";
 
 const Modal = ({
   title = null,

@@ -1,3 +1,5 @@
+import { useContext } from "react";
+
 // MATERIAL UI
 import { TextField, Box, Typography, Button } from "@mui/material";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
@@ -8,10 +10,11 @@ import DefaultLayout from "components/layout/DefaultLayout";
 import PreviewLayout from "components/layout/PreviewLayout";
 
 // OTHER
-import useBusiness from "utils/useBusiness";
+import { BusinessContext } from "contexts/BusinessContext";
 
 const Page = () => {
-  const { businessSubdomain } = useBusiness();
+  const { businessRepo } = useContext(BusinessContext);
+  const { businessSubdomain } = businessRepo;
 
   return (
     <DefaultLayout title="Online Store">

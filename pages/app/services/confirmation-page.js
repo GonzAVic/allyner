@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useFormik } from "formik";
 
 // MATERIAL UI
@@ -11,10 +12,11 @@ import PreviewLayout from "components/layout/PreviewLayout";
 import ServiceCheckout from "components/service/ServiceCheckout";
 
 // OTHER
-import useBusiness from "utils/useBusiness";
+import { BusinessContext } from "contexts/BusinessContext";
 
 const Page = () => {
-  const { business, updateBusiness } = useBusiness();
+  const { businessRepo } = useContext(BusinessContext);
+  const { business, updateBusiness } = businessRepo;
 
   const formik = useFormik({
     enableReinitialize: true,

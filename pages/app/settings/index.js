@@ -9,14 +9,16 @@ import DefaultLayout from "components/layout/DefaultLayout";
 import Uploader from "components/Uploader";
 
 // OTHER
-import { AppContext } from "AppContext";
+import { AppContext } from "contexts/AppContext";
+import { BusinessContext } from "contexts/BusinessContext";
 import useBusiness from "utils/useBusiness";
 import { industries, currencies, timezones } from "utils/constants";
 
 function Page() {
   const { modalRepo } = useContext(AppContext);
+  const { businessRepo } = useContext(BusinessContext);
 
-  const { business, updateBusiness } = useBusiness();
+  const { business, updateBusiness } = businessRepo;
 
   const formik = useFormik({
     enableReinitialize: true,

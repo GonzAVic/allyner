@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useFormik, FieldArray, FormikProvider } from "formik";
 
 // MATERIAL UI
@@ -20,11 +20,12 @@ import PreviewLayout from "components/layout/PreviewLayout";
 import SimpleQuestion from "components/SimpleQuestion";
 
 // OTHER
-import useBusiness from "utils/useBusiness";
+import { BusinessContext } from "contexts/BusinessContext";
 import { sUQuestionTypes } from "utils/constants";
 
 const Page = () => {
-  const { business, updateBusiness } = useBusiness();
+  const { businessRepo } = useContext(BusinessContext);
+  const { business, updateBusiness } = businessRepo;
 
   const [anchorEl, setAnchorEl] = useState(null);
 

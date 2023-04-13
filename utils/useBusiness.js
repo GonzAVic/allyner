@@ -35,7 +35,6 @@ const useBusiness = (businessId) => {
     const response = await createBusinessFn({
       variables: { input: { attributes: { ...data, description: "lalala" } } },
     });
-    console.log("-> response: ", response);
     return response;
   };
 

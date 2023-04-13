@@ -43,7 +43,6 @@ export const FIND_BUSINESS = gql`
     findBusiness(id: $id) {
       additionalSettings
       createdAt
-      description
       id
       name
       updatedAt
@@ -131,7 +130,6 @@ export const UPDATE_BUSINESS = gql`
       business {
         additionalSettings
         createdAt
-        description
         id
         name
         updatedAt
@@ -167,7 +165,6 @@ export const CREATE_BUSINESS = gql`
       business {
         additionalSettings
         createdAt
-        description
         id
         name
         updatedAt

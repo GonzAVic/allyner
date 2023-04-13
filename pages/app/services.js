@@ -10,7 +10,7 @@ const Services = () => {
         title="Services"
         cta={{
           text: "Add New Services",
-          href: "/app/services/overview/?id=new",
+          href: "/app/services/details/?id=new",
           variant: "contained",
         }}
       >
