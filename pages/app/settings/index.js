@@ -6,16 +6,15 @@ import { Typography, Box, TextField, MenuItem } from "@mui/material";
 
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
+import ListGroup from "components/ListGroup";
 import Uploader from "components/Uploader";
+import FileCard from "components/FileCard";
 
 // OTHER
-import { AppContext } from "contexts/AppContext";
 import { BusinessContext } from "contexts/BusinessContext";
-import useBusiness from "utils/useBusiness";
 import { industries, currencies, timezones } from "utils/constants";
 
 function Page() {
-  const { modalRepo } = useContext(AppContext);
   const { businessRepo } = useContext(BusinessContext);
 
   const { business, updateBusiness } = businessRepo;
@@ -27,17 +26,15 @@ function Page() {
       location: business?.additionalSettings?.location,
       phone: business?.additionalSettings?.phone,
       industry: business?.additionalSettings?.industry || "",
+      logo: business?.additionalSettings?.logo || "",
 
       currency: business?.additionalSettings?.currency || "",
       timezone: business?.additionalSettings?.timezone || "",
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
-      console.log("-> values: ", values);
       const values_ = { ...values };
       delete values_.name;
-
-      modalRepo.open("CropImage");
 
       const attributes = {
         name: values.name,
@@ -49,6 +46,10 @@ function Page() {
       updateBusiness(attributes);
     },
   });
+
+  const handleLogoChange = (logoUrl) => {
+    formik.setFieldValue("logo", logoUrl);
+  };
 
   return (
     <DefaultLayout title="Settings/Store Details" formik={formik}>
@@ -75,7 +76,14 @@ function Page() {
           onChange={formik.handleChange}
         />
         <Typography variant="subtitle1">Logo</Typography>
-        <Uploader />
+        {formik.values.logo ? (
+          <FileCard
+            fileUrl={formik.values.logo}
+            onDelete={() => handleLogoChange("")}
+          />
+        ) : (
+          <Uploader onUploadedFinished={handleLogoChange} withCropper />
+        )}
         <Typography variant="subtitle1">Industry</Typography>
         <TextField
           name="industry"
@@ -130,7 +138,19 @@ function Page() {
       <Typography className="section-title" variant="subtitle1">
         User Details
       </Typography>
-      <Box className="card" sx={{ mb: 5 }}></Box>
+      <ListGroup
+        data={[
+          {
+            label: "User Profile",
+            render: () => (
+              <Typography variant="link" href="/app/profile">
+                Alwi Hesa
+              </Typography>
+            ),
+          },
+        ]}
+        sx={{ mb: 4 }}
+      />
     </DefaultLayout>
   );
 }

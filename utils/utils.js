@@ -40,3 +40,26 @@ export const diffBanner = (formik) => {
     isVisible: !areCurrentAndInitialValuesEqual,
   };
 };
+
+export const createBucketObject = (file) => {
+  let fileName = `${Date.now()}___${file.name}`;
+  fileName = fileName.replaceAll(" ", "-");
+  const uploadParams = {
+    Bucket: "allyner-dev",
+    Key: fileName,
+    Body: file,
+    ContentType: file.type,
+  };
+
+  return uploadParams;
+};
+
+export const getFileName = (fileUrl) => {
+  let fileName = fileUrl;
+  fileName = fileName.replaceAll(
+    "https://allyner-dev.sfo3.digitaloceanspaces.com/",
+    ""
+  );
+  fileName = fileName.slice(16);
+  return fileName;
+};

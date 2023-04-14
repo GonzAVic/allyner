@@ -8,6 +8,7 @@ import { TextField, MenuItem, Box, Typography } from "@mui/material";
 // COMPONENTS
 import Tiptap from "components/TipTap";
 import Uploader from "components/Uploader";
+import FileCard from "components/FileCard";
 import ServiceCard from "components/service/ServiceCard";
 import PreviewLayout from "components/layout/PreviewLayout";
 import DefaultLayout from "components/layout/DefaultLayout";
@@ -15,6 +16,7 @@ import ServiceDetailsTabs from "components/ServiceDetailsTabs";
 
 // OTHERS
 import { BusinessContext } from "contexts/BusinessContext";
+import { pricingTypes } from "utils/constants";
 
 const Page = () => {
   const router = useRouter();
@@ -30,7 +32,7 @@ const Page = () => {
       callToAction:
         service && service.callToAction ? service.callToAction : "Book Now",
       // TODO: Change pricintType to String
-      pricingType: service && service.pricingType ? service.pricingType : 1,
+      pricingType: service && service.pricingType ? service.pricingType : "",
       durationHours:
         service && service.pricingDuration ? service.pricingDuration % 60 : 1,
       durationMinutes:
@@ -43,14 +45,11 @@ const Page = () => {
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
-      console.log("-> values: ", values);
       const pricingDuration =
         values.durationHours * 60 + values.durationMinutes;
       const attributes = {
         name: values.name,
         description: values.description,
-
-        // TODO: use correct bussiness ID
         pricingDuration,
         pricingAmount: values.pricingAmount,
 
@@ -110,7 +109,18 @@ const Page = () => {
             />
 
             <Typography variant="subtitle1">Thumbnail</Typography>
-            <Uploader onFileUploaded={handleCoverChange} />
+            {formik.values.cover ? (
+              <FileCard
+                fileUrl={formik.values.cover}
+                onDelete={() => handleCoverChange("")}
+              />
+            ) : (
+              <Uploader
+                onUploadedFinished={handleCoverChange}
+                cropShape="serviceCover"
+                withCropper
+              />
+            )}
 
             <Typography variant="subtitle1">CTA</Typography>
             <TextField
@@ -155,13 +165,13 @@ const Page = () => {
               onChange={formik.handleChange}
               select
             >
-              {PRICING_TYPES.map((option) => (
+              {pricingTypes().map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
               ))}
             </TextField>
-            {formik.values.pricingType === "BY_TIME" && (
+            {formik.values.pricingType === "RATE" && (
               <Box className="row-2" sx={{ alignItems: "flex-end", mt: 2 }}>
                 <TextField
                   name="durationHours"
@@ -214,21 +224,6 @@ const Page = () => {
     </DefaultLayout>
   );
 };
-
-const PRICING_TYPES = [
-  {
-    value: "FIXED",
-    label: "Flat Pricing",
-  },
-  {
-    value: "BY_TIME",
-    label: "Price by time",
-  },
-  {
-    value: "FREE",
-    label: "Free",
-  },
-];
 
 const PRICE_DURATION_HOURS = [
   {

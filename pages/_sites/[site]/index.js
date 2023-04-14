@@ -16,12 +16,9 @@ const Index = () => {
         Check our services
       </Typography>
       <div className="service-cards-list-ctr">
-        <ServiceCard />
-        <ServiceCard />
-        <ServiceCard />
-        <ServiceCard />
-        <ServiceCard />
-        <ServiceCard />
+        <ServiceCard userType="client" />
+        <ServiceCard userType="client" />
+        <ServiceCard userType="client" />
       </div>
     </DefaultLayout>
   );

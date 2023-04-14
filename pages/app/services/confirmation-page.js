@@ -26,8 +26,6 @@ const Page = () => {
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
-      console.log("-> values: ", values);
-
       const attributes = {
         additionalSettings: JSON.stringify({
           ...business.additionalSettings,

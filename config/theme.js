@@ -44,6 +44,7 @@ const theme = () => {
       h6: {
         fontSize: 20,
         fontWeight: 600,
+        lineHeight: "26px",
       },
       subtitle1: {
         fontSize: 16,
@@ -69,6 +70,11 @@ const theme = () => {
         fontSize: 15,
         fontWeight: 600,
       },
+      link: {
+        cursor: "pointer",
+        textDecoration: "none",
+        color: palette.primary.main,
+      },
       // allVariants: {
       //   display: "block",
       // },
@@ -82,6 +88,7 @@ const theme = () => {
             label: "p",
             button: "div",
             small: "div",
+            link: "a",
           },
         },
       },

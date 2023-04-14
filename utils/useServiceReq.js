@@ -39,7 +39,6 @@ const useServiceReq = (serviceReqId) => {
     const response = await createServiceReqFn({
       variables: { input: { attributes: data } },
     });
-    console.log("-> createServiceReq response: ", response);
     return response.data.createServiceRequest.serviceRequest;
   };
 

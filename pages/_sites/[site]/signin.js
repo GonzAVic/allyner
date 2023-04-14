@@ -1,12 +1,15 @@
+import { useContext } from "react";
+
 // COMPONENTS
 import ClearLayout from "components/layout/ClearLayout";
 import ClientSignin from "components/ClientSignin";
 
 // OTHER
-import useBusiness from "utils/useBusiness";
+import { ClientContext } from "contexts/ClientContext";
 
 const Page = () => {
-  const { business } = useBusiness();
+  const { businessRepo } = useContext(ClientContext);
+  const { business } = businessRepo;
   return (
     <ClearLayout>
       <ClientSignin

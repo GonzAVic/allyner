@@ -5,14 +5,15 @@ import * as yup from "yup";
 // MATERIAL UI
 import { styled } from "@mui/system";
 import {
-  Typography,
-  TextField,
   Button,
-  InputAdornment,
-  IconButton,
-  FormGroup,
-  FormControlLabel,
   Checkbox,
+  FormControlLabel,
+  FormGroup,
+  IconButton,
+  InputAdornment,
+  MenuItem,
+  TextField,
+  Typography,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
@@ -24,6 +25,7 @@ import Asset2 from "assets/asset-2.svg";
 import Asset3 from "assets/asset-3.svg";
 import Asset4 from "assets/asset-4.svg";
 import AllynerLogo from "assets/allyner-logo.svg";
+import { industries } from "utils/constants";
 
 const BusinessSignup = () => {
   const { createBusiness } = useBusiness();
@@ -35,7 +37,8 @@ const BusinessSignup = () => {
     initialValues: {
       email: "",
       password: "",
-      name: "",
+      firstName: "",
+      lastName: "",
       companyName: "",
       industry: "",
     },
@@ -106,11 +109,18 @@ const BusinessSignup = () => {
         }}
       />
       <TextField
-        label="Name"
-        name="name"
+        label="Firts Name"
+        name="firstName"
         onChange={formik.handleChange}
-        helperText={formik.errors.name}
-        error={formik.errors.name}
+        helperText={formik.errors.firstName}
+        error={formik.errors.firstName}
+      />
+      <TextField
+        label="Last Name"
+        name="lastName"
+        onChange={formik.handleChange}
+        helperText={formik.errors.lastName}
+        error={formik.errors.lastName}
       />
       <TextField
         label="Company Name"
@@ -120,12 +130,18 @@ const BusinessSignup = () => {
         error={formik.errors.companyName}
       />
       <TextField
-        label="Industry"
         name="industry"
+        value={formik.values.industry}
         onChange={formik.handleChange}
-        helperText={formik.errors.industry}
-        error={formik.errors.industry}
-      />
+        sx={{ textTransform: "capitalize" }}
+        select
+      >
+        {industries.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
+        ))}
+      </TextField>
 
       <FormGroup>
         <FormControlLabel

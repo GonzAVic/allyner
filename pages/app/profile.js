@@ -6,10 +6,11 @@ import { Typography, Box, TextField } from "@mui/material";
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
 import ListGroup from "components/ListGroup";
+import Uploader from "components/Uploader";
+import FileCard from "components/FileCard";
 
 // OTHER
 import useUser from "utils/useUser";
-import { diffBanner } from "utils/utils";
 
 const Page = () => {
   const { user, updateUser } = useUser(3);
@@ -20,6 +21,7 @@ const Page = () => {
       firstName: user?.firstName,
       email: user?.email,
       phoneNumber: user?.phoneNumber,
+      profilePicture: user?.profilePicture,
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
@@ -27,9 +29,13 @@ const Page = () => {
     },
   });
 
+  const handleProfilePictureChange = (profilePictureUrl) => {
+    formik.setFieldValue("profilePicture", profilePictureUrl);
+  };
+
   if (!user) return;
   return (
-    <DefaultLayout title="Profile" diffBanner={diffBanner(formik)}>
+    <DefaultLayout title="Profile" formik={formik}>
       <Typography className="section-title" variant="subtitle1">
         Customer details
       </Typography>
@@ -52,6 +58,18 @@ const Page = () => {
           value={formik.values.phoneNumber}
           onChange={formik.handleChange}
         />
+        <Typography variant="subtitle1">Profile Picture</Typography>
+        {formik.values.profilePicture ? (
+          <FileCard
+            fileUrl={formik.values.profilePicture}
+            onDelete={() => handleProfilePictureChange("")}
+          />
+        ) : (
+          <Uploader
+            onUploadedFinished={handleProfilePictureChange}
+            withCropper
+          />
+        )}
       </Box>
 
       <Typography className="section-title" variant="subtitle1">

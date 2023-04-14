@@ -38,7 +38,8 @@ const BusinessSidebar = ({ isResponsive, isMenuOpen }) => {
         href="/app/services"
         isActive={
           router.asPath === "/app/services" ||
-          router.pathname === "/app/services/overview"
+          router.pathname === "/app/services/in-take-questions" ||
+          router.pathname === "/app/services/details"
         }
         icon={<LayersOutlinedIcon />}
       />
@@ -47,7 +48,8 @@ const BusinessSidebar = ({ isResponsive, isMenuOpen }) => {
         href="/app/services/order-status"
         isActive={
           router.asPath.includes("services/") &&
-          !router.asPath.includes("overview")
+          !router.asPath.includes("details") &&
+          !router.asPath.includes("in-take-questions")
         }
         icon={<FiberManualRecordIcon fontSize="small" />}
       />

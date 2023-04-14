@@ -1,17 +1,19 @@
+import { useContext } from "react";
+
 // COMPONENTS
 import ClearLayout from "components/layout/ClearLayout";
 import ClientSignup from "components/ClientSignup";
 
 // OTHER
 import useUser from "utils/useUser";
-import useBusiness from "utils/useBusiness";
+import { ClientContext } from "contexts/ClientContext";
 
 const Page = () => {
-  const { business } = useBusiness();
+  const { businessRepo } = useContext(ClientContext);
+  const { business } = businessRepo;
   const { createClientUser } = useUser(3);
 
   const handleSubmit = (data) => {
-    console.log("-> data: ", data);
     if (!business || !business.id) return;
     createClientUser({
       firstName: "string",

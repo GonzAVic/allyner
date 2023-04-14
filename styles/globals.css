@@ -35,6 +35,12 @@
 }
 
 .section-title {
-  margin-bottom: 16px;
+  margin-bottom: 16px !important;
   color: #73839d;
+}
+
+.app-link {
+  font-weight: 600;
+  font-size: 16px;
+  color: #3c64c5;
 }

@@ -11,6 +11,7 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 
 // COMPONENTS
 import BusinessApplication from "components/BusinessApplication";
+import ClientApplication from "components/ClientApplication";
 
 // OTHER
 import "../styles/globals.css";
@@ -40,12 +41,19 @@ export default function App({
         <LocalizationProvider dateAdapter={AdapterMoment}>
           <ThemeProvider theme={theme()}>
             <AppContext.Provider value={contextObject}>
-              {Boolean(modalRepo.currentModal) && modalRepo.currentModal}
+              {Boolean(modalRepo.currentModal) &&
+                React.cloneElement(modalRepo.currentModal, modalRepo.ctx)}
               <CssBaseline />
 
-              <BusinessApplication>
-                <Component {...pageProps} />
-              </BusinessApplication>
+              {router.route.includes("/app") ? (
+                <BusinessApplication>
+                  <Component {...pageProps} />
+                </BusinessApplication>
+              ) : (
+                <ClientApplication>
+                  <Component {...pageProps} />
+                </ClientApplication>
+              )}
             </AppContext.Provider>
           </ThemeProvider>
         </LocalizationProvider>

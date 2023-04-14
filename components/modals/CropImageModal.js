@@ -10,16 +10,46 @@ import ZoomOutIcon from "@mui/icons-material/ZoomOut";
 
 // OTHER
 import { AppContext } from "contexts/AppContext";
+import { getCroppedImg } from "utils/crop";
 
-const CropImageModal = () => {
+const CropImageModal = ({
+  imageSrc = "",
+  cta = () => {},
+  cropShape = null,
+  cropOptions: cropOptions_ = { cropShape: "rect", aspect: 1 },
+}) => {
   const { modalRepo } = useContext(AppContext);
 
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [croppedImage, setCroppedImage] = useState(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(0.2);
+  const [zoom, setZoom] = useState(1);
 
   const handleZoomChange = (event, newValue) => {
     setZoom(newValue);
   };
+
+  const onCropComplete = (croppedArea, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  };
+
+  const showCroppedImage = async () => {
+    try {
+      const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels, 0);
+      if (cta) {
+        cta(croppedImage);
+        modalRepo.close();
+      }
+      setCroppedImage(croppedImage);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const cropOptions = cropOptions_;
+  if (cropShape === "serviceCover") {
+    cropOptions.aspect = 312 / 200;
+  }
 
   return (
     <Container open={true}>
@@ -29,15 +59,13 @@ const CropImageModal = () => {
       <Content>
         <CropperContainer>
           <Cropper
-            image={
-              "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg"
-            }
+            image={imageSrc}
             crop={crop}
             zoom={zoom}
-            aspect={1}
-            onCropChange={() => {}}
-            onCropComplete={() => {}}
+            onCropChange={setCrop}
+            onCropComplete={onCropComplete}
             onZoomChange={setZoom}
+            {...cropOptions}
           />
         </CropperContainer>
         <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
@@ -51,7 +79,7 @@ const CropImageModal = () => {
           />
           <ZoomInIcon />
         </Stack>
-        <Button sx={{ mt: 6 }} fullWidth>
+        <Button onClick={showCroppedImage} sx={{ mt: 6 }} fullWidth>
           Upload
         </Button>
       </Content>

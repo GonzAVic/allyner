@@ -14,7 +14,6 @@ export const authOptions = {
   events: {
     async signIn(props) {
       await connectDb();
-      console.log("-> events props: ", props);
       const { user, account, profile } = props;
     },
   },

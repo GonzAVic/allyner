@@ -1,3 +1,31 @@
+export const pricingTypes = (pick, valueToLabel) => {
+  const values = [
+    {
+      value: "FIXED",
+      label: "Fixed Price",
+    },
+    {
+      value: "RATE",
+      label: "Price by time",
+    },
+    {
+      value: "CONTACT",
+      label: "Contact for Pricing",
+    },
+  ];
+
+  if (Boolean(pick)) {
+    return values.map((e) => e[pick]);
+  }
+
+  if (valueToLabel) {
+    const element = values.find((e) => e.value === valueToLabel);
+    return element.label;
+  }
+
+  return values;
+};
+
 export const questionTypes = (pick, valueToLabel) => {
   const values = [
     {

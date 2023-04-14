@@ -1,3 +1,5 @@
+import { useContext, useState } from "react";
+
 // MATERIAL UI
 import { styled } from "@mui/system";
 import { Typography, Box, IconButton } from "@mui/material";
@@ -7,33 +9,45 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 // OTHER
 import { uploadFile } from "utils/s3client";
+import { AppContext } from "contexts/AppContext";
+import { createBucketObject } from "utils/utils";
 
 const Uploader = ({
-  onFilesUploaded,
-  onFileUploaded,
-  onFilesLoaded = () => {},
   multiple = false,
+  withCropper = false,
+  onUploadedFinished = () => {},
+  cropShape,
 }) => {
-  const handleUpload = async (e) => {
-    const { files } = e.target;
+  const { modalRepo } = useContext(AppContext);
 
-    const filesArray = Array.from(files);
-    const filesParams = filesArray.map((file) => {
-      const uploadParams = {
-        Bucket: "allyner-dev",
-        Key: `${Date.now()}-${file.name}`,
-        Body: file,
-        ContentType: file.type,
-      };
-      return uploadParams;
-    });
-    onFilesLoaded(filesParams);
-    filesParams.forEach(async (fp) => {
-      const fileUrl = await uploadFile(fp);
-      if (!multiple && onFileUploaded) {
-        onFileUploaded(fileUrl);
+  const onFileChange = async (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      let imageDataUrl = await readFile(file);
+
+      async function convertToFile(url, file) {
+        let response = await fetch(url);
+        let blob = await response.blob();
+
+        return new File([blob], file.name, {
+          type: file.type,
+        });
       }
-    });
+
+      const onCta = async (data) => {
+        const newFile = await convertToFile(data, file);
+
+        const fileParams = createBucketObject(newFile);
+        const fileUrl = await uploadFile(fileParams);
+        onUploadedFinished(fileUrl);
+      };
+
+      modalRepo.open("CropImage", {
+        imageSrc: imageDataUrl,
+        cta: onCta,
+        cropShape,
+      });
+    }
   };
 
   return (
@@ -41,7 +55,7 @@ const Uploader = ({
       <input
         type="file"
         id="imgupload"
-        onChange={handleUpload}
+        onChange={onFileChange}
         style={{ display: "none" }}
         multiple={Boolean(multiple)}
       />
@@ -49,7 +63,7 @@ const Uploader = ({
         <Container>
           <CloudUploadIcon sx={{ mb: 2 }} />
           <Typography vatiant="label" sx={{ mb: 1, textAlign: "center" }}>
-            <span>Click to upload</span> or drag and drop
+            <span>Click to upload</span>
           </Typography>
           <Typography vatiant="label" sx={{ textAlign: "center" }}>
             SVG, PNG, JPG, GIF or video (min. 1280x720px, 72 DPI)
@@ -112,5 +126,13 @@ const FIFileIconCtr = styled("div")({
     fill: "#7F56D9",
   },
 });
+
+function readFile(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => resolve(reader.result), false);
+    reader.readAsDataURL(file);
+  });
+}
 
 export default Uploader;

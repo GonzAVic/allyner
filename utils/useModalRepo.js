@@ -8,9 +8,9 @@ import CropImageModal from "components/modals/CropImageModal";
 
 const useModalRepo = () => {
   const [currentModal, setCurrentModal] = useState(null);
+  const [ctx, setCtx] = useState(); // { data: value, data2: value }
 
-  const open = (modalToOpen) => {
-    console.log("-> modalToOpen: ", modalToOpen);
+  const open = (modalToOpen, ctx) => {
     let component = null;
     switch (modalToOpen) {
       case "DeleteService":
@@ -31,6 +31,7 @@ const useModalRepo = () => {
     }
 
     setCurrentModal(component);
+    if (ctx) setCtx(ctx);
   };
 
   const close = () => {
@@ -42,6 +43,7 @@ const useModalRepo = () => {
     close,
 
     currentModal,
+    ctx,
   };
 };
 

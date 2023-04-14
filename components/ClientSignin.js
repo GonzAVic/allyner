@@ -1,5 +1,5 @@
 // MATERIAL UI
-import { Typography, TextField, Button } from "@mui/material";
+import { Typography, TextField, Button, Box } from "@mui/material";
 
 const ClientSignin = ({
   headline,
@@ -24,12 +24,14 @@ const ClientSignin = ({
       <Button onClick={onSubmit} sx={{ mb: 5 }} fullWidth>
         Sign In
       </Button>
-      <Typography
-        variant="body2"
-        color="text.secondary"
-        sx={{ textAlign: "center" }}
-      >
-        Don’t have an account?
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          // sx={{ textAlign: "center" }}
+        >
+          Don’t have an account?
+        </Typography>
         <Typography
           variant="body2"
           color="primary"
@@ -43,7 +45,7 @@ const ClientSignin = ({
         >
           Sign up
         </Typography>
-      </Typography>
+      </Box>
     </div>
   );
 };

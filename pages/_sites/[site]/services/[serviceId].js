@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 
 // MATERIAL UI
@@ -14,7 +14,7 @@ import ClientSignin from "components/ClientSignin";
 import ClientSignup from "components/ClientSignup";
 
 // OTHER
-import useBusiness from "utils/useBusiness";
+import { ClientContext } from "contexts/ClientContext";
 import useService from "utils/useService";
 import useUser from "utils/useUser";
 import useServiceReq from "utils/useServiceReq";
@@ -24,7 +24,8 @@ const USER = 3;
 
 const ServiceWizard = () => {
   const router = useRouter();
-  const { business } = useBusiness();
+  const { businessRepo } = useContext(ClientContext);
+  const { business } = businessRepo;
   const { service } = useService(router.query.serviceId);
   const { createServiceReq } = useServiceReq();
   const { createClientUser } = useUser();

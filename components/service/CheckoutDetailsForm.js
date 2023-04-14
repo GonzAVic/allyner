@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 // MATERIAL UI
 import { styled } from "@mui/system";
 import { Box, Typography, TextField, Button } from "@mui/material";
+import GppGoodOutlinedIcon from "@mui/icons-material/GppGoodOutlined";
 
 const CheckoutDetailsForm = ({
   headline,
@@ -49,11 +50,11 @@ const CheckoutDetailsForm = ({
   return (
     <Container onSubmit={formik.handleSubmit}>
       <Box sx={{ textAlign: "center" }}>
-        <Typography variant="h5" sx={{ mb: 2 }}>
-          {headline || "Default UI value"}
+        <Typography variant="h4" sx={{ mb: 2 }}>
+          {headline || "[COPY] Default UI value"}
         </Typography>
-        <Typography color="text.secondary" sx={{ mb: 4 }}>
-          {message || "Default UI value"}
+        <Typography color="text.secondary" sx={{ mb: 4, fontSize: 20 }}>
+          {message || "[COPY] Default UI value"}
         </Typography>
       </Box>
 
@@ -96,7 +97,25 @@ const CheckoutDetailsForm = ({
         );
       })}
 
-      <Button onClick={formik.submitForm} fullWidth>
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        sx={{
+          margin: "auto",
+          display: "block",
+          width: "fit-content",
+          mb: 1,
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <GppGoodOutlinedIcon fontSize="small" />
+        You won't charge at the moment
+      </Typography>
+      <Button
+        onClick={formik.submitForm}
+        sx={{ margin: "auto", display: "block" }}
+      >
         {cta.text}
       </Button>
     </Container>
@@ -104,7 +123,7 @@ const CheckoutDetailsForm = ({
 };
 
 const Container = styled("form")({
-  maxWidth: 650,
+  maxWidth: 550,
 });
 
 // TODO: Use utils function

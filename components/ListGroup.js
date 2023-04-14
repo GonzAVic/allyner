@@ -9,7 +9,7 @@ const ListGroup = ({ data = [], sx = {} }) => {
         return (
           <ListGroupItem key={index} className="list-group-item">
             <Typography>{d.label}</Typography>
-            <Typography>{d.value}</Typography>
+            {d.render ? d.render() : <Typography>{d.value}</Typography>}
           </ListGroupItem>
         );
       })}
