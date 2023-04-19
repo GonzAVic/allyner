@@ -20,7 +20,7 @@ import useUser from "utils/useUser";
 import useServiceReq from "utils/useServiceReq";
 import { useKeyPress, ARROW_DOWN, ARROW_UP } from "utils/useKeyPress";
 
-const USER = 3;
+const USER = false;
 
 const ServiceWizard = () => {
   const router = useRouter();
@@ -62,14 +62,15 @@ const ServiceWizard = () => {
     setQuestionsIndex(questionIndex - 1);
   };
 
-  const handleCheckoutAction = async () => {
+  const checkoutAction = async (checkoutFormData) => {
+    console.log("-> checkoutFormData: ", checkoutFormData);
     const serviceReqData = {
       businessId: 1,
       surveyId: 1,
       userId: 2,
       orderStatusId: 1,
       answers: JSON.stringify(questions),
-      additionalInfo: additionalInfo,
+      additionalInfo: checkoutFormData,
     };
 
     if (USER) {
@@ -80,7 +81,7 @@ const ServiceWizard = () => {
         query: { orderId: response.id },
       });
     } else {
-      const response = await createServiceReq(serviceReqData);
+      await createServiceReq(serviceReqData);
       setCurrentStep("confimationPage");
     }
   };
@@ -90,21 +91,19 @@ const ServiceWizard = () => {
   };
 
   const handleSignin = () => {
-    // TODO: signin, store token
+    /**
+     * 1. get client user data
+     * 2. store user data
+     * 3. display checkout form again
+     */
   };
 
   const handleSignup = async () => {
-    // TODO: create a client user
-    const serviceReqData = {
-      businessId: 1,
-      surveyId: 1,
-      userId: 2,
-      orderStatusId: 1,
-      answers: JSON.stringify(questions),
-      additionalInfo: data,
-    };
-    serviceReqData.userId = USER;
-    const response = await createServiceReq(serviceReqData);
+    /**
+     * 1. Create client user
+     * 2. store user data
+     * 3. display checkout form again
+     */
   };
 
   const displaySignupView = () => {
@@ -117,6 +116,10 @@ const ServiceWizard = () => {
     quesitonsParsed[questionIndex].answer = answer;
 
     setQuestions(quesitonsParsed);
+  };
+
+  const exposeFormData = (data) => {
+    setAdditionalInfo(data);
   };
 
   if (!business || !service) return "Loading data...";
@@ -144,14 +147,10 @@ const ServiceWizard = () => {
               additionalQuestions={
                 business.additionalSettings.checkoutAdditionalInfo
               }
+              exposeFormData={exposeFormData}
               cta={{
                 text: "Book Now",
-                fn: (data) => {
-                  setAdditionalInfo(data);
-                  setTimeout(() => {
-                    handleCheckoutAction();
-                  }, 250);
-                },
+                fn: checkoutAction,
               }}
               onLogin={displaySigninView}
             />
@@ -175,7 +174,8 @@ const ServiceWizard = () => {
               headline={business.additionalSettings.signUpHeadline}
               message={business.additionalSettings.signUpMessage}
               additionalQuestions={
-                busadditionalQuestions.additionalSettings.signUpQuestionnaire
+                business.additionalQuestions.additionalSettings
+                  .signUpQuestionnaire
               }
               onSubmit={handleSignup}
             />

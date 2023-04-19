@@ -89,6 +89,26 @@ export const FIND_SERVICE_REQUEST = gql`
   }
 `;
 
+export const FIND_BUSINESS_SERVICES = gql`
+  query ($businessId: Int!) {
+    businessServices(businessId: $businessId) {
+      businessId
+      callToAction
+      cover
+      createdAt
+      description
+      id
+      name
+      pricingAmount
+      pricingDuration
+      pricingType
+      questionsInfo
+      status
+      updatedAt
+    }
+  }
+`;
+
 // MUTATIONS
 export const CREATE_SERVICE = gql`
   mutation ($input: CreateServiceInput!) {

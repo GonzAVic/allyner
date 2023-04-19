@@ -42,7 +42,9 @@ const useServiceReq = (serviceReqId) => {
     return response.data.createServiceRequest.serviceRequest;
   };
 
-  return { serviceReq, createServiceReq };
+  const findClientServiceReqs = () => {};
+
+  return { serviceReq, createServiceReq, findClientServiceReqs };
 };
 
 export default useServiceReq;

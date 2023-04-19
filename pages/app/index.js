@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
@@ -11,7 +11,11 @@ import PeopleIcon from "@mui/icons-material/People";
 import DefaultLayout from "components/layout/DefaultLayout";
 import ServiceCard from "components/service/ServiceCard";
 
-export default function Index({ pedro }) {
+// OTHER
+import { BusinessContext } from "contexts/BusinessContext";
+
+export default function Index() {
+  const { businessRepo } = useContext(BusinessContext);
   return (
     <DefaultLayout title="Good Evening Harman">
       <div className="service-cards-list-ctr">
@@ -41,7 +45,9 @@ export default function Index({ pedro }) {
         Your Services
       </Typography>
       <div className="service-cards-list-ctr">
-        <ServiceCard />
+        {businessRepo.services.map((service) => {
+          return <ServiceCard service={service} />;
+        })}
       </div>
     </DefaultLayout>
   );

@@ -1,9 +1,15 @@
+import { useContext } from "react";
+
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
 import BusinessHOC from "components/BusinessHOC";
 import ServiceCard from "components/service/ServiceCard";
 
+// OTHER
+import { BusinessContext } from "contexts/BusinessContext";
+
 const Services = () => {
+  const { businessRepo } = useContext(BusinessContext);
   return (
     <BusinessHOC>
       <DefaultLayout
@@ -15,12 +21,9 @@ const Services = () => {
         }}
       >
         <div className="service-cards-list-ctr">
-          <ServiceCard />
-          <ServiceCard />
-          <ServiceCard />
-          <ServiceCard />
-          <ServiceCard />
-          <ServiceCard />
+          {businessRepo.services.map((service) => {
+            return <ServiceCard service={service} />;
+          })}
         </div>
       </DefaultLayout>
     </BusinessHOC>

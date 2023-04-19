@@ -26,7 +26,7 @@ const Page = () => {
   const { service, updateService } = serviceRepo;
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const [activeQuestion, setActiveQuestion] = useState(null);
+  const [activeQuestion, setActiveQuestion] = useState(0);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -64,7 +64,17 @@ const Page = () => {
         serviceId={router.query.id}
       />
 
-      <PreviewLayout previewComponent={<Question question={{}} />}>
+      <PreviewLayout
+        previewComponent={
+          <Question
+            question={
+              formik.values.questions.length &&
+              formik.values.questions[activeQuestion]
+            }
+            questionIndex={activeQuestion}
+          />
+        }
+      >
         <FormikProvider value={formik}>
           <form onSubmit={formik.handleSubmit}>
             <Typography className="section-title" variant="subtitle1">

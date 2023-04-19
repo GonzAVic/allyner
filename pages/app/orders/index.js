@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useRouter } from "next/router";
 
 // MATERIAL UI
@@ -7,9 +8,11 @@ import { DataGrid } from "@mui/x-data-grid";
 
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
+import NullState from "components/NullState";
 
 const orders = () => {
   const router = useRouter();
+  const [data, setData] = useState([]);
 
   const handleRowClick = (rowData) => {
     router.push({
@@ -21,16 +24,24 @@ const orders = () => {
   return (
     <DefaultLayout title="Orders" cta={{ text: "Create Order" }}>
       <Container className="pedro">
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          checkboxSelection
-          disableSelectionOnClick
-          experimentalFeatures={{ newEditingApi: true }}
-          onRowClick={handleRowClick}
-        />
+        {!data.length && (
+          <NullState
+            primaryText="No Orders Found"
+            secondaryText="Google is waiting for some order."
+          />
+        )}
+        {Boolean(data.length) && (
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+            disableSelectionOnClick
+            experimentalFeatures={{ newEditingApi: true }}
+            onRowClick={handleRowClick}
+          />
+        )}
       </Container>
     </DefaultLayout>
   );

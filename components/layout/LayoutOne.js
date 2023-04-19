@@ -62,6 +62,7 @@ const Header = styled("div")({
   justifyContent: "space-between",
   alignItems: "center",
   height: 72,
+  minHeight: 72,
   background: "#FFFFFF",
   padding: "0 24px",
   borderBottom: "1px solid #E0E2E8",

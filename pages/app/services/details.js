@@ -31,7 +31,6 @@ const Page = () => {
       cover: service?.cover,
       callToAction:
         service && service.callToAction ? service.callToAction : "Book Now",
-      // TODO: Change pricintType to String
       pricingType: service && service.pricingType ? service.pricingType : "",
       durationHours:
         service && service.pricingDuration ? service.pricingDuration % 60 : 1,
@@ -52,10 +51,7 @@ const Page = () => {
         description: values.description,
         pricingDuration,
         pricingAmount: values.pricingAmount,
-
-        // FLAG A
-        // pricingType: values.pricingType,
-        pricingType: 1,
+        pricingType: values.pricingType,
         callToAction: values.callToAction,
         cover: values.cover,
         status: values.status,

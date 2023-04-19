@@ -19,6 +19,7 @@ const Page = () => {
     enableReinitialize: true,
     initialValues: {
       firstName: user?.firstName,
+      lastName: user?.lastName,
       email: user?.email,
       phoneNumber: user?.phoneNumber,
       profilePicture: user?.profilePicture,
@@ -44,6 +45,12 @@ const Page = () => {
         <TextField
           name="firstName"
           value={formik.values.firstName}
+          onChange={formik.handleChange}
+        />
+        <Typography variant="subtitle1">Name</Typography>
+        <TextField
+          name="lastName"
+          value={formik.values.lastName}
           onChange={formik.handleChange}
         />
         <Typography variant="subtitle1">Email</Typography>
