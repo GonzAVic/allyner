@@ -11,13 +11,12 @@ const LayoutOne = ({
   onArrowUp,
   title,
   progressValue = 0,
+  logo = "",
 }) => {
   return (
     <Container>
       <Header>
-        <IconButton>
-          <ArrowBackIcon />
-        </IconButton>
+        <img className="businessLogo" src={logo} />
         <Typography variant="h6">{title}</Typography>
         <Box sx={{ width: 24, height: 24 }} />
       </Header>
@@ -55,13 +54,17 @@ const Container = styled("div")({
   ".MuiLinearProgress-root": {
     background: "transparent",
   },
+
+  ".businessLogo": {
+    height: 70,
+  },
 });
 
 const Header = styled("div")({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  height: 72,
+  height: 85,
   minHeight: 72,
   background: "#FFFFFF",
   padding: "0 24px",

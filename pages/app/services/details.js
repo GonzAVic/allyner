@@ -51,7 +51,7 @@ const Page = () => {
         description: values.description,
         pricingDuration,
         pricingAmount: values.pricingAmount,
-        pricingType: values.pricingType,
+        pricingType: String(values.pricingType),
         callToAction: values.callToAction,
         cover: values.cover,
         status: values.status,

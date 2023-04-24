@@ -7,6 +7,7 @@ import {
   CREATE_CLIENT_USER,
   FIND_USER,
   UPDATE_USER,
+  UPDATE_CLIENT,
 } from "graphql/apiql";
 
 const useUser = (userId) => {
@@ -15,6 +16,7 @@ const useUser = (userId) => {
   const [createClientUserFn, createClientUserHpr] =
     useMutation(CREATE_CLIENT_USER);
   const [updateUserFn, updateUserHpr] = useMutation(UPDATE_USER);
+  const [updateClientFn, updateClientHrp] = useMutation(UPDATE_CLIENT);
   const [findUserFn, findUserHpr] = useLazyQuery(FIND_USER);
 
   const [user, setUser] = useState(null);
@@ -44,10 +46,11 @@ const useUser = (userId) => {
     });
   };
 
-  const createClientUser = (data) => {
-    createClientUserFn({
+  const createClientUser = async (data) => {
+    const response = await createClientUserFn({
       variables: { input: { attributes: data } },
     });
+    return response;
   };
 
   const updateUser = (data) => {
@@ -61,8 +64,25 @@ const useUser = (userId) => {
       },
     });
   };
+  const updateClient = (data) => {
+    updateClientFn({
+      // TODO: remove this after handling name
+      variables: {
+        input: {
+          attributes: { ...data, lastName: "lastname value" },
+          id: Number(userId),
+        },
+      },
+    });
+  };
 
-  return { createBusinessUser, createClientUser, user, updateUser };
+  return {
+    createBusinessUser,
+    createClientUser,
+    user,
+    updateUser,
+    updateClient,
+  };
 };
 
 export default useUser;

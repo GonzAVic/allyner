@@ -1,4 +1,5 @@
 import { useFormik } from "formik";
+import { useRouter } from "next/router";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
@@ -8,13 +9,16 @@ import { DataGrid } from "@mui/x-data-grid";
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
 import ListGroup from "components/ListGroup";
+import Uploader from "components/Uploader";
+import FileCard from "components/FileCard";
 
 // OTHER
 import useUser from "utils/useUser";
 import { diffBanner } from "utils/utils";
 
 const CustomerDetails = () => {
-  const { user, updateUser } = useUser(10);
+  const router = useRouter();
+  const { user, updateClient } = useUser(router.query.customerId);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -22,12 +26,19 @@ const CustomerDetails = () => {
       firstName: user?.firstName,
       email: user?.email,
       phoneNumber: user?.phoneNumber,
+      profilePicture: user?.profilePicture,
+      phoneNumber: user?.phoneNumber,
+      additionalInfo: user ? user.additionalInfo || {} : {},
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
-      updateUser(values);
+      updateClient(values);
     },
   });
+
+  const handleProfilePictureChange = (profilePictureUrl) => {
+    formik.setFieldValue("profilePicture", profilePictureUrl);
+  };
 
   if (!user) return;
   const activityData = [
@@ -38,7 +49,7 @@ const CustomerDetails = () => {
     <DefaultLayout
       title="Customer Details"
       backHref="/app/customers"
-      diffBanner={diffBanner(formik)}
+      formik={formik}
     >
       <Content>
         <div>
@@ -73,6 +84,30 @@ const CustomerDetails = () => {
             />
 
             <Typography variant="subtitle1">Profile Picture</Typography>
+            {formik.values.profilePicture ? (
+              <FileCard
+                fileUrl={formik.values.profilePicture}
+                onDelete={() => handleProfilePictureChange("")}
+              />
+            ) : (
+              <Uploader
+                onUploadedFinished={handleProfilePictureChange}
+                withCropper
+              />
+            )}
+
+            {Object.entries(formik.values.additionalInfo).map((aI) => {
+              return (
+                <>
+                  <Typography variant="subtitle1">{aI[0]}</Typography>
+                  <TextField
+                    name={`additionalInfo["${aI[0]}"]`}
+                    value={formik.values.additionalInfo[`${aI[0]}`]}
+                    onChange={formik.handleChange}
+                  />
+                </>
+              );
+            })}
           </Box>
         </div>
         <div>

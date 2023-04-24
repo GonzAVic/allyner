@@ -16,34 +16,22 @@ import { industries, currencies, timezones } from "utils/constants";
 
 function Page() {
   const { businessRepo } = useContext(BusinessContext);
-
   const { business, updateBusiness } = businessRepo;
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
       name: business?.name,
-      location: business?.additionalSettings?.location,
-      phone: business?.additionalSettings?.phone,
-      industry: business?.additionalSettings?.industry || "",
-      logo: business?.additionalSettings?.logo || "",
-
-      currency: business?.additionalSettings?.currency || "",
-      timezone: business?.additionalSettings?.timezone || "",
+      location: business?.location,
+      phone: business?.phone,
+      industry: business?.industry || "",
+      logo: business?.logo || "",
+      currency: business?.currency || "",
+      timezone: business?.timezone || "",
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
-      const values_ = { ...values };
-      delete values_.name;
-
-      const attributes = {
-        name: values.name,
-        additionalSettings: JSON.stringify({
-          ...business.additionalSettings,
-          ...values_,
-        }),
-      };
-      updateBusiness(attributes);
+      updateBusiness(values);
     },
   });
 

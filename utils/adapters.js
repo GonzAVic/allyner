@@ -37,3 +37,17 @@ export const questionAdapter = (data = {}, isSimple = false) => {
 
   return question;
 };
+
+export const serviceReqAdapter = (serviceReq) => {
+  const serviceReq_ = { ...serviceReq };
+  serviceReq_.frozenService = JSON.parse(serviceReq_.frozenService);
+  const frozenServiceCreatedAt = new Date(serviceReq_.frozenService.createdAt);
+  serviceReq_.frozenService.createdAt = `${frozenServiceCreatedAt.getDate()}/${frozenServiceCreatedAt.getMonth()}/${frozenServiceCreatedAt.getFullYear()}`;
+  const frozenServiceUpdatedAt = new Date(serviceReq_.frozenService.updatedAt);
+  serviceReq_.frozenService.updatedAt = `${frozenServiceUpdatedAt.getDate()}/${frozenServiceUpdatedAt.getMonth()}/${frozenServiceUpdatedAt.getFullYear()}`;
+  serviceReq_.answers = JSON.parse(serviceReq_.answers);
+
+  const serviceReqCreatedAt = new Date(serviceReq_.createdAt);
+  serviceReq_.createdAt = `${serviceReqCreatedAt.getDate()}/${serviceReqCreatedAt.getMonth()}/${serviceReqCreatedAt.getFullYear()}`;
+  return serviceReq_;
+};

@@ -19,7 +19,6 @@ const OderOverview = ({ userType }) => {
   const { modalRepo } = useContext(AppContext);
   const { serviceReq } = useServiceReq(router.query.orderId);
   const { user } = useUser(serviceReq?.userId);
-  console.log('-> serviceReq: ', serviceReq)
 
   if (!serviceReq) return "Loading serviceReq";
   return (
@@ -30,7 +29,7 @@ const OderOverview = ({ userType }) => {
         text: "Update Status",
         fn: () => modalRepo.open("UpdateOrderStatus"),
       }}
-      backHref={"/app/orders"}
+      backHref={router.pathname.includes("/app") ? "/app/orders" : "/orders"}
       moreOptions={[
         { text: "Cancel Order", fn: () => modalRepo.open("CancelOrder") },
       ]}
@@ -49,6 +48,11 @@ const OderOverview = ({ userType }) => {
                   value={user?.email || serviceReq.additionalInfo.clientEmail}
                 />
                 <OrderItem label="Client Account" value={user ? "Yes" : "No"} />
+                {user &&
+                  user.additionalInfo &&
+                  Object.entries(user.additionalInfo).map((aI) => {
+                    return <OrderItem label={aI[0]} value={aI[1]} />;
+                  })}
               </Box>
             </>
           )}

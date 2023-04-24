@@ -2,12 +2,20 @@ import { useEffect, useState } from "react";
 import { useLazyQuery, useMutation } from "@apollo/client";
 
 // OTHER
-import { FIND_SERVICE_REQUEST, CREATE_SERVICE_REQUEST } from "graphql/apiql";
+import {
+  FIND_SERVICE_REQUEST,
+  CREATE_SERVICE_REQUEST,
+  FIND_CLIENT_SERVICE_REQS,
+  FIND_BUSINESS_SERVICE_REQS,
+} from "graphql/apiql";
+import { serviceReqAdapter } from "./adapters";
 
 const useServiceReq = (serviceReqId) => {
   const [findServiceReqFn, findServiceReqHpr] =
     useLazyQuery(FIND_SERVICE_REQUEST);
   const [createServiceReqFn] = useMutation(CREATE_SERVICE_REQUEST);
+  const [findClientServiceReqsFn] = useLazyQuery(FIND_CLIENT_SERVICE_REQS);
+  const [findBusinessServiceReqsFn] = useLazyQuery(FIND_BUSINESS_SERVICE_REQS);
 
   const [serviceReq, setServiceReq] = useState(null);
 
@@ -21,18 +29,7 @@ const useServiceReq = (serviceReqId) => {
     if (!findServiceReqHpr.called) return;
     if (!findServiceReqHpr.data) return;
 
-    const serviceReq_ = { ...findServiceReqHpr.data.findServiceRequest };
-    serviceReq_.frozenService = JSON.parse(serviceReq_.frozenService);
-    const frozenServiceCreatedAt = new Date(
-      serviceReq_.frozenService.createdAt
-    );
-    serviceReq_.frozenService.createdAt = `${frozenServiceCreatedAt.getDate()}/${frozenServiceCreatedAt.getMonth()}/${frozenServiceCreatedAt.getFullYear()}`;
-    const frozenServiceUpdatedAt = new Date(
-      serviceReq_.frozenService.updatedAt
-    );
-    serviceReq_.frozenService.updatedAt = `${frozenServiceUpdatedAt.getDate()}/${frozenServiceUpdatedAt.getMonth()}/${frozenServiceUpdatedAt.getFullYear()}`;
-    serviceReq_.answers = JSON.parse(serviceReq_.answers);
-    setServiceReq(serviceReq_);
+    setServiceReq(serviceReqAdapter(findServiceReqHpr.data.findServiceRequest));
   }, [findServiceReqHpr]);
 
   const createServiceReq = async (data) => {
@@ -42,9 +39,44 @@ const useServiceReq = (serviceReqId) => {
     return response.data.createServiceRequest.serviceRequest;
   };
 
-  const findClientServiceReqs = () => {};
+  const findClientServiceReqs = async (businessId, userId) => {
+    if (!userId) {
+      console.log("-> ERROR: No userId");
+    }
+    const response_ = await findClientServiceReqsFn({
+      variables: {
+        businessId,
+        userId,
+      },
+    });
 
-  return { serviceReq, createServiceReq, findClientServiceReqs };
+    const response = response_.data.listUserServiceRequests.map((sr) => {
+      return serviceReqAdapter(sr);
+    });
+
+    return response;
+  };
+
+  const findBusinessServiceReqs = async (businessId) => {
+    const response_ = await findBusinessServiceReqsFn({
+      variables: {
+        businessId,
+      },
+    });
+
+    const response = response_.data.businessServiceRequests.map((sr) => {
+      return serviceReqAdapter(sr);
+    });
+
+    return response;
+  };
+
+  return {
+    serviceReq,
+    createServiceReq,
+    findClientServiceReqs,
+    findBusinessServiceReqs,
+  };
 };
 
 export default useServiceReq;

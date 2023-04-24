@@ -8,11 +8,11 @@ import SignalCellularAltRoundedIcon from "@mui/icons-material/SignalCellularAltR
 // COMPONENTS
 import SidebarItem from "./SidebarItem";
 
-const ClientSidebar = () => {
+const ClientSidebar = ({ isResponsive, isMenuOpen }) => {
   const router = useRouter();
 
   return (
-    <Container>
+    <Container isResponsive={isResponsive} isMenuOpen={isMenuOpen}>
       <SidebarItem
         label="Home"
         icon={<HomeOutlinedIcon />}
@@ -29,13 +29,16 @@ const ClientSidebar = () => {
   );
 };
 
-const Container = styled("div")({
-  display: "flex",
+const Container = styled("div")(({ isResponsive, isMenuOpen }) => ({
+  display: isMenuOpen && isResponsive ? "flex" : "none",
+  position: isMenuOpen && isResponsive ? "absolute" : "relative",
   flexDirection: "column",
   justifyContent: "flex-start",
-  width: 275,
+  width: 300,
   padding: 32,
   height: "100vh",
-});
+  background: "#FFFFFF",
+  zIndex: 3,
+}));
 
 export default ClientSidebar;

@@ -15,17 +15,18 @@ import ClientSignup from "components/ClientSignup";
 
 // OTHER
 import { ClientContext } from "contexts/ClientContext";
+import { AppContext } from "contexts/AppContext";
 import useService from "utils/useService";
 import useUser from "utils/useUser";
 import useServiceReq from "utils/useServiceReq";
 import { useKeyPress, ARROW_DOWN, ARROW_UP } from "utils/useKeyPress";
 
-const USER = false;
-
 const ServiceWizard = () => {
   const router = useRouter();
   const { businessRepo } = useContext(ClientContext);
+  const { sessionRepo } = useContext(AppContext);
   const { business } = businessRepo;
+  const { user, updateUser } = sessionRepo;
   const { service } = useService(router.query.serviceId);
   const { createServiceReq } = useServiceReq();
   const { createClientUser } = useUser();
@@ -35,7 +36,6 @@ const ServiceWizard = () => {
   const [questions, setQuestions] = useState([]);
   const [questionIndex, setQuestionsIndex] = useState(0);
   const [currentStep, setCurrentStep] = useState("questionnaire");
-  const [additionalInfo, setAdditionalInfo] = useState([]);
 
   useEffect(() => {
     if (!service) return;
@@ -63,18 +63,16 @@ const ServiceWizard = () => {
   };
 
   const checkoutAction = async (checkoutFormData) => {
-    console.log("-> checkoutFormData: ", checkoutFormData);
     const serviceReqData = {
-      businessId: 1,
+      businessId: 2,
       surveyId: 1,
-      userId: 2,
       orderStatusId: 1,
       answers: JSON.stringify(questions),
       additionalInfo: checkoutFormData,
     };
 
-    if (USER) {
-      serviceReqData.userId = USER;
+    if (user) {
+      serviceReqData.userId = Number(user.id);
       const response = await createServiceReq(serviceReqData);
       router.push({
         pathname: "/orders/[orderId]",
@@ -98,12 +96,12 @@ const ServiceWizard = () => {
      */
   };
 
-  const handleSignup = async () => {
-    /**
-     * 1. Create client user
-     * 2. store user data
-     * 3. display checkout form again
-     */
+  const handleSignup = async (data) => {
+    const response = await createClientUser(data);
+    // TODO: Handle error for email taken
+    const user = response.data.createClient.user;
+    updateUser(user);
+    setCurrentStep("checkoutDetails");
   };
 
   const displaySignupView = () => {
@@ -118,14 +116,12 @@ const ServiceWizard = () => {
     setQuestions(quesitonsParsed);
   };
 
-  const exposeFormData = (data) => {
-    setAdditionalInfo(data);
-  };
-
   if (!business || !service) return "Loading data...";
   return (
     <Box sx={{ height: "75vh", flex: 1, display: "flex" }}>
       <LayoutOne
+        title={service.name}
+        logo={business.logo}
         onArrowDown={handleNextQuestion}
         onArrowUp={handlePrevQuestion}
         progressValue={(questionIndex * 100) / questions.length}
@@ -141,13 +137,12 @@ const ServiceWizard = () => {
           )}
           {currentStep === "checkoutDetails" && (
             <CheckoutDetailsForm
-              user={USER}
+              user={user}
               headline={business.additionalSettings.checkoutHeadline}
               message={business.additionalSettings.checkoutMessage}
               additionalQuestions={
                 business.additionalSettings.checkoutAdditionalInfo
               }
-              exposeFormData={exposeFormData}
               cta={{
                 text: "Book Now",
                 fn: checkoutAction,
@@ -174,8 +169,7 @@ const ServiceWizard = () => {
               headline={business.additionalSettings.signUpHeadline}
               message={business.additionalSettings.signUpMessage}
               additionalQuestions={
-                business.additionalQuestions.additionalSettings
-                  .signUpQuestionnaire
+                business.additionalSettings.signUpQuestionnaire
               }
               onSubmit={handleSignup}
             />

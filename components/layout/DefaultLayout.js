@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useRouter } from "next/router";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
@@ -11,11 +12,14 @@ import {
   Box,
   Menu,
   MenuItem,
+  Link,
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import MenuIcon from "@mui/icons-material/Menu";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
 // COMPONENTS
 import BusinessSidebar from "./BusinessSidebar";
@@ -23,6 +27,7 @@ import ClientSidebar from "components/layout/ClientSidebar";
 
 // OTHER
 import { diffBanner as diffBannerFn } from "utils/utils";
+import { AppContext } from "contexts/AppContext";
 
 const DefaultLayout = ({
   children,
@@ -35,11 +40,19 @@ const DefaultLayout = ({
   moreOptions,
   formik,
 }) => {
+  const router = useRouter();
+
+  const { sessionRepo } = useContext(AppContext);
+  const { user } = sessionRepo;
+
   const isResponsive = useMediaQuery("(max-width:978px)");
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [profileEl, setProfileEl] = React.useState(null);
   const isMoreMenuOpened = Boolean(anchorEl);
+  const isProfileMenuOpened = Boolean(profileEl);
 
   const diffBanner = diffBannerFn(formik);
 
@@ -49,6 +62,10 @@ const DefaultLayout = ({
 
   const closeMoreMenu = () => {
     setAnchorEl(null);
+  };
+
+  const openProfileMenu = (event) => {
+    setProfileEl(event.currentTarget);
   };
 
   const ctaProps = { variant: "outlined" };
@@ -67,7 +84,7 @@ const DefaultLayout = ({
       )}
       {isResponsive && (
         <IconButton
-          sx={{ position: "absolute", top: 18, left: 16 }}
+          sx={{ position: "absolute", top: 18, left: 16, zIndex: 6 }}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <MenuIcon />
@@ -78,7 +95,46 @@ const DefaultLayout = ({
           <DiffBanner diffBanner={diffBanner} />
         ) : (
           <NavigationBar>
-            <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+            <Avatar
+              onClick={openProfileMenu}
+              alt="Travis Howard"
+              src="/static/images/avatar/2.jpg"
+            />
+            <Menu
+              anchorEl={profileEl}
+              open={isProfileMenuOpened}
+              onClose={() => setProfileEl(null)}
+            >
+              <MenuItem
+                onClick={() =>
+                  router.push({
+                    pathname:
+                      userType === "client" ? "/profile" : "/app/profile",
+                  })
+                }
+              >
+                <Typography
+                  color="text.secondary"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <PersonOutlineOutlinedIcon sx={{ mr: 1 }} /> Profile
+                </Typography>
+              </MenuItem>
+              <MenuItem onClick={() => {}}>
+                <Typography
+                  color="text.secondary"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <LogoutOutlinedIcon sx={{ mr: 1 }} /> Sign Out
+                </Typography>
+              </MenuItem>
+            </Menu>
           </NavigationBar>
         )}
 

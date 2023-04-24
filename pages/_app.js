@@ -22,6 +22,7 @@ import { AppContext } from "contexts/AppContext";
 
 // HOOKS
 import useModalRepo from "utils/useModalRepo";
+import useSession from "utils/useSession";
 
 export default function App({
   Component,
@@ -30,8 +31,9 @@ export default function App({
   const router = useRouter();
 
   const modalRepo = useModalRepo();
+  const sessionRepo = useSession();
 
-  const contextObject = { modalRepo };
+  const contextObject = { modalRepo, sessionRepo };
   return (
     <SessionProvider session={session}>
       <Head>

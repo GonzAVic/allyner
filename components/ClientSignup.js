@@ -23,14 +23,32 @@ const ClientSignup = ({
     initialValues: {
       email: "",
       password: "",
+      firstName: "",
+      lastName: "",
       ...aQInitialValues,
     },
     validationSchema: createFormSchema([
       { title: "email", isRequired: true },
+      { title: "password", isRequired: true },
+      { title: "firstName", isRequired: true },
+      { title: "lastName", isRequired: true },
       ...additionalQuestions,
     ]),
     onSubmit: (values) => {
-      onSubmit(values);
+      const data = {
+        email: values.email,
+        password: values.password,
+        firstName: values.firstName,
+        lastName: values.lastName,
+      };
+
+      delete values.email;
+      delete values.password;
+      delete values.firstName;
+      delete values.lastName;
+
+      data.additionalInfo = values;
+      onSubmit(data);
     },
   });
 
@@ -50,6 +68,16 @@ const ClientSignup = ({
       <TextField
         label="Password"
         name="password"
+        onChange={formik.handleChange}
+      />
+      <TextField
+        label="First name"
+        name="firstName"
+        onChange={formik.handleChange}
+      />
+      <TextField
+        label="Last name"
+        name="lastName"
         onChange={formik.handleChange}
       />
       {additionalQuestions.map((q, index) => {

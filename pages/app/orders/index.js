@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 // MATERIAL UI
@@ -10,9 +10,31 @@ import { DataGrid } from "@mui/x-data-grid";
 import DefaultLayout from "components/layout/DefaultLayout";
 import NullState from "components/NullState";
 
+// OTHER
+import useServiceReq from "utils/useServiceReq";
+
 const orders = () => {
   const router = useRouter();
-  const [data, setData] = useState([]);
+
+  const { findBusinessServiceReqs } = useServiceReq(router.query.orderId);
+
+  const [serviceReqs, setServiceReqs] = useState([]);
+
+  useEffect(() => {
+    const onMount = async () => {
+      const response = await findBusinessServiceReqs(2);
+      const serviceRequests = response.map((r) => {
+        return {
+          id: r.id,
+          serviceName: r.frozenService.name,
+          createdAt: r.createdAt,
+          status: "Pending",
+        };
+      });
+      setServiceReqs(serviceRequests);
+    };
+    onMount();
+  }, []);
 
   const handleRowClick = (rowData) => {
     router.push({
@@ -24,15 +46,15 @@ const orders = () => {
   return (
     <DefaultLayout title="Orders" cta={{ text: "Create Order" }}>
       <Container className="pedro">
-        {!data.length && (
+        {!serviceReqs.length && (
           <NullState
             primaryText="No Orders Found"
             secondaryText="Google is waiting for some order."
           />
         )}
-        {Boolean(data.length) && (
+        {Boolean(serviceReqs.length) && (
           <DataGrid
-            rows={rows}
+            rows={serviceReqs}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
@@ -54,17 +76,17 @@ const ServiceStatus = () => {
 const columns = [
   { field: "id", headerName: "#Order", minWidth: 100 },
   {
-    field: "firstName",
+    field: "serviceName",
     headerName: "Service",
     flex: 1,
   },
   {
-    field: "lastName",
+    field: "userId",
     headerName: "Customer Name",
     flex: 1,
   },
   {
-    field: "age",
+    field: "createdAt",
     headerName: "Order Date",
     flex: 1,
   },
@@ -75,18 +97,6 @@ const columns = [
     minWidth: 200,
     renderCell: ServiceStatus,
   },
-];
-
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 ];
 
 const Container = styled("div")({

@@ -1,3 +1,4 @@
+import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 
 // MATERIAL UI
@@ -6,9 +7,33 @@ import { DataGrid } from "@mui/x-data-grid";
 
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
+import useServiceReq from "utils/useServiceReq";
+import { AppContext } from "contexts/AppContext";
 
 function Page() {
   const router = useRouter();
+  const { sessionRepo } = useContext(AppContext);
+  const { user } = sessionRepo;
+
+  const { findClientServiceReqs } = useServiceReq(router.query.orderId);
+
+  const [serviceReqs, setServiceReqs] = useState([]);
+
+  useEffect(() => {
+    const onMount = async () => {
+      const response = await findClientServiceReqs(2, user?.id);
+      const serviceRequests = response.map((r) => {
+        return {
+          id: r.id,
+          serviceName: r.frozenService.name,
+          createdAt: r.createdAt,
+          status: "Pending",
+        };
+      });
+      setServiceReqs(serviceRequests);
+    };
+    onMount();
+  }, []);
 
   const handleRowClick = (rowData) => {
     router.push({
@@ -20,7 +45,7 @@ function Page() {
   return (
     <DefaultLayout title="Orders" userType="client">
       <DataGrid
-        rows={rows}
+        rows={serviceReqs}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
@@ -38,29 +63,29 @@ const ServiceStatus = () => {
 };
 
 const columns = [
-  { field: "id", headerName: "#Order", minWidth: 100 },
+  { field: "id", headerName: "#Order ID", minWidth: 100 },
   {
-    field: "firstName",
+    field: "serviceName",
     headerName: "Service",
     flex: 1,
   },
   {
-    field: "lastName",
-    headerName: "Customer Name",
-    flex: 1,
-  },
-  {
-    field: "age",
+    field: "createdAt",
     headerName: "Order Date",
     flex: 1,
   },
   {
-    field: "fullName",
+    field: "status",
     headerName: "Status",
-    sortable: false,
-    minWidth: 200,
-    renderCell: ServiceStatus,
+    flex: 1,
   },
+  // {
+  //   field: "fullName",
+  //   headerName: "Status",
+  //   sortable: false,
+  //   minWidth: 200,
+  //   renderCell: ServiceStatus,
+  // },
 ];
 
 const rows = [

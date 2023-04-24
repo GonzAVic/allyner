@@ -34,6 +34,9 @@ export const FIND_USER = gql`
       phoneNumber
       role
       updatedAt
+      profilePicture
+      additionalInfo
+      timezone
     }
   }
 `;
@@ -46,6 +49,12 @@ export const FIND_BUSINESS = gql`
       id
       name
       updatedAt
+      location
+      phone
+      industry
+      logo
+      currency
+      timezone
     }
   }
 `;
@@ -109,6 +118,40 @@ export const FIND_BUSINESS_SERVICES = gql`
   }
 `;
 
+export const FIND_BUSINESS_SERVICE_REQS = gql`
+  query ($businessId: Int!) {
+    businessServiceRequests(businessId: $businessId) {
+      additionalInfo
+      answers
+      businessId
+      createdAt
+      frozenQuestions
+      frozenService
+      id
+      status
+      updatedAt
+      userId
+    }
+  }
+`;
+
+export const FIND_CLIENT_SERVICE_REQS = gql`
+  query ($businessId: ID, $userId: ID!) {
+    listUserServiceRequests(businessId: $businessId, userId: $userId) {
+      additionalInfo
+      answers
+      businessId
+      createdAt
+      frozenQuestions
+      frozenService
+      id
+      status
+      updatedAt
+      userId
+    }
+  }
+`;
+
 // MUTATIONS
 export const CREATE_SERVICE = gql`
   mutation ($input: CreateServiceInput!) {
@@ -153,6 +196,12 @@ export const UPDATE_BUSINESS = gql`
         id
         name
         updatedAt
+        location
+        phone
+        industry
+        logo
+        currency
+        timezone
       }
       clientMutationId
     }
@@ -215,7 +264,6 @@ export const CREATE_CLIENT_USER = gql`
   mutation ($input: CreateClientInput!) {
     createClient(input: $input) {
       user {
-        businessId
         createdAt
         email
         firstName
@@ -242,6 +290,25 @@ export const UPDATE_USER = gql`
         phoneNumber
         role
         updatedAt
+        profilePicture
+      }
+    }
+  }
+`;
+
+export const UPDATE_CLIENT = gql`
+  mutation ($input: UpdateClientInput!) {
+    updateClient(input: $input) {
+      user {
+        createdAt
+        email
+        firstName
+        id
+        lastName
+        phoneNumber
+        role
+        updatedAt
+        profilePicture
       }
     }
   }

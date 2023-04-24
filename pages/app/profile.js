@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useFormik } from "formik";
 
 // MATERIAL UI
@@ -11,9 +12,12 @@ import FileCard from "components/FileCard";
 
 // OTHER
 import useUser from "utils/useUser";
+import { BusinessContext } from "contexts/BusinessContext";
 
 const Page = () => {
   const { user, updateUser } = useUser(3);
+  const { businessRepo } = useContext(BusinessContext);
+  const { business } = businessRepo;
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -47,7 +51,7 @@ const Page = () => {
           value={formik.values.firstName}
           onChange={formik.handleChange}
         />
-        <Typography variant="subtitle1">Name</Typography>
+        <Typography variant="subtitle1">Last Name</Typography>
         <TextField
           name="lastName"
           value={formik.values.lastName}
@@ -83,7 +87,16 @@ const Page = () => {
         Store Details
       </Typography>
       <ListGroup
-        data={[{ label: "Stores", value: user.createdAt }]}
+        data={[
+          {
+            label: "Stores",
+            render: () => (
+              <Typography variant="link" href="/app/settings">
+                {business.name}
+              </Typography>
+            ),
+          },
+        ]}
         sx={{ mb: 4 }}
       />
 

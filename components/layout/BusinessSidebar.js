@@ -89,14 +89,16 @@ const BusinessSidebar = ({ isResponsive, isMenuOpen }) => {
   );
 };
 
-const Container = styled("div")(({ theme, isResponsive, isMenuOpen }) => ({
-  display: isMenuOpen && isResponsive ? "none" : "flex",
+const Container = styled("div")(({ isResponsive, isMenuOpen }) => ({
+  display: isMenuOpen && isResponsive ? "flex" : "none",
   position: isMenuOpen && isResponsive ? "absolute" : "relative",
   flexDirection: "column",
   justifyContent: "flex-start",
   width: 300,
   padding: 32,
   height: "100vh",
+  background: "#FFFFFF",
+  zIndex: 3,
 }));
 
 export default BusinessSidebar;
