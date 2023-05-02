@@ -17,6 +17,7 @@ const ClientSignup = ({
   additionalQuestions.forEach((aq) => {
     aQInitialValues[`${aq.title}`] = aq.answer || "";
   });
+
   const formik = useFormik({
     validateOnChange: false,
     enableReinitialize: true,
@@ -52,6 +53,8 @@ const ClientSignup = ({
     },
   });
 
+  console.log("-> formik: ", formik.errors);
+
   return (
     <Container>
       <Typography variant="h4" sx={{ textAlign: "center" }}>
@@ -64,21 +67,33 @@ const ClientSignup = ({
       >
         {message || "Sign up to book and track your services with us!"}
       </Typography>
-      <TextField label="Email" name="email" onChange={formik.handleChange} />
+      <TextField
+        label="Email"
+        name="email"
+        onChange={formik.handleChange}
+        helperText={formik.errors.email}
+        error={formik.errors.email}
+      />
       <TextField
         label="Password"
         name="password"
         onChange={formik.handleChange}
+        helperText={formik.errors.password}
+        error={formik.errors.password}
       />
       <TextField
         label="First name"
         name="firstName"
         onChange={formik.handleChange}
+        helperText={formik.errors.firstName}
+        error={formik.errors.firstName}
       />
       <TextField
         label="Last name"
         name="lastName"
         onChange={formik.handleChange}
+        helperText={formik.errors.lastName}
+        error={formik.errors.lastName}
       />
       {additionalQuestions.map((q, index) => {
         return (
