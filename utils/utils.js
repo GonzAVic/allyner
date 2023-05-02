@@ -18,7 +18,7 @@ export const createFormSchema = (additionalQuestions) => {
   });
 
   const schemaAttributes = {
-    email: yup.string().required(),
+    email: yup.string().email().required(),
     ...aQInitialValues,
   };
 

@@ -1,9 +1,10 @@
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography, Box, TextField, Chip } from "@mui/material";
+import { Typography, Box, TextField, Chip, MenuItem } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
 // COMPONENTS
@@ -14,11 +15,15 @@ import FileCard from "components/FileCard";
 
 // OTHER
 import useUser from "utils/useUser";
-import { diffBanner } from "utils/utils";
+import { timezones } from "utils/constants";
+import useServiceReq from "utils/useServiceReq";
 
 const CustomerDetails = () => {
   const router = useRouter();
   const { user, updateClient } = useUser(router.query.customerId);
+  const { findClientServiceReqs } = useServiceReq(router.query.orderId);
+
+  const [serviceReqs, setServiceReqs] = useState([]);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -29,6 +34,7 @@ const CustomerDetails = () => {
       profilePicture: user?.profilePicture,
       phoneNumber: user?.phoneNumber,
       additionalInfo: user ? user.additionalInfo || {} : {},
+      timezone: user?.timezone || "",
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
@@ -36,15 +42,36 @@ const CustomerDetails = () => {
     },
   });
 
+  useEffect(() => {
+    const onMount = async () => {
+      const response = await findClientServiceReqs(2, user?.id);
+      if (!response) return;
+
+      const serviceRequests = response.map((r) => {
+        return {
+          id: r.id,
+          serviceName: r.frozenService.name,
+          createdAt: r.createdAt,
+          status: "Pending",
+        };
+      });
+      setServiceReqs(serviceRequests);
+    };
+    onMount();
+  }, [user?.id]);
+
   const handleProfilePictureChange = (profilePictureUrl) => {
     formik.setFieldValue("profilePicture", profilePictureUrl);
   };
 
+  const handleRowClick = (rowData) => {
+    router.push({
+      pathname: "/app/orders/[orderId]",
+      query: { orderId: rowData.id },
+    });
+  };
+
   if (!user) return;
-  const activityData = [
-    { label: "Sign Up Date", value: user.createdAt },
-    { label: "Timezone", value: "GMT + 8:00" },
-  ];
   return (
     <DefaultLayout
       title="Customer Details"
@@ -114,7 +141,31 @@ const CustomerDetails = () => {
           <Typography className="section-title" variant="subtitle1">
             Customer Activity
           </Typography>
-          <ListGroup data={activityData} />
+          <ListGroup
+            data={[
+              { label: "Sign Up Date", value: user.createdAt },
+              {
+                label: "Timezone",
+                render: () => {
+                  return (
+                    <TextField
+                      name="timezone"
+                      value={formik.values.timezone}
+                      onChange={formik.handleChange}
+                      sx={{ textTransform: "capitalize" }}
+                      select
+                    >
+                      {timezones().map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  );
+                },
+              },
+            ]}
+          />
         </div>
       </Content>
 
@@ -122,13 +173,14 @@ const CustomerDetails = () => {
         Orders
       </Typography>
       <DataGrid
-        rows={rows}
+        rows={serviceReqs}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
+        onRowClick={handleRowClick}
       />
     </DefaultLayout>
   );
@@ -146,36 +198,29 @@ const ServiceStatus = () => {
 };
 
 const columns = [
-  { field: "id", headerName: "#Order", minWidth: 100 },
+  { field: "id", headerName: "#Order ID", minWidth: 100 },
   {
-    field: "firstName",
+    field: "serviceName",
     headerName: "Service",
     flex: 1,
   },
   {
-    field: "age",
+    field: "createdAt",
     headerName: "Order Date",
     flex: 1,
   },
   {
-    field: "fullName",
+    field: "status",
     headerName: "Status",
-    sortable: false,
-    minWidth: 200,
-    renderCell: ServiceStatus,
+    flex: 1,
   },
-];
-
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
+  // {
+  //   field: "fullName",
+  //   headerName: "Status",
+  //   sortable: false,
+  //   minWidth: 200,
+  //   renderCell: ServiceStatus,
+  // },
 ];
 
 export default CustomerDetails;

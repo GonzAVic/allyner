@@ -29,7 +29,6 @@ const ClientSignup = ({
       ...aQInitialValues,
     },
     validationSchema: createFormSchema([
-      { title: "email", isRequired: true },
       { title: "password", isRequired: true },
       { title: "firstName", isRequired: true },
       { title: "lastName", isRequired: true },

@@ -44,3 +44,11 @@
   font-size: 16px;
   color: #3c64c5;
 }
+
+.MuiDataGrid-main {
+  overflow: initial !important;
+}
+
+.MuiDataGrid-virtualScroller {
+  min-height: 500px;
+}

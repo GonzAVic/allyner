@@ -42,6 +42,7 @@ const useServiceReq = (serviceReqId) => {
   const findClientServiceReqs = async (businessId, userId) => {
     if (!userId) {
       console.log("-> ERROR: No userId");
+      return;
     }
     const response_ = await findClientServiceReqsFn({
       variables: {
