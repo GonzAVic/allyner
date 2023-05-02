@@ -43,8 +43,8 @@ const useService = (serviceId, options = {}) => {
     });
   }, [createServiceHpr]);
 
-  const updateService = (data) => {
-    updateServiceFn({
+  const updateService = async (data) => {
+    const response = updateServiceFn({
       variables: {
         input: {
           id: serviceId,
@@ -55,6 +55,7 @@ const useService = (serviceId, options = {}) => {
         },
       },
     });
+    return response;
   };
 
   const createService = (data) => {

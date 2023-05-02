@@ -4,11 +4,19 @@ import { gql } from "@apollo/client";
 const SERVICE_FRAGMENT = gql`
   fragment ServiceFields on Service {
     id
-    title
-    description
+    businessId
     callToAction
     cover
+    createdAt
+    description
+    isActive
+    name
+    pricingAmount
+    pricingDuration
+    pricingType
+    questionsInfo
     status
+    updatedAt
   }
 `;
 
@@ -60,21 +68,11 @@ export const FIND_BUSINESS = gql`
 `;
 
 export const FIND_SERVICE = gql`
+  ${SERVICE_FRAGMENT}
+
   query ($id: Int!) {
     findService(id: $id) {
-      businessId
-      createdAt
-      description
-      id
-      name
-      updatedAt
-      callToAction
-      questionsInfo
-      pricingAmount
-      pricingDuration
-      pricingType
-      status
-      cover
+      ...ServiceFields
     }
   }
 `;
@@ -99,21 +97,11 @@ export const FIND_SERVICE_REQUEST = gql`
 `;
 
 export const FIND_BUSINESS_SERVICES = gql`
+  ${SERVICE_FRAGMENT}
+
   query ($businessId: Int!) {
     businessServices(businessId: $businessId) {
-      businessId
-      callToAction
-      cover
-      createdAt
-      description
-      id
-      name
-      pricingAmount
-      pricingDuration
-      pricingType
-      questionsInfo
-      status
-      updatedAt
+      ...ServiceFields
     }
   }
 `;
@@ -154,34 +142,24 @@ export const FIND_CLIENT_SERVICE_REQS = gql`
 
 // MUTATIONS
 export const CREATE_SERVICE = gql`
+  ${SERVICE_FRAGMENT}
+
   mutation ($input: CreateServiceInput!) {
     createService(input: $input) {
       service {
-        businessId
-        createdAt
-        description
-        id
-        name
-        updatedAt
+        ...ServiceFields
       }
     }
   }
 `;
 
 export const UPDATE_SERVICE = gql`
+  ${SERVICE_FRAGMENT}
+
   mutation ($input: UpdateServiceInput!) {
     updateService(input: $input) {
       service {
-        businessId
-        createdAt
-        description
-        id
-        name
-        updatedAt
-        callToAction
-        pricingAmount
-        pricingDuration
-        status
+        ...ServiceFields
       }
     }
   }

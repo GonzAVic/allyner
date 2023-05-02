@@ -29,18 +29,16 @@ const Page = () => {
       name: service?.name,
       description: service?.description,
       cover: service?.cover,
-      callToAction:
-        service && service.callToAction ? service.callToAction : "Book Now",
-      pricingType: service && service.pricingType ? service.pricingType : "",
-      durationHours:
-        service && service.pricingDuration ? service.pricingDuration % 60 : 1,
+      callToAction: service?.callToAction || "Book Now",
+      pricingType: service?.pricingType || "",
+      durationHours: service?.pricingDuration % 60 || 1,
       durationMinutes:
         service && service.pricingDuration
           ? ((service.pricingDuration / 60) % 1) * 60
           : 15,
       pricingAmount:
         service && service.pricingAmount ? service.pricingAmount : 50,
-      status: service && service.status ? service.status : "DRAFT",
+      isActive: service?.isActive || false,
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
@@ -54,7 +52,7 @@ const Page = () => {
         pricingType: String(values.pricingType),
         callToAction: values.callToAction,
         cover: values.cover,
-        status: values.status,
+        isActive: values.isActive,
       };
 
       if (router.query.id === "new") {
@@ -138,8 +136,8 @@ const Page = () => {
           </Typography>
           <Box className="card" sx={{ mb: 5 }}>
             <TextField
-              name="status"
-              value={formik.values.status}
+              name="isActive"
+              value={formik.values.isActive}
               onChange={formik.handleChange}
               select
             >
@@ -167,7 +165,7 @@ const Page = () => {
                 </MenuItem>
               ))}
             </TextField>
-            {formik.values.pricingType === "RATE" && (
+            {formik.values.pricingType === 1 && (
               <Box className="row-2" sx={{ alignItems: "flex-end", mt: 2 }}>
                 <TextField
                   name="durationHours"
@@ -195,7 +193,7 @@ const Page = () => {
                 </TextField>
               </Box>
             )}
-            {formik.values.pricingType !== "FREE" && (
+            {formik.values.pricingType !== 0 && (
               <TextField
                 name="pricingAmount"
                 value={formik.values.pricingAmount}
@@ -317,11 +315,11 @@ const PRICE_DURATION_MINUTES = [
 
 const STATUS = [
   {
-    value: "DRAFT",
+    value: true,
     label: "Active",
   },
   {
-    value: "IN_PROGRESS",
+    value: false,
     label: "Inactive",
   },
 ];

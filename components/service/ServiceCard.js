@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useContext } from "react";
 import { useRouter } from "next/router";
 
 // MATERIAL UI
@@ -16,15 +16,19 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 // OTHER
 import NoThumbnail from "assets/no-thumbnail.png";
+import useService from "utils/useService";
 
 const ServiceCard = ({ service = {}, userType = "business" }) => {
   const router = useRouter();
+  const { updateService } = useService(service.id, {
+    businessId: service.businessId,
+  });
 
   const name = service.name || "[COPY] Default value";
   const description = service.description || "[COPY] Default value";
   const cover = service.cover || NoThumbnail.src;
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -40,6 +44,16 @@ const ServiceCard = ({ service = {}, userType = "business" }) => {
       pathname: "/app/services/details",
       query: { id: service.id },
     });
+  };
+
+  const activateService = async () => {
+    await updateService({ isActive: true });
+    location.reload();
+  };
+
+  const inactivateService = async () => {
+    await updateService({ isActive: false });
+    location.reload();
   };
 
   return (
@@ -65,7 +79,11 @@ const ServiceCard = ({ service = {}, userType = "business" }) => {
           <Button href={`/services/${service.id}`}>Get Quote</Button>
         ) : (
           <div>
-            <Chip label="Active" size="small" />
+            <Chip
+              label={service.isActive ? "Active" : "Inactive"}
+              color={service.isActive ? "success" : "error"}
+              size="small"
+            />
             <IconButton onClick={handleClick}>
               <MoreVertIcon />
             </IconButton>
@@ -83,7 +101,11 @@ const ServiceCard = ({ service = {}, userType = "business" }) => {
                 horizontal: "right",
               }}
             >
-              <MenuItem onClick={handleClose}>Inactivate</MenuItem>
+              {service.isActive ? (
+                <MenuItem onClick={inactivateService}>Inactivate</MenuItem>
+              ) : (
+                <MenuItem onClick={activateService}>activate</MenuItem>
+              )}
               <MenuItem onClick={handleEdit}>Edit</MenuItem>
               <MenuItem onClick={handleClose}>Delete</MenuItem>
             </Menu>
