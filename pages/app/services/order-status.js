@@ -6,7 +6,7 @@ resetServerContext();
 
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography, TextField, IconButton } from "@mui/material";
+import { Typography, TextField, IconButton, Button } from "@mui/material";
 
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
@@ -41,6 +41,11 @@ const Page = (result) => {
 
     setCollections(items);
   };
+
+  const addStatus = () => {
+    setCollections([...collections, { id: "3", title: "pedro" }]);
+  };
+
   return (
     <DefaultLayout title="Service Booking">
       <ServicesTabs />
@@ -72,6 +77,10 @@ const Page = (result) => {
             )}
           </Droppable>
         </DragDropContext>
+
+        <Button variant="dashed" onClick={addStatus} fullWidth>
+          Add new status
+        </Button>
       </PreviewLayout>
     </DefaultLayout>
   );
@@ -85,7 +94,7 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const Status = () => {
+const Status = (status) => {
   return (
     <SContainer className="card">
       <DragIndicatorIcon />
