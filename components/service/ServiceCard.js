@@ -76,7 +76,9 @@ const ServiceCard = ({ service = {}, userType = "business" }) => {
       <BottomContainer>
         <Typography variant="h5">$58/hr</Typography>
         {userType === "client" ? (
-          <Button href={`/services/${service.id}`}>Get Quote</Button>
+          <Button href={`/services/${service.id}`}>
+            {service.callToAction || "Get Quote"}
+          </Button>
         ) : (
           <div>
             <Chip

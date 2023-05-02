@@ -13,7 +13,7 @@ import NullState from "components/NullState";
 // OTHER
 import useServiceReq from "utils/useServiceReq";
 
-const orders = () => {
+const Page = () => {
   const router = useRouter();
 
   const { findBusinessServiceReqs } = useServiceReq(router.query.orderId);
@@ -103,4 +103,4 @@ const Container = styled("div")({
   display: "contents",
 });
 
-export default orders;
+export default Page;

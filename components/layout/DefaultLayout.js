@@ -172,9 +172,10 @@ const DefaultLayout = ({
                     open={isMoreMenuOpened}
                     onClose={closeMoreMenu}
                   >
-                    {moreOptions.map((mo) => {
+                    {moreOptions.map((mo, index) => {
                       return (
                         <MenuItem
+                          key={index}
                           onClick={() => {
                             if (mo.fn) mo.fn();
                             closeMoreMenu();

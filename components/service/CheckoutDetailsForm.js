@@ -110,7 +110,7 @@ const CheckoutDetailsForm = ({
         }}
       >
         <GppGoodOutlinedIcon fontSize="small" />
-        You won't charge at the moment
+        You will not charge at the moment
       </Typography>
       <Button
         onClick={formik.submitForm}

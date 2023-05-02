@@ -8,7 +8,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import DefaultLayout from "components/layout/DefaultLayout";
 import NullState from "components/NullState";
 
-const customers = () => {
+const Page = () => {
   const router = useRouter();
   const [data, setData] = useState([]);
 
@@ -79,4 +79,4 @@ const rows = [
   { id: 9, lastName: "Roxie", email: "harman@gmail.com", orders: 65 },
 ];
 
-export default customers;
+export default Page;

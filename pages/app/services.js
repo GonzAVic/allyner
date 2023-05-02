@@ -22,7 +22,7 @@ const Services = () => {
       >
         <div className="service-cards-list-ctr">
           {businessRepo.services.map((service) => {
-            return <ServiceCard service={service} />;
+            return <ServiceCard key={service.id} service={service} />;
           })}
         </div>
       </DefaultLayout>

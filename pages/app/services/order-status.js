@@ -14,18 +14,10 @@ import ServicesTabs from "components/ServicesTabs";
 import PreviewLayout from "components/layout/PreviewLayout";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import DeleteIcon from "@mui/icons-material/Delete";
+import OderCard from "components/OrderCard";
 
-const Page = (result) => {
-  const [collections, setCollections] = useState([
-    {
-      id: "1",
-      title: "not started",
-    },
-    {
-      id: "2",
-      title: "completed",
-    },
-  ]);
+const Page = () => {
+  const [collections, setCollections] = useState(["completed", "not-started"]);
 
   const onDragEnd = (result) => {
     // dropped outside the list
@@ -43,14 +35,14 @@ const Page = (result) => {
   };
 
   const addStatus = () => {
-    setCollections([...collections, { id: "3", title: "pedro" }]);
+    setCollections([...collections, "new status"]);
   };
 
   return (
     <DefaultLayout title="Service Booking">
       <ServicesTabs />
 
-      <PreviewLayout previewComponent={"LALALALA"}>
+      <PreviewLayout previewComponent={<OderCard />}>
         <Typography className="section-title" variant="subtitle1">
           Order Status
         </Typography>
@@ -59,15 +51,15 @@ const Page = (result) => {
           <Droppable droppableId="droppable">
             {(provided, snapshot) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
-                {collections.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                {collections.map((status, index) => (
+                  <Draggable key={status} draggableId={status} index={index}>
                     {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
-                        <Status />
+                        <Status value={status} />
                       </div>
                     )}
                   </Draggable>
@@ -94,11 +86,11 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const Status = (status) => {
+const Status = (value) => {
   return (
     <SContainer className="card">
       <DragIndicatorIcon />
-      <TextField value="Todo" />
+      <TextField value={value.value} />
       <IconButton>
         <DeleteIcon />
       </IconButton>

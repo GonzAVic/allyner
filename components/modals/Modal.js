@@ -31,7 +31,7 @@ const Modal = ({
       )}
 
       <DialogActions>
-        {actions.map((act) => {
+        {actions.map((act, index) => {
           const {
             text = "",
             variant = "contained",
@@ -39,7 +39,7 @@ const Modal = ({
             otherProps = {},
           } = act;
           return (
-            <Button variant={variant} {...otherProps}>
+            <Button key={index} variant={variant} {...otherProps}>
               {text}
             </Button>
           );

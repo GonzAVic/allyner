@@ -50,8 +50,10 @@ const OderOverview = ({ userType }) => {
                 <OrderItem label="Client Account" value={user ? "Yes" : "No"} />
                 {user &&
                   user.additionalInfo &&
-                  Object.entries(user.additionalInfo).map((aI) => {
-                    return <OrderItem label={aI[0]} value={aI[1]} />;
+                  Object.entries(user.additionalInfo).map((aI, index) => {
+                    return (
+                      <OrderItem key={index} label={aI[0]} value={aI[1]} />
+                    );
                   })}
               </Box>
             </>
