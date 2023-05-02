@@ -81,8 +81,10 @@ const OderOverview = ({ userType }) => {
           </Typography>
           <Box className="card">
             {serviceReq.additionalInfo.additionalQuestions &&
-              serviceReq.additionalInfo.additionalQuestions.map((aq) => {
-                return <OrderItem label={aq.title} value={aq.answer} />;
+              serviceReq.additionalInfo.additionalQuestions.map((aq, index) => {
+                return (
+                  <OrderItem key={index} label={aq.title} value={aq.answer} />
+                );
               })}
           </Box>
         </div>
