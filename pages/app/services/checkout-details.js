@@ -134,6 +134,7 @@ const Page = () => {
                     (question, index) => {
                       return (
                         <SimpleQuestion
+                          key={index}
                           question={question}
                           index={index}
                           updateQuestionAttr={updateQuestionAttr}
