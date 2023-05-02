@@ -1,5 +1,8 @@
 import { useState } from "react";
+import { resetServerContext } from "react-beautiful-dnd";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
+resetServerContext();
 
 // MATERIAL UI
 import { styled } from "@mui/system";
