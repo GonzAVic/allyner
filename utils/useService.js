@@ -39,6 +39,13 @@ const useService = (serviceId, options = {}) => {
   }, [getServiceFnHpr]);
 
   useEffect(() => {
+    if (!updateServiceHpr.called) return;
+    if (!updateServiceHpr.data) return;
+
+    location.reload();
+  }, [updateServiceHpr]);
+
+  useEffect(() => {
     if (!createServiceHpr.called) return;
     if (!createServiceHpr.data) return;
 
@@ -47,6 +54,9 @@ const useService = (serviceId, options = {}) => {
       pathname: `/app/services/details`,
       query: { id: service.id },
     });
+    setTimeout(() => {
+      location.reload();
+    }, 250);
   }, [createServiceHpr]);
 
   const updateService = async (data) => {
