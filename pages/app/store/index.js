@@ -11,6 +11,7 @@ import PreviewLayout from "components/layout/PreviewLayout";
 
 // OTHER
 import { BusinessContext } from "contexts/BusinessContext";
+import { copyToClipBoard } from "utils/utils";
 
 const Page = () => {
   const { businessRepo } = useContext(BusinessContext);
@@ -25,7 +26,13 @@ const Page = () => {
         <Box className="card" sx={{ mb: 5 }}>
           <Typography variant="subtitle1">Booking Page URL</Typography>
           <TextField value={"https://" + businessSubdomain + ".allyner.com"} />
-          <Button variant="text" startIcon={<LinkIcon />}>
+          <Button
+            variant="text"
+            onClick={() =>
+              copyToClipBoard("https://" + businessSubdomain + ".allyner.com")
+            }
+            startIcon={<LinkIcon />}
+          >
             Copy Link
           </Button>
           <Button variant="text" startIcon={<ShareOutlinedIcon />}>
