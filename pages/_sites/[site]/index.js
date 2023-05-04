@@ -43,16 +43,16 @@ const Index = () => {
       <Typography variant="h5" sx={{ mb: 2 }}>
         Active Orders
       </Typography>
-      {serviceReqs.map((sr) => (
-        <OrderCard serviceReq={sr} />
+      {serviceReqs.map((sr, index) => (
+        <OrderCard key={index} serviceReq={sr} />
       ))}
 
       <Typography variant="h5" sx={{ mb: 2, mt: 4 }}>
         Check our services
       </Typography>
       <div className="service-cards-list-ctr">
-        {services.map((s) => (
-          <ServiceCard service={s} userType="client" />
+        {services.map((s, index) => (
+          <ServiceCard key={index} service={s} userType="client" />
         ))}
       </div>
     </DefaultLayout>

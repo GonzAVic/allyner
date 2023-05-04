@@ -2,7 +2,9 @@
 import { styled } from "@mui/system";
 import { Typography, Box, Chip } from "@mui/material";
 
-const OderCard = ({ serviceReq }) => {
+const OrderCard = ({ serviceReq }) => {
+  console.log('-> serviceReq: ', serviceReq)
+  if (!serviceReq) return null;
   return (
     <Container>
       <Chip
@@ -54,4 +56,4 @@ const Row = styled(Box)({
   maxWidth: "calc(100% - 100px)",
 });
 
-export default OderCard;
+export default OrderCard;

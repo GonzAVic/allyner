@@ -17,9 +17,12 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 // OTHER
 import NoThumbnail from "assets/no-thumbnail.png";
 import useService from "utils/useService";
+import { AppContext } from "contexts/AppContext";
 
 const ServiceCard = ({ service = {}, userType = "business" }) => {
   const router = useRouter();
+  const { modalRepo } = useContext(AppContext);
+
   const { updateService } = useService(service.id, {
     businessId: service.businessId,
   });
@@ -54,6 +57,13 @@ const ServiceCard = ({ service = {}, userType = "business" }) => {
   const inactivateService = async () => {
     await updateService({ isActive: false });
     location.reload();
+  };
+
+  const handleDelete = () => {
+    modalRepo.open("DeleteService", {
+      serviceId: service.id,
+    });
+    handleClose();
   };
 
   return (
@@ -109,7 +119,7 @@ const ServiceCard = ({ service = {}, userType = "business" }) => {
                 <MenuItem onClick={activateService}>activate</MenuItem>
               )}
               <MenuItem onClick={handleEdit}>Edit</MenuItem>
-              <MenuItem onClick={handleClose}>Delete</MenuItem>
+              <MenuItem onClick={handleDelete}>Delete</MenuItem>
             </Menu>
           </div>
         )}

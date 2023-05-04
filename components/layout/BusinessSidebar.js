@@ -90,7 +90,11 @@ const BusinessSidebar = ({ isResponsive, isMenuOpen }) => {
 };
 
 const Container = styled("div")(({ isResponsive, isMenuOpen }) => ({
-  display: isMenuOpen && isResponsive ? "flex" : "none",
+  display: isResponsive
+    ? isMenuOpen && isResponsive
+      ? "flex"
+      : "none"
+    : "flex",
   position: isMenuOpen && isResponsive ? "absolute" : "relative",
   flexDirection: "column",
   justifyContent: "flex-start",

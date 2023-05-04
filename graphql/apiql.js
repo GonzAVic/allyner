@@ -291,3 +291,15 @@ export const UPDATE_CLIENT = gql`
     }
   }
 `;
+
+export const DELETE_SERVICE = gql`
+  ${SERVICE_FRAGMENT}
+
+  mutation ($input: DeleteServiceInput!) {
+    deleteService(input: $input) {
+      service {
+        ...ServiceFields
+      }
+    }
+  }
+`;

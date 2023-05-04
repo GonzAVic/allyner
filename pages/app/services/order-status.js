@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { resetServerContext } from "react-beautiful-dnd";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
@@ -16,8 +16,22 @@ import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import DeleteIcon from "@mui/icons-material/Delete";
 import OderCard from "components/OrderCard";
 
+// OTHER
+import useServiceReq from "utils/useServiceReq";
+
 const Page = () => {
+  const { findBusinessServiceReqs } = useServiceReq();
+
   const [collections, setCollections] = useState(["completed", "not-started"]);
+  const [serviceReqs, setServiceReqs] = useState([]);
+
+  useEffect(() => {
+    const onMount = async () => {
+      const response = await findBusinessServiceReqs(2);
+      setServiceReqs(response);
+    };
+    onMount();
+  }, []);
 
   const onDragEnd = (result) => {
     // dropped outside the list
@@ -41,8 +55,11 @@ const Page = () => {
   return (
     <DefaultLayout title="Service Booking">
       <ServicesTabs />
-
-      <PreviewLayout previewComponent={<OderCard />}>
+      <PreviewLayout
+        previewComponent={
+          <OderCard serviceReq={serviceReqs ? serviceReqs[0] : null} />
+        }
+      >
         <Typography className="section-title" variant="subtitle1">
           Order Status
         </Typography>

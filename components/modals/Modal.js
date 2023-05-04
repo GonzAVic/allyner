@@ -39,7 +39,7 @@ const Modal = ({
             otherProps = {},
           } = act;
           return (
-            <Button key={index} variant={variant} {...otherProps}>
+            <Button key={index} variant={variant} onClick={fn} {...otherProps}>
               {text}
             </Button>
           );

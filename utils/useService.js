@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useLazyQuery, useMutation } from "@apollo/client";
 
-import { FIND_SERVICE, UPDATE_SERVICE, CREATE_SERVICE } from "graphql/apiql";
+import {
+  FIND_SERVICE,
+  UPDATE_SERVICE,
+  CREATE_SERVICE,
+  DELETE_SERVICE,
+} from "graphql/apiql";
 
 const useService = (serviceId, options = {}) => {
   const router = useRouter();
@@ -10,6 +15,7 @@ const useService = (serviceId, options = {}) => {
   const [getServiceFn, getServiceFnHpr] = useLazyQuery(FIND_SERVICE);
   const [updateServiceFn, updateServiceHpr] = useMutation(UPDATE_SERVICE);
   const [createServiceFn, createServiceHpr] = useMutation(CREATE_SERVICE);
+  const [deleteServiceFn] = useMutation(DELETE_SERVICE);
 
   const [service, setService] = useState(null);
 
@@ -68,10 +74,19 @@ const useService = (serviceId, options = {}) => {
     });
   };
 
+  const deleteService = async (serviceId) => {
+    console.log("-> serviceId: ", serviceId);
+    const response = await deleteServiceFn({
+      variables: { input: { id: serviceId } },
+    });
+    return response;
+  };
+
   return {
     service,
     updateService,
     createService,
+    deleteService,
   };
 };
 
