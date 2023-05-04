@@ -33,6 +33,15 @@ const useBusiness = (businessId) => {
     setBusiness(business_);
   }, [findBusinessHpr]);
 
+  useEffect(() => {
+    if (!updateBusinessHpr.called) return;
+    if (!updateBusinessHpr.data) return;
+
+    setTimeout(() => {
+      location.reload();
+    }, 200);
+  }, [updateBusinessHpr]);
+
   const getBusinessServices = async () => {
     const response = await findBusinessServicesFn({
       variables: { businessId: Number(BUSINESS_ID) },

@@ -10,7 +10,7 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import PreviewContainer from "components/PreviewContainer";
 import PreviewContainerMobile from "components/PreviewContainerMobile";
 
-const PreviewLayout = ({ children, previewComponent }) => {
+const PreviewLayout = ({ children, previewComponent, noTopSpace }) => {
   const isMobile = useMediaQuery("(max-width:768px)");
 
   const [isMobilePreviewOpen, setIsMobilePreviewOpen] = useState(false);
@@ -34,8 +34,10 @@ const PreviewLayout = ({ children, previewComponent }) => {
       {/**** RIGHT SIDE ****/}
       {!isMobile && (
         <RightSide>
-          <PreviewContainer>
-            <PreviewContent>{previewComponent}</PreviewContent>
+          <PreviewContainer noTopSpace={noTopSpace}>
+            <PreviewContent noTopSpace={noTopSpace}>
+              {previewComponent}
+            </PreviewContent>
           </PreviewContainer>
         </RightSide>
       )}
@@ -68,12 +70,12 @@ const RightSide = styled("div")({
   flex: 1,
 });
 
-const PreviewContent = styled("div")({
-  marginTop: 150,
+const PreviewContent = styled("div")(({ noTopSpace }) => ({
+  marginTop: noTopSpace ? 0 : 150,
   width: "100%",
   display: "flex",
   justifyContent: "center",
-});
+}));
 
 const MobilePreviewButton = styled(Button)({
   position: "absolute",

@@ -8,6 +8,7 @@ import LinkIcon from "@mui/icons-material/Link";
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
 import PreviewLayout from "components/layout/PreviewLayout";
+import BusinessHome from "components/BusinessHome";
 
 // OTHER
 import { BusinessContext } from "contexts/BusinessContext";
@@ -19,7 +20,7 @@ const Page = () => {
 
   return (
     <DefaultLayout title="Online Store">
-      <PreviewLayout previewComponent={"LALALALA"}>
+      <PreviewLayout previewComponent={<BusinessHome />} noTopSpace>
         <Typography className="section-title" variant="subtitle1">
           Store Details
         </Typography>

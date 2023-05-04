@@ -3,7 +3,7 @@ import { styled } from "@mui/system";
 import { Typography } from "@mui/material";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 
-const PreviewContainer = ({ children }) => {
+const PreviewContainer = ({ children, noTopSpace }) => {
   return (
     <Container>
       <Typography
@@ -15,7 +15,7 @@ const PreviewContainer = ({ children }) => {
         <VisibilityOutlinedIcon sx={{ mr: 1 }} />
         Preview
       </Typography>
-      <Content>{children}</Content>
+      <Content noTopSpace={noTopSpace}>{children}</Content>
     </Container>
   );
 };
@@ -27,13 +27,14 @@ const Container = styled("div")({
   position: "relative",
 });
 
-const Content = styled("div")({
+const Content = styled("div")(({ noTopSpace }) => ({
   borderRadius: 10,
+  border: "1px solid #e1e1e1",
   background: "#FFFFFF",
   display: "flex",
   flex: 1,
   overflow: "hidden",
-  padding: 16,
-});
+  padding: noTopSpace ? 0 : 16,
+}));
 
 export default PreviewContainer;

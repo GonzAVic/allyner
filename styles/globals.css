@@ -9,6 +9,12 @@
   align-items: center;
 }
 
+.space-centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .service-cards-list-ctr {
   display: flex;
   gap: 24px;

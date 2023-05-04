@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Divider } from "@mui/material";
+import { Divider, Typography, Box } from "@mui/material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import SignalCellularAltRoundedIcon from "@mui/icons-material/SignalCellularAltRounded";
 import PeopleOutlineOutlinedIcon from "@mui/icons-material/PeopleOutlineOutlined";
@@ -16,11 +16,20 @@ import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 // COMPONENTS
 import SidebarItem from "./SidebarItem";
 
+// OTHER
+import useBusiness from "utils/useBusiness";
+
 const BusinessSidebar = ({ isResponsive, isMenuOpen }) => {
   const router = useRouter();
+  const { business } = useBusiness();
 
+  if (!business) return null;
   return (
     <Container isResponsive={isResponsive} isMenuOpen={isMenuOpen}>
+      <Box className="space-centered" sx={{ mb: 8 }}>
+        <img className="businessLogo" src={business.logo} />
+        <Typography variant="h5">{business.name}</Typography>
+      </Box>
       <SidebarItem
         label="Home"
         href="/app/"
@@ -103,6 +112,11 @@ const Container = styled("div")(({ isResponsive, isMenuOpen }) => ({
   height: "100vh",
   background: "#FFFFFF",
   zIndex: 3,
+
+  ".businessLogo": {
+    width: 32,
+    marginRight: 8,
+  },
 }));
 
 export default BusinessSidebar;
