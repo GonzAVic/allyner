@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Stepper, StepLabel, Step } from "@mui/material";
 
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
@@ -34,6 +34,14 @@ const OderOverview = ({ userType }) => {
         { text: "Cancel Order", fn: () => modalRepo.open("CancelOrder") },
       ]}
     >
+      <Stepper activeStep={1} alternativeLabel>
+        {steps.map((label) => (
+          <Step key={label}>
+            <StepLabel>{label}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+
       <Content>
         <div>
           {userType !== "client" && (
@@ -127,5 +135,7 @@ const Content = styled("div")({
   gridTemplateColumns: "40% 1fr",
   gap: 24,
 });
+
+const steps = ["Not Started", "In Progress", "Done"];
 
 export default OderOverview;

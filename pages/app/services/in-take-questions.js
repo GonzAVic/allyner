@@ -51,6 +51,16 @@ const Page = () => {
     handleClose();
   };
 
+  const handleDuplicateQuestion = (index) => {
+    console.log("-> index: ", index);
+    const questionToDuplicate = formik.values.questions[index];
+    console.log("-> questionToDuplicate: ", questionToDuplicate);
+    formik.setFieldValue("questions", [
+      ...formik.values.questions,
+      questionToDuplicate,
+    ]);
+  };
+
   const open = Boolean(anchorEl);
 
   return (
@@ -93,6 +103,9 @@ const Page = () => {
                           question={question}
                           formik={formik}
                           setActiveQuestion={setActiveQuestion}
+                          duplicateQuestion={() =>
+                            handleDuplicateQuestion(index)
+                          }
                           removeQuestion={() => {
                             arrayHelpers.remove(index);
                           }}

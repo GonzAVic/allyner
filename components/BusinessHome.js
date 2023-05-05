@@ -8,18 +8,21 @@ import ServiceCard from "components/service/ServiceCard";
 // OTHER
 import useBusiness from "utils/useBusiness";
 
-const BusinessHome = () => {
-  const { services } = useBusiness();
+const BusinessHome = ({ isResponsive }) => {
+  const { services, business, businessSubdomain } = useBusiness();
+
+  const signInUrl = "https://" + businessSubdomain + ".allyner.com/signin";
+  const signUpUrl = "https://" + businessSubdomain + ".allyner.com/signup";
 
   return (
     <Container>
       <Header>
-        <Typography variant="h5">Business name</Typography>
+        <Typography variant="h5">{business?.name}</Typography>
         <div>
-          <Button variant="outlined" sx={{ mr: 1 }}>
+          <Button variant="outlined" sx={{ mr: 1 }} href={signInUrl}>
             Sign In
           </Button>
-          <Button>Sign Up</Button>
+          <Button href={signUpUrl}>Sign Up</Button>
         </div>
       </Header>
       <Content>
@@ -37,7 +40,7 @@ const BusinessHome = () => {
           <Typography variant="h5" sx={{ mb: 2 }}>
             Check our services
           </Typography>
-          <ServiceList>
+          <ServiceList isResponsive={isResponsive}>
             {services.map((s, index) => {
               console.log("-> s: ", s);
               if (s.isActive) {
@@ -75,10 +78,15 @@ const ContentContent = styled("div")({
   padding: "0 16px",
 });
 
-const ServiceList = styled("div")({
+const ServiceList = styled("div")(({ theme, isResponsive }) => ({
   gap: 16,
   display: "flex",
   flexWrap: "wrap",
-});
+  justifyContent: isResponsive ? "center" : "initial",
+
+  [theme.breakpoints.down("lg")]: {
+    justifyContent: "center",
+  },
+}));
 
 export default BusinessHome;

@@ -20,7 +20,10 @@ const Page = () => {
 
   return (
     <DefaultLayout title="Online Store">
-      <PreviewLayout previewComponent={<BusinessHome />} noTopSpace>
+      <PreviewLayout
+        previewComponent={<BusinessHome isResponsive />}
+        noTopSpace
+      >
         <Typography className="section-title" variant="subtitle1">
           Store Details
         </Typography>

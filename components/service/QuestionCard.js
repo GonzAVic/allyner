@@ -30,6 +30,7 @@ const QuestionCard = ({
   formik,
   setActiveQuestion,
   removeQuestion,
+  duplicateQuestion,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -169,7 +170,7 @@ const QuestionCard = ({
           <Typography>Required</Typography>
         </div>
         <div className="space-between-centered">
-          <IconButton>
+          <IconButton onClick={duplicateQuestion}>
             <ContentCopyIcon fontSize="small" />
           </IconButton>
           <IconButton onClick={removeQuestion}>
