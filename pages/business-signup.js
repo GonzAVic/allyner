@@ -44,6 +44,7 @@ const BusinessSignup = () => {
     },
     validationSchema: createSignupSchema(),
     onSubmit: async (values) => {
+      console.log("-> values: ", values);
       const newBusiness = await createBusiness({
         name: values.companyName,
       });
@@ -54,7 +55,7 @@ const BusinessSignup = () => {
       )
         return;
       createBusinessUser({
-        firstName: values.name,
+        firstName: values.firstName,
         lastName: "string",
         email: values.email,
         businessId: newBusiness.data.createBusiness.business.id,
@@ -191,7 +192,8 @@ const createSignupSchema = () => {
   let schemaAttributes = {
     email: yup.string().required(),
     password: yup.string().required(),
-    name: yup.string().required(),
+    firstName: yup.string().required(),
+    lastName: yup.string().required(),
     companyName: yup.string().required(),
     industry: yup.string().required(),
   };

@@ -60,7 +60,7 @@ const useBusiness = (businessId) => {
 
   const createBusiness = async (data) => {
     const response = await createBusinessFn({
-      variables: { input: { attributes: { ...data, description: "lalala" } } },
+      variables: { input: { attributes: data } },
     });
     return response;
   };
