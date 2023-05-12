@@ -75,11 +75,12 @@ const ServiceCard = ({ service = {}, userType = "business" }) => {
         sx={{ height: 200 }}
       />
       <ServiceName variant="h6">{name}</ServiceName>
-      <Box
+      <Typography
         className="description"
-        sx={{ color: "#73839D" }}
-        dangerouslySetInnerHTML={{ __html: description }}
-      />
+        sx={{ color: "#73839D", lineHeight: "24px" }}
+      >
+        {description}
+      </Typography>
       <PricintHelperText variant="body2" color="text.secondary">
         Starting At
       </PricintHelperText>
@@ -155,8 +156,8 @@ const Container = styled("div")({
 });
 
 const ServiceName = styled(Typography)({
-  marginTop: 24,
-  marginBottom: 16,
+  marginTop: 16,
+  marginBottom: 12,
   maxHeight: 78,
   overflow: "hidden",
   display: "-webkit-box",

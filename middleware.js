@@ -7,7 +7,7 @@ export default function middleware(req) {
   const currentHost =
     process.env.NODE_ENV === "production"
       ? hostname?.replace(`.allyner.com`, "")
-      : hostname?.replace(`.localhost:3001`, "");
+      : hostname?.replace(`.localhost:3000`, "");
 
   if (pathname.startsWith(`/_sites`)) {
     return new Response(null, { status: 404 });
@@ -17,7 +17,7 @@ export default function middleware(req) {
     // For clients
     if (
       pathname.startsWith("/app") ||
-      hostname === "allyner.vercel.app" ||
+      hostname === "allyner.com" ||
       hostname === "localhost:3000"
     ) {
       const nextUrl = req.nextUrl.clone();

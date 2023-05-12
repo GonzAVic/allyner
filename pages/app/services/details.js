@@ -6,7 +6,6 @@ import { useFormik } from "formik";
 import { TextField, MenuItem, Box, Typography } from "@mui/material";
 
 // COMPONENTS
-import Tiptap from "components/TipTap";
 import Uploader from "components/Uploader";
 import FileCard from "components/FileCard";
 import ServiceCard from "components/service/ServiceCard";
@@ -63,10 +62,6 @@ const Page = () => {
     },
   });
 
-  const handleDescriptionChange = (value) => {
-    formik.setFieldValue("description", value);
-  };
-
   const handleCoverChange = (fileUrl) => {
     formik.setFieldValue("cover", fileUrl);
   };
@@ -97,9 +92,12 @@ const Page = () => {
             />
 
             <Typography variant="subtitle1">Description</Typography>
-            <Tiptap
-              onUpdate={handleDescriptionChange}
-              initialValue={service ? service.description : null}
+            <TextField
+              name="description"
+              value={formik.values.description}
+              onChange={formik.handleChange}
+              multiline
+              rows={4}
             />
 
             <Typography variant="subtitle1">Thumbnail</Typography>
