@@ -19,6 +19,7 @@ const Modal = ({
   secondaryText = null,
   actions = null,
   withCancel,
+  children,
 }) => {
   const { modalRepo } = useContext(AppContext);
   return (
@@ -29,6 +30,8 @@ const Modal = ({
           <DialogContentText>{secondaryText}</DialogContentText>
         </DialogContent>
       )}
+
+      <Content>{children}</Content>
 
       <DialogActions>
         {actions.map((act, index) => {
@@ -62,6 +65,10 @@ const Container = styled(Dialog)({
   ".MuiDialog-paper": {
     borderRadius: 12,
   },
+});
+
+const Content = styled("div")({
+  padding: "12px 24px",
 });
 
 export default Modal;

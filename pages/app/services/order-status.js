@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { useFormik } from "formik";
 import { resetServerContext } from "react-beautiful-dnd";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
@@ -14,16 +15,37 @@ import ServicesTabs from "components/ServicesTabs";
 import PreviewLayout from "components/layout/PreviewLayout";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import DeleteIcon from "@mui/icons-material/Delete";
-import OderCard from "components/OrderCard";
+import ServiceCard from "components/service/ServiceCard";
 
 // OTHER
 import useServiceReq from "utils/useServiceReq";
+import { BusinessContext } from "contexts/BusinessContext";
 
 const Page = () => {
+  const { businessRepo } = useContext(BusinessContext);
+  const { business, updateBusiness } = businessRepo;
   const { findBusinessServiceReqs } = useServiceReq();
 
-  const [collections, setCollections] = useState(["completed", "not-started"]);
   const [serviceReqs, setServiceReqs] = useState([]);
+  const [statuses, setStatuses] = useState(null);
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      statuses: statuses || [],
+    },
+    // validationSchema: createLoginSchema(),
+    onSubmit: (values) => {
+      const serviceStatuses_ = values.statuses.map((s) => s.label);
+      const attributes = {
+        additionalSettings: JSON.stringify({
+          ...business.additionalSettings,
+          serviceStatuses: serviceStatuses_,
+        }),
+      };
+      updateBusiness(attributes);
+    },
+  });
 
   useEffect(() => {
     const onMount = async () => {
@@ -33,6 +55,18 @@ const Page = () => {
     onMount();
   }, []);
 
+  useEffect(() => {
+    if (!business) return;
+    const serviceStatuses_ = business.additionalSettings.serviceStatuses || [];
+    const serviceStatuses = serviceStatuses_.map((ss) => ({
+      id: String(Math.random()),
+      label: ss,
+    }));
+
+    // formik.setFieldValue("statuses", serviceStatuses);
+    setStatuses(serviceStatuses);
+  }, [business]);
+
   const onDragEnd = (result) => {
     // dropped outside the list
     if (!result.destination) {
@@ -40,47 +74,71 @@ const Page = () => {
     }
 
     const items = reorder(
-      collections,
+      formik.values.statuses,
       result.source.index,
       result.destination.index
     );
 
-    setCollections(items);
+    formik.setFieldValue("statuses", items);
   };
 
   const addStatus = () => {
-    setCollections([...collections, "new status"]);
+    formik.setFieldValue("statuses", [
+      ...formik.values.statuses,
+      { id: String(Math.random()), label: "new status" },
+    ]);
+  };
+
+  const deleteStatus = (id) => {
+    const index = formik.values.statuses.findIndex((s) => {
+      return s.id === id;
+    });
+    console.log("-> index: ", index);
+    const newStatusesArray = formik.values.statuses.map((s) => s);
+    newStatusesArray.splice(index, 1);
+    formik.setFieldValue("statuses", newStatusesArray);
   };
 
   return (
-    <DefaultLayout title="Service Booking">
+    <DefaultLayout title="Service Booking" formik={formik}>
       <ServicesTabs />
       <PreviewLayout
-        previewComponent={
-          <OderCard serviceReq={serviceReqs ? serviceReqs[0] : null} />
-        }
+        previewComponent={<ServiceCard status="Active" />}
+        noTopSpace
+        zoomOut
       >
         <Typography className="section-title" variant="subtitle1">
           Order Status
         </Typography>
 
+        <Status value="To do" />
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="droppable">
             {(provided, snapshot) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
-                {collections.map((status, index) => (
-                  <Draggable key={status} draggableId={status} index={index}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <Status value={status} />
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
+                {formik.values.statuses.map((status, index) => {
+                  return (
+                    <Draggable
+                      key={status.id}
+                      draggableId={status.id}
+                      index={index}
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <Status
+                            id={status.id}
+                            formik={formik}
+                            onDelete={deleteStatus}
+                          />
+                        </div>
+                      )}
+                    </Draggable>
+                  );
+                })}
                 {provided.placeholder}
               </div>
             )}
@@ -90,8 +148,34 @@ const Page = () => {
         <Button variant="dashed" onClick={addStatus} fullWidth>
           Add new status
         </Button>
+        <Status value="Complete" />
       </PreviewLayout>
     </DefaultLayout>
+  );
+};
+
+const Status = ({ id, formik = null, value, onDelete }) => {
+  const index = 0;
+  if (!value)
+    index = formik.values.statuses.findIndex((s) => {
+      return s.id === id;
+    });
+
+  if (index === -1) return null;
+  return (
+    <SContainer className="card">
+      <DragIndicatorIcon />
+      <TextField
+        name={`statuses[${index}].label`}
+        value={value || formik.values.statuses[index].label}
+        onChange={value ? () => {} : formik.handleChange}
+      />
+      {!value && (
+        <IconButton onClick={() => onDelete(id)}>
+          <DeleteIcon />
+        </IconButton>
+      )}
+    </SContainer>
   );
 };
 
@@ -101,18 +185,6 @@ const reorder = (list, startIndex, endIndex) => {
   result.splice(endIndex, 0, removed);
 
   return result;
-};
-
-const Status = (value) => {
-  return (
-    <SContainer className="card">
-      <DragIndicatorIcon />
-      <TextField value={value.value} />
-      <IconButton>
-        <DeleteIcon />
-      </IconButton>
-    </SContainer>
-  );
 };
 
 const SContainer = styled("div")({

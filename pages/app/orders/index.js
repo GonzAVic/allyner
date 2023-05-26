@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
+import { Typography } from "@mui/material";
 import { Chip } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -12,6 +13,7 @@ import NullState from "components/NullState";
 
 // OTHER
 import useServiceReq from "utils/useServiceReq";
+import useUser from "utils/useUser";
 
 const Page = () => {
   const router = useRouter();
@@ -28,6 +30,7 @@ const Page = () => {
           id: r.id,
           serviceName: r.frozenService.name,
           createdAt: r.createdAt,
+          userId: r.userId,
           status: "Pending",
         };
       });
@@ -69,8 +72,14 @@ const Page = () => {
   );
 };
 
-const ServiceStatus = () => {
+const ServiceStatus = ({ status }) => {
   return <Chip label="In Progress" />;
+};
+
+const ClientName = ({ row }) => {
+  const { user } = useUser(row.userId);
+  if (!user) return "COPY: No user";
+  return <Typography>{user.firstName + " " + user.lastName}</Typography>;
 };
 
 const columns = [
@@ -84,6 +93,7 @@ const columns = [
     field: "userId",
     headerName: "Customer Name",
     flex: 1,
+    renderCell: ClientName,
   },
   {
     field: "createdAt",

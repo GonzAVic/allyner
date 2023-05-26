@@ -52,8 +52,6 @@ const ClientSignup = ({
     },
   });
 
-  console.log("-> formik: ", formik.errors);
-
   return (
     <Container>
       <Typography variant="h4" sx={{ textAlign: "center" }}>

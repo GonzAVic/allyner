@@ -1,4 +1,4 @@
-import { signOut } from "next-auth/react";
+import { useContext } from "react";
 import { useRouter } from "next/router";
 
 // MATERIAL UI
@@ -17,11 +17,12 @@ import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import SidebarItem from "./SidebarItem";
 
 // OTHER
-import useBusiness from "utils/useBusiness";
+import { BusinessContext } from "contexts/BusinessContext";
 
 const BusinessSidebar = ({ isResponsive, isMenuOpen }) => {
   const router = useRouter();
-  const { business } = useBusiness();
+  const { businessRepo } = useContext(BusinessContext);
+  const { business } = businessRepo;
 
   if (!business) return null;
   return (

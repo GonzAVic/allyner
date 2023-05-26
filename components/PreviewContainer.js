@@ -35,6 +35,7 @@ const Content = styled("div")(({ noTopSpace }) => ({
   flex: 1,
   overflow: "hidden",
   padding: noTopSpace ? 0 : 16,
+  maxHeight: 700,
 }));
 
 export default PreviewContainer;

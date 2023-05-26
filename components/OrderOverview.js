@@ -12,13 +12,24 @@ import QuestionResponse from "components/QuestionResponse";
 // OTHER
 import useServiceReq from "utils/useServiceReq";
 import useUser from "utils/useUser";
+import { concatStatuses } from "utils/utils";
 import { AppContext } from "contexts/AppContext";
+import { BusinessContext } from "contexts/BusinessContext";
+import { ClientContext } from "contexts/ClientContext";
 
 const OderOverview = ({ userType }) => {
   const router = useRouter();
   const { modalRepo } = useContext(AppContext);
+  const { businessRepo: bBusinessRepo } = useContext(BusinessContext);
+  const { businessRepo: cBusinessRepo } = useContext(ClientContext);
   const { serviceReq } = useServiceReq(router.query.orderId);
   const { user } = useUser(serviceReq?.userId);
+  const businessRepo = userType === "client" ? cBusinessRepo : bBusinessRepo;
+  const { business } = businessRepo;
+
+  const steps = business?.additionalSettings.serviceStatuses
+    ? concatStatuses(business.additionalSettings.serviceStatuses)
+    : [];
 
   if (!serviceReq) return "Loading serviceReq";
   return (
@@ -34,7 +45,7 @@ const OderOverview = ({ userType }) => {
         { text: "Cancel Order", fn: () => modalRepo.open("CancelOrder") },
       ]}
     >
-      <Stepper activeStep={1} alternativeLabel>
+      <Stepper activeStep={0} alternativeLabel sx={{ mb: 3 }}>
         {steps.map((label) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>

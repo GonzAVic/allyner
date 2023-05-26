@@ -85,6 +85,15 @@ const Page = () => {
     formik.setFieldValue("checkoutAdditionalInfo", newQuestionnaire);
   };
 
+  const handleDuplicate = (index) => {
+    const questionToDuplicate = formik.values.checkoutAdditionalInfo[index];
+    console.log("-> questionToDuplicate: ", questionToDuplicate);
+    formik.setFieldValue("checkoutAdditionalInfo", [
+      ...formik.values.checkoutAdditionalInfo,
+      questionToDuplicate,
+    ]);
+  };
+
   const open = Boolean(anchorEl);
 
   return (
@@ -139,6 +148,7 @@ const Page = () => {
                           index={index}
                           updateQuestionAttr={updateQuestionAttr}
                           deleteQuestion={deleteQuestion}
+                          onDuplicate={() => handleDuplicate(index)}
                         />
                       );
                     }

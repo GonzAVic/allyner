@@ -29,7 +29,7 @@ import { industries } from "utils/constants";
 
 const BusinessSignup = () => {
   const { createBusiness } = useBusiness();
-  const { createBusinessUser } = useUser();
+  const { createBusinessUser, getSession } = useUser();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const formik = useFormik({
@@ -44,9 +44,9 @@ const BusinessSignup = () => {
     },
     validationSchema: createSignupSchema(),
     onSubmit: async (values) => {
-      console.log("-> values: ", values);
       const newBusiness = await createBusiness({
         name: values.companyName,
+        subDomain: values.companyName,
       });
       if (
         !newBusiness.data ||
@@ -54,12 +54,20 @@ const BusinessSignup = () => {
         !newBusiness.data.createBusiness.business
       )
         return;
-      createBusinessUser({
+      const businessUser = await createBusinessUser({
         firstName: values.firstName,
         lastName: "string",
         email: values.email,
+        password: values.password,
         businessId: newBusiness.data.createBusiness.business.id,
       });
+
+      const sessionData = await getSession({ email: values.email, password: values.password });
+      console.log('-> sessionData: ', sessionData)
+
+      localStorage.setItem("userId", businessUser.id);
+      // localStorage.setItem("userId", businessUser.id);
+      // TODO: Store the token
     },
   });
 

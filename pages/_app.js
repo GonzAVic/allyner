@@ -43,17 +43,19 @@ export default function App({
         <LocalizationProvider dateAdapter={AdapterMoment}>
           <ThemeProvider theme={theme()}>
             <AppContext.Provider value={contextObject}>
-              {Boolean(modalRepo.currentModal) &&
-                React.cloneElement(modalRepo.currentModal, modalRepo.ctx)}
               <CssBaseline />
 
               {router.route.includes("/app") ? (
                 <BusinessApplication>
                   <Component {...pageProps} />
+                  {Boolean(modalRepo.currentModal) &&
+                    React.cloneElement(modalRepo.currentModal, modalRepo.ctx)}
                 </BusinessApplication>
               ) : (
                 <ClientApplication>
                   <Component {...pageProps} />
+                  {Boolean(modalRepo.currentModal) &&
+                    React.cloneElement(modalRepo.currentModal, modalRepo.ctx)}
                 </ClientApplication>
               )}
             </AppContext.Provider>

@@ -2,7 +2,7 @@ import { useState } from "react";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography, Box, Button, Alert } from "@mui/material";
+import { Typography, Box, Button } from "@mui/material";
 
 // COMPONENTS
 import ResponseShortText from "./ResponseShortText";
@@ -15,15 +15,7 @@ import ResponsePictureChoice from "./ResponsePictureChoice";
 import ResponseSingleSelect from "./ResponseSingleSelect";
 
 const Question = ({ question, questionIndex, onNext, onResponse }) => {
-  const [shouldDisplayAlert, setShouldDisplayAlert] = useState(false);
-
   const handleOnNext = () => {
-    if (question.isRequired && !Boolean(question.answer)) {
-      setShouldDisplayAlert(true);
-      return;
-    }
-
-    setShouldDisplayAlert(false);
     onNext();
   };
 
@@ -46,11 +38,6 @@ const Question = ({ question, questionIndex, onNext, onResponse }) => {
       )}
       <Box sx={{ height: 16 }} />
       {renderAnswerComponent(questionIndex, question, isMultiple, onResponse)}
-      {shouldDisplayAlert && (
-        <Alert severity="error" sx={{ mt: 1 }}>
-          [COPY] {question.title} is a required field.
-        </Alert>
-      )}
       <Box className="row-2" sx={{ alignItems: "center", mt: 2 }}>
         <Button onClick={handleOnNext}>OK</Button>
         <Typography>press Enter</Typography>

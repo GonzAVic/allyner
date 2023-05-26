@@ -7,6 +7,7 @@ import {
   CREATE_SERVICE_REQUEST,
   FIND_CLIENT_SERVICE_REQS,
   FIND_BUSINESS_SERVICE_REQS,
+  UPDATE_SERVICE_REQ,
 } from "graphql/apiql";
 import { serviceReqAdapter } from "./adapters";
 
@@ -14,6 +15,7 @@ const useServiceReq = (serviceReqId) => {
   const [findServiceReqFn, findServiceReqHpr] =
     useLazyQuery(FIND_SERVICE_REQUEST);
   const [createServiceReqFn] = useMutation(CREATE_SERVICE_REQUEST);
+  const [updateServiceReqFn] = useMutation(UPDATE_SERVICE_REQ);
   const [findClientServiceReqsFn] = useLazyQuery(FIND_CLIENT_SERVICE_REQS);
   const [findBusinessServiceReqsFn] = useLazyQuery(FIND_BUSINESS_SERVICE_REQS);
 
@@ -72,11 +74,30 @@ const useServiceReq = (serviceReqId) => {
     return response;
   };
 
+  const updateServiceReq = async (data, serviceReqId, businessId) => {
+    const response = await updateServiceReqFn({
+      variables: {
+        input: {
+          attributes: {
+            businessId: Number(businessId),
+            surveyId: 1,
+            orderStatusId: 2,
+            ...data,
+          },
+          id: serviceReqId,
+        },
+      },
+    });
+
+    return response;
+  };
+
   return {
     serviceReq,
     createServiceReq,
     findClientServiceReqs,
     findBusinessServiceReqs,
+    updateServiceReq,
   };
 };
 

@@ -8,28 +8,30 @@ import {
   FIND_BUSINESS_SERVICES,
 } from "graphql/apiql";
 
-const BUSINESS_ID = 2;
-
 const useBusiness = (businessId) => {
   const [findBusinessFn, findBusinessHpr] = useLazyQuery(FIND_BUSINESS);
   const [findBusinessServicesFn] = useLazyQuery(FIND_BUSINESS_SERVICES);
   const [updateBusinessFn, updateBusinessHpr] = useMutation(UPDATE_BUSINESS);
-  const [createBusinessFn, createBusinessHpr] = useMutation(CREATE_BUSINESS);
+  const [createBusinessFn] = useMutation(CREATE_BUSINESS);
 
   const [business, setBusiness] = useState(null);
   const [services, setServices] = useState([]);
 
   useEffect(() => {
-    findBusinessFn({ variables: { id: Number(BUSINESS_ID) } });
+    if (!businessId) return;
+    findBusinessFn({ variables: { id: Number(businessId) } });
     getBusinessServices();
-  }, []);
+  }, [businessId]);
 
   useEffect(() => {
     if (!findBusinessHpr.called) return;
     if (!findBusinessHpr.data) return;
 
     const business_ = { ...findBusinessHpr.data.findBusiness };
-    business_.additionalSettings = JSON.parse(business_.additionalSettings);
+    business_.additionalSettings =
+      typeof business_.additionalSettings === "object"
+        ? business_.additionalSettings
+        : JSON.parse(business_.additionalSettings);
     setBusiness(business_);
   }, [findBusinessHpr]);
 
@@ -44,7 +46,7 @@ const useBusiness = (businessId) => {
 
   const getBusinessServices = async () => {
     const response = await findBusinessServicesFn({
-      variables: { businessId: Number(BUSINESS_ID) },
+      variables: { businessId: Number(businessId) },
     });
 
     if (response.data && response.data.businessServices) {
@@ -54,7 +56,7 @@ const useBusiness = (businessId) => {
 
   const updateBusiness = (data) => {
     updateBusinessFn({
-      variables: { input: { attributes: data, id: Number(BUSINESS_ID) } },
+      variables: { input: { attributes: data, id: Number(businessId) } },
     });
   };
 

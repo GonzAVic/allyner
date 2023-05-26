@@ -1,13 +1,13 @@
 import { TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-const ResponseDatePicker = () => {
+const ResponseDatePicker = ({ onResponse, questionIndex, question }) => {
   return (
     <DatePicker
-      value={null}
-      // onChange={(newValue) => {
-      //   setValue(newValue);
-      // }}
+      value={question.answer ? question.answer : null}
+      onChange={(newValue) =>
+        onResponse(questionIndex, newValue.format("DD/MM/YYYY"))
+      }
       renderInput={(params) => <TextField {...params} />}
     />
   );

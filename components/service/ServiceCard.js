@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 // MATERIAL UI
 import { styled } from "@mui/system";
 import {
-  Box,
   Button,
   Chip,
   IconButton,
@@ -19,7 +18,7 @@ import NoThumbnail from "assets/no-thumbnail.png";
 import useService from "utils/useService";
 import { AppContext } from "contexts/AppContext";
 
-const ServiceCard = ({ service = {}, userType = "business" }) => {
+const ServiceCard = ({ service = {}, userType = "business", status }) => {
   const router = useRouter();
   const { modalRepo } = useContext(AppContext);
 
@@ -81,16 +80,20 @@ const ServiceCard = ({ service = {}, userType = "business" }) => {
       >
         {description}
       </Typography>
-      <PricintHelperText variant="body2" color="text.secondary">
-        Starting At
-      </PricintHelperText>
+      {!status && (
+        <PricintHelperText variant="body2" color="text.secondary">
+          Starting At
+        </PricintHelperText>
+      )}
       <BottomContainer>
-        <Typography variant="h5">$58/hr</Typography>
-        {userType === "client" ? (
+        {!status && <Typography variant="h5">$58/hr</Typography>}
+        {status && <Chip label={status} color="primary" />}
+        {userType === "client" && !status && (
           <Button href={`/services/${service.id}`}>
             {service.callToAction || "Get Quote"}
           </Button>
-        ) : (
+        )}
+        {userType === "business" && !status && (
           <div>
             <Chip
               label={service.isActive ? "Active" : "Inactive"}

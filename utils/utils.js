@@ -45,7 +45,7 @@ export const createBucketObject = (file) => {
   let fileName = `${Date.now()}___${file.name}`;
   fileName = fileName.replaceAll(" ", "-");
   const uploadParams = {
-    Bucket: "allyner-dev",
+    Bucket: "allyner-dev2",
     Key: fileName,
     Body: file,
     ContentType: file.type,
@@ -62,4 +62,8 @@ export const getFileName = (fileUrl) => {
   );
   fileName = fileName.slice(16);
   return fileName;
+};
+
+export const concatStatuses = (statuses) => {
+  return ["To do", ...statuses, "Complete"];
 };

@@ -8,30 +8,60 @@ import { Button } from "@mui/material";
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
 
+const EMAIL = "r9qq2sdasdweqwedasda@example.com";
+
 export default function Home() {
+  const handleSubmit = async () => {
+    const userData = {
+      email: EMAIL,
+      password: "3N@1234",
+      first_name: "raaz",
+      last_name: "Khan",
+      business_id: 1,
+      role: "business_user",
+      phone_number: "123456789",
+      timezone: "America/New York",
+    };
+    const response = await fetch(
+      "https://allyner-api-dev.herokuapp.com/users/",
+      {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      }
+    );
+    console.log("-> response: ", response);
+  };
+
+  const pedro = async () => {
+    const userData = {
+      email: EMAIL,
+      password: "3N@1234",
+    };
+    const response = await fetch(
+      "https://allyner-api-dev.herokuapp.com/users/sign_in",
+      {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      }
+    );
+  };
+
   return (
-    <DefaultLayout title={"Service name"}>
-      <Button variant="secondary" onClick={() => signIn()}>
-        Log in
+    <div>
+      <Button variant="secondary" onClick={() => handleSubmit()}>
+        Sign up
       </Button>
-    </DefaultLayout>
+      <Button variant="secondary" onClick={() => pedro()}>
+        Sign in
+      </Button>
+    </div>
   );
 }
-
-const Container = styled("div")({
-  marginTop: 16,
-  borderRadius: 12,
-  border: "1px solid #DCDFEA",
-  display: "flex",
-  overflow: "hidden",
-});
-
-const LeftSide = styled("div")({
-  padding: 16,
-  flex: 1,
-});
-
-const RightSide = styled("div")({
-  flex: 1,
-  borderLeft: "1px solid #DCDFEA",
-});

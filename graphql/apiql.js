@@ -303,3 +303,22 @@ export const DELETE_SERVICE = gql`
     }
   }
 `;
+
+export const UPDATE_SERVICE_REQ = gql`
+  mutation ($input: UpdateServiceRequestInput!) {
+    updateServiceRequest(input: $input) {
+      serviceRequest {
+        additionalInfo
+        answers
+        businessId
+        createdAt
+        frozenQuestions
+        frozenService
+        id
+        status
+        updatedAt
+        userId
+      }
+    }
+  }
+`;

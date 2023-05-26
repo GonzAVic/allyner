@@ -22,6 +22,8 @@ const Page = () => {
   const { serviceRepo } = useContext(BusinessContext);
   const { service, updateService, createService } = serviceRepo;
 
+  const duration = service?.pricingDuration / 60;
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -30,7 +32,7 @@ const Page = () => {
       cover: service?.cover,
       callToAction: service?.callToAction || "Book Now",
       pricingType: service?.pricingType || "",
-      durationHours: service?.pricingDuration % 60 || 1,
+      durationHours: duration ? parseInt(duration) : 1,
       durationMinutes:
         service && service.pricingDuration
           ? ((service.pricingDuration / 60) % 1) * 60
@@ -43,6 +45,8 @@ const Page = () => {
     onSubmit: (values) => {
       const pricingDuration =
         values.durationHours * 60 + values.durationMinutes;
+      console.log("-> values.durationHours: ", values.durationHours);
+      console.log("-> pricingDuration: ", pricingDuration);
       const attributes = {
         name: values.name,
         description: values.description,
@@ -163,7 +167,7 @@ const Page = () => {
                 </MenuItem>
               ))}
             </TextField>
-            {formik.values.pricingType === 1 && (
+            {Number(formik.values.pricingType) === 1 && (
               <Box className="row-2" sx={{ alignItems: "flex-end", mt: 2 }}>
                 <TextField
                   name="durationHours"
@@ -191,7 +195,7 @@ const Page = () => {
                 </TextField>
               </Box>
             )}
-            {formik.values.pricingType !== 0 && (
+            {Number(formik.values.pricingType) !== 0 && (
               <TextField
                 name="pricingAmount"
                 value={formik.values.pricingAmount}

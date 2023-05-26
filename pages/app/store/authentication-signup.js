@@ -85,6 +85,14 @@ const Page = () => {
     formik.setFieldValue("additionalQuestions", newQuestionnaire);
   };
 
+  const handleDuplicate = (index) => {
+    const questionToDuplicate = formik.values.additionalQuestions[index];
+    formik.setFieldValue("additionalQuestions", [
+      ...formik.values.additionalQuestions,
+      questionToDuplicate,
+    ]);
+  };
+
   const open = Boolean(anchorEl);
 
   const signUpUrl = "https://" + businessSubdomain + ".allyner.comstore/signup";
@@ -145,6 +153,7 @@ const Page = () => {
                             index={index}
                             updateQuestionAttr={updateQuestionAttr}
                             deleteQuestion={deleteQuestion}
+                            onDuplicate={() => handleDuplicate(index)}
                           />
                         );
                       }

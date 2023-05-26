@@ -19,6 +19,7 @@ const SimpleQuestion = ({
   index = 0,
   updateQuestionAttr = () => {},
   deleteQuestion = () => {},
+  onDuplicate = () => {},
 }) => {
   return (
     <Box className="card" sx={{ mb: 2 }}>
@@ -55,7 +56,7 @@ const SimpleQuestion = ({
           <Typography>Required</Typography>
         </div>
         <Box>
-          <IconButton>
+          <IconButton onClick={onDuplicate}>
             <ContentCopyIcon fontSize="small" />
           </IconButton>
           <IconButton onClick={() => deleteQuestion(index)}>

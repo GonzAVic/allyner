@@ -27,7 +27,7 @@ import ClientSidebar from "components/layout/ClientSidebar";
 
 // OTHER
 import { diffBanner as diffBannerFn } from "utils/utils";
-import { AppContext } from "contexts/AppContext";
+import { BusinessContext } from "contexts/BusinessContext";
 
 const DefaultLayout = ({
   children,
@@ -42,8 +42,8 @@ const DefaultLayout = ({
 }) => {
   const router = useRouter();
 
-  const { sessionRepo } = useContext(AppContext);
-  const { user } = sessionRepo;
+  const { userRepo } = useContext(BusinessContext);
+  const { user } = userRepo;
 
   const isResponsive = useMediaQuery("(max-width:978px)");
 
@@ -97,8 +97,8 @@ const DefaultLayout = ({
           <NavigationBar>
             <Avatar
               onClick={openProfileMenu}
-              alt="Travis Howard"
-              src="/static/images/avatar/2.jpg"
+              alt={user?.firstName}
+              src={user?.profilePicture || "/static/images/avatar/2.jpg"}
             />
             <Menu
               anchorEl={profileEl}
@@ -211,6 +211,7 @@ const Content = styled("div")({
   flexDirection: "column",
   flex: 1,
   height: "80%",
+  overflowY: "auto",
 });
 
 const ContentTop = styled("div")({
@@ -224,8 +225,6 @@ const ChildrenContainer = styled("div")({
   flex: 1,
   display: "flex",
   flexDirection: "column",
-  overflowY: "auto",
-  overflowX: "hidden",
 });
 
 const RightContent = styled("div")({

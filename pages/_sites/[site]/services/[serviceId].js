@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Box } from "@mui/material";
+import { Box, Alert } from "@mui/material";
 
 // COMPONENTS
 import Question from "components/service/Question";
@@ -36,6 +36,9 @@ const ServiceWizard = () => {
   const [questions, setQuestions] = useState([]);
   const [questionIndex, setQuestionsIndex] = useState(0);
   const [currentStep, setCurrentStep] = useState("questionnaire");
+  const [shouldDisplayAlert, setShouldDisplayAlert] = useState(false);
+
+  const currentQuestion = questions[questionIndex];
 
   useEffect(() => {
     if (!service) return;
@@ -43,11 +46,34 @@ const ServiceWizard = () => {
   }, [service]);
 
   useEffect(() => {
-    if (isArrowUpPressed) handlePrevQuestion();
+    if (isArrowUpPressed) {
+      handlePrevQuestion();
+      return;
+    }
+    if (
+      currentQuestion &&
+      currentQuestion.isRequired &&
+      !Boolean(currentQuestion.answer)
+    ) {
+      setShouldDisplayAlert(true);
+      return;
+    }
+    setShouldDisplayAlert(false);
+
     if (isArrowDownPressed) handleNextQuestion();
   }, [isArrowDownPressed, isArrowUpPressed]);
 
   const handleNextQuestion = () => {
+    if (
+      currentQuestion &&
+      currentQuestion.isRequired &&
+      !Boolean(currentQuestion.answer)
+    ) {
+      setShouldDisplayAlert(true);
+      return;
+    }
+    setShouldDisplayAlert(false);
+
     if (questionIndex + 1 === questions.length) {
       setCurrentStep("checkoutDetails");
       return;
@@ -135,6 +161,11 @@ const ServiceWizard = () => {
               onResponse={onResponse}
             />
           )}
+          {shouldDisplayAlert && (
+            <Alert severity="error" sx={{ mt: 2, width: "100%" }}>
+              [COPY] {currentQuestion.title} is a required field.
+            </Alert>
+          )}
           {currentStep === "checkoutDetails" && (
             <CheckoutDetailsForm
               user={user}
@@ -183,6 +214,7 @@ const ServiceWizard = () => {
 const Container = styled("div")({
   display: "flex",
   flex: 1,
+  flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
   background: "#FFFFFF",

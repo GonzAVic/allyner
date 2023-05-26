@@ -3,7 +3,6 @@ import { styled } from "@mui/system";
 import { Typography, Box, Chip } from "@mui/material";
 
 const OrderCard = ({ serviceReq }) => {
-  console.log('-> serviceReq: ', serviceReq)
   if (!serviceReq) return null;
   return (
     <Container>

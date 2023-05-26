@@ -10,25 +10,29 @@ import {
   UPDATE_CLIENT,
 } from "graphql/apiql";
 
-const useUser = (userId) => {
-  const [createBusinessUserFn, createBusinessUserHpr] =
-    useMutation(CREATE_BUSINESS_USER);
-  const [createClientUserFn, createClientUserHpr] =
-    useMutation(CREATE_CLIENT_USER);
+const useUser = (userID) => {
+  const [createBusinessUserFn] = useMutation(CREATE_BUSINESS_USER);
+  const [createClientUserFn] = useMutation(CREATE_CLIENT_USER);
   const [updateUserFn, updateUserHpr] = useMutation(UPDATE_USER);
   const [updateClientFn, updateClientHrp] = useMutation(UPDATE_CLIENT);
   const [findUserFn, findUserHpr] = useLazyQuery(FIND_USER);
 
   const [user, setUser] = useState(null);
+  const [userId, setUserId] = useState(null);
 
-  const findUser = () => {
+  const findUser = (userId) => {
     findUserFn({ variables: { id: Number(userId) } });
   };
 
   useEffect(() => {
-    if (!userId) return;
-    findUser(userId);
-  }, [userId]);
+    const lsUserId = localStorage.getItem("userId");
+    if (lsUserId) setUserId(lsUserId);
+  }, []);
+
+  useEffect(() => {
+    if (userID) findUser(userID);
+    if (userId) findUser(userId);
+  }, [userId, userID]);
 
   useEffect(() => {
     if (!findUserHpr.called) return;
@@ -40,10 +44,11 @@ const useUser = (userId) => {
     setUser(user);
   }, [findUserHpr]);
 
-  const createBusinessUser = (data) => {
-    createBusinessUserFn({
+  const createBusinessUser = async (data) => {
+    const response = await createBusinessUserFn({
       variables: { input: { attributes: data } },
     });
+    return response.data.createBusinessUser.user;
   };
 
   const createClientUser = async (data) => {
@@ -64,6 +69,7 @@ const useUser = (userId) => {
       },
     });
   };
+
   const updateClient = (data) => {
     updateClientFn({
       // TODO: remove this after handling name
@@ -76,12 +82,31 @@ const useUser = (userId) => {
     });
   };
 
+  const getSession = async ({ email, password }) => {
+    const userData = {
+      email,
+      password,
+    };
+    const response = await fetch(
+      "https://allyner-api-dev.herokuapp.com/users/sign_in",
+      {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      }
+    );
+  };
+
   return {
     createBusinessUser,
     createClientUser,
     user,
     updateUser,
     updateClient,
+    getSession,
   };
 };
 

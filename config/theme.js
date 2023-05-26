@@ -167,6 +167,23 @@ const theme = () => {
         },
       },
 
+      MuiChip: {
+        styleOverrides: {
+          filledSuccess: {
+            background: "#DAF1DB",
+            color: "#0F5112",
+          },
+          filledError: {
+            background: "#FAE8E8",
+            color: "#FF0000",
+          },
+          filledPrimary: {
+            background: "#D6E2FF",
+            color: "#3C64C5",
+          },
+        },
+      },
+
       MuiInputBase: {
         styleOverrides: {
           root: {

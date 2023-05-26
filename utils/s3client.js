@@ -2,8 +2,8 @@ import { S3, PutObjectCommand } from "@aws-sdk/client-s3";
 
 const s3Client = new S3({
   forcePathStyle: false,
-  endpoint: "https://sfo3.digitaloceanspaces.com",
-  region: "sfo3",
+  endpoint: "https://fra1.digitaloceanspaces.com",
+  region: "fra1",
   credentials: {
     accessKeyId: "RXSUX7MWQC66W6VZNNJB",
     secretAccessKey: "whOoAANvdHCx9sFhW2Cyh0IfooJReCSUv+DoG/Pmx9M",
@@ -15,9 +15,9 @@ export const uploadFile = async (bucketParams) => {
     await s3Client.send(
       new PutObjectCommand({ ...bucketParams, ACL: "public-read" })
     );
-    const fileUrl = `https://${bucketParams.Bucket}.sfo3.digitaloceanspaces.com/${bucketParams.Key}`;
+    const fileUrl = `https://${bucketParams.Bucket}.fra1.digitaloceanspaces.com/${bucketParams.Key}`;
     return fileUrl;
   } catch (err) {
-    console.log("Error", err);
+    console.log("Error ->", err);
   }
 };

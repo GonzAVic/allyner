@@ -52,9 +52,7 @@ const Page = () => {
   };
 
   const handleDuplicateQuestion = (index) => {
-    console.log("-> index: ", index);
     const questionToDuplicate = formik.values.questions[index];
-    console.log("-> questionToDuplicate: ", questionToDuplicate);
     formik.setFieldValue("questions", [
       ...formik.values.questions,
       questionToDuplicate,
