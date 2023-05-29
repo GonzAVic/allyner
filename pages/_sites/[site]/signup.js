@@ -11,11 +11,11 @@ import { ClientContext } from "contexts/ClientContext";
 const Page = () => {
   const { businessRepo } = useContext(ClientContext);
   const { business } = businessRepo;
-  const { createClientUser } = useUser(3);
+  const { createClientUser } = useUser();
 
   const handleSubmit = async (data) => {
     console.log("-> data: ", data);
-    // if (!business || !business.id) return;
+    if (!business || !business.id) return;
     const userData = {
       email: "r92@example.com",
       password: "3N@1234",

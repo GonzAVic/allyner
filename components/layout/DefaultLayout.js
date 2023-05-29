@@ -28,6 +28,7 @@ import ClientSidebar from "components/layout/ClientSidebar";
 // OTHER
 import { diffBanner as diffBannerFn } from "utils/utils";
 import { BusinessContext } from "contexts/BusinessContext";
+import { ClientContext } from "contexts/ClientContext";
 
 const DefaultLayout = ({
   children,
@@ -42,7 +43,9 @@ const DefaultLayout = ({
 }) => {
   const router = useRouter();
 
-  const { userRepo } = useContext(BusinessContext);
+  const currentContext =
+    userType === "client" ? ClientContext : BusinessContext;
+  const { userRepo } = useContext(currentContext);
   const { user } = userRepo;
 
   const isResponsive = useMediaQuery("(max-width:978px)");
@@ -74,6 +77,8 @@ const DefaultLayout = ({
     if (cta.href) ctaProps.href = cta.href;
     if (cta.variant) ctaProps.variant = cta.variant;
   }
+
+  console.log('-> user: ', user)
 
   return (
     <Container>

@@ -56,7 +56,12 @@ const useBusiness = (businessId) => {
 
   const updateBusiness = (data) => {
     updateBusinessFn({
-      variables: { input: { attributes: data, id: Number(businessId) } },
+      variables: {
+        input: {
+          attributes: { ...data, subDomain: "pedro" },
+          id: Number(businessId),
+        },
+      },
     });
   };
 

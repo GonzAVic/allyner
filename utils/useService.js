@@ -9,6 +9,8 @@ import {
   DELETE_SERVICE,
 } from "graphql/apiql";
 
+import { getFileUrl } from "utils/utils";
+
 const useService = (serviceId, options = {}) => {
   const router = useRouter();
 
@@ -22,11 +24,12 @@ const useService = (serviceId, options = {}) => {
   useEffect(() => {
     if (!serviceId) return;
     if (serviceId === "new") return;
+    const variables = {
+      id: Number(serviceId),
+    };
 
     getServiceFn({
-      variables: {
-        id: Number(serviceId),
-      },
+      variables: variables,
     });
   }, [serviceId]);
 
@@ -35,6 +38,7 @@ const useService = (serviceId, options = {}) => {
     if (!getServiceFnHpr.data) return;
 
     const service_ = getServiceFnHpr.data.findService;
+    service_.cover = getFileUrl(service_.cover);
     setService(service_);
   }, [getServiceFnHpr]);
 

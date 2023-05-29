@@ -7,7 +7,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "allyner-1.sfo3.digitaloceanspaces.com",
+        hostname: "allyner-dev.sfo3.digitaloceanspaces.com",
       },
       {
         protocol: "https",

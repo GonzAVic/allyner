@@ -14,6 +14,7 @@ import FileCard from "components/FileCard";
 import { AppContext } from "contexts/AppContext";
 import useUser from "utils/useUser";
 import { timezones } from "utils/constants";
+import { getFileUrl } from "utils/utils";
 
 const Page = () => {
   const { sessionRepo } = useContext(AppContext);
@@ -37,7 +38,11 @@ const Page = () => {
   });
 
   const handleProfilePictureChange = (profilePictureUrl) => {
-    formik.setFieldValue("profilePicture", profilePictureUrl);
+    if (!profilePictureUrl) {
+      formik.setFieldValue("profilePicture", null);
+      return;
+    }
+    formik.setFieldValue("profilePicture", getFileUrl(profilePictureUrl));
   };
 
   if (!user) return;

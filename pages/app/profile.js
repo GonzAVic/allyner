@@ -12,12 +12,14 @@ import FileCard from "components/FileCard";
 
 // OTHER
 import useUser from "utils/useUser";
+import { getFileUrl } from "utils/utils";
 import { BusinessContext } from "contexts/BusinessContext";
 
 const Page = () => {
   const { user, updateUser } = useUser(3);
   const { businessRepo } = useContext(BusinessContext);
   const { business } = businessRepo;
+  console.log('-> business: ', business)
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -35,7 +37,7 @@ const Page = () => {
   });
 
   const handleProfilePictureChange = (profilePictureUrl) => {
-    formik.setFieldValue("profilePicture", profilePictureUrl);
+    formik.setFieldValue("profilePicture", getFileUrl(profilePictureUrl));
   };
 
   if (!user) return;

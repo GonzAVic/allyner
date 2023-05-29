@@ -10,6 +10,8 @@ import {
   UPDATE_CLIENT,
 } from "graphql/apiql";
 
+import { getFileUrl } from "utils/utils";
+
 const useUser = (userID) => {
   const [createBusinessUserFn] = useMutation(CREATE_BUSINESS_USER);
   const [createClientUserFn] = useMutation(CREATE_CLIENT_USER);
@@ -31,7 +33,7 @@ const useUser = (userID) => {
 
   useEffect(() => {
     if (userID) findUser(userID);
-    if (userId) findUser(userId);
+    else if (userId) findUser(userId);
   }, [userId, userID]);
 
   useEffect(() => {
@@ -41,8 +43,16 @@ const useUser = (userID) => {
     const user = findUserHpr.data.findUser;
     const userCreatedAt = new Date(user.createdAt);
     user.createdAt = `${userCreatedAt.getDate()}/${userCreatedAt.getMonth()}/${userCreatedAt.getFullYear()}`;
+    user.profilePicture = getFileUrl(user.profilePicture);
     setUser(user);
   }, [findUserHpr]);
+
+  useEffect(() => {
+    if (!updateUserHpr.called) return;
+    if (!updateUserHpr.data) return;
+
+    location.reload();
+  }, [updateUserHpr]);
 
   const createBusinessUser = async (data) => {
     const response = await createBusinessUserFn({
@@ -98,6 +108,12 @@ const useUser = (userID) => {
         body: JSON.stringify(userData),
       }
     );
+    const jsonData = await response.json();
+    localStorage.setItem("access-token", jsonData["access-token"]);
+    localStorage.setItem("uid", jsonData["uid"]);
+    localStorage.setItem("clientId", jsonData["client"]);
+    localStorage.setItem("userId", jsonData.user.id);
+    return jsonData;
   };
 
   return {

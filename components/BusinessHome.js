@@ -42,7 +42,6 @@ const BusinessHome = ({ isResponsive }) => {
           </Typography>
           <ServiceList isResponsive={isResponsive}>
             {services.map((s, index) => {
-              console.log("-> s: ", s);
               if (s.isActive) {
                 return (
                   <ServiceCard key={index} service={s} userType="client" />

@@ -8,9 +8,8 @@ import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutl
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 // OTHER
-import { uploadFile } from "utils/s3client";
 import { AppContext } from "contexts/AppContext";
-import { createBucketObject } from "utils/utils";
+import { createBucketObject, uploadFile } from "utils/utils";
 
 const Uploader = ({
   multiple = false,
@@ -35,11 +34,15 @@ const Uploader = ({
       }
 
       const onCta = async (data) => {
-        const newFile = await convertToFile(data, file);
+        try {
+          const newFile = await convertToFile(data, file);
+          const fileData = await uploadFile(newFile);
+          console.log("-> fileData: ", fileData);
 
-        const fileParams = createBucketObject(newFile);
-        const fileUrl = await uploadFile(fileParams);
-        onUploadedFinished(fileUrl);
+          onUploadedFinished(fileData.url);
+        } catch (error) {
+          console.log("->>>>> error: ", error);
+        }
       };
 
       modalRepo.open("CropImage", {

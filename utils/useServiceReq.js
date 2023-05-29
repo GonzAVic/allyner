@@ -52,7 +52,7 @@ const useServiceReq = (serviceReqId) => {
         userId,
       },
     });
-
+    if (response_.error) return [];
     const response = response_.data.listUserServiceRequests.map((sr) => {
       return serviceReqAdapter(sr);
     });
