@@ -11,21 +11,19 @@ import Uploader from "components/Uploader";
 import FileCard from "components/FileCard";
 
 // OTHER
-import useUser from "utils/useUser";
 import { getFileUrl } from "utils/utils";
 import { BusinessContext } from "contexts/BusinessContext";
 
 const Page = () => {
-  const { user, updateUser } = useUser(3);
-  const { businessRepo } = useContext(BusinessContext);
+  const { businessRepo, userRepo } = useContext(BusinessContext);
+  const { user, updateUser } = userRepo;
   const { business } = businessRepo;
-  console.log('-> business: ', business)
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      firstName: user?.firstName,
-      lastName: user?.lastName,
+      firstname: user?.firstname,
+      lastname: user?.lastname,
       email: user?.email,
       phoneNumber: user?.phoneNumber,
       profilePicture: user?.profilePicture,
@@ -49,14 +47,14 @@ const Page = () => {
       <Box className="card" sx={{ mb: 5 }}>
         <Typography variant="subtitle1">Name</Typography>
         <TextField
-          name="firstName"
-          value={formik.values.firstName}
+          name="firstname"
+          value={formik.values.firstname}
           onChange={formik.handleChange}
         />
         <Typography variant="subtitle1">Last Name</Typography>
         <TextField
-          name="lastName"
-          value={formik.values.lastName}
+          name="lastname"
+          value={formik.values.lastname}
           onChange={formik.handleChange}
         />
         <Typography variant="subtitle1">Email</Typography>

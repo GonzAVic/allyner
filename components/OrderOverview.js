@@ -27,8 +27,8 @@ const OderOverview = ({ userType }) => {
   const businessRepo = userType === "client" ? cBusinessRepo : bBusinessRepo;
   const { business } = businessRepo;
 
-  const steps = business?.additionalSettings.serviceStatuses
-    ? concatStatuses(business.additionalSettings.serviceStatuses)
+  const steps = business?.additionalData.serviceStatuses
+    ? concatStatuses(business.additionalData.serviceStatuses)
     : [];
 
   if (!serviceReq) return "Loading serviceReq";
@@ -45,7 +45,11 @@ const OderOverview = ({ userType }) => {
         { text: "Cancel Order", fn: () => modalRepo.open("CancelOrder") },
       ]}
     >
-      <Stepper activeStep={0} alternativeLabel sx={{ mb: 3 }}>
+      <Stepper
+        activeStep={steps.indexOf(serviceReq.status)}
+        alternativeLabel
+        sx={{ mb: 3 }}
+      >
         {steps.map((label) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>

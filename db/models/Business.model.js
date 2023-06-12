@@ -1,27 +1,40 @@
 import mongoose from "mongoose";
 
-const BusinessSchema = new mongoose.Schema({
-  name: {
-    type: String,
+const BusinessSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    logo: {
+      type: String,
+    },
+    location: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
+    currency: {
+      type: String,
+    },
+    timezone: {
+      type: String,
+    },
+    industry: {
+      type: String,
+      required: true,
+    },
+    additionalData: {
+      type: String,
+      required: true,
+      default: "{}",
+    },
   },
-  industry: {
-    type: String,
-  },
-  additionalData: {
-    type: String,
-    required: true,
-    default: "{}",
-  },
-
-  // owner: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   required: true,
-  //   ref: "User",
-  // },
-});
-
-const Business = mongoose.model("business", BusinessSchema);
-module.exports = Business;
+  {
+    timestamps: true,
+  }
+);
 
 mongoose.models = {};
 module.exports =

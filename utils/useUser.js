@@ -12,7 +12,7 @@ import {
 
 import { getFileUrl } from "utils/utils";
 
-const useUser = (userID) => {
+const useUser = (userId) => {
   const [createBusinessUserFn] = useMutation(CREATE_BUSINESS_USER);
   const [createClientUserFn] = useMutation(CREATE_CLIENT_USER);
   const [updateUserFn, updateUserHpr] = useMutation(UPDATE_USER);
@@ -20,21 +20,15 @@ const useUser = (userID) => {
   const [findUserFn, findUserHpr] = useLazyQuery(FIND_USER);
 
   const [user, setUser] = useState(null);
-  const [userId, setUserId] = useState(null);
 
-  const findUser = (userId) => {
-    findUserFn({ variables: { id: Number(userId) } });
+  const findUser = () => {
+    findUserFn({ variables: { userId } });
   };
 
   useEffect(() => {
-    const lsUserId = localStorage.getItem("userId");
-    if (lsUserId) setUserId(lsUserId);
-  }, []);
-
-  useEffect(() => {
-    if (userID) findUser(userID);
-    else if (userId) findUser(userId);
-  }, [userId, userID]);
+    if (!userId) return;
+    findUser();
+  }, [userId]);
 
   useEffect(() => {
     if (!findUserHpr.called) return;
@@ -70,12 +64,9 @@ const useUser = (userID) => {
 
   const updateUser = (data) => {
     updateUserFn({
-      // TODO: remove this after handling name
       variables: {
-        input: {
-          attributes: { ...data, lastName: "lastname value" },
-          id: Number(userId),
-        },
+        input: data,
+        userId,
       },
     });
   };

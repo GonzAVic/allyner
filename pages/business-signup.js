@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useFormik } from "formik";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 import * as yup from "yup";
 
 // MATERIAL UI
@@ -18,8 +20,6 @@ import {
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
 // OTHER
-import useBusiness from "utils/useBusiness";
-import useUser from "utils/useUser";
 import Asset1 from "assets/asset-1.svg";
 import Asset2 from "assets/asset-2.svg";
 import Asset3 from "assets/asset-3.svg";
@@ -28,8 +28,8 @@ import AllynerLogo from "assets/allyner-logo.svg";
 import { industries } from "utils/constants";
 
 const BusinessSignup = () => {
-  const { createBusiness } = useBusiness();
-  const { createBusinessUser, getSession } = useUser();
+  const router = useRouter();
+
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const formik = useFormik({
@@ -44,30 +44,27 @@ const BusinessSignup = () => {
     },
     validationSchema: createSignupSchema(),
     onSubmit: async (values) => {
-      const newBusiness = await createBusiness({
-        name: values.companyName,
-        subDomain: values.companyName,
-      });
-      if (
-        !newBusiness.data ||
-        !newBusiness.data.createBusiness ||
-        !newBusiness.data.createBusiness.business
-      )
-        return;
-      const businessUser = await createBusinessUser({
-        firstName: values.firstName,
-        lastName: "string",
+      const userData = {
+        firstname: values.firstName,
+        lastname: values.lastName,
         email: values.email,
-        password: values.password,
-        businessId: newBusiness.data.createBusiness.business.id,
+        userType: "BUSINESS",
+      };
+
+      const businessData = {
+        name: values.companyName,
+        industry: values.industry,
+      };
+
+      const res = await signIn("credentials", {
+        redirect: false,
+        email: JSON.stringify({ userData, businessData }),
+        password: "---",
+        callbackUrl: `${window.location.origin}/app`,
       });
-
-      const sessionData = await getSession({ email: values.email, password: values.password });
-      console.log('-> sessionData: ', sessionData)
-
-      localStorage.setItem("userId", businessUser.id);
-      // localStorage.setItem("userId", businessUser.id);
-      // TODO: Store the token
+      if (!res.error) {
+        router.push(res.url);
+      }
     },
   });
 

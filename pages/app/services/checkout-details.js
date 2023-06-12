@@ -32,17 +32,17 @@ const Page = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      headline: business?.additionalSettings.checkoutHeadline,
-      message: business?.additionalSettings.checkoutMessage,
+      headline: business?.additionalData.checkoutHeadline,
+      message: business?.additionalData.checkoutMessage,
       checkoutAdditionalInfo: business
-        ? business.additionalSettings.checkoutAdditionalInfo || []
+        ? business.additionalData.checkoutAdditionalInfo || []
         : [],
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
       const attributes = {
-        additionalSettings: JSON.stringify({
-          ...business.additionalSettings,
+        additionalData: JSON.stringify({
+          ...business.additionalData,
           checkoutHeadline: values.headline,
           checkoutMessage: values.message,
           checkoutAdditionalInfo: values.checkoutAdditionalInfo,
@@ -62,10 +62,12 @@ const Page = () => {
   };
 
   const handleAddFieldBtnClick = (event) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
+    console.log("-> handleClose");
     setAnchorEl(null);
   };
 
@@ -87,7 +89,6 @@ const Page = () => {
 
   const handleDuplicate = (index) => {
     const questionToDuplicate = formik.values.checkoutAdditionalInfo[index];
-    console.log("-> questionToDuplicate: ", questionToDuplicate);
     formik.setFieldValue("checkoutAdditionalInfo", [
       ...formik.values.checkoutAdditionalInfo,
       questionToDuplicate,

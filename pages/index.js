@@ -1,12 +1,8 @@
-import React, { useState } from "react";
-import { useSession, signIn, signOut } from "next-auth/react";
+import React from "react";
+import { signIn, signOut } from "next-auth/react";
 
 // MATERIAL UI
-import { styled } from "@mui/system";
 import { Button } from "@mui/material";
-
-// COMPONENTS
-import DefaultLayout from "components/layout/DefaultLayout";
 
 const EMAIL = "r9qq2sdasdweqwedasda@example.com";
 
@@ -54,13 +50,31 @@ export default function Home() {
     );
   };
 
+  const nextAuthSignin = async () => {
+    const credentialsPayload = {
+      email: "victor@gmail.com",
+      password: "123456",
+      businessId: "56cb91bdc3464f14678934ca",
+    };
+    const res = await signIn("credentials", {
+      redirect: false,
+      email: JSON.stringify(credentialsPayload),
+      password: "---",
+      callbackUrl: `${window.location.origin}`,
+    });
+    console.log("-> res: ", res);
+  };
+
   return (
     <div>
       <Button variant="secondary" onClick={() => handleSubmit()}>
         Sign up
       </Button>
-      <Button variant="secondary" onClick={() => pedro()}>
+      <Button variant="secondary" onClick={pedro}>
         Sign in
+      </Button>
+      <Button variant="secondary" onClick={signOut}>
+        Sign out
       </Button>
     </div>
   );

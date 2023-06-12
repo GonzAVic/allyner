@@ -31,10 +31,10 @@ const Page = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      questions: service ? service.questionsInfo : [],
+      questions: service ? service.questionnaire : [],
     },
     onSubmit: (values) => {
-      updateService({ questionsInfo: values.questions });
+      updateService({ questionnaire: values.questions });
     },
   });
 

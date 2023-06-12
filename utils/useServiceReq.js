@@ -3,42 +3,52 @@ import { useLazyQuery, useMutation } from "@apollo/client";
 
 // OTHER
 import {
-  FIND_SERVICE_REQUEST,
-  CREATE_SERVICE_REQUEST,
+  FIND_ORDER,
+  CREATE_ORDER,
   FIND_CLIENT_SERVICE_REQS,
-  FIND_BUSINESS_SERVICE_REQS,
-  UPDATE_SERVICE_REQ,
+  FIND_BUSINESS_ORDERS,
+  UPDATE_ORDER,
 } from "graphql/apiql";
 import { serviceReqAdapter } from "./adapters";
 
-const useServiceReq = (serviceReqId) => {
-  const [findServiceReqFn, findServiceReqHpr] =
-    useLazyQuery(FIND_SERVICE_REQUEST);
-  const [createServiceReqFn] = useMutation(CREATE_SERVICE_REQUEST);
-  const [updateServiceReqFn] = useMutation(UPDATE_SERVICE_REQ);
+const useServiceReq = (orderId, options) => {
+  const [findOrderFn, findOrderHpr] = useLazyQuery(FIND_ORDER);
+  const [createOrderFn] = useMutation(CREATE_ORDER);
+  const [updateOrderFn, updateOrderHpr] = useMutation(UPDATE_ORDER);
   const [findClientServiceReqsFn] = useLazyQuery(FIND_CLIENT_SERVICE_REQS);
-  const [findBusinessServiceReqsFn] = useLazyQuery(FIND_BUSINESS_SERVICE_REQS);
+  const [findBusinessOrdersFn] = useLazyQuery(FIND_BUSINESS_ORDERS);
 
   const [serviceReq, setServiceReq] = useState(null);
 
   useEffect(() => {
-    if (!serviceReqId) return;
+    if (!orderId) return;
 
-    findServiceReqFn({ variables: { id: Number(serviceReqId) } });
-  }, [serviceReqId]);
+    findOrderFn({ variables: { orderId } });
+  }, [orderId]);
 
   useEffect(() => {
-    if (!findServiceReqHpr.called) return;
-    if (!findServiceReqHpr.data) return;
+    if (!findOrderHpr.called) return;
+    if (!findOrderHpr.data) return;
 
-    setServiceReq(serviceReqAdapter(findServiceReqHpr.data.findServiceRequest));
-  }, [findServiceReqHpr]);
+    setServiceReq(serviceReqAdapter(findOrderHpr.data.findOrder));
+  }, [findOrderHpr]);
+
+  useEffect(() => {
+    if (!updateOrderHpr.called) return;
+    if (!updateOrderHpr.data) return;
+
+    setTimeout(() => {
+      location.reload();
+    }, 200);
+  }, [updateOrderHpr]);
 
   const createServiceReq = async (data) => {
-    const response = await createServiceReqFn({
-      variables: { input: { attributes: data } },
+    if (data.additionalInfo)
+      data.additionalInfo = JSON.stringify(data.additionalInfo);
+    const response = await createOrderFn({
+      variables: { input: { ...data, businessId: "6483b8c176172f4cb7a5d9df" } },
     });
-    return response.data.createServiceRequest.serviceRequest;
+    return response.data.createOrder;
   };
 
   const findClientServiceReqs = async (businessId, userId) => {
@@ -60,32 +70,27 @@ const useServiceReq = (serviceReqId) => {
     return response;
   };
 
-  const findBusinessServiceReqs = async (businessId) => {
-    const response_ = await findBusinessServiceReqsFn({
+  const findBusinessOrders = async () => {
+    const response_ = await findBusinessOrdersFn({
       variables: {
-        businessId,
+        businessId: options.businessId,
       },
     });
 
-    const response = response_.data.businessServiceRequests.map((sr) => {
+    if (response_.error) return [];
+
+    const response = response_.data.findBusinessOrders.map((sr) => {
       return serviceReqAdapter(sr);
     });
 
     return response;
   };
 
-  const updateServiceReq = async (data, serviceReqId, businessId) => {
-    const response = await updateServiceReqFn({
+  const updateOrder = async (data, orderId) => {
+    const response = await updateOrderFn({
       variables: {
-        input: {
-          attributes: {
-            businessId: Number(businessId),
-            surveyId: 1,
-            orderStatusId: 2,
-            ...data,
-          },
-          id: serviceReqId,
-        },
+        input: data,
+        orderId,
       },
     });
 
@@ -96,8 +101,8 @@ const useServiceReq = (serviceReqId) => {
     serviceReq,
     createServiceReq,
     findClientServiceReqs,
-    findBusinessServiceReqs,
-    updateServiceReq,
+    findBusinessOrders,
+    updateOrder,
   };
 };
 

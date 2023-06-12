@@ -2,25 +2,35 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import connectDb from "db/config/index";
+import User from "db/models/User.model";
+import Business from "db/models/Business.model";
 
 export const authOptions = {
   secret: "process.env.JWT_SECRET",
   providers: [
     CredentialsProvider({
       name: "Credentials",
-      credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials, req) {
-        console.log("-> credentials: ", credentials);
+      async authorize(cred, req) {
+        const signupData = JSON.parse(cred.email);
+        const { userData, businessData } = signupData;
         await connectDb();
-        // Add logic here to look up the user from the credentials supplied
-        const user = { id: "1", name: "J Smith", email: "jsmith@example.com" };
+
+        let user = await User.findOne({ email: userData.email });
+
+        if (!user) {
+          const business = await new Business(businessData);
+          business.save();
+          user = await new User({ ...userData, businessId: business.id });
+          user.save();
+        }
 
         if (user) {
-          // Any object returned will be saved in `user` property of the JWT
-          return user;
+          const userData = {
+            email: user.email,
+            name: user.firstname,
+            id: user.id,
+          };
+          return userData;
         } else {
           // If you return null then an error will be displayed advising the user to check their details.
           return null;
@@ -30,12 +40,6 @@ export const authOptions = {
       },
     }),
   ],
-  // events: {
-  //   async signIn(props) {
-  //     await connectDb();
-  //     const { user, account, profile } = props;
-  //   },
-  // },
   callbacks: {
     async jwt({ token, user, account }) {
       if (account && user) {
@@ -43,16 +47,19 @@ export const authOptions = {
           ...token,
           accessToken: user.token,
           refreshToken: user.refreshToken,
+          user,
         };
       }
 
       return token;
     },
 
-    async session({ session, token }) {
+    async session(data) {
+      const { session, token } = data;
       session.user.accessToken = token.accessToken;
       session.user.refreshToken = token.refreshToken;
       session.user.accessTokenExpires = token.accessTokenExpires;
+      session.user = token.user;
 
       return session;
     },

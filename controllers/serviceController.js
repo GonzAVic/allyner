@@ -4,10 +4,7 @@ const createService = async (_, args) => {
   try {
     let { input } = args;
 
-    const service = await new Service({
-      ...input,
-      businesssssId: "6413c7297fbdc9ad02f44f7d",
-    });
+    const service = await new Service(input);
     service.save();
 
     return service;
@@ -30,7 +27,7 @@ const updateService = async (_, args) => {
   }
 };
 
-const getService = async (_, args) => {
+const findService = async (_, args) => {
   try {
     let { serviceId } = args;
     const service = await Service.findById(serviceId);
@@ -41,7 +38,7 @@ const getService = async (_, args) => {
 };
 
 const queries = {
-  getService,
+  findService,
 };
 
 const mutations = {

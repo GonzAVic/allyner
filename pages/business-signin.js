@@ -1,4 +1,7 @@
+import { useEffect } from "react";
 import { useFormik } from "formik";
+import { useRouter } from "next/router";
+import { signIn, useSession } from "next-auth/react";
 import * as yup from "yup";
 
 // MATERIAL UI
@@ -13,6 +16,15 @@ import Asset4 from "assets/asset-4.svg";
 import AllynerLogo from "assets/allyner-logo.svg";
 
 const BusinessSignin = () => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log("-> status: ", status);
+    if (status === "authenticated")
+      router.push(`${window.location.origin}/app`);
+  }, [status]);
+
   const formik = useFormik({
     validateOnChange: false,
     initialValues: {
@@ -20,8 +32,18 @@ const BusinessSignin = () => {
       password: "",
     },
     validationSchema: createSigninSchema(),
-    onSubmit: (values) => {
-      console.log("-> values: ", values);
+    onSubmit: async (values) => {
+      const userData = {
+        email: values.email,
+        password: values.password,
+      };
+
+      const res = await signIn("credentials", {
+        redirect: false,
+        email: JSON.stringify({ userData }),
+        password: "---",
+        callbackUrl: `${window.location.origin}/app`,
+      });
     },
   });
 

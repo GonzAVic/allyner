@@ -31,7 +31,38 @@ export default function App({
   const router = useRouter();
 
   const modalRepo = useModalRepo();
+  // TODO: Remove this session Repo
   const sessionRepo = useSession();
+
+  console.log("-> router.pathname: ", router.pathname);
+
+  const renderView = () => {
+    if (router.route.includes("/app")) {
+      return (
+        <BusinessApplication>
+          <Component {...pageProps} />
+          {Boolean(modalRepo.currentModal) &&
+            React.cloneElement(modalRepo.currentModal, modalRepo.ctx)}
+        </BusinessApplication>
+      );
+    } else if (noSessionViews.includes(router.pathname)) {
+      return (
+        <>
+          <Component {...pageProps} />
+          {Boolean(modalRepo.currentModal) &&
+            React.cloneElement(modalRepo.currentModal, modalRepo.ctx)}
+        </>
+      );
+    } else {
+      return (
+        <ClientApplication>
+          <Component {...pageProps} />
+          {Boolean(modalRepo.currentModal) &&
+            React.cloneElement(modalRepo.currentModal, modalRepo.ctx)}
+        </ClientApplication>
+      );
+    }
+  };
 
   const contextObject = { modalRepo, sessionRepo };
   return (
@@ -44,20 +75,7 @@ export default function App({
           <ThemeProvider theme={theme()}>
             <AppContext.Provider value={contextObject}>
               <CssBaseline />
-
-              {router.route.includes("/app") ? (
-                <BusinessApplication>
-                  <Component {...pageProps} />
-                  {Boolean(modalRepo.currentModal) &&
-                    React.cloneElement(modalRepo.currentModal, modalRepo.ctx)}
-                </BusinessApplication>
-              ) : (
-                <ClientApplication>
-                  <Component {...pageProps} />
-                  {Boolean(modalRepo.currentModal) &&
-                    React.cloneElement(modalRepo.currentModal, modalRepo.ctx)}
-                </ClientApplication>
-              )}
+              {renderView()}
             </AppContext.Provider>
           </ThemeProvider>
         </LocalizationProvider>
@@ -65,3 +83,11 @@ export default function App({
     </SessionProvider>
   );
 }
+
+const noSessionViews = [
+  "/_sites/[site]/signin",
+  "/_sites/[site]/signup",
+  "/_sites/[site]/services/[serviceId]",
+  "/business-signup",
+  "/business-signin",
+];

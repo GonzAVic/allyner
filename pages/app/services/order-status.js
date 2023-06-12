@@ -22,9 +22,9 @@ import useServiceReq from "utils/useServiceReq";
 import { BusinessContext } from "contexts/BusinessContext";
 
 const Page = () => {
-  const { businessRepo } = useContext(BusinessContext);
+  const { businessRepo, orderRepo } = useContext(BusinessContext);
   const { business, updateBusiness } = businessRepo;
-  const { findBusinessServiceReqs } = useServiceReq();
+  const { findBusinessOrders } = orderRepo;
 
   const [serviceReqs, setServiceReqs] = useState([]);
   const [statuses, setStatuses] = useState(null);
@@ -38,8 +38,8 @@ const Page = () => {
     onSubmit: (values) => {
       const serviceStatuses_ = values.statuses.map((s) => s.label);
       const attributes = {
-        additionalSettings: JSON.stringify({
-          ...business.additionalSettings,
+        additionalData: JSON.stringify({
+          ...business.additionalData,
           serviceStatuses: serviceStatuses_,
         }),
       };
@@ -49,7 +49,7 @@ const Page = () => {
 
   useEffect(() => {
     const onMount = async () => {
-      const response = await findBusinessServiceReqs(2);
+      const response = await findBusinessOrders();
       setServiceReqs(response);
     };
     onMount();
@@ -57,7 +57,7 @@ const Page = () => {
 
   useEffect(() => {
     if (!business) return;
-    const serviceStatuses_ = business.additionalSettings.serviceStatuses || [];
+    const serviceStatuses_ = business.additionalData.serviceStatuses || [];
     const serviceStatuses = serviceStatuses_.map((ss) => ({
       id: String(Math.random()),
       label: ss,

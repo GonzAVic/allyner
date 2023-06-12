@@ -1,22 +1,8 @@
 import Business from "db/models/Business.model";
 
-const getBusiness = async (_, args) => {
-  try {
-    let { businessId } = args;
-
-    const business = await Business.findById(businessId);
-
-    return business;
-  } catch (error) {
-    return error;
-  }
-};
-
 const createBusiness = async (_, args) => {
   try {
     let { input } = args;
-
-    console.log("-> input: ", input);
 
     const business = await new Business(input);
     business.save();
@@ -27,11 +13,39 @@ const createBusiness = async (_, args) => {
   }
 };
 
-const queries = {
-  getBusiness,
+const updateBusiness = async (_, args) => {
+  try {
+    let { input, businessId } = args;
+
+    const business = await Business.findOneAndUpdate(
+      { _id: businessId },
+      input,
+      {
+        new: true,
+      }
+    );
+
+    return business;
+  } catch (error) {
+    return error;
+  }
 };
 
-const mutations = { createBusiness };
+const findBusiness = async (_, args) => {
+  try {
+    let { businessId } = args;
+    const business = await Business.findById(businessId);
+    return business;
+  } catch (error) {
+    return error;
+  }
+};
+
+const queries = {
+  findBusiness,
+};
+
+const mutations = { createBusiness, updateBusiness };
 
 module.exports = {
   queries,

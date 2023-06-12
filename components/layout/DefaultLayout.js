@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 
 // MATERIAL UI
@@ -78,8 +79,6 @@ const DefaultLayout = ({
     if (cta.variant) ctaProps.variant = cta.variant;
   }
 
-  console.log('-> user: ', user)
-
   return (
     <Container>
       {userType === "client" ? (
@@ -128,7 +127,11 @@ const DefaultLayout = ({
                   <PersonOutlineOutlinedIcon sx={{ mr: 1 }} /> Profile
                 </Typography>
               </MenuItem>
-              <MenuItem onClick={() => {}}>
+              <MenuItem
+                onClick={() =>
+                  signOut({ redirect: true, callbackUrl: "/business-signin" })
+                }
+              >
                 <Typography
                   color="text.secondary"
                   sx={{

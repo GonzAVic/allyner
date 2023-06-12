@@ -25,7 +25,7 @@ const useService = (serviceId, options = {}) => {
     if (!serviceId) return;
     if (serviceId === "new") return;
     const variables = {
-      id: Number(serviceId),
+      serviceId: serviceId,
     };
 
     getServiceFn({
@@ -38,6 +38,7 @@ const useService = (serviceId, options = {}) => {
     if (!getServiceFnHpr.data) return;
 
     const service_ = getServiceFnHpr.data.findService;
+    service_.questionnaire = JSON.parse(service_.questionnaire);
     service_.cover = getFileUrl(service_.cover);
     setService(service_);
   }, [getServiceFnHpr]);
@@ -53,7 +54,7 @@ const useService = (serviceId, options = {}) => {
     if (!createServiceHpr.called) return;
     if (!createServiceHpr.data) return;
 
-    const service = createServiceHpr.data.createService.service;
+    const service = createServiceHpr.data.createService;
     router.push({
       pathname: `/app/services/details`,
       query: { id: service.id },
@@ -64,15 +65,13 @@ const useService = (serviceId, options = {}) => {
   }, [createServiceHpr]);
 
   const updateService = async (data) => {
+    if (data.questionnaire) {
+      data.questionnaire = JSON.stringify(data.questionnaire);
+    }
     const response = updateServiceFn({
       variables: {
-        input: {
-          id: serviceId,
-          attributes: {
-            ...data,
-            businessId: Number(options.businessId),
-          },
-        },
+        input: data,
+        serviceId,
       },
     });
     return response;
@@ -81,15 +80,12 @@ const useService = (serviceId, options = {}) => {
   const createService = (data) => {
     createServiceFn({
       variables: {
-        input: {
-          attributes: { ...data, businessId: Number(options.businessId) },
-        },
+        input: { ...data, businessId: options.businessId },
       },
     });
   };
 
   const deleteService = async (serviceId) => {
-    console.log("-> serviceId: ", serviceId);
     const response = await deleteServiceFn({
       variables: { input: { id: serviceId } },
     });

@@ -7,8 +7,11 @@ import connectDB from "db/config/index";
 // CONTROLLERS
 import businessController from "controllers/businessController";
 import serviceController from "controllers/serviceController";
+import orderController from "controllers/orderController";
+import userController from "controllers/userController";
 
 // Models
+import Service from "db/models/Service.model";
 
 connectDB();
 
@@ -18,10 +21,23 @@ const resolvers = {
   Query: {
     ...businessController.queries,
     ...serviceController.queries,
+    ...orderController.queries,
+    ...userController.queries,
   },
   Mutation: {
     ...serviceController.mutations,
     ...businessController.mutations,
+    ...orderController.mutations,
+    ...userController.mutations,
+  },
+
+  Business: {
+    services: async (parent) => {
+      const services = await Service.find({
+        businessId: { $in: parent.id },
+      });
+      return services || [];
+    },
   },
 };
 

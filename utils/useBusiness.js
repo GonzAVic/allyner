@@ -10,7 +10,6 @@ import {
 
 const useBusiness = (businessId) => {
   const [findBusinessFn, findBusinessHpr] = useLazyQuery(FIND_BUSINESS);
-  const [findBusinessServicesFn] = useLazyQuery(FIND_BUSINESS_SERVICES);
   const [updateBusinessFn, updateBusinessHpr] = useMutation(UPDATE_BUSINESS);
   const [createBusinessFn] = useMutation(CREATE_BUSINESS);
 
@@ -19,8 +18,7 @@ const useBusiness = (businessId) => {
 
   useEffect(() => {
     if (!businessId) return;
-    findBusinessFn({ variables: { id: Number(businessId) } });
-    getBusinessServices();
+    findBusinessFn({ variables: { businessId } });
   }, [businessId]);
 
   useEffect(() => {
@@ -28,11 +26,12 @@ const useBusiness = (businessId) => {
     if (!findBusinessHpr.data) return;
 
     const business_ = { ...findBusinessHpr.data.findBusiness };
-    business_.additionalSettings =
-      typeof business_.additionalSettings === "object"
-        ? business_.additionalSettings
-        : JSON.parse(business_.additionalSettings);
+    business_.additionalData =
+      typeof business_.additionalData === "object"
+        ? business_.additionalData
+        : JSON.parse(business_.additionalData);
     setBusiness(business_);
+    setServices(business_.services);
   }, [findBusinessHpr]);
 
   useEffect(() => {
@@ -44,23 +43,11 @@ const useBusiness = (businessId) => {
     }, 200);
   }, [updateBusinessHpr]);
 
-  const getBusinessServices = async () => {
-    const response = await findBusinessServicesFn({
-      variables: { businessId: Number(businessId) },
-    });
-
-    if (response.data && response.data.businessServices) {
-      setServices(response.data.businessServices);
-    }
-  };
-
   const updateBusiness = (data) => {
     updateBusinessFn({
       variables: {
-        input: {
-          attributes: { ...data, subDomain: "pedro" },
-          id: Number(businessId),
-        },
+        input: data,
+        businessId,
       },
     });
   };
@@ -82,7 +69,6 @@ const useBusiness = (businessId) => {
 
     updateBusiness,
     createBusiness,
-    getBusinessServices,
   };
 };
 

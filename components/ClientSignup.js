@@ -13,6 +13,7 @@ const ClientSignup = ({
   additionalQuestions = [],
   onSubmit = () => {},
 }) => {
+  console.log('-> additionalQuestions: ', additionalQuestions)
   const aQInitialValues = {};
   additionalQuestions.forEach((aq) => {
     aQInitialValues[`${aq.title}`] = aq.answer || "";

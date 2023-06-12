@@ -1,55 +1,40 @@
-import { useContext } from "react";
+import { signIn } from "next-auth/react";
 
 // COMPONENTS
 import ClearLayout from "components/layout/ClearLayout";
 import ClientSignup from "components/ClientSignup";
 
 // OTHER
-import useUser from "utils/useUser";
-import { ClientContext } from "contexts/ClientContext";
+import useBusiness from "utils/useBusiness";
 
 const Page = () => {
-  const { businessRepo } = useContext(ClientContext);
-  const { business } = businessRepo;
-  const { createClientUser } = useUser();
+  const { business } = useBusiness();
 
   const handleSubmit = async (data) => {
-    console.log("-> data: ", data);
     if (!business || !business.id) return;
-    const userData = {
-      email: "r92@example.com",
-      password: "3N@1234",
-      first_name: "raaz",
-      last_name: "Khan",
-      business_id: 1,
-      role: "business_user",
-      phone_number: "123456789",
-      timezone: "America/New York",
+
+    const credentialsPayload = {
+      email: "victor@gmail.com",
+      password: "123456",
+      userType: "CLIENT",
     };
-    const response = await fetch(
-      "https://allyner-api-dev.herokuapp.com/users/",
-      {
-        method: "POST",
-        mode: "cors",
-        body: JSON.stringify(userData),
-      }
-    );
-    console.log("-> response: ", response);
-    // createClientUser({
-    //   firstName: "string",
-    //   lastName: "string",
-    //   email: data.email,
-    //   businessId: Number(business.id),
-    // });
+
+    const res = await signIn("credentials", {
+      redirect: false,
+      email: JSON.stringify(credentialsPayload),
+      password: "---",
+      callbackUrl: `${window.location.origin}`,
+    });
+    console.log("-> res: ", res);
   };
 
   return (
     <ClearLayout>
       <ClientSignup
-        headline={business?.additionalSettings.signUpHeadline}
-        message={business?.additionalSettings.signUpMessage}
+        headline={business?.additionalData.signUpHeadline}
+        message={business?.additionalData.signUpMessage}
         additionalQuestions={
-          business ? business.additionalSettings.signUpQuestionnaire || [] : []
+          business ? business.additionalData.signUpQuestionnaire || [] : []
         }
         onSubmit={handleSubmit}
       />

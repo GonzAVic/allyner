@@ -38,16 +38,20 @@ export const questionAdapter = (data = {}, isSimple = false) => {
   return question;
 };
 
-export const serviceReqAdapter = (serviceReq) => {
-  const serviceReq_ = { ...serviceReq };
-  serviceReq_.frozenService = JSON.parse(serviceReq_.frozenService);
-  const frozenServiceCreatedAt = new Date(serviceReq_.frozenService.createdAt);
-  serviceReq_.frozenService.createdAt = `${frozenServiceCreatedAt.getDate()}/${frozenServiceCreatedAt.getMonth()}/${frozenServiceCreatedAt.getFullYear()}`;
-  const frozenServiceUpdatedAt = new Date(serviceReq_.frozenService.updatedAt);
-  serviceReq_.frozenService.updatedAt = `${frozenServiceUpdatedAt.getDate()}/${frozenServiceUpdatedAt.getMonth()}/${frozenServiceUpdatedAt.getFullYear()}`;
-  serviceReq_.answers = JSON.parse(serviceReq_.answers);
+export const serviceReqAdapter = (order) => {
+  const order_ = { ...order };
+  order_.frozenService = JSON.parse(order_.frozenService);
+  const frozenServiceCreatedAt = new Date(
+    Number(order_.frozenService.createdAt)
+  );
+  order_.frozenService.createdAt = `${frozenServiceCreatedAt.getDate()}/${frozenServiceCreatedAt.getMonth()}/${frozenServiceCreatedAt.getFullYear()}`;
+  const frozenServiceUpdatedAt = new Date(order_.frozenService.updatedAt);
+  order_.frozenService.updatedAt = `${frozenServiceUpdatedAt.getDate()}/${frozenServiceUpdatedAt.getMonth()}/${frozenServiceUpdatedAt.getFullYear()}`;
+  order_.answers = JSON.parse(order_.answers);
 
-  const serviceReqCreatedAt = new Date(serviceReq_.createdAt);
-  serviceReq_.createdAt = `${serviceReqCreatedAt.getDate()}/${serviceReqCreatedAt.getMonth()}/${serviceReqCreatedAt.getFullYear()}`;
-  return serviceReq_;
+  const orderCreatedAt = new Date(Number(order_.createdAt));
+  order_.createdAt = `${orderCreatedAt.getDate()}/${orderCreatedAt.getMonth()}/${orderCreatedAt.getFullYear()}`;
+
+  order_.additionalInfo = JSON.parse(order_.additionalInfo);
+  return order_;
 };

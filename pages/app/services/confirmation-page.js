@@ -21,14 +21,14 @@ const Page = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      headline: business?.additionalSettings.confirmationHeadline,
-      message: business?.additionalSettings.confirmationMessage,
+      headline: business?.additionalData.confirmationHeadline,
+      message: business?.additionalData.confirmationMessage,
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
       const attributes = {
-        additionalSettings: JSON.stringify({
-          ...business.additionalSettings,
+        additionalData: JSON.stringify({
+          ...business.additionalData,
           confirmationHeadline: values.headline,
           confirmationMessage: values.message,
         }),

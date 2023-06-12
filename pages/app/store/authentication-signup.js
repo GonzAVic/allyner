@@ -35,17 +35,17 @@ const Page = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      headline: business?.additionalSettings.signUpHeadline,
-      message: business?.additionalSettings.signUpMessage,
+      headline: business?.additionalData.signUpHeadline,
+      message: business?.additionalData.signUpMessage,
       additionalQuestions: business
-        ? business.additionalSettings.signUpQuestionnaire || []
+        ? business.additionalData.signUpQuestionnaire || []
         : [],
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
       const attributes = {
-        additionalSettings: JSON.stringify({
-          ...business.additionalSettings,
+        additionalData: JSON.stringify({
+          ...business.additionalData,
           signUpHeadline: values.headline,
           signUpMessage: values.message,
           signUpQuestionnaire: values.additionalQuestions,

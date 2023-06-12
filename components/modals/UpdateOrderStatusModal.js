@@ -15,7 +15,7 @@ import { BusinessContext } from "contexts/BusinessContext";
 const UpdateOrderStatusModal = () => {
   const router = useRouter();
   const { businessRepo } = useContext(BusinessContext);
-  const { updateServiceReq } = useServiceReq(router.query.orderId);
+  const { updateOrder } = useServiceReq(router.query.orderId);
   const { business } = businessRepo;
 
   const formik = useFormik({
@@ -26,12 +26,7 @@ const UpdateOrderStatusModal = () => {
     },
     // validationSchema: createSigninSchema(),
     onSubmit: (values) => {
-      console.log("-> values: ", values);
-      updateServiceReq(
-        { status: values.status },
-        router.query.orderId,
-        business.id
-      );
+      updateOrder({ status: values.status }, router.query.orderId);
     },
   });
 
@@ -54,7 +49,7 @@ const UpdateOrderStatusModal = () => {
         sx={{ textTransform: "capitalize" }}
         select
       >
-        {business.additionalSettings.serviceStatuses.map((option) => (
+        {business.additionalData.serviceStatuses.map((option) => (
           <MenuItem key={option} value={option}>
             {option}
           </MenuItem>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 
 // MATERIAL UI
@@ -12,19 +12,21 @@ import DefaultLayout from "components/layout/DefaultLayout";
 import NullState from "components/NullState";
 
 // OTHER
-import useServiceReq from "utils/useServiceReq";
+import { BusinessContext } from "contexts/BusinessContext";
 import useUser from "utils/useUser";
 
 const Page = () => {
   const router = useRouter();
 
-  const { findBusinessServiceReqs } = useServiceReq(router.query.orderId);
+  const { orderRepo } = useContext(BusinessContext);
+
+  const { findBusinessOrders } = orderRepo;
 
   const [serviceReqs, setServiceReqs] = useState([]);
 
   useEffect(() => {
     const onMount = async () => {
-      const response = await findBusinessServiceReqs(2);
+      const response = await findBusinessOrders();
       const serviceRequests = response.map((r) => {
         return {
           id: r.id,

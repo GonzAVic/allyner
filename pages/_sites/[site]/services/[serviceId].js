@@ -1,4 +1,5 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
 // MATERIAL UI
@@ -14,19 +15,21 @@ import ClientSignin from "components/ClientSignin";
 import ClientSignup from "components/ClientSignup";
 
 // OTHER
-import { ClientContext } from "contexts/ClientContext";
-import { AppContext } from "contexts/AppContext";
 import useService from "utils/useService";
+import useBusiness from "utils/useBusiness";
 import useUser from "utils/useUser";
 import useServiceReq from "utils/useServiceReq";
 import { useKeyPress, ARROW_DOWN, ARROW_UP } from "utils/useKeyPress";
 
 const ServiceWizard = () => {
   const router = useRouter();
-  const { businessRepo } = useContext(ClientContext);
-  const { sessionRepo } = useContext(AppContext);
+  const { data: session } = useSession();
+
+  console.log("-> session: ", session);
+
+  const businessRepo = useBusiness("6483b8c176172f4cb7a5d9df");
+
   const { business } = businessRepo;
-  const { user, updateUser } = sessionRepo;
   const { service } = useService(router.query.serviceId);
   const { createServiceReq } = useServiceReq();
   const { createClientUser } = useUser();
@@ -42,7 +45,7 @@ const ServiceWizard = () => {
 
   useEffect(() => {
     if (!service) return;
-    setQuestions(service.questionsInfo);
+    setQuestions(service.questionnaire);
   }, [service]);
 
   useEffect(() => {
@@ -91,13 +94,12 @@ const ServiceWizard = () => {
   const checkoutAction = async (checkoutFormData) => {
     const serviceReqData = {
       businessId: 2,
-      surveyId: 1,
-      orderStatusId: 1,
       answers: JSON.stringify(questions),
       additionalInfo: checkoutFormData,
+      frozenService: JSON.stringify(service),
     };
 
-    if (user) {
+    if (session) {
       serviceReqData.userId = Number(user.id);
       const response = await createServiceReq(serviceReqData);
       router.push({
@@ -126,7 +128,7 @@ const ServiceWizard = () => {
     const response = await createClientUser(data);
     // TODO: Handle error for email taken
     const user = response.data.createClient.user;
-    updateUser(user);
+    // updateUser(user);
     setCurrentStep("checkoutDetails");
   };
 
@@ -168,11 +170,11 @@ const ServiceWizard = () => {
           )}
           {currentStep === "checkoutDetails" && (
             <CheckoutDetailsForm
-              user={user}
-              headline={business.additionalSettings.checkoutHeadline}
-              message={business.additionalSettings.checkoutMessage}
+              user={session}
+              headline={business.additionalData.checkoutHeadline}
+              message={business.additionalData.checkoutMessage}
               additionalQuestions={
-                business.additionalSettings.checkoutAdditionalInfo
+                business.additionalData.checkoutAdditionalInfo
               }
               cta={{
                 text: "Book Now",
@@ -183,25 +185,23 @@ const ServiceWizard = () => {
           )}
           {currentStep === "confimationPage" && (
             <ServiceCheckout
-              headline={business.additionalSettings.confirmationHeadline}
-              message={business.additionalSettings.confirmationMessage}
+              headline={business.additionalData.confirmationHeadline}
+              message={business.additionalData.confirmationMessage}
             />
           )}
           {currentStep === "signin" && (
             <ClientSignin
-              headline={business.additionalSettings.signInHeadline}
-              message={business.additionalSettings.signInMessage}
+              headline={business.additionalData.signInHeadline}
+              message={business.additionalData.signInMessage}
               onSignup={displaySignupView}
               onSubmit={handleSignin}
             />
           )}
           {currentStep === "signup" && (
             <ClientSignup
-              headline={business.additionalSettings.signUpHeadline}
-              message={business.additionalSettings.signUpMessage}
-              additionalQuestions={
-                business.additionalSettings.signUpQuestionnaire
-              }
+              headline={business.additionalData.signUpHeadline}
+              message={business.additionalData.signUpMessage}
+              additionalQuestions={business.additionalData.signUpQuestionnaire}
               onSubmit={handleSignup}
             />
           )}

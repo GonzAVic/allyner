@@ -1,9 +1,4 @@
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloLink,
-  HttpLink,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 
 const defaultOptions = {
   watchQuery: {
@@ -16,29 +11,11 @@ const defaultOptions = {
   },
 };
 
-const httpLink = new HttpLink({
-  uri: `https://allyner-api-dev.herokuapp.com/graphql`,
-});
-
-const authLink = new ApolloLink((operation, forward) => {
-  // Retrieve the authorization token from local storage.
-  const token =
-    "eyJhY2Nlc3MtdG9rZW4iOiJZdjlqYlVXZ2xqdlhZdTh6bXBxMHZBIiwidG9rZW4tdHlwZSI6IkJlYXJlciIsImNsaWVudCI6IlNHQUp6Zm5jc0IwM2taVE5GYUtMbGciLCJleHBpcnkiOiIyMDAwOTU5ODgyIiwidWlkIjoibmdrbXNkZm5oamtuQGdtYWlsLmNvbSJ9";
-
-  // Use the setContext method to set the HTTP headers.
-  operation.setContext({
-    headers: {
-      authorization: token ? `Bearer ${token}` : "",
-    },
-  });
-
-  // Call the next link in the middleware chain.
-  return forward(operation);
-});
+const host = process.env.NEXT_PUBLIC_HOST;
 
 const client = new ApolloClient({
+  uri: `${host}/api/graphql`,
   cache: new InMemoryCache(),
-  link: authLink.concat(httpLink),
   defaultOptions,
 });
 
