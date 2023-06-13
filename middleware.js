@@ -28,7 +28,6 @@ export default function middleware(req) {
 
     // For users
     const newPathname = `/_sites/${currentHost}${pathname}`;
-    console.log("-> newPathname: ", newPathname);
     const nextUrl = req.nextUrl.clone();
     nextUrl.pathname = newPathname;
     return NextResponse.rewrite(nextUrl);

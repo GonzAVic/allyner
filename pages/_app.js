@@ -34,8 +34,6 @@ export default function App({
   // TODO: Remove this session Repo
   const sessionRepo = useSession();
 
-  console.log("-> router.pathname: ", router.pathname);
-
   const renderView = () => {
     if (router.route.includes("/app")) {
       return (

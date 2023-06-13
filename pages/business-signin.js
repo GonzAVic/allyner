@@ -20,7 +20,6 @@ const BusinessSignin = () => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log("-> status: ", status);
     if (status === "authenticated")
       router.push(`${window.location.origin}/app`);
   }, [status]);

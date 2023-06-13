@@ -13,7 +13,6 @@ const ClientSignup = ({
   additionalQuestions = [],
   onSubmit = () => {},
 }) => {
-  console.log('-> additionalQuestions: ', additionalQuestions)
   const aQInitialValues = {};
   additionalQuestions.forEach((aq) => {
     aQInitialValues[`${aq.title}`] = aq.answer || "";
@@ -25,28 +24,28 @@ const ClientSignup = ({
     initialValues: {
       email: "",
       password: "",
-      firstName: "",
-      lastName: "",
+      firstname: "",
+      lastname: "",
       ...aQInitialValues,
     },
     validationSchema: createFormSchema([
       { title: "password", isRequired: true },
-      { title: "firstName", isRequired: true },
-      { title: "lastName", isRequired: true },
+      { title: "firstname", isRequired: true },
+      { title: "lastname", isRequired: true },
       ...additionalQuestions,
     ]),
     onSubmit: (values) => {
       const data = {
         email: values.email,
         password: values.password,
-        firstName: values.firstName,
-        lastName: values.lastName,
+        firstname: values.firstname,
+        lastname: values.lastname,
       };
 
       delete values.email;
       delete values.password;
-      delete values.firstName;
-      delete values.lastName;
+      delete values.firstname;
+      delete values.lastname;
 
       data.additionalInfo = values;
       onSubmit(data);
@@ -81,17 +80,17 @@ const ClientSignup = ({
       />
       <TextField
         label="First name"
-        name="firstName"
+        name="firstname"
         onChange={formik.handleChange}
-        helperText={formik.errors.firstName}
-        error={formik.errors.firstName}
+        helperText={formik.errors.firstname}
+        error={formik.errors.firstname}
       />
       <TextField
         label="Last name"
-        name="lastName"
+        name="lastname"
         onChange={formik.handleChange}
-        helperText={formik.errors.lastName}
-        error={formik.errors.lastName}
+        helperText={formik.errors.lastname}
+        error={formik.errors.lastname}
       />
       {additionalQuestions.map((q, index) => {
         return (
