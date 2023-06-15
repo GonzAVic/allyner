@@ -18,7 +18,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ServiceCard from "components/service/ServiceCard";
 
 // OTHER
-import useServiceReq from "utils/useServiceReq";
+import useOrder from "utils/useOrder";
 import { BusinessContext } from "contexts/BusinessContext";
 
 const Page = () => {

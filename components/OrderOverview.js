@@ -10,7 +10,7 @@ import DefaultLayout from "components/layout/DefaultLayout";
 import QuestionResponse from "components/QuestionResponse";
 
 // OTHER
-import useServiceReq from "utils/useServiceReq";
+import useOrder from "utils/useOrder";
 import useUser from "utils/useUser";
 import { concatStatuses } from "utils/utils";
 import { AppContext } from "contexts/AppContext";
@@ -22,7 +22,7 @@ const OderOverview = ({ userType }) => {
   const { modalRepo } = useContext(AppContext);
   const { businessRepo: bBusinessRepo } = useContext(BusinessContext);
   const { businessRepo: cBusinessRepo } = useContext(ClientContext);
-  const { serviceReq } = useServiceReq(router.query.orderId);
+  const { serviceReq } = useOrder(router.query.orderId);
   const { user } = useUser(serviceReq?.userId);
   const businessRepo = userType === "client" ? cBusinessRepo : bBusinessRepo;
   const { business } = businessRepo;

@@ -5,17 +5,17 @@ import { useLazyQuery, useMutation } from "@apollo/client";
 import {
   FIND_ORDER,
   CREATE_ORDER,
-  FIND_CLIENT_SERVICE_REQS,
+  FIND_CLIENT_ORDERS,
   FIND_BUSINESS_ORDERS,
   UPDATE_ORDER,
 } from "graphql/apiql";
 import { serviceReqAdapter } from "./adapters";
 
-const useServiceReq = (orderId, options) => {
+const useOrder = (orderId, options) => {
   const [findOrderFn, findOrderHpr] = useLazyQuery(FIND_ORDER);
   const [createOrderFn] = useMutation(CREATE_ORDER);
   const [updateOrderFn, updateOrderHpr] = useMutation(UPDATE_ORDER);
-  const [findClientServiceReqsFn] = useLazyQuery(FIND_CLIENT_SERVICE_REQS);
+  const [findClientOrdersFn] = useLazyQuery(FIND_CLIENT_ORDERS);
   const [findBusinessOrdersFn] = useLazyQuery(FIND_BUSINESS_ORDERS);
 
   const [serviceReq, setServiceReq] = useState(null);
@@ -42,28 +42,32 @@ const useServiceReq = (orderId, options) => {
     }, 200);
   }, [updateOrderHpr]);
 
-  const createServiceReq = async (data) => {
+  const createOrder = async (data) => {
     if (data.additionalInfo)
       data.additionalInfo = JSON.stringify(data.additionalInfo);
     const response = await createOrderFn({
-      variables: { input: { ...data, businessId: "6483b8c176172f4cb7a5d9df" } },
+      variables: { input: { ...data, businessId: options.businessId } },
     });
     return response.data.createOrder;
   };
 
-  const findClientServiceReqs = async (businessId, userId) => {
-    if (!userId) {
+  const findClientOrders = async () => {
+    if (!options.userId) {
       console.log("-> ERROR: No userId");
       return;
     }
-    const response_ = await findClientServiceReqsFn({
+    if (!options.businessId) {
+      console.log("-> ERROR: No businessId");
+      return;
+    }
+    const response_ = await findClientOrdersFn({
       variables: {
-        businessId,
-        userId,
+        businessId: options.businessId,
+        userId: options.userId,
       },
     });
     if (response_.error) return [];
-    const response = response_.data.listUserServiceRequests.map((sr) => {
+    const response = response_.data.findClientOrders.map((sr) => {
       return serviceReqAdapter(sr);
     });
 
@@ -71,6 +75,7 @@ const useServiceReq = (orderId, options) => {
   };
 
   const findBusinessOrders = async () => {
+    if (!options.businessId) return;
     const response_ = await findBusinessOrdersFn({
       variables: {
         businessId: options.businessId,
@@ -99,11 +104,11 @@ const useServiceReq = (orderId, options) => {
 
   return {
     serviceReq,
-    createServiceReq,
-    findClientServiceReqs,
+    createOrder,
+    findClientOrders,
     findBusinessOrders,
     updateOrder,
   };
 };
 
-export default useServiceReq;
+export default useOrder;

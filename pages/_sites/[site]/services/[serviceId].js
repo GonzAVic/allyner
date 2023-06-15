@@ -18,20 +18,18 @@ import ClientSignup from "components/ClientSignup";
 import useService from "utils/useService";
 import useBusiness from "utils/useBusiness";
 import useUser from "utils/useUser";
-import useServiceReq from "utils/useServiceReq";
+import useOrder from "utils/useOrder";
 import { useKeyPress, ARROW_DOWN, ARROW_UP } from "utils/useKeyPress";
 
 const ServiceWizard = () => {
   const router = useRouter();
   const { data: session } = useSession();
 
-  console.log("-> session: ", session);
-
-  const businessRepo = useBusiness("6483b8c176172f4cb7a5d9df");
+  const businessRepo = useBusiness(null, { useBusinessName: true });
 
   const { business } = businessRepo;
   const { service } = useService(router.query.serviceId);
-  const { createServiceReq } = useServiceReq();
+  const { createOrder } = useOrder(null, { businessId: business?.id });
   const { createClientUser } = useUser();
   const isArrowDownPressed = useKeyPress(ARROW_DOWN);
   const isArrowUpPressed = useKeyPress(ARROW_UP);
@@ -42,6 +40,9 @@ const ServiceWizard = () => {
   const [shouldDisplayAlert, setShouldDisplayAlert] = useState(false);
 
   const currentQuestion = questions[questionIndex];
+
+  const userId = session?.user?.id;
+  console.log("-> userId: ", userId);
 
   useEffect(() => {
     if (!service) return;
@@ -100,14 +101,16 @@ const ServiceWizard = () => {
     };
 
     if (session) {
-      serviceReqData.userId = Number(user.id);
-      const response = await createServiceReq(serviceReqData);
+      console.log("-> session: ", session);
+      serviceReqData.userId = userId;
+      console.log("-> serviceReqData: ", serviceReqData);
+      const response = await createOrder(serviceReqData);
       router.push({
         pathname: "/orders/[orderId]",
         query: { orderId: response.id },
       });
     } else {
-      await createServiceReq(serviceReqData);
+      await createOrder(serviceReqData);
       setCurrentStep("confimationPage");
     }
   };
@@ -170,7 +173,7 @@ const ServiceWizard = () => {
           )}
           {currentStep === "checkoutDetails" && (
             <CheckoutDetailsForm
-              user={session}
+              userId={userId}
               headline={business.additionalData.checkoutHeadline}
               message={business.additionalData.checkoutMessage}
               additionalQuestions={

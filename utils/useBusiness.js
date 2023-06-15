@@ -5,21 +5,34 @@ import {
   UPDATE_BUSINESS,
   FIND_BUSINESS,
   CREATE_BUSINESS,
-  FIND_BUSINESS_SERVICES,
+  FIND_BUSINESS_BY_NAME,
 } from "graphql/apiql";
 
-const useBusiness = (businessId) => {
+const useBusiness = (businessID, options = {}) => {
   const [findBusinessFn, findBusinessHpr] = useLazyQuery(FIND_BUSINESS);
+  const [findBusinessByNameFn] = useLazyQuery(FIND_BUSINESS_BY_NAME);
   const [updateBusinessFn, updateBusinessHpr] = useMutation(UPDATE_BUSINESS);
   const [createBusinessFn] = useMutation(CREATE_BUSINESS);
 
+  const [businessId, setBusinessId] = useState(null);
   const [business, setBusiness] = useState(null);
   const [services, setServices] = useState([]);
+
+  useEffect(() => {
+    if (!businessID) return;
+    setBusinessId(businessID);
+  }, [businessID]);
 
   useEffect(() => {
     if (!businessId) return;
     findBusinessFn({ variables: { businessId } });
   }, [businessId]);
+
+  useEffect(() => {
+    if (options.useBusinessName) {
+      findBusinessByName();
+    }
+  }, [options.useBusinessName]);
 
   useEffect(() => {
     if (!findBusinessHpr.called) return;
@@ -42,6 +55,13 @@ const useBusiness = (businessId) => {
       location.reload();
     }, 200);
   }, [updateBusinessHpr]);
+
+  const findBusinessByName = async (businessName) => {
+    const response = await findBusinessByNameFn({
+      variables: { businessName: window.location.host.split(".")[0] },
+    });
+    setBusinessId(response.data.findBusinessByName.id);
+  };
 
   const updateBusiness = (data) => {
     updateBusinessFn({
@@ -66,6 +86,7 @@ const useBusiness = (businessId) => {
     business,
     services,
     businessSubdomain,
+    findBusinessByName,
 
     updateBusiness,
     createBusiness,

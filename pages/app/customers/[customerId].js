@@ -16,12 +16,12 @@ import FileCard from "components/FileCard";
 // OTHER
 import useUser from "utils/useUser";
 import { timezones } from "utils/constants";
-import useServiceReq from "utils/useServiceReq";
+import useOrder from "utils/useOrder";
 
 const CustomerDetails = () => {
   const router = useRouter();
   const { user, updateClient } = useUser(router.query.customerId);
-  const { findClientServiceReqs } = useServiceReq(router.query.orderId);
+  const { findClientOrders } = useOrder(router.query.orderId);
 
   const [serviceReqs, setServiceReqs] = useState([]);
 
@@ -44,7 +44,7 @@ const CustomerDetails = () => {
 
   useEffect(() => {
     const onMount = async () => {
-      const response = await findClientServiceReqs(2, user?.id);
+      const response = await findClientOrders(2, user?.id);
       if (!response) return;
 
       const serviceRequests = response.map((r) => {

@@ -11,29 +11,27 @@ import Uploader from "components/Uploader";
 import FileCard from "components/FileCard";
 
 // OTHER
-import { AppContext } from "contexts/AppContext";
-import useUser from "utils/useUser";
+import { ClientContext } from "contexts/ClientContext";
 import { timezones } from "utils/constants";
 import { getFileUrl } from "utils/utils";
 
 const Page = () => {
-  const { sessionRepo } = useContext(AppContext);
-  const { user: user_ } = sessionRepo;
-  const { updateClient, user } = useUser(user_?.id);
+  const { userRepo } = useContext(ClientContext);
+  const { user, updateUser } = userRepo;
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      firstName: user?.firstName,
+      firstname: user?.firstname,
       email: user?.email,
       phoneNumber: user?.phoneNumber,
       profilePicture: user?.profilePicture,
       additionalInfo: user ? user.additionalInfo || {} : {},
-      timezone: user?.timezone || "",
+      // timezone: user?.timezone || "",
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
-      updateClient(values);
+      updateUser(values);
     },
   });
 
@@ -54,8 +52,8 @@ const Page = () => {
       <Box className="card" sx={{ mb: 5 }}>
         <Typography variant="subtitle1">Name</Typography>
         <TextField
-          name="firstName"
-          value={formik.values.firstName}
+          name="firstname"
+          value={formik.values.firstname}
           onChange={formik.handleChange}
         />
         <Typography variant="subtitle1">Email</Typography>

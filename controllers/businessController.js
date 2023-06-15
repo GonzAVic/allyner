@@ -41,8 +41,19 @@ const findBusiness = async (_, args) => {
   }
 };
 
+const findBusinessByName = async (_, args) => {
+  try {
+    let { businessName } = args;
+    const business = await Business.findOne({ name: businessName });
+    return business;
+  } catch (error) {
+    return error;
+  }
+};
+
 const queries = {
   findBusiness,
+  findBusinessByName,
 };
 
 const mutations = { createBusiness, updateBusiness };

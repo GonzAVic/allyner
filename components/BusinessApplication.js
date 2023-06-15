@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 
 // OTHER
 import { BusinessContext } from "contexts/BusinessContext";
-import useServiceReq from "utils/useServiceReq";
+import useOrder from "utils/useOrder";
 import useBusiness from "utils/useBusiness";
 import useService from "utils/useService";
 import useUser from "utils/useUser";
@@ -17,7 +17,7 @@ const BusinessApplication = ({ children }) => {
   const serviceRepo = useService(getServiceId(router), {
     businessId: businessRepo.business?.id,
   });
-  const orderRepo = useServiceReq(null, {
+  const orderRepo = useOrder(null, {
     businessId: userRepo.user?.businessId,
   });
 

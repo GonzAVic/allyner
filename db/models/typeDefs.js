@@ -120,10 +120,12 @@ const typeDefs = gql`
     findUser(userId: String!): User
 
     findBusiness(businessId: String!): Business
+    findBusinessByName(businessName: String!): Business
 
     findService(serviceId: String!): Service
 
     findBusinessOrders(businessId: String!): [Order]
+    findClientOrders(businessId: String!, userId: String!): [Order]
     findOrder(orderId: String!): Order
   }
 

@@ -9,13 +9,13 @@ import { TextField, MenuItem } from "@mui/material";
 import Modal from "./Modal";
 
 // OTHER
-import useServiceReq from "utils/useServiceReq";
+import useOrder from "utils/useOrder";
 import { BusinessContext } from "contexts/BusinessContext";
 
 const UpdateOrderStatusModal = () => {
   const router = useRouter();
   const { businessRepo } = useContext(BusinessContext);
-  const { updateOrder } = useServiceReq(router.query.orderId);
+  const { updateOrder } = useOrder(router.query.orderId);
   const { business } = businessRepo;
 
   const formik = useFormik({

@@ -109,6 +109,16 @@ export const FIND_BUSINESS = gql`
   ${BUSINESS_FRAGMENT}
 `;
 
+export const FIND_BUSINESS_BY_NAME = gql`
+  query ($businessName: String!) {
+    findBusinessByName(businessName: $businessName) {
+      ...BusinessFields
+    }
+  }
+
+  ${BUSINESS_FRAGMENT}
+`;
+
 export const FIND_SERVICE = gql`
   ${SERVICE_FRAGMENT}
 
@@ -149,21 +159,14 @@ export const FIND_BUSINESS_ORDERS = gql`
   ${ORDER_FRAGMENT}
 `;
 
-export const FIND_CLIENT_SERVICE_REQS = gql`
-  query ($businessId: ID, $userId: ID!) {
-    listUserServiceRequests(businessId: $businessId, userId: $userId) {
-      additionalInfo
-      answers
-      businessId
-      createdAt
-      frozenQuestions
-      frozenService
-      id
-      status
-      updatedAt
-      userId
+export const FIND_CLIENT_ORDERS = gql`
+  query ($businessId: String!, $userId: String!) {
+    findClientOrders(businessId: $businessId, userId: $userId) {
+      ...OrderFields
     }
   }
+
+  ${ORDER_FRAGMENT}
 `;
 
 // MUTATIONS

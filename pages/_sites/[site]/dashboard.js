@@ -9,30 +9,27 @@ import ServiceCard from "components/service/ServiceCard";
 import OrderCard from "components/OrderCard";
 
 // OTHER
-import useServiceReq from "utils/useServiceReq";
-import { AppContext } from "contexts/AppContext";
 import { ClientContext } from "contexts/ClientContext";
 
 const Index = () => {
-  const { sessionRepo } = useContext(AppContext);
-  const { businessRepo } = useContext(ClientContext);
-  const { services } = businessRepo;
-  const { user } = sessionRepo;
+  const { businessRepo, orderRepo } = useContext(ClientContext);
+  const { services, business } = businessRepo;
 
   const [serviceReqs, setServiceReqs] = useState([]);
 
-  const { findClientServiceReqs } = useServiceReq();
+  const { findClientOrders } = orderRepo;
 
   useEffect(() => {
+    if (!business) return;
     const onMount = async () => {
-      const response = await findClientServiceReqs(2, user?.id);
+      const response = await findClientOrders();
       const srs = response.filter(
         (sr) => sr.status !== "Not Started" || sr.status !== "Completed"
       );
       setServiceReqs(srs);
     };
     onMount();
-  }, []);
+  }, [business]);
 
   return (
     <DefaultLayout

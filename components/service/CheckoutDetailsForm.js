@@ -13,7 +13,7 @@ const CheckoutDetailsForm = ({
   cta: cta_,
   additionalQuestions = [],
   onLogin = () => {},
-  user,
+  userId,
 }) => {
   const aQInitialValues = {};
   additionalQuestions.forEach((aq) => {
@@ -34,7 +34,7 @@ const CheckoutDetailsForm = ({
 
     validationSchema: createFormSchema([
       ...additionalQuestions,
-      { title: "email", isRequired: !Boolean(user) },
+      { title: "email", isRequired: !Boolean(userId) },
     ]),
     onSubmit: (values) => {
       const values_ = { ...values };
@@ -59,7 +59,7 @@ const CheckoutDetailsForm = ({
         </Typography>
       </Box>
 
-      {!user && (
+      {!userId && (
         <>
           <div className="space-between-centered">
             <Typography variant="subtitle1">Contact Details</Typography>

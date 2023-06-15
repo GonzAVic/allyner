@@ -7,21 +7,23 @@ import { DataGrid } from "@mui/x-data-grid";
 
 // COMPONENTS
 import DefaultLayout from "components/layout/DefaultLayout";
-import useServiceReq from "utils/useServiceReq";
-import { AppContext } from "contexts/AppContext";
+import { ClientContext } from "contexts/ClientContext";
 
 function Page() {
   const router = useRouter();
-  const { sessionRepo } = useContext(AppContext);
-  const { user } = sessionRepo;
+  const { orderRepo, businessRepo } = useContext(ClientContext);
+  const { business } = businessRepo;
 
-  const { findClientServiceReqs } = useServiceReq(router.query.orderId);
+  const { findClientOrders } = orderRepo;
+
+  // useOrder(router.query.orderId);
 
   const [serviceReqs, setServiceReqs] = useState([]);
 
   useEffect(() => {
+    if (!business) return;
     const onMount = async () => {
-      const response = await findClientServiceReqs(2, user?.id);
+      const response = await findClientOrders();
       const serviceRequests = response.map((r) => {
         return {
           id: r.id,
@@ -33,7 +35,7 @@ function Page() {
       setServiceReqs(serviceRequests);
     };
     onMount();
-  }, []);
+  }, [business]);
 
   const handleRowClick = (rowData) => {
     router.push({

@@ -1,5 +1,5 @@
 import Order from "db/models/Order.model";
-const { mongoose } = require("mongoose");
+var ObjectId = require("mongoose").Types.ObjectId;
 
 const createOrder = async (_, args) => {
   try {
@@ -41,6 +41,19 @@ const findBusinessOrders = async (_, args) => {
   }
 };
 
+const findClientOrders = async (_, args) => {
+  try {
+    let { businessId, userId } = args;
+    const orders = await Order.find({
+      businessId: new ObjectId(businessId),
+      userId: new ObjectId(userId),
+    });
+    return orders;
+  } catch (error) {
+    return error;
+  }
+};
+
 const findOrder = async (_, args) => {
   try {
     let { orderId } = args;
@@ -51,7 +64,7 @@ const findOrder = async (_, args) => {
   }
 };
 
-const queries = { findBusinessOrders, findOrder };
+const queries = { findBusinessOrders, findOrder, findClientOrders };
 
 const mutations = { createOrder, updateOrder };
 

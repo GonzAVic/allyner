@@ -1,10 +1,10 @@
-import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 
 // OTHER
 import { ClientContext } from "contexts/ClientContext";
 import useBusiness from "utils/useBusiness";
+import useOrder from "utils/useOrder";
 import useUser from "utils/useUser";
 
 const ClientApplication = ({ children }) => {
@@ -13,19 +13,19 @@ const ClientApplication = ({ children }) => {
   const router = useRouter();
 
   const userRepo = useUser(session.user.id);
-  const businessRepo = useBusiness(getBusinessId());
+  const businessRepo = useBusiness(null, { useBusinessName: true });
+  const orderRepo = useOrder(null, {
+    userId: session.user.id,
+    businessId: businessRepo?.business?.id,
+  });
 
-  const contextObject = { businessRepo, userRepo };
+  const contextObject = { businessRepo, userRepo, orderRepo };
 
   return (
     <ClientContext.Provider value={contextObject}>
       {children}
     </ClientContext.Provider>
   );
-};
-
-const getBusinessId = () => {
-  return "6483b8c176172f4cb7a5d9df";
 };
 
 const SessionContainer = ({ children }) => {

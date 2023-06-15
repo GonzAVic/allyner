@@ -16,13 +16,11 @@ const Page = () => {
   const { business } = useBusiness("6483b7aa76172f4cb7a5d976");
 
   useEffect(() => {
-    console.log("-> status: ", status);
     if (status === "authenticated")
-      router.push(`${window.location.origin}/app`);
+      router.push(`${window.location.origin}/dashboard`);
   }, [status]);
 
   const handleSubmit = async (data) => {
-    console.log("-> data: ", data);
     if (!business || !business.id) return;
 
     const userData = {
