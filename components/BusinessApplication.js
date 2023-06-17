@@ -41,7 +41,9 @@ const getServiceId = (router) => {
 };
 
 const SessionContainer = ({ children }) => {
-  const { data: session, status } = useSession();
+  const pedro = useSession();
+  console.log("-> pedro: ", pedro);
+  const { data: session, status } = pedro;
 
   if (status === "loading") return "loading BA...";
   return <BusinessApplication>{children}</BusinessApplication>;
