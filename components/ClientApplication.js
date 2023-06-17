@@ -41,7 +41,7 @@ const SessionContainer = ({ children }) => {
   //   }
   // }, [status]);
 
-  if (status === "loading") return "loading...";
+  if (status === "loading") return "loading CA...";
   else if (status === "authenticated")
     return <ClientApplication>{children}</ClientApplication>;
 };

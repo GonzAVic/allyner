@@ -1,12 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const useSecureCookies = process.env.NEXTAUTH_URL.startsWith("https://");
-const cookiePrefix = useSecureCookies ? "__Secure-" : "";
-const hostName = new URL(process.env.NEXTAUTH_URL).hostname;
-
-console.log("-> hostName: ", hostName);
-
 import connectDb from "db/config/index";
 import User from "db/models/User.model";
 import Business from "db/models/Business.model";
