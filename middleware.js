@@ -12,7 +12,6 @@ export default function middleware(req) {
   if (pathname.startsWith(`/_sites`)) {
     return new Response(null, { status: 404 });
   }
-  console.log("-> LALALALALALALALALALALALALA");
 
   if (!pathname.includes(".") && !pathname.startsWith("/api")) {
     // For clients
@@ -29,6 +28,14 @@ export default function middleware(req) {
 
     // For users
     const newPathname = `/_sites/${currentHost}${pathname}`;
+    const nextUrl = req.nextUrl.clone();
+    nextUrl.pathname = newPathname;
+    return NextResponse.rewrite(nextUrl);
+  }
+
+  if (!pathname.startsWith("/api/auth")) {
+    // For Api
+    const newPathname = `/api/auth`;
     const nextUrl = req.nextUrl.clone();
     nextUrl.pathname = newPathname;
     return NextResponse.rewrite(nextUrl);
