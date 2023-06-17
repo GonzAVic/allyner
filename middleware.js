@@ -12,6 +12,7 @@ export default function middleware(req) {
   if (pathname.startsWith(`/_sites`)) {
     return new Response(null, { status: 404 });
   }
+  console.log("-> LALALALALALALALALALALALALA");
 
   if (!pathname.includes(".") && !pathname.startsWith("/api")) {
     // For clients

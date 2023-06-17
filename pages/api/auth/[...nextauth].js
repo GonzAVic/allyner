@@ -77,7 +77,7 @@ export const authOptions = {
       return session;
     },
   },
-  secret: "Kos6GwAvJb1Fs+UB7zRSNN1TuUa5MCk4YMncUCu2OhY=",
+  secret: "mysimplesecretkey",
 };
 
 export default NextAuth(authOptions);
