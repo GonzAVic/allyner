@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 
@@ -41,9 +42,15 @@ const getServiceId = (router) => {
 };
 
 const SessionContainer = ({ children }) => {
-  const pedro = useSession();
-  console.log("-> pedro: ", pedro);
-  const { data: session, status } = pedro;
+  const sessionData = useSession();
+  const router = useRouter();
+  console.log("-> sessionData: ", sessionData);
+  const { data: session, status } = sessionData;
+
+  useEffect(() => {
+    if (status === "authenticated")
+      router.push(`${window.location.origin}/business-signin`);
+  }, [status]);
 
   if (status === "loading") return "loading BA...";
   return <BusinessApplication>{children}</BusinessApplication>;
