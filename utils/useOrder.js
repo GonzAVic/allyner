@@ -91,11 +91,11 @@ const useOrder = (orderId, options) => {
     return response;
   };
 
-  const updateOrder = async (data, orderId) => {
+  const updateOrder = async (data, orderID) => {
     const response = await updateOrderFn({
       variables: {
         input: data,
-        orderId,
+        orderId: orderID || orderId,
       },
     });
 

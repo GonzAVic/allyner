@@ -36,14 +36,28 @@ const OderOverview = ({ userType }) => {
     <DefaultLayout
       title="Order Details"
       userType={userType}
-      cta={{
-        text: "Update Status",
-        fn: () => modalRepo.open("UpdateOrderStatus"),
-      }}
+      cta={
+        userType === "client"
+          ? null
+          : {
+              text: "Update Status",
+              fn: () =>
+                modalRepo.open("UpdateOrderStatus", {
+                  initialStatus: serviceReq.status,
+                }),
+            }
+      }
       backHref={router.pathname.includes("/app") ? "/app/orders" : "/orders"}
-      moreOptions={[
-        { text: "Cancel Order", fn: () => modalRepo.open("CancelOrder") },
-      ]}
+      moreOptions={
+        userType === "client"
+          ? null
+          : [
+              {
+                text: "Cancel Order",
+                fn: () => modalRepo.open("CancelOrder"),
+              },
+            ]
+      }
     >
       <Stepper
         activeStep={steps.indexOf(serviceReq.status)}

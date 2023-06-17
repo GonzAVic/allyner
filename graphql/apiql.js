@@ -119,6 +119,16 @@ export const FIND_BUSINESS_BY_NAME = gql`
   ${BUSINESS_FRAGMENT}
 `;
 
+export const FIND_BUSINESS_CUSTOMERS = gql`
+  query ($businessId: String!) {
+    findBusinessCustomers(businessId: $businessId) {
+      ...UserFields
+    }
+  }
+
+  ${USER_FRAGMENT}
+`;
+
 export const FIND_SERVICE = gql`
   ${SERVICE_FRAGMENT}
 

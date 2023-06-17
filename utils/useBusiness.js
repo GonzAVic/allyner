@@ -6,17 +6,20 @@ import {
   FIND_BUSINESS,
   CREATE_BUSINESS,
   FIND_BUSINESS_BY_NAME,
+  FIND_BUSINESS_CUSTOMERS,
 } from "graphql/apiql";
 
 const useBusiness = (businessID, options = {}) => {
   const [findBusinessFn, findBusinessHpr] = useLazyQuery(FIND_BUSINESS);
   const [findBusinessByNameFn] = useLazyQuery(FIND_BUSINESS_BY_NAME);
+  const [findBusinessCustomersFn] = useLazyQuery(FIND_BUSINESS_CUSTOMERS);
   const [updateBusinessFn, updateBusinessHpr] = useMutation(UPDATE_BUSINESS);
   const [createBusinessFn] = useMutation(CREATE_BUSINESS);
 
   const [businessId, setBusinessId] = useState(null);
   const [business, setBusiness] = useState(null);
   const [services, setServices] = useState([]);
+  const [customers, setCustomers] = useState([]);
 
   useEffect(() => {
     if (!businessID) return;
@@ -63,6 +66,13 @@ const useBusiness = (businessID, options = {}) => {
     setBusinessId(response.data.findBusinessByName.id);
   };
 
+  const findBusinessCustomers = async (businessName) => {
+    const response = await findBusinessCustomersFn({
+      variables: { businessId },
+    });
+    return response.data.findBusinessCustomers;
+  };
+
   const updateBusiness = (data) => {
     updateBusinessFn({
       variables: {
@@ -87,6 +97,7 @@ const useBusiness = (businessID, options = {}) => {
     services,
     businessSubdomain,
     findBusinessByName,
+    findBusinessCustomers,
 
     updateBusiness,
     createBusiness,

@@ -10,9 +10,10 @@ import Modal from "./Modal";
 
 // OTHER
 import useOrder from "utils/useOrder";
+import { concatStatuses } from "utils/utils";
 import { BusinessContext } from "contexts/BusinessContext";
 
-const UpdateOrderStatusModal = () => {
+const UpdateOrderStatusModal = ({ initialStatus }) => {
   const router = useRouter();
   const { businessRepo } = useContext(BusinessContext);
   const { updateOrder } = useOrder(router.query.orderId);
@@ -22,7 +23,7 @@ const UpdateOrderStatusModal = () => {
     validateOnChange: false,
     enableReinitialize: true,
     initialValues: {
-      status: "",
+      status: initialStatus || "",
     },
     // validationSchema: createSigninSchema(),
     onSubmit: (values) => {
@@ -49,11 +50,13 @@ const UpdateOrderStatusModal = () => {
         sx={{ textTransform: "capitalize" }}
         select
       >
-        {business.additionalData.serviceStatuses.map((option) => (
-          <MenuItem key={option} value={option}>
-            {option}
-          </MenuItem>
-        ))}
+        {concatStatuses(business.additionalData.serviceStatuses).map(
+          (option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          )
+        )}
       </TextField>
     </Modal>
   );

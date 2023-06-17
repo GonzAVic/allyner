@@ -121,6 +121,7 @@ const typeDefs = gql`
 
     findBusiness(businessId: String!): Business
     findBusinessByName(businessName: String!): Business
+    findBusinessCustomers(businessId: String!): [User]
 
     findService(serviceId: String!): Service
 

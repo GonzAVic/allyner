@@ -31,7 +31,10 @@ const Page = () => {
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
-      updateUser(values);
+      updateUser({
+        ...values,
+        additionalInfo: JSON.stringify(values.additionalInfo),
+      });
     },
   });
 
@@ -69,7 +72,8 @@ const Page = () => {
           onChange={formik.handleChange}
         />
         <Typography variant="subtitle1">Profile Picture</Typography>
-        {formik.values.profilePicture ? (
+        {formik.values.profilePicture !==
+        "https://allyner-dev.sfo3.digitaloceanspaces.com/null" ? (
           <FileCard
             fileUrl={formik.values.profilePicture}
             onDelete={() => handleProfilePictureChange("")}

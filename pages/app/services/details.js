@@ -70,6 +70,8 @@ const Page = () => {
     formik.setFieldValue("cover", fileUrl);
   };
 
+  console.log("-> formik.values.cover: ", formik.values.cover);
+
   return (
     <DefaultLayout
       title={formik.values.name || "Service Name"}
@@ -105,7 +107,8 @@ const Page = () => {
             />
 
             <Typography variant="subtitle1">Thumbnail</Typography>
-            {formik.values.cover ? (
+            {formik.values.cover !==
+            "https://allyner-dev.sfo3.digitaloceanspaces.com/" ? (
               <FileCard
                 fileUrl={formik.values.cover}
                 onDelete={() => handleCoverChange("")}

@@ -33,7 +33,7 @@ const Page = () => {
           serviceName: r.frozenService.name,
           createdAt: r.createdAt,
           userId: r.userId,
-          status: "Pending",
+          status: r.status,
         };
       });
       setServiceReqs(serviceRequests);
@@ -74,8 +74,8 @@ const Page = () => {
   );
 };
 
-const ServiceStatus = ({ status }) => {
-  return <Chip label="In Progress" />;
+const ServiceStatus = ({ row }) => {
+  return <Chip label={row.status} />;
 };
 
 const ClientName = ({ row }) => {
@@ -103,7 +103,7 @@ const columns = [
     flex: 1,
   },
   {
-    field: "fullName",
+    field: "status",
     headerName: "Status",
     sortable: false,
     minWidth: 200,

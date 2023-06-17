@@ -1,7 +1,16 @@
+import { useRouter } from "next/router";
+
 // COMPONENTS
 import Modal from "./Modal";
 
-const CancelOrderModal = () => {
+// OTHER
+import useOrder from "utils/useOrder";
+
+const CancelOrderModal = ({ orderId }) => {
+  const router = useRouter();
+
+  const { updateOrder } = useOrder(router.query.orderId);
+
   return (
     <Modal
       title="Cancel order"
@@ -10,6 +19,7 @@ const CancelOrderModal = () => {
         {
           text: "Keep Orders",
           variant: "outlined",
+          fn: () => updateOrder({ status: "CANCELED" }),
         },
       ]}
       withCancel

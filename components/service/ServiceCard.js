@@ -65,6 +65,15 @@ const ServiceCard = ({ service = {}, userType = "business", status }) => {
     handleClose();
   };
 
+  const pricingInfo = () => {
+    if (service.pricingType === 0)
+      return <Typography variant="subtitle2">Contact For Pricing</Typography>;
+    if (service.pricingType === 1)
+      return <Typography variant="h5">${service.pricingAmount}/hr</Typography>;
+    if (service.pricingType === 2)
+      return <Typography variant="h5">${service.pricingAmount}</Typography>;
+  };
+
   return (
     <Container>
       <img
@@ -86,7 +95,7 @@ const ServiceCard = ({ service = {}, userType = "business", status }) => {
         </PricintHelperText>
       )}
       <BottomContainer>
-        {!status && <Typography variant="h5">$58/hr</Typography>}
+        {!status && pricingInfo()}
         {status && <Chip label={status} color="primary" />}
         {userType === "client" && !status && (
           <Button href={`/services/${service.id}`}>

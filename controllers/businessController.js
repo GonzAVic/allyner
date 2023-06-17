@@ -1,4 +1,7 @@
 import Business from "db/models/Business.model";
+import User from "db/models/User.model";
+
+var ObjectId = require("mongoose").Types.ObjectId;
 
 const createBusiness = async (_, args) => {
   try {
@@ -51,9 +54,24 @@ const findBusinessByName = async (_, args) => {
   }
 };
 
+const findBusinessCustomers = async (_, args) => {
+  try {
+    let { businessId } = args;
+    console.log('-> businessId: ', businessId)
+    const users = await User.find({
+      businessId: new ObjectId(businessId),
+      userType: "CLIENT",
+    });
+    return users;
+  } catch (error) {
+    return error;
+  }
+};
+
 const queries = {
   findBusiness,
   findBusinessByName,
+  findBusinessCustomers,
 };
 
 const mutations = { createBusiness, updateBusiness };

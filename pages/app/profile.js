@@ -19,6 +19,8 @@ const Page = () => {
   const { user, updateUser } = userRepo;
   const { business } = businessRepo;
 
+  console.log('-> user?.profilePicture: ', user?.profilePicture)
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -35,7 +37,9 @@ const Page = () => {
   });
 
   const handleProfilePictureChange = (profilePictureUrl) => {
-    formik.setFieldValue("profilePicture", getFileUrl(profilePictureUrl));
+    console.log("-> profilePictureUrl: ", profilePictureUrl);
+    const image = profilePictureUrl ? getFileUrl(profilePictureUrl) : "";
+    formik.setFieldValue("profilePicture", image);
   };
 
   if (!user) return;

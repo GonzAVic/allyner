@@ -21,6 +21,7 @@ const ClientApplication = ({ children }) => {
 
   const contextObject = { businessRepo, userRepo, orderRepo };
 
+  if (!userRepo.user) return "Loading on ClientApplication";
   return (
     <ClientContext.Provider value={contextObject}>
       {children}

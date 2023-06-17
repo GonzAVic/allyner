@@ -1,16 +1,26 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 
 // MATERIAL UI
 import { DataGrid } from "@mui/x-data-grid";
 
 // COMPONENTS
-import DefaultLayout from "components/layout/DefaultLayout";
 import NullState from "components/NullState";
+import DefaultLayout from "components/layout/DefaultLayout";
+import { BusinessContext } from "contexts/BusinessContext";
 
 const Page = () => {
   const router = useRouter();
-  const [data, setData] = useState([]);
+  const { businessRepo } = useContext(BusinessContext);
+
+  const [data, setData] = useState([1]);
+
+  useEffect(() => {
+    businessRepo.findBusinessCustomers().then((customers) => {
+      console.log("-> customers: ", customers);
+      setData(customers);
+    });
+  }, []);
 
   const handleRowClick = (rowData) => {
     router.push({
@@ -29,7 +39,7 @@ const Page = () => {
       )}
       {Boolean(data.length) && (
         <DataGrid
-          rows={rows}
+          rows={data}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
@@ -46,7 +56,7 @@ const Page = () => {
 const columns = [
   { field: "id", headerName: "#Order", minWidth: 100 },
   {
-    field: "firstName",
+    field: "firstname",
     headerName: "Name",
     flex: 1,
   },

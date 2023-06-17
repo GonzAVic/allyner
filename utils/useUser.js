@@ -38,6 +38,7 @@ const useUser = (userId) => {
     const userCreatedAt = new Date(user.createdAt);
     user.createdAt = `${userCreatedAt.getDate()}/${userCreatedAt.getMonth()}/${userCreatedAt.getFullYear()}`;
     user.profilePicture = getFileUrl(user.profilePicture);
+    user.additionalInfo = JSON.parse(user.additionalInfo);
     setUser(user);
   }, [findUserHpr]);
 
