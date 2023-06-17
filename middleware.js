@@ -32,12 +32,4 @@ export default function middleware(req) {
     nextUrl.pathname = newPathname;
     return NextResponse.rewrite(nextUrl);
   }
-
-  if (!pathname.startsWith("/api/auth")) {
-    // For Api
-    const newPathname = `/api/auth`;
-    const nextUrl = req.nextUrl.clone();
-    nextUrl.pathname = newPathname;
-    return NextResponse.rewrite(nextUrl);
-  }
 }

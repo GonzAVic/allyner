@@ -31,19 +31,12 @@ const ClientApplication = ({ children }) => {
 
 const SessionContainer = ({ children }) => {
   const pedro = useSession();
-  console.log('-> pedro: ', pedro)
+  console.log("-> pedro: ", pedro);
   const { data: session, status } = pedro;
 
-  const router = useRouter();
-
-  // console.log("-> router: ", router);
-  // useEffect(() => {
-  //   if (status === "unauthenticated") {
-  //     if (router.pathname !== "/_sites/[site]/signin") router.push("/signin");
-  //   }
-  // }, [status]);
-
   if (status === "loading") return "loading CA...";
+  else if (status === "unauthenticated")
+    return "The client user is unauthenticated";
   else if (status === "authenticated")
     return <ClientApplication>{children}</ClientApplication>;
 };
