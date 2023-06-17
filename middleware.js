@@ -14,6 +14,10 @@ export default function middleware(req) {
     return new Response(null, { status: 404 });
   }
 
+  if (pathname.includes("/api")) {
+    return new Response(null, { status: 404 });
+  }
+
   if (!pathname.includes(".") && !pathname.startsWith("/api")) {
     // For clients
     if (
