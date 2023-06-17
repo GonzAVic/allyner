@@ -6,13 +6,11 @@ import User from "db/models/User.model";
 import Business from "db/models/Business.model";
 
 export const authOptions = {
-  secret: "process.env.JWT_SECRET",
   providers: [
     CredentialsProvider({
       name: "Credentials",
       async authorize(cred, req) {
         try {
-          console.log("-> cred: ", cred);
           const signupData = JSON.parse(cred.email);
           const { userData, businessData } = signupData;
           await connectDb();
