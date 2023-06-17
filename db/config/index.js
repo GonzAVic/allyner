@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const mongoDB = process.env.MONGO_DB_URI;
+const mongoDB = process.env.MONGODB_URI;
 
 const connectDB = async () => {
   try {
