@@ -82,6 +82,9 @@ export const authOptions = {
     },
   },
   secret: "mysimplesecretkey",
+  session: {
+    strategy: "jwt",
+  },
 };
 
 export default NextAuth(authOptions);

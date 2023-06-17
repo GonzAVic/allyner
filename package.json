@@ -20,8 +20,6 @@
     "@mui/material": "^5.10.9",
     "@mui/x-data-grid": "^5.17.8",
     "@mui/x-date-pickers": "^5.0.5",
-    "@tiptap/react": "^2.0.0-beta.199",
-    "@tiptap/starter-kit": "^2.0.0-beta.199",
     "apollo-server-micro": "^3.10.3",
     "aws-sdk": "^2.1246.0",
     "formidable-serverless": "^1.1.1",

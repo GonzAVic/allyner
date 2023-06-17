@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 export default function middleware(req) {
   const { pathname } = req.nextUrl;
   const hostname = req.headers.get("host");
-  console.log("-> hostname: ", hostname);
 
   const currentHost =
     process.env.NODE_ENV === "production"
@@ -11,10 +10,6 @@ export default function middleware(req) {
       : hostname?.replace(`.localhost:3000`, "");
 
   if (pathname.startsWith(`/_sites`)) {
-    return new Response(null, { status: 404 });
-  }
-
-  if (pathname.includes("/api")) {
     return new Response(null, { status: 404 });
   }
 
