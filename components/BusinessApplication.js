@@ -42,15 +42,14 @@ const getServiceId = (router) => {
 };
 
 const SessionContainer = ({ children }) => {
-  const sessionData = useSession();
   const router = useRouter();
-  console.log("-> sessionData: ", sessionData);
-  const { data: session, status } = sessionData;
-
-  useEffect(() => {
-    if (status === "authenticated")
+  const sessionData = useSession({
+    required: true,
+    onUnauthenticated() {
       router.push(`${window.location.origin}/business-signin`);
-  }, [status]);
+    },
+  });
+  const { status } = sessionData;
 
   if (status === "loading") return "loading BA...";
   return <BusinessApplication>{children}</BusinessApplication>;
