@@ -31,7 +31,6 @@ const ClientApplication = ({ children }) => {
 
 const SessionContainer = ({ children }) => {
   const pedro = useSession();
-  console.log("-> pedro: ", pedro);
   const { data: session, status } = pedro;
 
   if (status === "loading") return "loading CA...";

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 export default function middleware(req) {
   const { pathname } = req.nextUrl;
   const hostname = req.headers.get("host");
+  console.log("-> hostname: ", hostname);
 
   const currentHost =
     process.env.NODE_ENV === "production"
