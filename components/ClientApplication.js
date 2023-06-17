@@ -36,7 +36,7 @@ const SessionContainer = ({ children }) => {
 
   if (status === "loading") return "loading CA...";
   else if (status === "unauthenticated")
-    return "The client user is unauthenticated";
+    return "The client user is unauthenticated :o";
   else if (status === "authenticated")
     return <ClientApplication>{children}</ClientApplication>;
 };
