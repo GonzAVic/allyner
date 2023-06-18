@@ -4,8 +4,6 @@ export default function middleware(req) {
   const { pathname } = req.nextUrl;
   const hostname = req.headers.get("host");
 
-  console.log("->>>>> Middleware");
-
   const currentHost =
     process.env.NODE_ENV === "production"
       ? hostname?.replace(`.allyner.com`, "")
