@@ -5,6 +5,8 @@ import connectDb from "db/config/index";
 import User from "db/models/User.model";
 import Business from "db/models/Business.model";
 
+console.log("-> LALALALALALALALALALALALALALA");
+
 export const authOptions = {
   providers: [
     CredentialsProvider({
