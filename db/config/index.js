@@ -17,5 +17,3 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
-
-// mongodb+srv://vercel-admin-user:CD7TmWsC2inbDVvi@archticase.pzhcd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority

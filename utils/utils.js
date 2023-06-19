@@ -91,6 +91,7 @@ export const getFileUrl = (key) => {
 };
 
 export const getFileName = (fileUrl) => {
+  if (!fileUrl) return null;
   let fileName = fileUrl;
   fileName = fileName.replaceAll(
     "https://allyner-dev.sfo3.digitaloceanspaces.com/",

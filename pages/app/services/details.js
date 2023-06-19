@@ -107,8 +107,7 @@ const Page = () => {
             />
 
             <Typography variant="subtitle1">Thumbnail</Typography>
-            {formik.values.cover !==
-            "https://allyner-dev.sfo3.digitaloceanspaces.com/" ? (
+            {formik.values.cover ? (
               <FileCard
                 fileUrl={formik.values.cover}
                 onDelete={() => handleCoverChange("")}
