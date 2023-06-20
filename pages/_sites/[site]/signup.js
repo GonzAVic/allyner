@@ -13,7 +13,9 @@ const Page = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  const { business } = useBusiness("6483b7aa76172f4cb7a5d976");
+  const { business } = useBusiness(null, {
+    useBusinessName: true,
+  });
 
   useEffect(() => {
     if (status === "authenticated")

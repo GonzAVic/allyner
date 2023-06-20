@@ -32,6 +32,8 @@ export default function App({
   const modalRepo = useModalRepo();
   // TODO: Remove this session Repo
 
+  console.log('-> router.pathname: ', router.pathname)
+
   const renderView = () => {
     if (router.route.includes("/app")) {
       return (
@@ -86,5 +88,5 @@ const noSessionViews = [
   "/_sites/[site]/services/[serviceId]",
   "/business-signup",
   "/business-signin",
-  "/_sites/[site]",
+  "/_sites/[site]"
 ];

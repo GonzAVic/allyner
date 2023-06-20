@@ -11,19 +11,24 @@ import useBusiness from "utils/useBusiness";
 const Page = () => {
   const router = useRouter();
 
-  const businessRepo = useBusiness("6483b8c176172f4cb7a5d9df");
+  const businessRepo = useBusiness(null, {
+    useBusinessName: true,
+  });
   const { business } = businessRepo;
+  console.log("-> business: ", business);
 
   const handleSubmit = async (data) => {};
 
   return (
     <ClearLayout>
-      <ClientSignin
-        headline={business?.additionalData.signInHeadline}
-        message={business?.additionalData.signInMessage}
-        onSubmit={handleSubmit}
-        onSignup={() => router.push("/signup")}
-      />
+      {business && (
+        <ClientSignin
+          headline={business?.additionalData.signInHeadline}
+          message={business?.additionalData.signInMessage}
+          onSubmit={handleSubmit}
+          onSignup={() => router.push("/signup")}
+        />
+      )}
     </ClearLayout>
   );
 };

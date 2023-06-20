@@ -40,12 +40,13 @@ const useBusiness = (businessID, options = {}) => {
   useEffect(() => {
     if (!findBusinessHpr.called) return;
     if (!findBusinessHpr.data) return;
+    console.log("-> findBusinessHpr.data: ", findBusinessHpr.data);
+    if (!findBusinessHpr.data.findBusiness) return;
+    if (Object.keys(findBusinessHpr.data.findBusiness).length === 0) return;
 
     const business_ = { ...findBusinessHpr.data.findBusiness };
-    business_.additionalData =
-      typeof business_.additionalData === "object"
-        ? business_.additionalData
-        : JSON.parse(business_.additionalData);
+    console.log("-> business_: ", business_);
+    business_.additionalData = JSON.parse(business_.additionalData);
     setBusiness(business_);
     setServices(business_.services);
   }, [findBusinessHpr]);
