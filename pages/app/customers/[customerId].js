@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 
@@ -16,35 +16,42 @@ import FileCard from "components/FileCard";
 // OTHER
 import useUser from "utils/useUser";
 import { timezones } from "utils/constants";
+import { BusinessContext } from "contexts/BusinessContext";
 import useOrder from "utils/useOrder";
 
 const CustomerDetails = () => {
   const router = useRouter();
-  const { user, updateClient } = useUser(router.query.customerId);
-  const { findClientOrders } = useOrder(router.query.orderId);
+
+  const { businessRepo } = useContext(BusinessContext);
+
+  const { user, updateUser } = useUser(router.query.customerId);
+  const { findClientOrders } = useOrder(null, {
+    userId: router.query.customerId,
+    businessId: businessRepo.business.id,
+  });
 
   const [serviceReqs, setServiceReqs] = useState([]);
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      firstName: user?.firstName,
+      firstname: user?.firstname,
       email: user?.email,
       phoneNumber: user?.phoneNumber,
       profilePicture: user?.profilePicture,
       phoneNumber: user?.phoneNumber,
       additionalInfo: user ? user.additionalInfo || {} : {},
-      timezone: user?.timezone || "",
+      // timezone: user?.timezone || "",
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
-      updateClient(values);
+      updateUser(values);
     },
   });
 
   useEffect(() => {
     const onMount = async () => {
-      const response = await findClientOrders(2, user?.id);
+      const response = await findClientOrders();
       if (!response) return;
 
       const serviceRequests = response.map((r) => {
@@ -86,8 +93,8 @@ const CustomerDetails = () => {
           <Box className="card">
             <Typography variant="subtitle1">Name</Typography>
             <TextField
-              name="firstName"
-              value={formik.values.firstName}
+              name="firstname"
+              value={formik.values.firstname}
               onChange={formik.handleChange}
             />
 

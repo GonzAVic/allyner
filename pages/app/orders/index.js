@@ -81,7 +81,7 @@ const ServiceStatus = ({ row }) => {
 const ClientName = ({ row }) => {
   const { user } = useUser(row.userId);
   if (!user) return "COPY: No user";
-  return <Typography>{user.firstName + " " + user.lastName}</Typography>;
+  return <Typography>{user.firstname + " " + user.lastname}</Typography>;
 };
 
 const columns = [

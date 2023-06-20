@@ -32,9 +32,8 @@ const findBusinessOrders = async (_, args) => {
   try {
     let { businessId } = args;
     const orders = await Order.find({
-      _businessId: businessId,
+      businessId: new ObjectId(businessId),
     });
-    console.log("-> orders: ", orders[0].createdAt);
     return orders;
   } catch (error) {
     return error;

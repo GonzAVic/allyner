@@ -25,7 +25,6 @@ export const authOptions = {
           if (userData.userType === "CLIENT") {
             console.log("-> userData: ", userData);
             user = await new User(userData);
-            console.log("-> user: ", user);
             user.save();
 
             // REQUESTER IS A BUSINESS USER
@@ -37,7 +36,6 @@ export const authOptions = {
           }
 
           if (user) {
-            console.log("-> user: ", user);
             const userData = {
               email: user.email,
               name: user.firstname,

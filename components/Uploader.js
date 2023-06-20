@@ -13,7 +13,6 @@ import { createBucketObject, uploadFile } from "utils/utils";
 
 const Uploader = ({
   multiple = false,
-  withCropper = false,
   onUploadedFinished = () => {},
   cropShape,
 }) => {

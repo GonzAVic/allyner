@@ -7,7 +7,6 @@ const updateUser = async (_, args) => {
     const user = await User.findOneAndUpdate({ _id: userId }, input, {
       new: true,
     });
-    console.log("-> user: ", user);
 
     return user;
   } catch (error) {

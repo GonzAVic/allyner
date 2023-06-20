@@ -63,7 +63,13 @@ const useUser = (userId) => {
     return response;
   };
 
-  const updateUser = (data) => {
+  const updateUser = (data_) => {
+    const data = { ...data_ };
+    if (typeof data.additionalInfo !== "string" && !!data.additionalInfo) {
+      console.log("-> data.additionalInfo: ", data.additionalInfo);
+      data.additionalInfo = JSON.stringify(data.additionalInfo);
+    }
+    console.log("-> data: ", data);
     updateUserFn({
       variables: {
         input: data,

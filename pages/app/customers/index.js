@@ -13,11 +13,27 @@ const Page = () => {
   const router = useRouter();
   const { businessRepo } = useContext(BusinessContext);
 
-  const [data, setData] = useState([1]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    businessRepo.findBusinessCustomers().then((customers) => {
-      console.log("-> customers: ", customers);
+    businessRepo.findBusinessCustomers().then((result) => {
+      const customersOrders = JSON.parse(result);
+      console.log("-> customersOrders: ", customersOrders);
+
+      const customers = [];
+      for (const [key, value] of Object.entries(customersOrders)) {
+        const name = () => {
+          if (key.includes("@")) return "---";
+          else return `${value[0].firstname} ${value[0].lastname}`;
+        };
+        customers.push({
+          id: key,
+          email: value[0].email,
+          name: name(),
+          hasAccount: !key.includes("@") ? "Yes" : "No",
+          totalOrders: value.length - 1,
+        });
+      }
       setData(customers);
     });
   }, []);
@@ -56,7 +72,7 @@ const Page = () => {
 const columns = [
   { field: "id", headerName: "#Order", minWidth: 100 },
   {
-    field: "firstname",
+    field: "name",
     headerName: "Name",
     flex: 1,
   },
@@ -66,12 +82,12 @@ const columns = [
     flex: 1,
   },
   {
-    field: "age",
+    field: "hasAccount",
     headerName: "Has Account",
     flex: 1,
   },
   {
-    field: "orders",
+    field: "totalOrders",
     headerName: "Orders",
     flex: 1,
   },

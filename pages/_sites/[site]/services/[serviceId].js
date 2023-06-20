@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { signIn, useSession } from "next-auth/react";
 
 // MATERIAL UI
 import { styled } from "@mui/system";
@@ -17,7 +17,6 @@ import ClientSignup from "components/ClientSignup";
 // OTHER
 import useService from "utils/useService";
 import useBusiness from "utils/useBusiness";
-import useUser from "utils/useUser";
 import useOrder from "utils/useOrder";
 import { useKeyPress, ARROW_DOWN, ARROW_UP } from "utils/useKeyPress";
 
@@ -30,7 +29,6 @@ const ServiceWizard = () => {
   const { business } = businessRepo;
   const { service } = useService(router.query.serviceId);
   const { createOrder } = useOrder(null, { businessId: business?.id });
-  const { createClientUser } = useUser();
   const isArrowDownPressed = useKeyPress(ARROW_DOWN);
   const isArrowUpPressed = useKeyPress(ARROW_UP);
 
@@ -101,9 +99,7 @@ const ServiceWizard = () => {
     };
 
     if (session) {
-      console.log("-> session: ", session);
       serviceReqData.userId = userId;
-      console.log("-> serviceReqData: ", serviceReqData);
       const response = await createOrder(serviceReqData);
       router.push({
         pathname: "/orders/[orderId]",
@@ -128,10 +124,20 @@ const ServiceWizard = () => {
   };
 
   const handleSignup = async (data) => {
-    const response = await createClientUser(data);
-    // TODO: Handle error for email taken
-    const user = response.data.createClient.user;
-    // updateUser(user);
+    const userData = {
+      email: data.email,
+      password: data.password,
+      firstname: data.firsname,
+      lastname: data.lastname,
+      businessId: "6483b7aa76172f4cb7a5d976",
+      userType: "CLIENT",
+    };
+    const res = await signIn("credentials", {
+      redirect: false,
+      email: JSON.stringify({ userData }),
+      password: "---",
+    });
+    console.log("-> res: ", res);
     setCurrentStep("checkoutDetails");
   };
 
