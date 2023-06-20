@@ -45,8 +45,6 @@ const Page = () => {
     onSubmit: (values) => {
       const pricingDuration =
         values.durationHours * 60 + values.durationMinutes;
-      console.log("-> values.durationHours: ", values.durationHours);
-      console.log("-> pricingDuration: ", pricingDuration);
       const attributes = {
         name: values.name,
         description: values.description,
@@ -67,10 +65,9 @@ const Page = () => {
   });
 
   const handleCoverChange = (fileUrl) => {
+    console.log('-> fileUrl: ', fileUrl)
     formik.setFieldValue("cover", fileUrl);
   };
-
-  console.log("-> formik.values.cover: ", formik.values.cover);
 
   return (
     <DefaultLayout

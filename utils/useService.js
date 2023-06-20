@@ -9,8 +9,6 @@ import {
   DELETE_SERVICE,
 } from "graphql/apiql";
 
-import { getFileUrl } from "utils/utils";
-
 const useService = (serviceId, options = {}) => {
   const router = useRouter();
 
@@ -39,7 +37,6 @@ const useService = (serviceId, options = {}) => {
 
     const service_ = getServiceFnHpr.data.findService;
     service_.questionnaire = JSON.parse(service_.questionnaire);
-    service_.cover = getFileUrl(service_.cover);
     setService(service_);
   }, [getServiceFnHpr]);
 

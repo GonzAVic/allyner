@@ -18,7 +18,6 @@ const Page = () => {
   useEffect(() => {
     businessRepo.findBusinessCustomers().then((result) => {
       const customersOrders = JSON.parse(result);
-      console.log("-> customersOrders: ", customersOrders);
 
       const customers = [];
       for (const [key, value] of Object.entries(customersOrders)) {

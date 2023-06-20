@@ -4,14 +4,16 @@ import { Typography, IconButton } from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
 // OTHER
+import { getFileParams } from "utils/utils";
 
 const FileCard = ({ fileUrl, onDelete = () => {} }) => {
+  const fileParams = getFileParams(fileUrl);
   return (
     <Container>
       <Elements>
         <img className="filePReview" src={fileUrl} />
         <Typography color="text.secondary" sx={{ fontWeight: 500 }}>
-          {fileUrl}
+          {fileParams.name}
         </Typography>
       </Elements>
       <Elements>

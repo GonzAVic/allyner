@@ -275,24 +275,6 @@ export const UPDATE_USER = gql`
   ${USER_FRAGMENT}
 `;
 
-export const UPDATE_CLIENT = gql`
-  mutation ($input: UpdateClientInput!) {
-    updateClient(input: $input) {
-      user {
-        createdAt
-        email
-        firstName
-        id
-        lastName
-        phoneNumber
-        role
-        updatedAt
-        profilePicture
-      }
-    }
-  }
-`;
-
 export const DELETE_SERVICE = gql`
   ${SERVICE_FRAGMENT}
 

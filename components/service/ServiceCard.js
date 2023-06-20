@@ -74,6 +74,8 @@ const ServiceCard = ({ service = {}, userType = "business", status }) => {
       return <Typography variant="h5">${service.pricingAmount}</Typography>;
   };
 
+  console.log("-> service.pricingType: ", service.pricingType);
+
   return (
     <Container>
       <img
@@ -89,11 +91,12 @@ const ServiceCard = ({ service = {}, userType = "business", status }) => {
       >
         {description}
       </Typography>
-      {!status && (
+      {!status && service.pricingType !== 0 && (
         <PricintHelperText variant="body2" color="text.secondary">
           Starting At
         </PricintHelperText>
       )}
+      {/* TODO: Refactor this */}
       <BottomContainer>
         {!status && pricingInfo()}
         {status && <Chip label={status} color="primary" />}

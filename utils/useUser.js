@@ -10,13 +10,10 @@ import {
   UPDATE_CLIENT,
 } from "graphql/apiql";
 
-import { getFileUrl } from "utils/utils";
-
 const useUser = (userId) => {
   const [createBusinessUserFn] = useMutation(CREATE_BUSINESS_USER);
   const [createClientUserFn] = useMutation(CREATE_CLIENT_USER);
   const [updateUserFn, updateUserHpr] = useMutation(UPDATE_USER);
-  const [updateClientFn, updateClientHrp] = useMutation(UPDATE_CLIENT);
   const [findUserFn, findUserHpr] = useLazyQuery(FIND_USER);
 
   const [user, setUser] = useState(null);
@@ -37,7 +34,6 @@ const useUser = (userId) => {
     const user = findUserHpr.data.findUser;
     const userCreatedAt = new Date(user.createdAt);
     user.createdAt = `${userCreatedAt.getDate()}/${userCreatedAt.getMonth()}/${userCreatedAt.getFullYear()}`;
-    user.profilePicture = getFileUrl(user.profilePicture);
     user.additionalInfo = JSON.parse(user.additionalInfo);
     setUser(user);
   }, [findUserHpr]);
@@ -78,18 +74,6 @@ const useUser = (userId) => {
     });
   };
 
-  const updateClient = (data) => {
-    updateClientFn({
-      // TODO: remove this after handling name
-      variables: {
-        input: {
-          attributes: { ...data, lastName: "lastname value" },
-          id: Number(userId),
-        },
-      },
-    });
-  };
-
   const getSession = async ({ email, password }) => {
     const userData = {
       email,
@@ -119,7 +103,6 @@ const useUser = (userId) => {
     createClientUser,
     user,
     updateUser,
-    updateClient,
     getSession,
   };
 };

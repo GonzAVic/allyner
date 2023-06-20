@@ -66,7 +66,8 @@ const s3Client = new S3Client({
 });
 
 export const uploadFile = async (file) => {
-  let fileName = `${Date.now()}___${file.name}`;
+  console.log("-> file: ", file);
+  let fileName = `${Date.now()}___SIZE${file.size}___${file.name}`;
   fileName = fileName.replaceAll(" ", "-");
 
   const uploadParams = {
@@ -82,12 +83,25 @@ export const uploadFile = async (file) => {
 
   await s3Client.send(new PutObjectCommand(uploadParams));
 
-  const fileData = { url: uploadParams.Key };
+  const fileUrl = `https://allyner-dev.sfo3.digitaloceanspaces.com/${uploadParams.Key}`;
+
+  const fileData = { url: fileUrl };
   return fileData;
 };
 
-export const getFileUrl = (key) => {
-  return `https://allyner-dev.sfo3.digitaloceanspaces.com/${key}`;
+export const getFileParams = (fileUrl_) => {
+  const fileUrl = fileUrl_;
+  fileUrl = fileUrl.replace(
+    "https://allyner-dev.sfo3.digitaloceanspaces.com/",
+    ""
+  );
+  console.log("-> fileUrl: ", fileUrl);
+  fileUrl = fileUrl.slice(16);
+  const fileSplited = fileUrl.split("___");
+
+  const fileSize = parseInt(fileSplited[0].replace("SIZE", ""));
+
+  return { size: fileSize, name: fileSplited[1] };
 };
 
 export const getFileName = (fileUrl) => {

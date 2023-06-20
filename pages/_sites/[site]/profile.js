@@ -13,7 +13,6 @@ import FileCard from "components/FileCard";
 // OTHER
 import { ClientContext } from "contexts/ClientContext";
 import { timezones } from "utils/constants";
-import { getFileUrl } from "utils/utils";
 
 const Page = () => {
   const { userRepo } = useContext(ClientContext);
@@ -39,11 +38,7 @@ const Page = () => {
   });
 
   const handleProfilePictureChange = (profilePictureUrl) => {
-    if (!profilePictureUrl) {
-      formik.setFieldValue("profilePicture", null);
-      return;
-    }
-    formik.setFieldValue("profilePicture", getFileUrl(profilePictureUrl));
+    formik.setFieldValue("profilePicture", profilePictureUrl);
   };
 
   if (!user) return;

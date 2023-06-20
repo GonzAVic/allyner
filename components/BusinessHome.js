@@ -9,7 +9,11 @@ import ServiceCard from "components/service/ServiceCard";
 import useBusiness from "utils/useBusiness";
 
 const BusinessHome = ({ isResponsive }) => {
-  const { services, business, businessSubdomain } = useBusiness();
+  const { business, businessSubdomain } = useBusiness(null, {
+    useBusinessName: true,
+  });
+
+  if (!business) return "Loading business information";
 
   const signInUrl = "https://" + businessSubdomain + ".allyner.com/signin";
   const signUpUrl = "https://" + businessSubdomain + ".allyner.com/signup";
@@ -41,7 +45,7 @@ const BusinessHome = ({ isResponsive }) => {
             Check our services
           </Typography>
           <ServiceList isResponsive={isResponsive}>
-            {services.map((s, index) => {
+            {business.services.map((s, index) => {
               if (s.isActive) {
                 return (
                   <ServiceCard key={index} service={s} userType="client" />
@@ -56,7 +60,9 @@ const BusinessHome = ({ isResponsive }) => {
   );
 };
 
-const Container = styled("div")({});
+const Container = styled("div")({
+  width: "100%",
+});
 
 const Header = styled("div")({
   display: "flex",
