@@ -9,14 +9,14 @@ import ServiceCard from "components/service/ServiceCard";
 import useBusiness from "utils/useBusiness";
 
 const BusinessHome = ({ isResponsive }) => {
-  const { business, businessSubdomain } = useBusiness(null, {
+  const { business } = useBusiness(null, {
     useBusinessName: true,
   });
 
   if (!business) return "Loading business information";
 
-  const signInUrl = "https://" + businessSubdomain + ".allyner.com/signin";
-  const signUpUrl = "https://" + businessSubdomain + ".allyner.com/signup";
+  const signInUrl = "https://" + business.subdomain + ".allyner.com/signin";
+  const signUpUrl = "https://" + business.subdomain + ".allyner.com/signup";
 
   return (
     <Container>

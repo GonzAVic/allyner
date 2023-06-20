@@ -16,7 +16,7 @@ import { copyToClipBoard } from "utils/utils";
 
 const Page = () => {
   const { businessRepo } = useContext(BusinessContext);
-  const { businessSubdomain } = businessRepo;
+  const { business } = businessRepo;
 
   return (
     <DefaultLayout title="Online Store">
@@ -29,11 +29,11 @@ const Page = () => {
         </Typography>
         <Box className="card" sx={{ mb: 5 }}>
           <Typography variant="subtitle1">Booking Page URL</Typography>
-          <TextField value={"https://" + businessSubdomain + ".allyner.com"} />
+          <TextField value={"https://" + business.subdomain + ".allyner.com"} />
           <Button
             variant="text"
             onClick={() =>
-              copyToClipBoard("https://" + businessSubdomain + ".allyner.com")
+              copyToClipBoard("https://" + business.subdomain + ".allyner.com")
             }
             startIcon={<LinkIcon />}
           >

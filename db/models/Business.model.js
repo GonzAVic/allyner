@@ -25,6 +25,9 @@ const BusinessSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    subdomain: {
+      type: String,
+    },
     additionalData: {
       type: String,
       required: true,

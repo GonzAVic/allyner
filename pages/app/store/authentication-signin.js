@@ -18,7 +18,7 @@ import { copyToClipBoard } from "utils/utils";
 
 const Page = () => {
   const { businessRepo } = useContext(BusinessContext);
-  const { business, updateBusiness, businessSubdomain } = businessRepo;
+  const { business, updateBusiness } = businessRepo;
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -39,7 +39,7 @@ const Page = () => {
     },
   });
 
-  const signInUrl = "https://" + businessSubdomain + ".allyner.comstore/signin";
+  const signInUrl = "https://" + business.subdomain + ".allyner.comstore/signin";
 
   return (
     <DefaultLayout title="Store/Authentication" formik={formik}>

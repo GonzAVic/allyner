@@ -45,10 +45,11 @@ const findBusiness = async (_, args) => {
   }
 };
 
-const findBusinessByName = async (_, args) => {
+const findBusinessBySubdomain = async (_, args) => {
   try {
-    let { businessName } = args;
-    const business = await Business.findOne({ name: businessName });
+    let { businessSubdomain } = args;
+
+    const business = await Business.findOne({ subdomain: businessSubdomain });
     return business;
   } catch (error) {
     return error;
@@ -109,7 +110,7 @@ const findBusinessCustomers = async (_, args) => {
 
 const queries = {
   findBusiness,
-  findBusinessByName,
+  findBusinessBySubdomain,
   findBusinessCustomers,
 };
 

@@ -48,6 +48,7 @@ const BUSINESS_FRAGMENT = gql`
     industry
     currency
     timezone
+    subdomain
     additionalData
 
     updatedAt
@@ -110,8 +111,8 @@ export const FIND_BUSINESS = gql`
 `;
 
 export const FIND_BUSINESS_BY_NAME = gql`
-  query ($businessName: String!) {
-    findBusinessByName(businessName: $businessName) {
+  query ($businessSubdomain: String!) {
+    findBusinessBySubdomain(businessSubdomain: $businessSubdomain) {
       ...BusinessFields
     }
   }

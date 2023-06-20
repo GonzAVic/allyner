@@ -30,7 +30,14 @@ function Page() {
       timezone: business?.timezone || "",
     },
     onSubmit: (values) => {
-      updateBusiness(values);
+      let subdomain = values.name
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "");
+      subdomain = subdomain.toLowerCase();
+      subdomain = subdomain.trim();
+      subdomain = subdomain.replaceAll(" ", "-");
+
+      updateBusiness({ ...values, subdomain });
     },
   });
 

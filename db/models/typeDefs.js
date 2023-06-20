@@ -27,6 +27,7 @@ const typeDefs = gql`
     industry: String
     currency: String
     timezone: String
+    subdomain: String
     additionalData: String
 
     createdAt: String
@@ -86,6 +87,7 @@ const typeDefs = gql`
     industry: String
     currency: String
     timezone: String
+    subdomain: String
     additionalData: String
   }
 
@@ -120,7 +122,7 @@ const typeDefs = gql`
     findUser(userId: String!): User
 
     findBusiness(businessId: String!): Business
-    findBusinessByName(businessName: String!): Business
+    findBusinessBySubdomain(businessSubdomain: String!): Business
     findBusinessCustomers(businessId: String!): String
 
     findService(serviceId: String!): Service

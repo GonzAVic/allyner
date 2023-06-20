@@ -28,7 +28,7 @@ import { copyToClipBoard } from "utils/utils";
 
 const Page = () => {
   const { businessRepo } = useContext(BusinessContext);
-  const { business, updateBusiness, businessSubdomain } = businessRepo;
+  const { business, updateBusiness } = businessRepo;
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -95,7 +95,8 @@ const Page = () => {
 
   const open = Boolean(anchorEl);
 
-  const signUpUrl = "https://" + businessSubdomain + ".allyner.comstore/signup";
+  const signUpUrl =
+    "https://" + business.subdomain + ".allyner.comstore/signup";
 
   return (
     <FormikProvider value={formik}>

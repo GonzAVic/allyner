@@ -11,7 +11,7 @@ import {
 
 const useBusiness = (businessID, options = {}) => {
   const [findBusinessFn, findBusinessHpr] = useLazyQuery(FIND_BUSINESS);
-  const [findBusinessByNameFn] = useLazyQuery(FIND_BUSINESS_BY_NAME);
+  const [findBusinessBySubdomainFn] = useLazyQuery(FIND_BUSINESS_BY_NAME);
   const [findBusinessCustomersFn] = useLazyQuery(FIND_BUSINESS_CUSTOMERS);
   const [updateBusinessFn, updateBusinessHpr] = useMutation(UPDATE_BUSINESS);
   const [createBusinessFn] = useMutation(CREATE_BUSINESS);
@@ -33,7 +33,7 @@ const useBusiness = (businessID, options = {}) => {
 
   useEffect(() => {
     if (options.useBusinessName) {
-      findBusinessByName();
+      findBusinessBySubdomain();
     }
   }, [options.useBusinessName]);
 
@@ -59,11 +59,11 @@ const useBusiness = (businessID, options = {}) => {
     }, 200);
   }, [updateBusinessHpr]);
 
-  const findBusinessByName = async (businessName) => {
-    const response = await findBusinessByNameFn({
-      variables: { businessName: window.location.host.split(".")[0] },
+  const findBusinessBySubdomain = async (businessName) => {
+    const response = await findBusinessBySubdomainFn({
+      variables: { businessSubdomain: window.location.host.split(".")[0] },
     });
-    setBusinessId(response.data.findBusinessByName.id);
+    setBusinessId(response.data.findBusinessBySubdomain.id);
   };
 
   const findBusinessCustomers = async (businessName) => {
@@ -89,14 +89,10 @@ const useBusiness = (businessID, options = {}) => {
     return response;
   };
 
-  let businessSubdomain = business?.name || "";
-  businessSubdomain = businessSubdomain.toLowerCase();
-
   return {
     business,
     services,
-    businessSubdomain,
-    findBusinessByName,
+    findBusinessBySubdomain,
     findBusinessCustomers,
 
     updateBusiness,

@@ -22,7 +22,6 @@ import { AppContext } from "contexts/AppContext";
 
 // HOOKS
 import useModalRepo from "utils/useModalRepo";
-import useSession from "utils/useSession";
 
 export default function App({
   Component,
@@ -32,7 +31,6 @@ export default function App({
 
   const modalRepo = useModalRepo();
   // TODO: Remove this session Repo
-  const sessionRepo = useSession();
 
   const renderView = () => {
     if (router.route.includes("/app")) {
@@ -62,7 +60,7 @@ export default function App({
     }
   };
 
-  const contextObject = { modalRepo, sessionRepo };
+  const contextObject = { modalRepo };
   return (
     <SessionProvider session={session}>
       <Head>
@@ -88,4 +86,5 @@ const noSessionViews = [
   "/_sites/[site]/services/[serviceId]",
   "/business-signup",
   "/business-signin",
+  "/_sites/[site]",
 ];
