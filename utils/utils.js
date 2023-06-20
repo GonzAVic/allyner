@@ -95,7 +95,6 @@ export const getFileParams = (fileUrl_) => {
     "https://allyner-dev.sfo3.digitaloceanspaces.com/",
     ""
   );
-  console.log("-> fileUrl: ", fileUrl);
   fileUrl = fileUrl.slice(16);
   const fileSplited = fileUrl.split("___");
 

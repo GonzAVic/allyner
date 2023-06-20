@@ -29,7 +29,6 @@ function Page() {
       currency: business?.currency || "",
       timezone: business?.timezone || "",
     },
-    // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
       updateBusiness(values);
     },
@@ -37,6 +36,17 @@ function Page() {
 
   const handleLogoChange = (logoUrl) => {
     formik.setFieldValue("logo", logoUrl);
+  };
+
+  const handleNameChange = (event) => {
+    const { value } = event.target;
+
+    const newValue = value.replace(
+      /[`~!@#$%^*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi,
+      ""
+    );
+
+    formik.setFieldValue("name", newValue);
   };
 
   return (
@@ -48,8 +58,9 @@ function Page() {
         <Typography variant="subtitle1">Business Name</Typography>
         <TextField
           name="name"
+          onChange={handleNameChange}
           value={formik.values.name}
-          onChange={formik.handleChange}
+          // onChange={formik.handleChange}
         />
         <Typography variant="subtitle1">Location</Typography>
         <TextField
