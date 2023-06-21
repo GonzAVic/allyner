@@ -28,9 +28,9 @@ const Page = () => {
     const userData = {
       email: data.email,
       password: data.password,
-      firstname: data.firsname,
+      firstname: data.firstname,
       lastname: data.lastname,
-      businessId: "6483b7aa76172f4cb7a5d976",
+      businessId: business.id,
       userType: "CLIENT",
     };
     const res = await signIn("credentials", {

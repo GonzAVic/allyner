@@ -1,5 +1,10 @@
+import { useFormik } from "formik";
+
 // MATERIAL UI
 import { Typography, TextField, Button, Box } from "@mui/material";
+
+// OTHER
+import { createFormSchema } from "utils/utils";
 
 const ClientSignin = ({
   headline,
@@ -7,6 +12,26 @@ const ClientSignin = ({
   onSignup = () => {},
   onSubmit = () => {},
 }) => {
+  const formik = useFormik({
+    validateOnChange: false,
+    enableReinitialize: true,
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: createFormSchema([
+      { title: "password", isRequired: true },
+    ]),
+    onSubmit: (values) => {
+      const data = {
+        email: values.email,
+        password: values.password,
+      };
+
+      onSubmit(data);
+    },
+  });
+
   return (
     <div>
       <Typography variant="h4" sx={{ textAlign: "center" }}>
@@ -19,9 +44,21 @@ const ClientSignin = ({
       >
         {message || "Start selling your services online today!"}
       </Typography>
-      <TextField label="Email" />
-      <TextField label="Password" type="password" />
-      <Button onClick={onSubmit} sx={{ mb: 5 }} fullWidth>
+      <TextField
+        label="Email"
+        name="email"
+        onChange={formik.handleChange}
+        helperText={formik.errors.email}
+        error={formik.errors.email}
+      />
+      <TextField
+        label="Password"
+        name="password"
+        onChange={formik.handleChange}
+        helperText={formik.errors.password}
+        error={formik.errors.password}
+      />
+      <Button onClick={formik.submitForm} sx={{ mb: 5 }} fullWidth>
         Sign In
       </Button>
       <Box sx={{ display: "flex", justifyContent: "center" }}>

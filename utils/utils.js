@@ -90,6 +90,11 @@ export const uploadFile = async (file) => {
 };
 
 export const getFileParams = (fileUrl_) => {
+  if (!fileUrl_)
+    return {
+      name: "",
+      size: "",
+    };
   const fileUrl = fileUrl_;
   fileUrl = fileUrl.replace(
     "https://allyner-dev.sfo3.digitaloceanspaces.com/",
@@ -124,4 +129,13 @@ export const getSessionData = () => {
     uid: localStorage.getItem("uid"),
     clintId: localStorage.getItem("clientId"),
   };
+};
+
+export const subdomainFromName = (name) => {
+  let subdomain = name.normalize("NFD").replace(/\p{Diacritic}/gu, "");
+  subdomain = subdomain.toLowerCase();
+  subdomain = subdomain.trim();
+  subdomain = subdomain.replaceAll(" ", "-");
+
+  return subdomain;
 };

@@ -35,6 +35,7 @@ const BusinessSignin = () => {
       const userData = {
         email: values.email,
         password: values.password,
+        userType: "BUSINESS",
       };
 
       const res = await signIn("credentials", {

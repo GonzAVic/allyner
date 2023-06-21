@@ -45,7 +45,6 @@ const useBusiness = (businessID, options = {}) => {
     if (Object.keys(findBusinessHpr.data.findBusiness).length === 0) return;
 
     const business_ = { ...findBusinessHpr.data.findBusiness };
-    console.log("-> business_: ", business_);
     business_.additionalData = JSON.parse(business_.additionalData);
     setBusiness(business_);
     setServices(business_.services);

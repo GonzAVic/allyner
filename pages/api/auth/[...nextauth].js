@@ -1,9 +1,13 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+var ObjectId = require("mongoose").Types.ObjectId;
 
 import connectDb from "db/config/index";
 import User from "db/models/User.model";
 import Business from "db/models/Business.model";
+
+// OTHER
+import { subdomainFromName } from "utils/utils";
 
 export const authOptions = {
   providers: [
@@ -19,20 +23,39 @@ export const authOptions = {
           const { userData, businessData } = signupData;
           await connectDb();
 
-          let user = await User.findOne({ email: userData.email });
+          console.log("-> userData: ", userData);
+
+          let user = null;
 
           // REQUESTER IS A CLIENT USER
           if (userData.userType === "CLIENT") {
-            console.log("-> userData: ", userData);
-            user = await new User(userData);
-            user.save();
+            user = await User.findOne({
+              email: userData.email,
+              businessId: new ObjectId(userData.businessId),
+            });
+
+            if (!user) {
+              user = await new User(userData);
+              user.save();
+            }
 
             // REQUESTER IS A BUSINESS USER
           } else if (userData.userType === "BUSINESS") {
-            const business = await new Business(businessData);
-            business.save();
-            user = await new User({ ...userData, businessId: business.id });
-            user.save();
+            user = await User.findOne({
+              email: userData.email,
+            });
+
+            if (!user) {
+              // TODO: add a subdomain in here
+              const sobdomain = subdomainFromName(businessData.name);
+              const business = await new Business({
+                ...businessData,
+                sobdomain,
+              });
+              business.save();
+              user = await new User({ ...userData, businessId: business.id });
+              user.save();
+            }
           }
 
           if (user) {

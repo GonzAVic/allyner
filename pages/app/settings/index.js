@@ -13,6 +13,7 @@ import FileCard from "components/FileCard";
 // OTHER
 import { BusinessContext } from "contexts/BusinessContext";
 import { industries, currencies, timezones } from "utils/constants";
+import { subdomainFromName } from "utils/utils";
 
 function Page() {
   const { businessRepo } = useContext(BusinessContext);
@@ -30,12 +31,7 @@ function Page() {
       timezone: business?.timezone || "",
     },
     onSubmit: (values) => {
-      let subdomain = values.name
-        .normalize("NFD")
-        .replace(/\p{Diacritic}/gu, "");
-      subdomain = subdomain.toLowerCase();
-      subdomain = subdomain.trim();
-      subdomain = subdomain.replaceAll(" ", "-");
+      const subdomain = subdomainFromName(values.name);
 
       updateBusiness({ ...values, subdomain });
     },
