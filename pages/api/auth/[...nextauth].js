@@ -47,10 +47,10 @@ export const authOptions = {
 
             if (!user) {
               // TODO: add a subdomain in here
-              const sobdomain = subdomainFromName(businessData.name);
+              const subdomain = subdomainFromName(businessData.name);
               const business = await new Business({
                 ...businessData,
-                sobdomain,
+                subdomain,
               });
               business.save();
               user = await new User({ ...userData, businessId: business.id });
