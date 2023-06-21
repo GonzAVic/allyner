@@ -129,7 +129,11 @@ const DefaultLayout = ({
               </MenuItem>
               <MenuItem
                 onClick={() =>
-                  signOut({ redirect: true, callbackUrl: "/business-signin" })
+                  signOut({
+                    redirect: true,
+                    callbackUrl:
+                      userType === "client" ? "/signin" : "/business-signin",
+                  })
                 }
               >
                 <Typography

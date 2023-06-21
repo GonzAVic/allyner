@@ -40,7 +40,6 @@ const ServiceWizard = () => {
   const currentQuestion = questions[questionIndex];
 
   const userId = session?.user?.id;
-  console.log("-> userId: ", userId);
 
   useEffect(() => {
     if (!service) return;

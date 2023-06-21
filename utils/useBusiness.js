@@ -40,7 +40,6 @@ const useBusiness = (businessID, options = {}) => {
   useEffect(() => {
     if (!findBusinessHpr.called) return;
     if (!findBusinessHpr.data) return;
-    console.log("-> findBusinessHpr.data: ", findBusinessHpr.data);
     if (!findBusinessHpr.data.findBusiness) return;
     if (Object.keys(findBusinessHpr.data.findBusiness).length === 0) return;
 

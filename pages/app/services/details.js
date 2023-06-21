@@ -19,8 +19,9 @@ import { pricingTypes } from "utils/constants";
 
 const Page = () => {
   const router = useRouter();
-  const { serviceRepo } = useContext(BusinessContext);
+  const { serviceRepo, businessRepo } = useContext(BusinessContext);
   const { service, updateService, createService } = serviceRepo;
+  const { business } = businessRepo;
 
   const duration = service?.pricingDuration / 60;
 
@@ -65,7 +66,6 @@ const Page = () => {
   });
 
   const handleCoverChange = (fileUrl) => {
-    console.log('-> fileUrl: ', fileUrl)
     formik.setFieldValue("cover", fileUrl);
   };
 
