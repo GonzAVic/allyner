@@ -5,14 +5,7 @@ import { Typography, Button } from "@mui/material";
 // COMPONENTS
 import ServiceCard from "components/service/ServiceCard";
 
-// OTHER
-import useBusiness from "utils/useBusiness";
-
-const BusinessHome = ({ isResponsive }) => {
-  const { business } = useBusiness(null, {
-    useBusinessName: true,
-  });
-
+const BusinessHome = ({ business, isResponsive }) => {
   if (!business) return "Loading business information";
 
   const signInUrl = "https://" + business.subdomain + ".allyner.com/signin";

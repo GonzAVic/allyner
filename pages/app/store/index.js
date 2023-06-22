@@ -21,7 +21,7 @@ const Page = () => {
   return (
     <DefaultLayout title="Online Store">
       <PreviewLayout
-        previewComponent={<BusinessHome isResponsive />}
+        previewComponent={<BusinessHome business={business} isResponsive />}
         noTopSpace
       >
         <Typography className="section-title" variant="subtitle1">

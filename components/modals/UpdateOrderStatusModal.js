@@ -31,6 +31,8 @@ const UpdateOrderStatusModal = ({ initialStatus }) => {
     },
   });
 
+  const statutes = business.additionalData.serviceStatuses || [];
+
   return (
     <Modal
       title="Update Order Status"
@@ -50,13 +52,11 @@ const UpdateOrderStatusModal = ({ initialStatus }) => {
         sx={{ textTransform: "capitalize" }}
         select
       >
-        {concatStatuses(business.additionalData.serviceStatuses).map(
-          (option) => (
-            <MenuItem key={option} value={option}>
-              {option}
-            </MenuItem>
-          )
-        )}
+        {concatStatuses(statutes).map((option) => (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
+        ))}
       </TextField>
     </Modal>
   );

@@ -11,6 +11,7 @@ const typeDefs = gql`
     profilePicture: String
     additionalInfo: String
     userType: String
+    timezone: String
 
     businessId: String
 
@@ -77,6 +78,7 @@ const typeDefs = gql`
     additionalInfo: String
     userType: String
     businessId: String
+    timezone: String
   }
 
   input BusinessInput {

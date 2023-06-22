@@ -32,7 +32,7 @@ const useUser = (userId) => {
     if (!findUserHpr.data) return;
 
     const user = findUserHpr.data.findUser;
-    const userCreatedAt = new Date(user.createdAt);
+    const userCreatedAt = new Date(Number(user.createdAt));
     user.createdAt = `${userCreatedAt.getDate()}/${userCreatedAt.getMonth()}/${userCreatedAt.getFullYear()}`;
     user.additionalInfo = JSON.parse(user.additionalInfo);
     setUser(user);

@@ -30,8 +30,15 @@ const ClientApplication = ({ children }) => {
 };
 
 const SessionContainer = ({ children }) => {
-  const pedro = useSession();
-  const { data: session, status } = pedro;
+  const router = useRouter();
+
+  const sessionData = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push(`${window.location.origin}/signin`);
+    },
+  });
+  const { data: session, status } = sessionData;
 
   if (status === "loading") return "loading CA...";
   else if (status === "unauthenticated")

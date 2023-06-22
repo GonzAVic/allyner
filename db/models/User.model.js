@@ -25,6 +25,9 @@ const UserSchema = new mongoose.Schema(
       default: "{}",
       required: true,
     },
+    timezone: {
+      type: String,
+    },
     userType: {
       type: String,
       required: true,

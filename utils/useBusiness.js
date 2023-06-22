@@ -58,14 +58,14 @@ const useBusiness = (businessID, options = {}) => {
     }, 200);
   }, [updateBusinessHpr]);
 
-  const findBusinessBySubdomain = async (businessName) => {
+  const findBusinessBySubdomain = async () => {
     const response = await findBusinessBySubdomainFn({
       variables: { businessSubdomain: window.location.host.split(".")[0] },
     });
     setBusinessId(response.data.findBusinessBySubdomain.id);
   };
 
-  const findBusinessCustomers = async (businessName) => {
+  const findBusinessCustomers = async () => {
     const response = await findBusinessCustomersFn({
       variables: { businessId },
     });

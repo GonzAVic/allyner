@@ -66,15 +66,13 @@ const ServiceCard = ({ service = {}, userType = "business", status }) => {
   };
 
   const pricingInfo = () => {
-    if (service.pricingType === 0)
+    if (service.pricingType === "CONTACT")
       return <Typography variant="subtitle2">Contact For Pricing</Typography>;
-    if (service.pricingType === 1)
+    if (service.pricingType === "RATE")
       return <Typography variant="h5">${service.pricingAmount}/hr</Typography>;
-    if (service.pricingType === 2)
+    if (service.pricingType === "FIXED")
       return <Typography variant="h5">${service.pricingAmount}</Typography>;
   };
-
-  console.log("-> service.pricingType: ", service.pricingType);
 
   return (
     <Container>
@@ -91,7 +89,7 @@ const ServiceCard = ({ service = {}, userType = "business", status }) => {
       >
         {description}
       </Typography>
-      {!status && service.pricingType !== 0 && (
+      {!status && service.pricingType !== "CONTACT" && (
         <PricintHelperText variant="body2" color="text.secondary">
           Starting At
         </PricintHelperText>

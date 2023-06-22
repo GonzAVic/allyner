@@ -66,7 +66,6 @@ const s3Client = new S3Client({
 });
 
 export const uploadFile = async (file) => {
-  console.log("-> file: ", file);
   let fileName = `${Date.now()}___SIZE${file.size}___${file.name}`;
   fileName = fileName.replaceAll(" ", "-");
 

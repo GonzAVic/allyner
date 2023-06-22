@@ -26,7 +26,7 @@ const Page = () => {
       phoneNumber: user?.phoneNumber,
       profilePicture: user?.profilePicture,
       additionalInfo: user ? user.additionalInfo || {} : {},
-      // timezone: user?.timezone || "",
+      timezone: user?.timezone || "",
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
@@ -67,8 +67,7 @@ const Page = () => {
           onChange={formik.handleChange}
         />
         <Typography variant="subtitle1">Profile Picture</Typography>
-        {formik.values.profilePicture !==
-        "https://allyner-dev.sfo3.digitaloceanspaces.com/null" ? (
+        {formik.values.profilePicture ? (
           <FileCard
             fileUrl={formik.values.profilePicture}
             onDelete={() => handleProfilePictureChange("")}

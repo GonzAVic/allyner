@@ -27,7 +27,7 @@ const ServiceSchema = new mongoose.Schema(
     },
     pricingType: {
       type: String,
-      default: "0",
+      default: "CONTACT",
     },
     isActive: {
       type: Boolean,

@@ -1,15 +1,15 @@
 export const pricingTypes = (pick, valueToLabel) => {
   const values = [
     {
-      value: 0,
+      value: "CONTACT",
       label: "Contact for Pricing",
     },
     {
-      value: 1,
+      value: "RATE",
       label: "Price by time",
     },
     {
-      value: 2,
+      value: "FIXED",
       label: "Fixed Price",
     },
   ];

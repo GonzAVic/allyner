@@ -30,6 +30,7 @@ const USER_FRAGMENT = gql`
     phoneNumber
     profilePicture
     additionalInfo
+    timezone
 
     businessId
 

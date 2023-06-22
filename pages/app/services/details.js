@@ -19,9 +19,8 @@ import { pricingTypes } from "utils/constants";
 
 const Page = () => {
   const router = useRouter();
-  const { serviceRepo, businessRepo } = useContext(BusinessContext);
+  const { serviceRepo } = useContext(BusinessContext);
   const { service, updateService, createService } = serviceRepo;
-  const { business } = businessRepo;
 
   const duration = service?.pricingDuration / 60;
 
@@ -57,6 +56,8 @@ const Page = () => {
         isActive: values.isActive,
       };
 
+      if (!attributes.pricingType) delete attributes.pricingType;
+
       if (router.query.id === "new") {
         createService(attributes);
       } else {
@@ -81,7 +82,11 @@ const Page = () => {
         isNewService={router.query.id === "new"}
       />
 
-      <PreviewLayout previewComponent={<ServiceCard service={formik.values} />}>
+      <PreviewLayout
+        previewComponent={
+          <ServiceCard service={formik.values} userType="client" />
+        }
+      >
         <form onSubmit={formik.handleSubmit}>
           <Typography className="section-title" variant="subtitle1">
             General Details
@@ -166,7 +171,7 @@ const Page = () => {
                 </MenuItem>
               ))}
             </TextField>
-            {Number(formik.values.pricingType) === 1 && (
+            {formik.values.pricingType === "RATE" && (
               <Box className="row-2" sx={{ alignItems: "flex-end", mt: 2 }}>
                 <TextField
                   name="durationHours"
@@ -194,7 +199,7 @@ const Page = () => {
                 </TextField>
               </Box>
             )}
-            {Number(formik.values.pricingType) !== 0 && (
+            {formik.values.pricingType !== "CONTACT" && (
               <TextField
                 name="pricingAmount"
                 value={formik.values.pricingAmount}
