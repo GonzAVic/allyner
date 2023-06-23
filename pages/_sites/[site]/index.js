@@ -4,7 +4,7 @@ import BusinessHome from "components/BusinessHome";
 // OTHER
 import useBusiness from "utils/useBusiness";
 
-const index = () => {
+const Page = () => {
   const { business } = useBusiness(null, {
     useBusinessName: true,
   });
@@ -12,4 +12,4 @@ const index = () => {
   return <BusinessHome business={business} />;
 };
 
-export default index;
+export default Page;
