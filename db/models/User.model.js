@@ -6,6 +6,9 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    passwordEncrypted: {
+      type: String,
+    },
     firstname: {
       type: String,
       required: true,
@@ -32,7 +35,6 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
     businessId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

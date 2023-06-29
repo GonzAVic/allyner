@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 
 // MATERIAL UI
-import { Typography, TextField, Button, Box } from "@mui/material";
+import { Typography, TextField, Button, Box, Alert } from "@mui/material";
 
 // OTHER
 import { createFormSchema } from "utils/utils";
@@ -11,6 +11,7 @@ const ClientSignin = ({
   message,
   onSignup = () => {},
   onSubmit = () => {},
+  isDisplayError = false,
 }) => {
   const formik = useFormik({
     validateOnChange: false,
@@ -44,12 +45,18 @@ const ClientSignin = ({
       >
         {message || "Start selling your services online today!"}
       </Typography>
+      {isDisplayError && (
+        <Alert severity="error" sx={{ mb: 3.5 }}>
+          [Copy] Wrong Credentials
+        </Alert>
+      )}
       <TextField
         label="Email"
         name="email"
         onChange={formik.handleChange}
         helperText={formik.errors.email}
         error={formik.errors.email}
+        required
       />
       <TextField
         label="Password"
@@ -57,6 +64,7 @@ const ClientSignin = ({
         onChange={formik.handleChange}
         helperText={formik.errors.password}
         error={formik.errors.password}
+        required
       />
       <Button onClick={formik.submitForm} sx={{ mb: 5 }} fullWidth>
         Sign In

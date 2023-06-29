@@ -12,8 +12,10 @@ import OrderCard from "components/OrderCard";
 import { ClientContext } from "contexts/ClientContext";
 
 const Index = () => {
-  const { businessRepo, orderRepo } = useContext(ClientContext);
+  const { businessRepo, orderRepo, userRepo } = useContext(ClientContext);
   const { services, business } = businessRepo;
+
+  console.log("-> userRepo: ", userRepo);
 
   const [serviceReqs, setServiceReqs] = useState([]);
 
@@ -33,7 +35,7 @@ const Index = () => {
 
   return (
     <DefaultLayout
-      title="Good Afternoon Kaenate"
+      title={`Good Afternoon ${userRepo.user.firstname}`}
       secondaryText="Welcome to Allyner technologies inc."
       userType="client"
     >

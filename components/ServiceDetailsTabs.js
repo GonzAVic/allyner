@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 
 // MATERIAL UI
 import { Button, Box } from "@mui/material";
-import CheckIcon from "@mui/icons-material/Check";
 
 const ServiceDetailsTabs = ({ currentStep, isNewService, serviceId }) => {
   const router = useRouter();
@@ -16,7 +15,6 @@ const ServiceDetailsTabs = ({ currentStep, isNewService, serviceId }) => {
             query: { id: serviceId },
           })
         }
-        startIcon={<CheckIcon />}
       >
         Details
       </Button>

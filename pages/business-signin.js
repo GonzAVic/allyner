@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { signIn, useSession } from "next-auth/react";
@@ -18,6 +18,8 @@ import AllynerLogo from "assets/allyner-logo.svg";
 const BusinessSignin = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
+
+  const [isDisplayError, setIsDisplayError] = useState(false);
 
   useEffect(() => {
     if (status === "authenticated")
@@ -40,10 +42,12 @@ const BusinessSignin = () => {
 
       const res = await signIn("credentials", {
         redirect: false,
-        email: JSON.stringify({ userData }),
+        email: JSON.stringify({ userData, action: "SIGNIN" }),
         password: "---",
         callbackUrl: `${window.location.origin}/app`,
       });
+
+      if (res.error) setIsDisplayError(true);
     },
   });
 
@@ -65,9 +69,11 @@ const BusinessSignin = () => {
       >
         Share your services in an easy way around the world
       </Typography>
-      <Alert severity="error" sx={{ mb: 3.5 }}>
-        This is an error alert — check it out!
-      </Alert>
+      {isDisplayError && (
+        <Alert severity="error" sx={{ mb: 3.5 }}>
+          [Copy] Wrong Credentials
+        </Alert>
+      )}
       <TextField
         label="Email"
         name="email"
@@ -75,6 +81,7 @@ const BusinessSignin = () => {
         helperText={formik.errors.email}
         error={formik.errors.email}
         sx={{ mb: 2.5 }}
+        required
       />
       <TextField
         label="Password"
@@ -82,6 +89,7 @@ const BusinessSignin = () => {
         onChange={formik.handleChange}
         helperText={formik.errors.password}
         error={formik.errors.password}
+        required
       />
       <Button type="submit" fullWidth>
         Sign In

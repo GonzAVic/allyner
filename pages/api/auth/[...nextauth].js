@@ -1,4 +1,5 @@
 import NextAuth from "next-auth";
+import CryptoJS from "crypto-js";
 import CredentialsProvider from "next-auth/providers/credentials";
 var ObjectId = require("mongoose").Types.ObjectId;
 
@@ -8,6 +9,29 @@ import Business from "db/models/Business.model";
 
 // OTHER
 import { subdomainFromName } from "utils/utils";
+
+const encryptText = (textValue) => {
+  const ecnryptedText = CryptoJS.AES.encrypt(
+    String(textValue),
+    "secret key 123"
+  ).toString();
+  return ecnryptedText;
+};
+
+const decryptText = (encryptedText) => {
+  const bytes = CryptoJS.AES.decrypt(encryptedText, "secret key 123");
+  const originalText = bytes.toString(CryptoJS.enc.Utf8);
+
+  return originalText;
+};
+
+const createUserDataObj = (data) => {
+  return {
+    email: data.email,
+    name: data.firstname,
+    id: data.id,
+  };
+};
 
 export const authOptions = {
   providers: [
@@ -20,10 +44,9 @@ export const authOptions = {
       async authorize(cred, req) {
         try {
           const signupData = JSON.parse(cred.email);
-          const { userData, businessData } = signupData;
+          const { userData, businessData, action } = signupData;
+          console.log("-> action: ", action);
           await connectDb();
-
-          console.log("-> userData: ", userData);
 
           let user = null;
 
@@ -34,9 +57,23 @@ export const authOptions = {
               businessId: new ObjectId(userData.businessId),
             });
 
-            if (!user) {
-              user = await new User(userData);
-              user.save();
+            // SIGN IN
+            if (action === "SIGNIN") {
+              if (!user) return null;
+              else {
+                if (userData.password !== decryptText(user.passwordEncrypted)) {
+                  return null;
+                }
+                return createUserDataObj(user);
+              }
+            } else {
+              if (user) return null;
+              else {
+                const passwordEncrypted = encryptText(userData.password);
+                user = await new User({ ...userData, passwordEncrypted });
+                user.save();
+                return createUserDataObj(user);
+              }
             }
 
             // REQUESTER IS A BUSINESS USER
@@ -45,33 +82,37 @@ export const authOptions = {
               email: userData.email,
             });
 
-            if (!user) {
-              // TODO: add a subdomain in here
-              const subdomain = subdomainFromName(businessData.name);
-              const business = await new Business({
-                ...businessData,
-                subdomain,
-              });
-              business.save();
-              user = await new User({ ...userData, businessId: business.id });
-              user.save();
+            // SIGN IN
+            if (action === "SIGNIN") {
+              if (!user) return null;
+              else {
+                if (userData.password !== decryptText(user.passwordEncrypted)) {
+                  return null;
+                }
+                return createUserDataObj(user);
+              }
+            } else {
+              if (user) return null;
+              else {
+                const subdomain = subdomainFromName(businessData.name);
+                const business = await new Business({
+                  ...businessData,
+                  subdomain,
+                });
+                business.save();
+                const passwordEncrypted = encryptText(userData.password);
+                user = await new User({
+                  ...userData,
+                  businessId: business.id,
+                  passwordEncrypted,
+                });
+                user.save();
+                return createUserDataObj(user);
+              }
             }
           }
 
-          if (user) {
-            const userData = {
-              email: user.email,
-              name: user.firstname,
-              id: user.id,
-            };
-            return userData;
-          } else {
-            console.log("-> no user");
-            // If you return null then an error will be displayed advising the user to check their details.
-            return null;
-
-            // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
-          }
+          return null;
         } catch (error) {
           console.log("-> error: ", error);
         }

@@ -48,6 +48,7 @@ const BusinessSignup = () => {
         firstname: values.firstName,
         lastname: values.lastName,
         email: values.email,
+        password: values.password,
         userType: "BUSINESS",
       };
 
@@ -96,6 +97,7 @@ const BusinessSignup = () => {
         onChange={formik.handleChange}
         helperText={formik.errors.email}
         error={formik.errors.email}
+        required
       />
       <TextField
         label="Password"
@@ -104,6 +106,7 @@ const BusinessSignup = () => {
         onChange={formik.handleChange}
         helperText={formik.errors.password}
         error={formik.errors.password}
+        required
         InputProps={{
           endAdornment: (
             <InputAdornment position="start">
@@ -120,6 +123,7 @@ const BusinessSignup = () => {
         onChange={formik.handleChange}
         helperText={formik.errors.firstName}
         error={formik.errors.firstName}
+        required
       />
       <TextField
         label="Last Name"
@@ -127,6 +131,7 @@ const BusinessSignup = () => {
         onChange={formik.handleChange}
         helperText={formik.errors.lastName}
         error={formik.errors.lastName}
+        required
       />
       <TextField
         label="Company Name"
@@ -134,8 +139,10 @@ const BusinessSignup = () => {
         onChange={formik.handleChange}
         helperText={formik.errors.companyName}
         error={formik.errors.companyName}
+        required
       />
       <TextField
+        label="Industry"
         name="industry"
         value={formik.values.industry}
         onChange={formik.handleChange}
@@ -200,7 +207,6 @@ const createSignupSchema = () => {
     firstName: yup.string().required(),
     lastName: yup.string().required(),
     companyName: yup.string().required(),
-    industry: yup.string().required(),
   };
   return yup.object().shape(schemaAttributes);
 };

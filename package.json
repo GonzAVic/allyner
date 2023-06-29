@@ -22,6 +22,7 @@
     "@mui/x-date-pickers": "^5.0.5",
     "apollo-server-micro": "^3.10.3",
     "aws-sdk": "^2.1246.0",
+    "crypto-js": "^4.1.1",
     "formidable-serverless": "^1.1.1",
     "formik": "^2.2.9",
     "graphql": "^16.6.0",

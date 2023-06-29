@@ -70,6 +70,7 @@ const ClientSignup = ({
         onChange={formik.handleChange}
         helperText={formik.errors.email}
         error={formik.errors.email}
+        required
       />
       <TextField
         label="Password"
@@ -77,6 +78,7 @@ const ClientSignup = ({
         onChange={formik.handleChange}
         helperText={formik.errors.password}
         error={formik.errors.password}
+        required
       />
       <TextField
         label="First name"
@@ -84,6 +86,7 @@ const ClientSignup = ({
         onChange={formik.handleChange}
         helperText={formik.errors.firstname}
         error={formik.errors.firstname}
+        required
       />
       <TextField
         label="Last name"
@@ -91,6 +94,7 @@ const ClientSignup = ({
         onChange={formik.handleChange}
         helperText={formik.errors.lastname}
         error={formik.errors.lastname}
+        required
       />
       {additionalQuestions.map((q, index) => {
         return (
