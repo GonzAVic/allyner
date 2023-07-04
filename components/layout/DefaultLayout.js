@@ -37,7 +37,7 @@ const DefaultLayout = ({
   secondaryText,
   cta,
   title,
-  titleChip,
+  chipData,
   backHref,
   moreOptions,
   formik,
@@ -159,7 +159,12 @@ const DefaultLayout = ({
                     <ArrowBackIcon />
                   </IconButtonBg>
                 )}
-                <Typography variant="h4">{title}</Typography>
+                <Typography variant="h4">
+                  {title}{" "}
+                  {chipData && (
+                    <Chip label={chipData.text} color={chipData.color} />
+                  )}
+                </Typography>
               </Box>
               <Typography>{secondaryText}</Typography>
             </Box>

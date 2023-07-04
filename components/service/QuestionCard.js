@@ -75,6 +75,18 @@ const QuestionCard = ({
     setAnchorEl(null);
   };
 
+  const errorsLabels = () => {
+    if (!formik.errors.questions) return "";
+    if (!formik.errors.questions[index]) return "";
+
+    let errorLabel = "";
+    for (const [key, value] of Object.entries(formik.errors.questions[index])) {
+      errorLabel = `${errorLabel} ${value}.`;
+    }
+
+    return errorLabel;
+  };
+
   return (
     <Box className="card" sx={{ mb: 1.5 }}>
       <QuestionTypeTitle
@@ -96,6 +108,8 @@ const QuestionCard = ({
         value={question.title}
         onChange={(event) => updateQuestionAttr("title", event.target.value)}
         onFocus={activeQuestion}
+        error={formik.errors.questions && formik.errors.questions[index]}
+        helperText={errorsLabels()}
         sx={{ mb: "16px !important" }}
       />
       {question.isDescriptionActive && (

@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import * as yup from "yup";
 import { useRouter } from "next/router";
 import { useFormik, FieldArray, FormikProvider } from "formik";
 
@@ -33,6 +34,7 @@ const Page = () => {
     initialValues: {
       questions: service ? service.questionnaire : [],
     },
+    validationSchema: createFormSchema(),
     onSubmit: (values) => {
       updateService({ questionnaire: values.questions });
     },
@@ -139,5 +141,35 @@ const Page = () => {
 const QuestionTypeOption = styled(MenuItem)({
   textTransform: "capitalize",
 });
+
+const createFormSchema = () => {
+  const questionWithOptions = [
+    "DROPDOWN",
+    "MULTIPLE",
+    "SINGLE_SELECT",
+    "MULTIPLE_SELECT",
+  ];
+
+  const schemaAttributes = {
+    questions: yup.array().of(
+      yup.lazy((questionData) => {
+        const { type } = questionData;
+
+        if (questionWithOptions.includes(type)) {
+          return yup.object().shape({
+            options: yup.array().min(1, "Options should not be empty"),
+            title: yup.string().required("Title can not be empty"),
+          });
+        } else {
+          return yup.object().shape({
+            title: yup.string().required("Title can not be empty"),
+          });
+        }
+      })
+    ),
+  };
+
+  return yup.object().shape(schemaAttributes);
+};
 
 export default Page;

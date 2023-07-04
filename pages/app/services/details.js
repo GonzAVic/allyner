@@ -15,11 +15,13 @@ import ServiceDetailsTabs from "components/ServiceDetailsTabs";
 
 // OTHERS
 import { BusinessContext } from "contexts/BusinessContext";
+import { AppContext } from "contexts/AppContext";
 import { pricingTypes } from "utils/constants";
 
 const Page = () => {
   const router = useRouter();
   const { serviceRepo, businessRepo } = useContext(BusinessContext);
+  const { modalRepo } = useContext(AppContext);
   const { service, updateService, createService } = serviceRepo;
   const { business } = businessRepo;
 
@@ -40,7 +42,6 @@ const Page = () => {
           : 15,
       pricingAmount:
         service && service.pricingAmount ? service.pricingAmount : 50,
-      isActive: service?.isActive || false,
     },
     // validationSchema: createLoginSchema(),
     onSubmit: (values) => {
@@ -54,7 +55,6 @@ const Page = () => {
         pricingType: String(values.pricingType),
         callToAction: values.callToAction,
         cover: values.cover,
-        isActive: values.isActive,
       };
 
       if (!attributes.pricingType) delete attributes.pricingType;
@@ -72,13 +72,25 @@ const Page = () => {
   };
 
   const serviceUrl =
-    "https://" + business.subdomain + ".allyner.com/services/" + service.id;
+    "https://" + business.subdomain + ".allyner.com/services/" + service?.id;
 
   return (
     <DefaultLayout
       title={formik.values.name || "Service Name"}
       backHref="/app/services"
       formik={formik}
+      chipData={{
+        text: service.isActive ? "Active" : "Inactive",
+        color: service.isActive ? "success" : "error",
+      }}
+      cta={{
+        text: "Update Status",
+        fn: () =>
+          modalRepo.open("UpdateServiceStatus", {
+            initialStatus: service.isActive,
+          }),
+      }}
+      moreOptions={[{ text: "Delete" }]}
     >
       <ServiceDetailsTabs
         currentStep="details"
@@ -136,24 +148,6 @@ const Page = () => {
               {CTA_OPTIONS.map((option) => (
                 <MenuItem key={option} value={option}>
                   {option}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Box>
-
-          <Typography className="section-title" variant="h6">
-            Status
-          </Typography>
-          <Box className="card" sx={{ mb: 5 }}>
-            <TextField
-              name="isActive"
-              value={formik.values.isActive}
-              onChange={formik.handleChange}
-              select
-            >
-              {STATUS.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
                 </MenuItem>
               ))}
             </TextField>
@@ -317,17 +311,6 @@ const PRICE_DURATION_MINUTES = [
   {
     value: 45,
     label: "45 Minutes",
-  },
-];
-
-const STATUS = [
-  {
-    value: true,
-    label: "Active",
-  },
-  {
-    value: false,
-    label: "Inactive",
   },
 ];
 

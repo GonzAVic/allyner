@@ -5,6 +5,7 @@ import DeleteServiceModal from "components/modals/DeleteServiceModal";
 import UpdateOrderStatusModal from "components/modals/UpdateOrderStatusModal";
 import CancelOrderModal from "components/modals/CancelOrderModal";
 import CropImageModal from "components/modals/CropImageModal";
+import UpdateServiceStatusModal from "components/modals/UpdateServiceStatusModal";
 
 const useModalRepo = () => {
   const [currentModal, setCurrentModal] = useState(null);
@@ -24,6 +25,9 @@ const useModalRepo = () => {
         break;
       case "CropImage":
         component = <CropImageModal />;
+        break;
+      case "UpdateServiceStatus":
+        component = <UpdateServiceStatusModal />;
         break;
 
       default:
