@@ -19,17 +19,18 @@ import { pricingTypes } from "utils/constants";
 
 const Page = () => {
   const router = useRouter();
-  const { serviceRepo } = useContext(BusinessContext);
+  const { serviceRepo, businessRepo } = useContext(BusinessContext);
   const { service, updateService, createService } = serviceRepo;
+  const { business } = businessRepo;
 
   const duration = service?.pricingDuration / 60;
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: service?.name,
-      description: service?.description,
-      cover: service?.cover,
+      name: service?.name || "",
+      description: service?.description || "",
+      cover: service?.cover || "",
       callToAction: service?.callToAction || "Book Now",
       pricingType: service?.pricingType || "",
       durationHours: duration ? parseInt(duration) : 1,
@@ -69,6 +70,9 @@ const Page = () => {
   const handleCoverChange = (fileUrl) => {
     formik.setFieldValue("cover", fileUrl);
   };
+
+  const serviceUrl =
+    "https://" + business.subdomain + ".allyner.com/services/" + service.id;
 
   return (
     <DefaultLayout
@@ -214,10 +218,7 @@ const Page = () => {
             Service URL
           </Typography>
           <Box className="card">
-            <TextField
-              name="serviceUrl"
-              value="https://allyner.com/service/dsfjsaaw8213-23182/services1"
-            />
+            <TextField name="serviceUrl" value={serviceUrl} disabled />
           </Box>
         </form>
       </PreviewLayout>

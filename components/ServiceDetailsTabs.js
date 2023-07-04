@@ -6,7 +6,7 @@ import { Button, Box } from "@mui/material";
 const ServiceDetailsTabs = ({ currentStep, isNewService, serviceId }) => {
   const router = useRouter();
   return (
-    <div>
+    <Box sx={{ paddingBottom: 3, borderBottom: "1px solid #D4D9E6", mb: 3 }}>
       <Button
         variant={`tab${currentStep === "details" ? "-active" : ""}`}
         onClick={() =>
@@ -31,7 +31,7 @@ const ServiceDetailsTabs = ({ currentStep, isNewService, serviceId }) => {
       >
         In Take Quesitons
       </Button>
-    </div>
+    </Box>
   );
 };
 

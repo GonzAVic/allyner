@@ -206,10 +206,20 @@ const theme = () => {
         },
       },
 
+      MuiMenu: {
+        styleOverrides: {
+          paper: {
+            boxShadow: "0px 4px 20px 0px #132C5624",
+            borderRadius: 10,
+          },
+        },
+      },
+
       MuiMenuItem: {
         styleOverrides: {
           root: {
             textTransform: "capitalize",
+            padding: "8px 24px",
           },
         },
       },

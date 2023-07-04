@@ -84,6 +84,7 @@ const Container = styled("div")({
   flexDirection: "column",
   padding: 16,
   alignItems: "center",
+  cursor: "pointer",
 
   span: {
     color: "#444CE7",

@@ -74,8 +74,10 @@ const ServiceCard = ({ service = {}, userType = "business", status }) => {
       return <Typography variant="h5">${service.pricingAmount}</Typography>;
   };
 
+  const dynamicProps = userType === "business" ? { onClick: handleEdit } : {};
+
   return (
-    <Container>
+    <Container {...dynamicProps} userType={userType}>
       <img
         className="cover"
         src={cover}
@@ -142,7 +144,7 @@ const ServiceCard = ({ service = {}, userType = "business", status }) => {
   );
 };
 
-const Container = styled("div")({
+const Container = styled("div")(({ userType }) => ({
   position: "relative",
   padding: 20,
   borderRadius: 16,
@@ -150,6 +152,10 @@ const Container = styled("div")({
   width: 354,
   height: 484,
   border: "1px solid #EFF1F5",
+
+  "&:hover": {
+    cursor: userType === "business" ? "pointer" : "cursor",
+  },
 
   "& .cover": {
     width: "100%",
@@ -166,7 +172,7 @@ const Container = styled("div")({
     "-webkit-line-clamp": "3",
     "-webkit-box-orient": "vertical",
   },
-});
+}));
 
 const ServiceName = styled(Typography)({
   marginTop: 16,
