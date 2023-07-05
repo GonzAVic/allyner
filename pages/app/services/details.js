@@ -74,6 +74,7 @@ const Page = () => {
   const serviceUrl =
     "https://" + business.subdomain + ".allyner.com/services/" + service?.id;
 
+  if (!service) return null;
   return (
     <DefaultLayout
       title={formik.values.name || "Service Name"}

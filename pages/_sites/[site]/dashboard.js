@@ -15,8 +15,6 @@ const Index = () => {
   const { businessRepo, orderRepo, userRepo } = useContext(ClientContext);
   const { services, business } = businessRepo;
 
-  console.log("-> userRepo: ", userRepo);
-
   const [serviceReqs, setServiceReqs] = useState([]);
 
   const { findClientOrders } = orderRepo;
@@ -33,9 +31,20 @@ const Index = () => {
     onMount();
   }, [business]);
 
+  const currentTime = new Date().getHours();
+  let greetingText = "";
+
+  if (currentTime < 12) {
+    greetingText = "Good Morning";
+  } else if (currentTime < 18) {
+    greetingText = "Good Afternoon";
+  } else {
+    greetingText = "Good Evening";
+  }
+
   return (
     <DefaultLayout
-      title={`Good Afternoon ${userRepo.user.firstname}`}
+      title={`${greetingText} ${userRepo.user.firstname}`}
       secondaryText="Welcome to Allyner technologies inc."
       userType="client"
     >

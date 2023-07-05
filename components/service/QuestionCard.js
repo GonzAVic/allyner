@@ -84,7 +84,6 @@ const QuestionCard = ({
       errorLabel = `${errorLabel} ${value}.`;
     }
 
-    console.log('-> errorLabel: ', errorLabel)
     return errorLabel;
   };
 

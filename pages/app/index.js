@@ -15,9 +15,21 @@ import ServiceCard from "components/service/ServiceCard";
 import { BusinessContext } from "contexts/BusinessContext";
 
 export default function Index() {
-  const { businessRepo } = useContext(BusinessContext);
+  const { businessRepo, userRepo } = useContext(BusinessContext);
+
+  const currentTime = new Date().getHours();
+  let greetingText = "";
+
+  if (currentTime < 12) {
+    greetingText = "Good Morning";
+  } else if (currentTime < 18) {
+    greetingText = "Good Afternoon";
+  } else {
+    greetingText = "Good Evening";
+  }
+
   return (
-    <DefaultLayout title="Good Evening Harman">
+    <DefaultLayout title={`${greetingText} ${userRepo.user.firstname}`}>
       <div className="service-cards-list-ctr">
         <HomeCard
           label="Total Session"
