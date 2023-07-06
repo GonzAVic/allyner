@@ -2,7 +2,6 @@ import { useContext } from "react";
 
 // MATERIAL UI
 import { TextField, Box, Typography, Button } from "@mui/material";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import LinkIcon from "@mui/icons-material/Link";
 
 // COMPONENTS
@@ -38,9 +37,6 @@ const Page = () => {
             startIcon={<LinkIcon />}
           >
             Copy Link
-          </Button>
-          <Button variant="text" startIcon={<ShareOutlinedIcon />}>
-            Share
           </Button>
         </Box>
       </PreviewLayout>

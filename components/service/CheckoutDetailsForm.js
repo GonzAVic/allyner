@@ -51,10 +51,11 @@ const CheckoutDetailsForm = ({
     <Container onSubmit={formik.handleSubmit}>
       <Box sx={{ textAlign: "center" }}>
         <Typography variant="h4" sx={{ mb: 2 }}>
-          {headline || "[COPY] Default UI value"}
+          {headline || "Almost there!"}
         </Typography>
         <Typography color="text.secondary" sx={{ mb: 4, fontSize: 20 }}>
-          {message || "[COPY] Default UI value"}
+          {message ||
+            "We just need a little more information to finalize your service request"}
         </Typography>
       </Box>
 
@@ -79,7 +80,6 @@ const CheckoutDetailsForm = ({
         </>
       )}
 
-
       {Boolean(additionalQuestions.length) && (
         <Typography variant="subtitle1">Other Details</Typography>
       )}
@@ -87,7 +87,7 @@ const CheckoutDetailsForm = ({
         return (
           <TextField
             key={index}
-            label={q.title || "[COPY] default value"}
+            label={q.title || "[COPY] de asdfault value"}
             multiline={q.questionType === "LONG_TEXT"}
             rows={3}
             name={q.title}

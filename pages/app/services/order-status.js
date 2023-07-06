@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import * as yup from "yup";
 import { useFormik } from "formik";
 import { resetServerContext } from "react-beautiful-dnd";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -34,7 +35,9 @@ const Page = () => {
     initialValues: {
       statuses: statuses || [],
     },
-    // validationSchema: createLoginSchema(),
+    validationSchema: createFormSchema(),
+    validateOnChange: false,
+    validateOnBlur: false,
     onSubmit: (values) => {
       const serviceStatuses_ = values.statuses.map((s) => s.label);
       const attributes = {
@@ -63,7 +66,6 @@ const Page = () => {
       label: ss,
     }));
 
-    // formik.setFieldValue("statuses", serviceStatuses);
     setStatuses(serviceStatuses);
   }, [business]);
 
@@ -93,11 +95,12 @@ const Page = () => {
     const index = formik.values.statuses.findIndex((s) => {
       return s.id === id;
     });
-    console.log("-> index: ", index);
     const newStatusesArray = formik.values.statuses.map((s) => s);
     newStatusesArray.splice(index, 1);
     formik.setFieldValue("statuses", newStatusesArray);
   };
+
+  console.log("-> formik: ", formik.errors);
 
   return (
     <DefaultLayout title="Service Booking" formik={formik}>
@@ -161,6 +164,19 @@ const Status = ({ id, formik = null, value, onDelete }) => {
       return s.id === id;
     });
 
+  const errorsLabels = () => {
+    if (!formik) return;
+    if (!formik.errors.statuses) return "";
+    if (!formik.errors.statuses[index]) return "";
+
+    let errorLabel = "";
+    for (const [key, value] of Object.entries(formik.errors.statuses[index])) {
+      errorLabel = `${errorLabel} ${value}.`;
+    }
+
+    return errorLabel;
+  };
+
   if (index === -1) return null;
   return (
     <SContainer className="card">
@@ -169,6 +185,10 @@ const Status = ({ id, formik = null, value, onDelete }) => {
         name={`statuses[${index}].label`}
         value={value || formik.values.statuses[index].label}
         onChange={value ? () => {} : formik.handleChange}
+        error={
+          formik && formik.errors.statuses && formik.errors.statuses[index]
+        }
+        helperText={errorsLabels()}
       />
       {!value && (
         <IconButton onClick={() => onDelete(id)}>
@@ -195,5 +215,19 @@ const SContainer = styled("div")({
   marginBottom: 6,
   marginTop: 6,
 });
+
+const createFormSchema = () => {
+  const schemaAttributes = {
+    statuses: yup.array().of(
+      yup.lazy((status) => {
+        return yup.object().shape({
+          label: yup.string().required("Field should not be empty"),
+        });
+      })
+    ),
+  };
+
+  return yup.object().shape(schemaAttributes);
+};
 
 export default Page;

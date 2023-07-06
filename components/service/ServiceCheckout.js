@@ -10,12 +10,13 @@ const ServiceCheckout = ({ headline, message }) => {
         <CheckBackground>
           <CheckIcon />
         </CheckBackground>
-        <Typography variant="h5">{headline || "Default UI value"}</Typography>
+        <Typography variant="h5">{headline || "Thank you!"}</Typography>
         <Typography
           color="text.secondary"
           sx={{ maxWidth: 320, margin: "auto", mt: 2 }}
         >
-          {message || "Default UI value"}
+          {message ||
+            "Thank you for choosing our service. We'll be in touch shortly to discuss the next steps."}
         </Typography>
       </Box>
     </Container>

@@ -118,17 +118,27 @@ const OderOverview = ({ userType }) => {
             />
           </Box>
 
-          <Typography className="section-title" variant="subtitle1">
-            Checkout Details
-          </Typography>
-          <Box className="card">
-            {serviceReq.additionalInfo.additionalQuestions &&
-              serviceReq.additionalInfo.additionalQuestions.map((aq, index) => {
-                return (
-                  <OrderItem key={index} label={aq.title} value={aq.answer} />
-                );
-              })}
-          </Box>
+          {Boolean(serviceReq.additionalInfo.additionalQuestions.length) && (
+            <>
+              <Typography className="section-title" variant="subtitle1">
+                Checkout Details
+              </Typography>
+              <Box className="card">
+                {serviceReq.additionalInfo.additionalQuestions &&
+                  serviceReq.additionalInfo.additionalQuestions.map(
+                    (aq, index) => {
+                      return (
+                        <OrderItem
+                          key={index}
+                          label={aq.title}
+                          value={aq.answer}
+                        />
+                      );
+                    }
+                  )}
+              </Box>
+            </>
+          )}
         </div>
 
         <div>

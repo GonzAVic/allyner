@@ -3,7 +3,6 @@ import { useFormik } from "formik";
 
 // MATERIAL UI
 import { Typography, Box, TextField, Button } from "@mui/material";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import LinkIcon from "@mui/icons-material/Link";
 
 // COMPONENTS
@@ -39,7 +38,8 @@ const Page = () => {
     },
   });
 
-  const signInUrl = "https://" + business.subdomain + ".allyner.comstore/signin";
+  const signInUrl =
+    "https://" + business.subdomain + ".allyner.comstore/signin";
 
   return (
     <DefaultLayout title="Store/Authentication" formik={formik}>
@@ -82,9 +82,6 @@ const Page = () => {
             onClick={() => copyToClipBoard(signInUrl)}
           >
             Copy Link
-          </Button>
-          <Button variant="text" startIcon={<ShareOutlinedIcon />}>
-            Share
           </Button>
         </Box>
       </PreviewLayout>

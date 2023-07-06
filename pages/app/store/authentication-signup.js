@@ -11,7 +11,6 @@ import {
   MenuItem,
   Menu,
 } from "@mui/material";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import LinkIcon from "@mui/icons-material/Link";
 
 // COMPONENTS
@@ -197,9 +196,6 @@ const Page = () => {
               onClick={() => copyToClipBoard(signUpUrl)}
             >
               Copy Link
-            </Button>
-            <Button variant="text" startIcon={<ShareOutlinedIcon />}>
-              Share
             </Button>
           </Box>
         </PreviewLayout>
