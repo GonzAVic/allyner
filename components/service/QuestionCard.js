@@ -42,7 +42,7 @@ const QuestionCard = ({
   const handleAddOption = () => {
     formik.setFieldValue(`questions[${index}].options`, [
       ...question.options,
-      "new option",
+      "",
     ]);
   };
 

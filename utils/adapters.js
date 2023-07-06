@@ -45,7 +45,9 @@ export const serviceReqAdapter = (order) => {
     Number(order_.frozenService.createdAt)
   );
   order_.frozenService.createdAt = `${frozenServiceCreatedAt.getDate()}/${frozenServiceCreatedAt.getMonth()}/${frozenServiceCreatedAt.getFullYear()}`;
-  const frozenServiceUpdatedAt = new Date(order_.frozenService.updatedAt);
+  const frozenServiceUpdatedAt = new Date(
+    Number(order_.frozenService.updatedAt)
+  );
   order_.frozenService.updatedAt = `${frozenServiceUpdatedAt.getDate()}/${frozenServiceUpdatedAt.getMonth()}/${frozenServiceUpdatedAt.getFullYear()}`;
   order_.answers = JSON.parse(order_.answers);
 

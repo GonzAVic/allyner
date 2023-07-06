@@ -3,7 +3,8 @@ import { useRouter } from "next/router";
 import { useFormik } from "formik";
 
 // MATERIAL UI
-import { TextField, MenuItem, Box, Typography } from "@mui/material";
+import { TextField, MenuItem, Box, Typography, Button } from "@mui/material";
+import LinkIcon from "@mui/icons-material/Link";
 
 // COMPONENTS
 import Uploader from "components/Uploader";
@@ -17,6 +18,7 @@ import ServiceDetailsTabs from "components/ServiceDetailsTabs";
 import { BusinessContext } from "contexts/BusinessContext";
 import { AppContext } from "contexts/AppContext";
 import { pricingTypes } from "utils/constants";
+import { copyToClipBoard } from "utils/utils";
 
 const Page = () => {
   const router = useRouter();
@@ -74,16 +76,17 @@ const Page = () => {
   const serviceUrl =
     "https://" + business.subdomain + ".allyner.com/services/" + service?.id;
 
-  if (!service) return null;
   return (
     <DefaultLayout
       title={formik.values.name || "Service Name"}
       backHref="/app/services"
       formik={formik}
-      chipData={{
-        text: service.isActive ? "Active" : "Inactive",
-        color: service.isActive ? "success" : "error",
-      }}
+      chipData={
+        service && {
+          text: service.isActive ? "Active" : "Inactive",
+          color: service.isActive ? "success" : "error",
+        }
+      }
       cta={{
         text: "Update Status",
         fn: () =>
@@ -214,6 +217,13 @@ const Page = () => {
           </Typography>
           <Box className="card">
             <TextField name="serviceUrl" value={serviceUrl} disabled />
+            <Button
+              variant="text"
+              startIcon={<LinkIcon />}
+              onClick={() => copyToClipBoard(serviceUrl)}
+            >
+              Copy Link
+            </Button>
           </Box>
         </form>
       </PreviewLayout>
@@ -221,6 +231,7 @@ const Page = () => {
   );
 };
 
+// TODO: Move this to constants
 const PRICE_DURATION_HOURS = [
   {
     value: 1,

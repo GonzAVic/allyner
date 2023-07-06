@@ -23,7 +23,7 @@ const Question = ({ question, questionIndex, onNext, onResponse }) => {
   return (
     <Container>
       <Typography variant="h5">
-        {questionIndex + 1}. {question.title || "Title placeholder"}
+        {questionIndex + 1}. {question.title || "..."}
         {question.isRequired && "*"}
       </Typography>
       {question.isDescriptionActive && (

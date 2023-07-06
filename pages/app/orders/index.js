@@ -49,7 +49,7 @@ const Page = () => {
   };
 
   return (
-    <DefaultLayout title="Orders" cta={{ text: "Create Order" }}>
+    <DefaultLayout title="Orders">
       <Container className="pedro">
         {!serviceReqs.length && (
           <NullState

@@ -101,7 +101,7 @@ const DefaultLayout = ({
           <NavigationBar>
             <Avatar
               onClick={openProfileMenu}
-              alt={user?.firstName}
+              alt={user?.firstname}
               src={user?.profilePicture || "/static/images/avatar/2.jpg"}
             />
             <Menu

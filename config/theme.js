@@ -134,7 +134,7 @@ const theme = () => {
           root: { border: "none" },
           columnHeadersInner: { background: "#FFFFFF" },
           iconSeparator: { display: "none" },
-          row: { background: "white" },
+          row: { background: "white", cursor: "pointer" },
         },
       },
 

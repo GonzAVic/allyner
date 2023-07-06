@@ -99,15 +99,11 @@ const ServiceWizard = () => {
 
     if (session) {
       serviceReqData.userId = userId;
-      const response = await createOrder(serviceReqData);
-      router.push({
-        pathname: "/orders/[orderId]",
-        query: { orderId: response.id },
-      });
+      await createOrder(serviceReqData);
     } else {
       await createOrder(serviceReqData);
-      setCurrentStep("confimationPage");
     }
+    setCurrentStep("confimationPage");
   };
 
   const displaySigninView = () => {
@@ -123,10 +119,11 @@ const ServiceWizard = () => {
   };
 
   const handleSignup = async (data) => {
+    console.log('-> data: ', data)
     const userData = {
       email: data.email,
       password: data.password,
-      firstname: data.firsname,
+      firstname: data.firstname,
       lastname: data.lastname,
       businessId: "6483b7aa76172f4cb7a5d976",
       userType: "CLIENT",
@@ -157,7 +154,7 @@ const ServiceWizard = () => {
     <Box sx={{ height: "75vh", flex: 1, display: "flex" }}>
       <LayoutOne
         title={service.name}
-        logo={business.logo}
+        business={business}
         onArrowDown={handleNextQuestion}
         onArrowUp={handlePrevQuestion}
         progressValue={(questionIndex * 100) / questions.length}
@@ -173,7 +170,7 @@ const ServiceWizard = () => {
           )}
           {shouldDisplayAlert && (
             <Alert severity="error" sx={{ mt: 2, width: "100%" }}>
-              [COPY] {currentQuestion.title} is a required field.
+              Please fill this in
             </Alert>
           )}
           {currentStep === "checkoutDetails" && (

@@ -79,7 +79,9 @@ const OderOverview = ({ userType }) => {
                 Customer details
               </Typography>
               <Box className="card" sx={{ mb: 3 }}>
-                <OrderItem label="Customer Name" value={user?.firstName} />
+                {user && (
+                  <OrderItem label="Customer Name" value={user?.firstname} />
+                )}
                 <OrderItem
                   label="Customer Email"
                   value={user?.email || serviceReq.additionalInfo.clientEmail}
@@ -110,7 +112,10 @@ const OderOverview = ({ userType }) => {
               label="Order Date"
               value={serviceReq.frozenService.createdAt}
             />
-            <OrderItem label="Last update date" value="16/01/2023" />
+            <OrderItem
+              label="Last update date"
+              value={serviceReq.frozenService.updatedAt}
+            />
           </Box>
 
           <Typography className="section-title" variant="subtitle1">

@@ -11,26 +11,32 @@ const LayoutOne = ({
   onArrowUp,
   title,
   progressValue = 0,
-  logo = "",
+  business = {},
 }) => {
   return (
     <Container>
       <Header>
-        <img className="businessLogo" src={logo} />
-        <Typography variant="h6">{title}</Typography>
+        <Box className="space-centered">
+          {business.logo && (
+            <img className="businessLogo" src={business.logo} />
+          )}
+          <Typography variant="h5">{business.name}</Typography>
+        </Box>
+
+        <ServiceTitle variant="h5">{title}</ServiceTitle>
         <Box sx={{ width: 24, height: 24 }} />
       </Header>
       <LinearProgress variant="determinate" value={progressValue} />
       <ContentContainer>{children}</ContentContainer>
       <ActionsContainer>
         <Action
-          onClick={onArrowDown}
+          onClick={onArrowUp}
           sx={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
         >
-          <KeyboardArrowDownIcon fontSize="small" />
+          <KeyboardArrowUpIcon fontSize="small" />
         </Action>
         <Action
-          onClick={onArrowUp}
+          onClick={onArrowDown}
           sx={{
             ml: 0.4,
             mr: 1,
@@ -38,7 +44,7 @@ const LayoutOne = ({
             borderBottomLeftRadius: 0,
           }}
         >
-          <KeyboardArrowUpIcon fontSize="small" />
+          <KeyboardArrowDownIcon fontSize="small" />
         </Action>
         <Action variant="body2">Powered by ALLYNER</Action>
       </ActionsContainer>
@@ -47,6 +53,7 @@ const LayoutOne = ({
 };
 
 const Container = styled("div")({
+  position: "relative",
   display: "flex",
   flex: 1,
   flexDirection: "column",
@@ -56,7 +63,8 @@ const Container = styled("div")({
   },
 
   ".businessLogo": {
-    height: 70,
+    height: 50,
+    marginRight: 8,
   },
 });
 
@@ -95,6 +103,13 @@ const Action = styled(Typography)({
   alignItems: "center",
   background: "rgba(114, 155, 255, 0.16)",
   borderRadius: 4,
+  cursor: "pointer",
+});
+
+const ServiceTitle = styled(Typography)({
+  position: "absolute",
+  left: "50%",
+  transform: "translateX(-50%)",
 });
 
 export default LayoutOne;

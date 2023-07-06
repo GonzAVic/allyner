@@ -98,8 +98,6 @@ const findBusinessCustomers = async (_, args) => {
       }
     }
 
-    console.log("-> customersGrouped: ", customersGrouped);
-
     const result = JSON.stringify(customersGrouped);
 
     return result;

@@ -16,7 +16,6 @@ import ServiceDetailsTabs from "components/ServiceDetailsTabs";
 
 // OTHERS
 import { BusinessContext } from "contexts/BusinessContext";
-
 import { questionTypes } from "utils/constants";
 import { questionAdapter } from "utils/adapters";
 
@@ -35,6 +34,8 @@ const Page = () => {
       questions: service ? service.questionnaire : [],
     },
     validationSchema: createFormSchema(),
+    validateOnChange: false,
+    validateOnBlur: false,
     onSubmit: (values) => {
       updateService({ questionnaire: values.questions });
     },

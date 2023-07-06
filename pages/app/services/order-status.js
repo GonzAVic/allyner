@@ -85,7 +85,7 @@ const Page = () => {
   const addStatus = () => {
     formik.setFieldValue("statuses", [
       ...formik.values.statuses,
-      { id: String(Math.random()), label: "new status" },
+      { id: String(Math.random()), label: "" },
     ]);
   };
 
