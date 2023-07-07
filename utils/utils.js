@@ -107,27 +107,8 @@ export const getFileParams = (fileUrl_) => {
   return { size: fileSize, name: fileSplited[1] };
 };
 
-export const getFileName = (fileUrl) => {
-  if (!fileUrl) return null;
-  let fileName = fileUrl;
-  fileName = fileName.replaceAll(
-    "https://allyner-dev.sfo3.digitaloceanspaces.com/",
-    ""
-  );
-  fileName = fileName.slice(16);
-  return fileName;
-};
-
 export const concatStatuses = (statuses) => {
   return ["To do", ...statuses, "Complete"];
-};
-
-export const getSessionData = () => {
-  return {
-    accessToken: localStorage.getItem("access-token"),
-    uid: localStorage.getItem("uid"),
-    clintId: localStorage.getItem("clientId"),
-  };
 };
 
 export const subdomainFromName = (name) => {

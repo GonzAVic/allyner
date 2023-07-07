@@ -119,7 +119,6 @@ const ServiceWizard = () => {
   };
 
   const handleSignup = async (data) => {
-    console.log('-> data: ', data)
     const userData = {
       email: data.email,
       password: data.password,
@@ -133,7 +132,6 @@ const ServiceWizard = () => {
       email: JSON.stringify({ userData }),
       password: "---",
     });
-    console.log("-> res: ", res);
     setCurrentStep("checkoutDetails");
   };
 
@@ -192,6 +190,7 @@ const ServiceWizard = () => {
             <ServiceCheckout
               headline={business.additionalData.confirmationHeadline}
               message={business.additionalData.confirmationMessage}
+              user={session?.user}
             />
           )}
           {currentStep === "signin" && (

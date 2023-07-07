@@ -92,7 +92,7 @@ const findBusinessCustomers = async (_, args) => {
       } else {
         const customerData = await User.findById(
           new ObjectId(key),
-          "email firstname lastname"
+          "email firstname lastname createdAt"
         );
         customersGrouped[key] = [customerData, ...customersGrouped[key]];
       }

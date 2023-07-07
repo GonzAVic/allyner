@@ -9,6 +9,7 @@ import { MenuItem, Menu, Button, Typography } from "@mui/material";
 
 // COMPONENTS
 import Question from "components/service/Question";
+import LayoutOne from "components/layout/LayoutOne";
 import QuestionCard from "components/service/QuestionCard";
 import PreviewLayout from "components/layout/PreviewLayout";
 import DefaultLayout from "components/layout/DefaultLayout";
@@ -22,8 +23,9 @@ import { questionAdapter } from "utils/adapters";
 const Page = () => {
   const router = useRouter();
 
-  const { serviceRepo } = useContext(BusinessContext);
+  const { serviceRepo, businessRepo } = useContext(BusinessContext);
   const { service, updateService } = serviceRepo;
+  const { business } = businessRepo;
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [activeQuestion, setActiveQuestion] = useState(0);
@@ -77,14 +79,19 @@ const Page = () => {
 
       <PreviewLayout
         previewComponent={
-          <Question
-            question={
-              formik.values.questions.length &&
-              formik.values.questions[activeQuestion]
-            }
-            questionIndex={activeQuestion}
-          />
+          <LayoutOne title={service.name} business={business}>
+            <Container>
+              <Question
+                question={
+                  formik.values.questions.length &&
+                  formik.values.questions[activeQuestion]
+                }
+                questionIndex={activeQuestion}
+              />
+            </Container>
+          </LayoutOne>
         }
+        noTopSpace
       >
         <FormikProvider value={formik}>
           <form onSubmit={formik.handleSubmit}>
@@ -141,6 +148,18 @@ const Page = () => {
 
 const QuestionTypeOption = styled(MenuItem)({
   textTransform: "capitalize",
+});
+
+const Container = styled("div")({
+  display: "flex",
+  flex: 1,
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  background: "#FFFFFF",
+  borderRadius: 24,
+  margin: "auto",
+  padding: 32,
 });
 
 const createFormSchema = () => {

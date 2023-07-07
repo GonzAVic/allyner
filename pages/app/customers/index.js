@@ -22,15 +22,20 @@ const Page = () => {
       const customers = [];
       for (const [key, value] of Object.entries(customersOrders)) {
         const name = () => {
-          if (key.includes("@")) return "---";
+          if (key.includes("@")) return "-";
           else return `${value[0].firstname} ${value[0].lastname}`;
         };
+        console.log("-> value[0].createdAt: ", value[0].createdAt);
+        const uCreatedAt = new Date(value[0].createdAt);
+        const signupDate = value[0].createdAt
+          ? `${uCreatedAt.getDate()}/${uCreatedAt.getMonth()}/${uCreatedAt.getFullYear()}`
+          : "-";
         customers.push({
-          id: key,
-          email: value[0].email,
+          id: value[0].email,
           name: name(),
           hasAccount: !key.includes("@") ? "Yes" : "No",
           totalOrders: value.length - 1,
+          signupDate,
         });
       }
       setData(customers);
@@ -69,14 +74,13 @@ const Page = () => {
 };
 
 const columns = [
-  { field: "id", headerName: "#Order", minWidth: 100 },
   {
     field: "name",
     headerName: "Name",
     flex: 1,
   },
   {
-    field: "email",
+    field: "id",
     headerName: "Email",
     flex: 1,
   },
@@ -88,6 +92,11 @@ const columns = [
   {
     field: "totalOrders",
     headerName: "Orders",
+    flex: 1,
+  },
+  {
+    field: "signupDate",
+    headerName: "Sign Up Date",
     flex: 1,
   },
 ];

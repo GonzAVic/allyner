@@ -71,7 +71,7 @@ const RightSide = styled("div")({
 });
 
 const PreviewContent = styled("div")(({ noTopSpace, zoomOut }) => ({
-  marginTop: noTopSpace ? 0 : 150,
+  marginTop: noTopSpace ? 0 : 70,
   width: "100%",
   display: "flex",
   justifyContent: "center",

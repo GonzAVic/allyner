@@ -32,6 +32,7 @@ const OderOverview = ({ userType }) => {
     : [];
 
   if (!serviceReq) return "Loading serviceReq";
+  console.log('-> serviceReq: ', serviceReq)
   return (
     <DefaultLayout
       title="Order Details"
