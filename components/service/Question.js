@@ -3,6 +3,7 @@ import { useState } from "react";
 // MATERIAL UI
 import { styled } from "@mui/system";
 import { Typography, Box, Button } from "@mui/material";
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 
 // COMPONENTS
 import ResponseShortText from "./ResponseShortText";
@@ -40,7 +41,10 @@ const Question = ({ question, questionIndex, onNext, onResponse }) => {
       {renderAnswerComponent(questionIndex, question, isMultiple, onResponse)}
       <Box className="row-2" sx={{ alignItems: "center", mt: 2 }}>
         <Button onClick={handleOnNext}>OK</Button>
-        <Typography>press Enter</Typography>
+        <Typography sx={{ display: "flex", alignItems: "center", ml: 2 }}>
+          press <Box sx={{ width: 8 }} /> <b>Enter</b>
+          <KeyboardReturnIcon />
+        </Typography>
       </Box>
     </Container>
   );

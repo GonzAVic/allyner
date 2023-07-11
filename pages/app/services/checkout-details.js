@@ -103,12 +103,15 @@ const Page = () => {
         <ServicesTabs />
 
         <PreviewLayout
+          zoomOut
           previewComponent={
-            <CheckoutDetailsForm
-              headline={formik.values.headline}
-              message={formik.values.message}
-              additionalQuestions={formik.values.checkoutAdditionalInfo}
-            />
+            <Box sx={{ pl: 5, pr: 5 }}>
+              <CheckoutDetailsForm
+                headline={formik.values.headline}
+                message={formik.values.message}
+                additionalQuestions={formik.values.checkoutAdditionalInfo}
+              />
+            </Box>
           }
         >
           <Typography className="section-title" variant="subtitle1">

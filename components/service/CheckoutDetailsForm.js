@@ -50,7 +50,7 @@ const CheckoutDetailsForm = ({
   return (
     <Container onSubmit={formik.handleSubmit}>
       <Box sx={{ textAlign: "center" }}>
-        <Typography variant="h4" sx={{ mb: 2 }}>
+        <Typography variant="h5" sx={{ mb: 2 }}>
           {headline || "Almost there!"}
         </Typography>
         <Typography color="text.secondary" sx={{ mb: 4, fontSize: 20 }}>

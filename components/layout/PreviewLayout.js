@@ -35,6 +35,7 @@ const PreviewLayout = ({ children, previewComponent, noTopSpace, zoomOut }) => {
       {!isMobile && (
         <RightSide>
           <PreviewContainer noTopSpace={noTopSpace}>
+            <NoTouchLayer />
             <PreviewContent noTopSpace={noTopSpace} zoomOut={zoomOut}>
               {previewComponent}
             </PreviewContent>
@@ -43,6 +44,8 @@ const PreviewLayout = ({ children, previewComponent, noTopSpace, zoomOut }) => {
       )}
       {isMobile && isMobilePreviewOpen && (
         <PreviewContainerMobile close={() => setIsMobilePreviewOpen(false)}>
+          {/* TODO: the close icon is not clickable */}
+          <NoTouchLayer />
           {previewComponent}
         </PreviewContainerMobile>
       )}
@@ -83,6 +86,15 @@ const MobilePreviewButton = styled(Button)({
   position: "absolute",
   right: -18,
   top: -8,
+});
+
+const NoTouchLayer = styled("div")({
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  zIndex: 1,
 });
 
 export default PreviewLayout;

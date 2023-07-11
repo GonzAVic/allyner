@@ -1,7 +1,6 @@
 // MATERIAL UI
 import { styled } from "@mui/system";
 import { Typography, IconButton, Box, LinearProgress } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
@@ -12,7 +11,9 @@ const LayoutOne = ({
   title,
   progressValue = 0,
   business = {},
+  shouldDisplayActions = true,
 }) => {
+  console.log('-> shouldDisplayActions: ', shouldDisplayActions)
   return (
     <Container>
       <Header>
@@ -28,26 +29,29 @@ const LayoutOne = ({
       </Header>
       <LinearProgress variant="determinate" value={progressValue} />
       <ContentContainer>{children}</ContentContainer>
-      <ActionsContainer>
-        <Action
-          onClick={onArrowUp}
-          sx={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
-        >
-          <KeyboardArrowUpIcon fontSize="small" />
-        </Action>
-        <Action
-          onClick={onArrowDown}
-          sx={{
-            ml: 0.4,
-            mr: 1,
-            borderTopLeftRadius: 0,
-            borderBottomLeftRadius: 0,
-          }}
-        >
-          <KeyboardArrowDownIcon fontSize="small" />
-        </Action>
-        <Action variant="body2">Powered by ALLYNER</Action>
-      </ActionsContainer>
+      {shouldDisplayActions && (
+        <ActionsContainer>
+          <Action
+            onClick={onArrowUp}
+            sx={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+            isDisabled={!Boolean(onArrowUp)}
+          >
+            <KeyboardArrowUpIcon fontSize="small" />
+          </Action>
+          <Action
+            onClick={onArrowDown}
+            sx={{
+              ml: 0.4,
+              mr: 1,
+              borderTopLeftRadius: 0,
+              borderBottomLeftRadius: 0,
+            }}
+          >
+            <KeyboardArrowDownIcon fontSize="small" />
+          </Action>
+          <Action variant="body2">Powered by ALLYNER</Action>
+        </ActionsContainer>
+      )}
     </Container>
   );
 };
@@ -95,16 +99,17 @@ const ActionsContainer = styled("div")({
   transform: "translate(-50%)",
 });
 
-const Action = styled(Typography)({
+const Action = styled(Typography)(({ theme, isDisabled }) => ({
   height: 32,
   padding: "0 8px",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  background: "rgba(114, 155, 255, 0.16)",
+  background: isDisabled ? "#DDE1EC" : "rgba(114, 155, 255, 0.16)",
+  color: isDisabled ? "#B5BBC8" : "initial",
   borderRadius: 4,
   cursor: "pointer",
-});
+}));
 
 const ServiceTitle = styled(Typography)({
   position: "absolute",

@@ -9,7 +9,7 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 // OTHER
 import { AppContext } from "contexts/AppContext";
-import { createBucketObject, uploadFile } from "utils/utils";
+import { uploadFile } from "utils/utils";
 
 const Uploader = ({
   multiple = false,
@@ -36,7 +36,6 @@ const Uploader = ({
         try {
           const newFile = await convertToFile(data, file);
           const fileData = await uploadFile(newFile);
-          console.log("-> fileData: ", fileData);
 
           onUploadedFinished(fileData.url);
         } catch (error) {

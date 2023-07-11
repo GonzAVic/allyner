@@ -2,7 +2,7 @@
 import { styled } from "@mui/system";
 import { Typography, Box } from "@mui/material";
 
-const QuestionResponse = ({ number, sentence, answer }) => {
+const QuestionResponse = ({ number, sentence, answer, type }) => {
   return (
     <Box sx={{ mb: 4 }}>
       <Typography sx={{ mb: 2 }}>
@@ -10,17 +10,34 @@ const QuestionResponse = ({ number, sentence, answer }) => {
       </Typography>
       <ResponseContainer>
         <Typography sx={{ color: "#B5BBC8", mb: 1 }}>Answer</Typography>
-        <Typography>
-          {Boolean(answer)
-            ? typeof answer === "string"
-              ? answer
-              : answer.join(", ")
-            : null}
-        </Typography>
+        {type === "FILE" && (
+          <img
+            src={answer}
+            style={{ width: "100px", height: "100px", objectFit: "contain" }}
+          />
+        )}
+        {questoinsWithStringAnswer.includes(type) && (
+          <Typography>
+            {Boolean(answer)
+              ? typeof answer === "string"
+                ? answer
+                : answer.join(", ")
+              : null}
+          </Typography>
+        )}
       </ResponseContainer>
     </Box>
   );
 };
+
+const questoinsWithStringAnswer = [
+  "SHORT_TEXT",
+  "LONG_TEXT",
+  "DROPDOWN",
+  "DATE",
+  "SINGLE_SELECT",
+  "MULTIPLE_SELECT",
+];
 
 const ResponseContainer = styled("div")({
   background: "rgba(114, 155, 255, 0.1)",

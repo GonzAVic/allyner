@@ -31,8 +31,20 @@ const OderOverview = ({ userType }) => {
     ? concatStatuses(business.additionalData.serviceStatuses)
     : [];
 
+  const priceLabel = () => {
+    if (serviceReq.frozenService.pricingType === "CONTACT")
+      return "Contact For Pricing";
+    if (serviceReq.frozenService.pricingType === "RATE")
+      return `${serviceReq.frozenService.pricingDuration}/hr`;
+    if (serviceReq.frozenService.pricingType === "FIXED")
+      return (
+        "Contact For Pricing"(
+          (serviceReq.frozenService.pricingDuration / 60) % 1
+        ) * 60
+      );
+  };
+
   if (!serviceReq) return "Loading serviceReq";
-  console.log('-> serviceReq: ', serviceReq)
   return (
     <DefaultLayout
       title="Order Details"
@@ -104,7 +116,7 @@ const OderOverview = ({ userType }) => {
           </Typography>
           <Box className="card" sx={{ mb: 3 }}>
             <OrderItem label="Order ID" value={`#${serviceReq.id}`} />
-            <OrderItem label="Price" value="$57" />
+            <OrderItem label="Price" value={priceLabel()} />
             <OrderItem
               label="Service description"
               value={serviceReq.frozenService.description}
@@ -154,6 +166,7 @@ const OderOverview = ({ userType }) => {
                   number={index + 1}
                   sentence={q.title}
                   answer={q.answer}
+                  type={q.type}
                 />
               );
             })}

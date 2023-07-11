@@ -147,6 +147,14 @@ const ServiceWizard = () => {
     setQuestions(quesitonsParsed);
   };
 
+  const stepNumber = () => {
+    if (currentStep === "questionnaire") {
+      return questionIndex + 1;
+    }
+    if (currentStep === "checkoutDetails") return questionIndex + 1 + 1;
+    if (currentStep === "confimationPage") return questionIndex + 1 + 2;
+  };
+
   if (!business || !service) return "Loading data...";
   return (
     <Box sx={{ height: "75vh", flex: 1, display: "flex" }}>
@@ -154,8 +162,15 @@ const ServiceWizard = () => {
         title={service.name}
         business={business}
         onArrowDown={handleNextQuestion}
-        onArrowUp={handlePrevQuestion}
-        progressValue={(questionIndex * 100) / questions.length}
+        onArrowUp={
+          currentStep === "questionnaire" && questionIndex === 0
+            ? null
+            : handlePrevQuestion
+        }
+        progressValue={(stepNumber() * 100) / (questions.length + 2)}
+        shouldDisplayActions={
+          currentStep === "questionnaire" || currentStep === "checkoutDetails"
+        }
       >
         <Container>
           {currentStep === "questionnaire" && questions.length > 0 && (
