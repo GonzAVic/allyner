@@ -18,7 +18,7 @@ import ClientSignup from "components/ClientSignup";
 import useService from "utils/useService";
 import useBusiness from "utils/useBusiness";
 import useOrder from "utils/useOrder";
-import { useKeyPress, ARROW_DOWN, ARROW_UP } from "utils/useKeyPress";
+import { useKeyPress, ARROW_DOWN, ARROW_UP, ENTER } from "utils/useKeyPress";
 
 const ServiceWizard = () => {
   const router = useRouter();
@@ -31,6 +31,7 @@ const ServiceWizard = () => {
   const { createOrder } = useOrder(null, { businessId: business?.id });
   const isArrowDownPressed = useKeyPress(ARROW_DOWN);
   const isArrowUpPressed = useKeyPress(ARROW_UP);
+  const isEnterPressed = useKeyPress(ENTER);
 
   const [questions, setQuestions] = useState([]);
   const [questionIndex, setQuestionsIndex] = useState(0);
@@ -45,6 +46,12 @@ const ServiceWizard = () => {
     if (!service) return;
     setQuestions(service.questionnaire);
   }, [service]);
+
+  useEffect(() => {
+    if (!isEnterPressed) return;
+    handleNextQuestion();
+    console.log("-> isEnterPressed: ", isEnterPressed);
+  }, [isEnterPressed]);
 
   useEffect(() => {
     if (isArrowUpPressed) {
@@ -124,7 +131,7 @@ const ServiceWizard = () => {
       password: data.password,
       firstname: data.firstname,
       lastname: data.lastname,
-      businessId: "6483b7aa76172f4cb7a5d976",
+      businessId: business.id,
       userType: "CLIENT",
     };
     const res = await signIn("credentials", {

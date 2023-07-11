@@ -1,6 +1,6 @@
 // MATERIAL UI
 import { styled } from "@mui/system";
-import { Typography, IconButton, Box, LinearProgress } from "@mui/material";
+import { Typography, Box, LinearProgress } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
@@ -13,7 +13,6 @@ const LayoutOne = ({
   business = {},
   shouldDisplayActions = true,
 }) => {
-  console.log('-> shouldDisplayActions: ', shouldDisplayActions)
   return (
     <Container>
       <Header>
