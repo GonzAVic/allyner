@@ -50,7 +50,6 @@ const ServiceWizard = () => {
   useEffect(() => {
     if (!isEnterPressed) return;
     handleNextQuestion();
-    console.log("-> isEnterPressed: ", isEnterPressed);
   }, [isEnterPressed]);
 
   useEffect(() => {

@@ -43,11 +43,17 @@ const findBusinessOrders = async (_, args) => {
 const findClientOrders = async (_, args) => {
   try {
     let { businessId, userId } = args;
-    const orders = await Order.find({
-      businessId: new ObjectId(businessId),
-      userId: new ObjectId(userId),
-    });
-    return orders;
+    if (!userId.includes("@")) {
+      const orders = await Order.find({
+        businessId: new ObjectId(businessId),
+        userId: new ObjectId(userId),
+      });
+      return orders;
+    } else {
+      const regex = new RegExp(userId, "i");
+      const orders = await Order.find({ additionalInfo: { $regex: regex } });
+      return orders;
+    }
   } catch (error) {
     return error;
   }

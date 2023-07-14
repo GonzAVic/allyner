@@ -20,7 +20,7 @@ const OrderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      default: "To do"
+      default: "To do",
     },
 
     userId: {

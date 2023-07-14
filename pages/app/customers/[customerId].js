@@ -24,7 +24,8 @@ const CustomerDetails = () => {
 
   const { businessRepo } = useContext(BusinessContext);
 
-  const { user, updateUser } = useUser(router.query.customerId);
+  const userId = router.query.customerId;
+  const { user, updateUser } = useUser(userId.includes("@") ? null : userId);
   const { findClientOrders } = useOrder(null, {
     userId: router.query.customerId,
     businessId: businessRepo.business.id,
@@ -78,7 +79,8 @@ const CustomerDetails = () => {
     });
   };
 
-  if (!user) return;
+  const isGuestUser = userId.includes("@");
+
   return (
     <DefaultLayout
       title="Customer Details"
@@ -91,17 +93,21 @@ const CustomerDetails = () => {
             Customer details
           </Typography>
           <Box className="card">
-            <Typography variant="subtitle1">Name</Typography>
-            <TextField
-              name="firstname"
-              value={formik.values.firstname}
-              onChange={formik.handleChange}
-            />
+            {!isGuestUser && (
+              <>
+                <Typography variant="subtitle1">Name</Typography>
+                <TextField
+                  name="firstname"
+                  value={formik.values.firstname}
+                  onChange={formik.handleChange}
+                />
+              </>
+            )}
 
             <Typography variant="subtitle1">Email</Typography>
             <TextField
               name="email"
-              value={formik.values.email}
+              value={isGuestUser ? userId : formik.values.email}
               onChange={formik.handleChange}
               sx={{ mb: "8px !important" }}
             />
@@ -110,69 +116,78 @@ const CustomerDetails = () => {
               account.
             </Typography>
 
-            <Typography variant="subtitle1">Phone Number</Typography>
-            <TextField
-              name="phoneNumber"
-              value={formik.values.phoneNumber}
-              onChange={formik.handleChange}
-            />
+            {!isGuestUser && (
+              <>
+                <Typography variant="subtitle1">Phone Number</Typography>
+                <TextField
+                  name="phoneNumber"
+                  value={formik.values.phoneNumber}
+                  onChange={formik.handleChange}
+                />
 
-            <Typography variant="subtitle1">Profile Picture</Typography>
-            {formik.values.profilePicture ? (
-              <FileCard
-                fileUrl={formik.values.profilePicture}
-                onDelete={() => handleProfilePictureChange("")}
-              />
-            ) : (
-              <Uploader
-                onUploadedFinished={handleProfilePictureChange}
-                withCropper
-              />
+                <Typography variant="subtitle1">Profile Picture</Typography>
+                {formik.values.profilePicture ? (
+                  <FileCard
+                    fileUrl={formik.values.profilePicture}
+                    onDelete={() => handleProfilePictureChange("")}
+                  />
+                ) : (
+                  <Uploader
+                    onUploadedFinished={handleProfilePictureChange}
+                    withCropper
+                  />
+                )}
+              </>
             )}
 
-            {Object.entries(formik.values.additionalInfo).map((aI) => {
-              return (
-                <>
-                  <Typography variant="subtitle1">{aI[0]}</Typography>
-                  <TextField
-                    name={`additionalInfo["${aI[0]}"]`}
-                    value={formik.values.additionalInfo[`${aI[0]}`]}
-                    onChange={formik.handleChange}
-                  />
-                </>
-              );
-            })}
+            {!isGuestUser &&
+              Object.entries(formik.values.additionalInfo).map((aI) => {
+                return (
+                  <>
+                    <Typography variant="subtitle1">{aI[0]}</Typography>
+                    <TextField
+                      name={`additionalInfo["${aI[0]}"]`}
+                      value={formik.values.additionalInfo[`${aI[0]}`]}
+                      onChange={formik.handleChange}
+                    />
+                  </>
+                );
+              })}
           </Box>
         </div>
         <div>
-          <Typography className="section-title" variant="subtitle1">
-            Customer Activity
-          </Typography>
-          <ListGroup
-            data={[
-              { label: "Sign Up Date", value: user.createdAt },
-              {
-                label: "Timezone",
-                render: () => {
-                  return (
-                    <TextField
-                      name="timezone"
-                      value={formik.values.timezone}
-                      onChange={formik.handleChange}
-                      sx={{ textTransform: "capitalize" }}
-                      select
-                    >
-                      {timezones().map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  );
-                },
-              },
-            ]}
-          />
+          {!isGuestUser && (
+            <>
+              <Typography className="section-title" variant="subtitle1">
+                Customer Activity
+              </Typography>
+              <ListGroup
+                data={[
+                  { label: "Sign Up Date", value: user?.createdAt },
+                  {
+                    label: "Timezone",
+                    render: () => {
+                      return (
+                        <TextField
+                          name="timezone"
+                          value={formik.values.timezone}
+                          onChange={formik.handleChange}
+                          sx={{ textTransform: "capitalize" }}
+                          select
+                        >
+                          {timezones().map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                      );
+                    },
+                  },
+                ]}
+              />
+            </>
+          )}
         </div>
       </Content>
 
