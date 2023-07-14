@@ -37,11 +37,7 @@ const OderOverview = ({ userType }) => {
     if (serviceReq.frozenService.pricingType === "RATE")
       return `${serviceReq.frozenService.pricingDuration}/hr`;
     if (serviceReq.frozenService.pricingType === "FIXED")
-      return (
-        "Contact For Pricing"(
-          (serviceReq.frozenService.pricingDuration / 60) % 1
-        ) * 60
-      );
+      return "Contact For Pricing";
   };
 
   if (!serviceReq) return "Loading serviceReq";
