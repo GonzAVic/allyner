@@ -30,30 +30,7 @@ export default function Index() {
 
   return (
     <DefaultLayout title={`${greetingText} ${userRepo.user.firstname}`}>
-      <div className="service-cards-list-ctr">
-        <HomeCard
-          label="Total Session"
-          value="1,382"
-          percentage="20"
-          isUp={true}
-          icon={<ChatBubbleOutlineIcon fontSize="large" />}
-        />
-        <HomeCard
-          label="Total Session"
-          value="1,382"
-          percentage="20"
-          isUp={true}
-          icon={<PeopleIcon fontSize="large" />}
-        />
-        <HomeCard
-          label="Total Session"
-          value="1,382"
-          percentage="20"
-          isUp={true}
-          icon={<ReceiptIcon fontSize="large" />}
-        />
-      </div>
-      <Typography variant="h5" sx={{ mt: 6, mb: 3 }}>
+      <Typography variant="h5" sx={{ mb: 3 }}>
         Your Services
       </Typography>
       <div className="service-cards-list-ctr">

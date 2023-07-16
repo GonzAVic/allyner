@@ -127,15 +127,7 @@ const DefaultLayout = ({
                   <PersonOutlineOutlinedIcon sx={{ mr: 1 }} /> Profile
                 </Typography>
               </MenuItem>
-              <MenuItem
-                onClick={() =>
-                  signOut({
-                    redirect: true,
-                    callbackUrl:
-                      userType === "client" ? "/signin" : "/business-signin",
-                  })
-                }
-              >
+              <MenuItem onClick={() => signOut({ redirect: false })}>
                 <Typography
                   color="text.secondary"
                   sx={{

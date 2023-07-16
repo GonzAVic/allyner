@@ -68,6 +68,7 @@ const Content = styled("div")({
   background: "#EFF1F5",
   minHeight: "calc(100vh - 85px)",
   paddingTop: 100,
+  paddingBottom: 100,
 });
 
 const ContentContent = styled("div")({

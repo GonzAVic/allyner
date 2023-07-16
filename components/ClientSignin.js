@@ -70,11 +70,7 @@ const ClientSignin = ({
         Sign In
       </Button>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          // sx={{ textAlign: "center" }}
-        >
+        <Typography variant="body2" color="text.secondary">
           Don’t have an account?
         </Typography>
         <Typography

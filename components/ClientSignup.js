@@ -12,6 +12,7 @@ const ClientSignup = ({
   message,
   additionalQuestions = [],
   onSubmit = () => {},
+  onSignin = () => {},
 }) => {
   const aQInitialValues = {};
   additionalQuestions.forEach((aq) => {
@@ -114,6 +115,24 @@ const ClientSignup = ({
       <Button onClick={formik.submitForm} fullWidth>
         Sign Up
       </Button>
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+        <Typography variant="body2" color="text.secondary">
+          Already have an account?
+        </Typography>
+        <Typography
+          variant="body2"
+          color="primary"
+          sx={{
+            display: "inline-block",
+            ml: 1,
+            fontWeight: 700,
+            cursor: "pointer",
+          }}
+          onClick={onSignin}
+        >
+          Sign in
+        </Typography>
+      </Box>
     </Container>
   );
 };

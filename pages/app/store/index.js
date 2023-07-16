@@ -28,7 +28,10 @@ const Page = () => {
         </Typography>
         <Box className="card" sx={{ mb: 5 }}>
           <Typography variant="subtitle1">Booking Page URL</Typography>
-          <TextField value={"https://" + business.subdomain + ".allyner.com"} />
+          <TextField
+            value={"https://" + business.subdomain + ".allyner.com"}
+            disabled
+          />
           <Button
             variant="text"
             onClick={() =>

@@ -37,6 +37,7 @@ const ServiceWizard = () => {
   const [questionIndex, setQuestionsIndex] = useState(0);
   const [currentStep, setCurrentStep] = useState("questionnaire");
   const [shouldDisplayAlert, setShouldDisplayAlert] = useState(false);
+  const [isSigninError, setIsSigninError] = useState(false);
 
   const currentQuestion = questions[questionIndex];
 
@@ -54,8 +55,8 @@ const ServiceWizard = () => {
 
   useEffect(() => {
     if (isArrowUpPressed) {
+      if (questionIndex === 0) return;
       handlePrevQuestion();
-      return;
     }
     if (
       currentQuestion &&
@@ -71,6 +72,7 @@ const ServiceWizard = () => {
   }, [isArrowDownPressed, isArrowUpPressed]);
 
   const handleNextQuestion = () => {
+    if (currentStep === "confimationPage") return;
     if (
       currentQuestion &&
       currentQuestion.isRequired &&
@@ -91,8 +93,16 @@ const ServiceWizard = () => {
 
   const handlePrevQuestion = () => {
     if (questionIndex === 0) return;
+    if (currentStep === "confimationPage") return;
 
-    setQuestionsIndex(questionIndex - 1);
+    if (
+      questionIndex === questions.length - 1 &&
+      currentStep !== "questionnaire"
+    ) {
+      setCurrentStep("questionnaire");
+    } else {
+      setQuestionsIndex(questionIndex - 1);
+    }
   };
 
   const checkoutAction = async (checkoutFormData) => {
@@ -112,16 +122,24 @@ const ServiceWizard = () => {
     setCurrentStep("confimationPage");
   };
 
-  const displaySigninView = () => {
-    setCurrentStep("signin");
-  };
+  const handleSignin = async (data) => {
+    const userData = {
+      email: data.email,
+      password: data.password,
+      businessId: business.id,
+      userType: "CLIENT",
+    };
 
-  const handleSignin = () => {
-    /**
-     * 1. get client user data
-     * 2. store user data
-     * 3. display checkout form again
-     */
+    const res = await signIn("credentials", {
+      redirect: false,
+      email: JSON.stringify({ userData, action: "SIGNIN" }),
+      password: "---",
+    });
+
+    if (res.error) setIsSigninError(true);
+    if (!res.error) {
+      setCurrentStep("checkoutDetails");
+    }
   };
 
   const handleSignup = async (data) => {
@@ -143,6 +161,10 @@ const ServiceWizard = () => {
 
   const displaySignupView = () => {
     setCurrentStep("signup");
+  };
+
+  const displaySigninView = () => {
+    setCurrentStep("signin");
   };
 
   const onResponse = (questionIndex, answer) => {
@@ -218,6 +240,7 @@ const ServiceWizard = () => {
             <ClientSignin
               headline={business.additionalData.signInHeadline}
               message={business.additionalData.signInMessage}
+              isDisplayError={isSigninError}
               onSignup={displaySignupView}
               onSubmit={handleSignin}
             />
@@ -228,6 +251,7 @@ const ServiceWizard = () => {
               message={business.additionalData.signUpMessage}
               additionalQuestions={business.additionalData.signUpQuestionnaire}
               onSubmit={handleSignup}
+              onSignin={displaySigninView}
             />
           )}
         </Container>

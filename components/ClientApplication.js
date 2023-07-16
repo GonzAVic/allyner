@@ -10,8 +10,6 @@ import useUser from "utils/useUser";
 const ClientApplication = ({ children }) => {
   const { data: session } = useSession();
 
-  const router = useRouter();
-
   const userRepo = useUser(session.user.id);
   const businessRepo = useBusiness(null, { useBusinessName: true });
   const orderRepo = useOrder(null, {
