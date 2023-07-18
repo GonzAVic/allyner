@@ -42,15 +42,18 @@ const Index = () => {
     greetingText = "Good Evening";
   }
 
+  console.log("-> serviceReqs: ", serviceReqs);
   return (
     <DefaultLayout
       title={`${greetingText} ${userRepo.user.firstname}`}
       secondaryText="Welcome to Allyner technologies inc."
       userType="client"
     >
-      <Typography variant="h5" sx={{ mb: 2 }}>
-        Active Orders
-      </Typography>
+      {Boolean(serviceReqs.length) && (
+        <Typography variant="h5" sx={{ mb: 2 }}>
+          Active Orders
+        </Typography>
+      )}
       {serviceReqs.map((sr, index) => (
         <OrderCard key={index} serviceReq={sr} />
       ))}

@@ -98,6 +98,14 @@ const findBusinessCustomers = async (_, args) => {
       }
     }
 
+    const usersWithNoOrders = await User.find({
+      businessId: new ObjectId(businessId),
+    });
+
+    console.log("-> usersWithNoOrders: ", usersWithNoOrders);
+
+    console.log("-> customersGrouped: ", customersGrouped);
+
     const result = JSON.stringify(customersGrouped);
 
     return result;

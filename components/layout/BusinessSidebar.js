@@ -93,8 +93,6 @@ const BusinessSidebar = ({ isResponsive, isMenuOpen }) => {
         isActive={router.asPath.includes("/settings")}
         icon={<SettingsIcon />}
       />
-
-      <SidebarItem label="Log Out" icon={<LogoutOutlinedIcon />} />
     </Container>
   );
 };

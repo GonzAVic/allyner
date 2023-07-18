@@ -2,6 +2,9 @@
 import { styled } from "@mui/system";
 import { Typography, Box, Chip } from "@mui/material";
 
+// OTHER
+import NoThumbnail from "assets/no-thumbnail.png";
+
 const OrderCard = ({ serviceReq }) => {
   if (!serviceReq) return null;
   return (
@@ -15,7 +18,7 @@ const OrderCard = ({ serviceReq }) => {
         <div className="row-column">
           <img
             className="cover"
-            src={serviceReq.frozenService.cover}
+            src={serviceReq.frozenService.cover || NoThumbnail.src}
             alt="Picture of the author"
           />
         </div>

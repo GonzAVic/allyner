@@ -3,7 +3,6 @@ import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 
 const ResponseMultipleChoice = ({
   options,
-  isMultiple,
   onResponse,
   questionIndex,
   question,
@@ -27,7 +26,11 @@ const ResponseMultipleChoice = ({
       {options.map((option, index) => (
         <FormControlLabel
           key={index}
-          control={<Checkbox />}
+          control={
+            <Checkbox
+              checked={question.answer && question.answer.includes(option)}
+            />
+          }
           label={option}
           onChange={(e) => handleChange(e, option)}
         />

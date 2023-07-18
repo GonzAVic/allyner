@@ -1,10 +1,19 @@
 import { TextField, MenuItem } from "@mui/material";
 
-const ResponseDropdown = ({ options, onResponse, questionIndex, question }) => {
+const ResponseDropdown = ({
+  options,
+  onResponse,
+  questionIndex,
+  question,
+  nextQuestion,
+}) => {
   return (
     <TextField
       value={question.answer}
-      onChange={(e) => onResponse(questionIndex, e.target.value)}
+      onChange={(e) => {
+        onResponse(questionIndex, e.target.value);
+        nextQuestion();
+      }}
       select
     >
       {options.map((option) => (

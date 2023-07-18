@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 // MATERIAL UI
 import { styled } from "@mui/system";
 import { Typography, Box, Button } from "@mui/material";
@@ -38,7 +36,13 @@ const Question = ({ question, questionIndex, onNext, onResponse }) => {
         </Typography>
       )}
       <Box sx={{ height: 16 }} />
-      {renderAnswerComponent(questionIndex, question, isMultiple, onResponse)}
+      {renderAnswerComponent(
+        questionIndex,
+        question,
+        isMultiple,
+        onResponse,
+        handleOnNext
+      )}
       <Box className="row-2" sx={{ alignItems: "center", mt: 2 }}>
         <Button onClick={handleOnNext}>OK</Button>
         <Typography sx={{ display: "flex", alignItems: "center", ml: 2 }}>
@@ -58,7 +62,8 @@ const renderAnswerComponent = (
   questionIndex,
   question,
   isMultiple,
-  onResponse
+  onResponse,
+  handleOnNext
 ) => {
   switch (question.type) {
     case "SHORT_TEXT":
@@ -84,6 +89,7 @@ const renderAnswerComponent = (
           onResponse={onResponse}
           questionIndex={questionIndex}
           question={question}
+          nextQuestion={handleOnNext}
         />
       );
     case "DATE":
@@ -92,6 +98,7 @@ const renderAnswerComponent = (
           onResponse={onResponse}
           questionIndex={questionIndex}
           question={question}
+          nextQuestion={handleOnNext}
         />
       );
     case "FILE":
@@ -100,6 +107,7 @@ const renderAnswerComponent = (
           onResponse={onResponse}
           questionIndex={questionIndex}
           question={question}
+          nextQuestion={handleOnNext}
         />
       );
     case "PICTURE":
@@ -115,17 +123,16 @@ const renderAnswerComponent = (
       return (
         <ResponseSingleSelect
           options={question.options}
-          isMultiple={isMultiple}
           onResponse={onResponse}
           questionIndex={questionIndex}
           question={question}
+          nextQuestion={handleOnNext}
         />
       );
     case "MULTIPLE_SELECT":
       return (
         <ResponseMultipleChoice
           options={question.options}
-          isMultiple={isMultiple}
           onResponse={onResponse}
           questionIndex={questionIndex}
           question={question}
