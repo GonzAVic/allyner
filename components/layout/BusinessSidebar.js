@@ -27,7 +27,14 @@ const BusinessSidebar = ({ isResponsive, isMenuOpen }) => {
   if (!business) return null;
   return (
     <Container isResponsive={isResponsive} isMenuOpen={isMenuOpen}>
-      <Box className="space-centered" sx={{ mb: 8 }}>
+      <Box
+        sx={{
+          mb: 8,
+          display: "flex",
+          justifyContent: "flex-start",
+          paddingLeft: business.logo ? 1 : 2,
+        }}
+      >
         {business.logo && <img className="businessLogo" src={business.logo} />}
         <Typography variant="h5">{business.name}</Typography>
       </Box>

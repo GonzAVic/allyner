@@ -28,6 +28,41 @@ const updateOrder = async (_, args) => {
   }
 };
 
+const cancelMultipleOrders = async (_, args) => {
+  try {
+    let { input } = args;
+    console.log("-> input: ", input);
+
+    const orders = await Order.updateMany(
+      { _id: { $in: input } },
+      { $set: { status: "canceled" } },
+      { multi: true }
+    );
+
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
+
+const updateMultipleOrders = async (_, args) => {
+  try {
+    let { input, status } = args;
+    console.log("-> input: ", input);
+    console.log("-> status: ", status);
+
+    const orders = await Order.updateMany(
+      { _id: { $in: input } },
+      { $set: { status } },
+      { multi: true }
+    );
+
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
+
 const findBusinessOrders = async (_, args) => {
   try {
     let { businessId } = args;
@@ -71,7 +106,12 @@ const findOrder = async (_, args) => {
 
 const queries = { findBusinessOrders, findOrder, findClientOrders };
 
-const mutations = { createOrder, updateOrder };
+const mutations = {
+  createOrder,
+  updateOrder,
+  cancelMultipleOrders,
+  updateMultipleOrders,
+};
 
 module.exports = {
   queries,

@@ -34,6 +34,7 @@ const ServiceCard = ({ service = {}, userType = "business", status }) => {
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
 
@@ -112,7 +113,7 @@ const ServiceCard = ({ service = {}, userType = "business", status }) => {
               color={service.isActive ? "success" : "error"}
               size="small"
             />
-            <IconButton onClick={handleClick}>
+            <IconButton className="menubutton" onClick={handleClick}>
               <MoreVertIcon />
             </IconButton>
 
@@ -171,6 +172,13 @@ const Container = styled("div")(({ userType }) => ({
     display: "-webkit-box",
     "-webkit-line-clamp": "3",
     "-webkit-box-orient": "vertical",
+  },
+
+  ".menubutton": {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    zIndex: 9,
   },
 }));
 

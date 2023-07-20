@@ -13,10 +13,10 @@ import useOrder from "utils/useOrder";
 import { concatStatuses } from "utils/utils";
 import { BusinessContext } from "contexts/BusinessContext";
 
-const UpdateOrderStatusModal = ({ initialStatus }) => {
+const UpdateOrderStatusModal = ({ initialStatus, ordersIds }) => {
   const router = useRouter();
   const { businessRepo } = useContext(BusinessContext);
-  const { updateOrder } = useOrder(router.query.orderId);
+  const { updateOrder, updateMultipleOrders } = useOrder(router.query.orderId);
   const { business } = businessRepo;
 
   const formik = useFormik({
@@ -25,9 +25,9 @@ const UpdateOrderStatusModal = ({ initialStatus }) => {
     initialValues: {
       status: initialStatus || "",
     },
-    // validationSchema: createSigninSchema(),
     onSubmit: (values) => {
-      updateOrder({ status: values.status }, router.query.orderId);
+      if (ordersIds) updateMultipleOrders(ordersIds, values.status);
+      else updateOrder({ status: values.status }, router.query.orderId);
     },
   });
 

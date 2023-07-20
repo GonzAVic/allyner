@@ -8,12 +8,16 @@ import {
   FIND_CLIENT_ORDERS,
   FIND_BUSINESS_ORDERS,
   UPDATE_ORDER,
+  CANCEL_MULTIPLE_ORDERS,
+  UPDATE_MULTIPLE_ORDERS,
 } from "graphql/apiql";
 import { serviceReqAdapter } from "./adapters";
 
 const useOrder = (orderId, options) => {
   const [findOrderFn, findOrderHpr] = useLazyQuery(FIND_ORDER);
   const [createOrderFn] = useMutation(CREATE_ORDER);
+  const [cancelMultipleOrdersFn] = useMutation(CANCEL_MULTIPLE_ORDERS);
+  const [updateMultipleOrdersFn] = useMutation(UPDATE_MULTIPLE_ORDERS);
   const [updateOrderFn, updateOrderHpr] = useMutation(UPDATE_ORDER);
   const [findClientOrdersFn] = useLazyQuery(FIND_CLIENT_ORDERS);
   const [findBusinessOrdersFn] = useLazyQuery(FIND_BUSINESS_ORDERS);
@@ -102,12 +106,39 @@ const useOrder = (orderId, options) => {
     return response;
   };
 
+  const cancelMultipleOrders = async (ordersIds) => {
+    const response = await cancelMultipleOrdersFn({
+      variables: { input: ordersIds },
+    });
+
+    setTimeout(() => {
+      location.reload();
+    }, 200);
+
+    return response;
+  };
+
+  const updateMultipleOrders = async (ordersIds, status) => {
+    console.log("-> status: ", status);
+    const response = await updateMultipleOrdersFn({
+      variables: { input: ordersIds, status },
+    });
+
+    setTimeout(() => {
+      location.reload();
+    }, 200);
+
+    return response;
+  };
+
   return {
     serviceReq,
     createOrder,
     findClientOrders,
     findBusinessOrders,
     updateOrder,
+    cancelMultipleOrders,
+    updateMultipleOrders,
   };
 };
 

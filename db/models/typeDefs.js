@@ -145,6 +145,8 @@ const typeDefs = gql`
 
     createOrder(input: OrderInput!): Order
     updateOrder(input: OrderInput!, orderId: String!): Order
+    cancelMultipleOrders(input: [String]): Boolean
+    updateMultipleOrders(input: [String], status: String): Boolean
   }
 `;
 

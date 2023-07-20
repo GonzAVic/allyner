@@ -298,3 +298,15 @@ export const UPDATE_ORDER = gql`
 
   ${ORDER_FRAGMENT}
 `;
+
+export const CANCEL_MULTIPLE_ORDERS = gql`
+  mutation ($input: [String]) {
+    cancelMultipleOrders(input: $input)
+  }
+`;
+
+export const UPDATE_MULTIPLE_ORDERS = gql`
+  mutation ($input: [String], $status: String) {
+    updateMultipleOrders(input: $input, status: $status)
+  }
+`;

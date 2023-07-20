@@ -13,16 +13,18 @@ import NullState from "components/NullState";
 
 // OTHER
 import { BusinessContext } from "contexts/BusinessContext";
+import { AppContext } from "contexts/AppContext";
 import useUser from "utils/useUser";
 
 const Page = () => {
   const router = useRouter();
-
   const { orderRepo } = useContext(BusinessContext);
+  const { modalRepo } = useContext(AppContext);
 
   const { findBusinessOrders } = orderRepo;
 
   const [serviceReqs, setServiceReqs] = useState([]);
+  const [ordersSelected, setOrdersSelected] = useState([]);
 
   useEffect(() => {
     const onMount = async () => {
@@ -48,8 +50,34 @@ const Page = () => {
     });
   };
 
+  const handleCancelOrders = () => {
+    orderRepo.cancelMultipleOrders(ordersSelected);
+  };
+
+  const handleSelectedRowsChange = (ordersIdSelected) => {
+    setOrdersSelected(ordersIdSelected);
+  };
+
   return (
-    <DefaultLayout title="Orders">
+    <DefaultLayout
+      title="Orders"
+      cta={
+        ordersSelected.length
+          ? {
+              text: "Update Status",
+              fn: () =>
+                modalRepo.open("UpdateOrderStatus", {
+                  ordersIds: ordersSelected,
+                }),
+            }
+          : null
+      }
+      moreOptions={
+        ordersSelected.length
+          ? [{ text: "Cancel Orders", fn: handleCancelOrders }]
+          : null
+      }
+    >
       <Container className="pedro">
         {!serviceReqs.length && (
           <NullState
@@ -67,6 +95,7 @@ const Page = () => {
             disableSelectionOnClick
             experimentalFeatures={{ newEditingApi: true }}
             onRowClick={handleRowClick}
+            onSelectionModelChange={handleSelectedRowsChange}
           />
         )}
       </Container>
