@@ -22,6 +22,15 @@ const BusinessApplication = ({ children }) => {
     businessId: userRepo.user?.businessId,
   });
 
+  useEffect(() => {
+    if (!userRepo.user) return;
+    if (!window.analytics) return;
+    if (!window.analytics.identify) return;
+    window.analytics.identify(userRepo.user.email, {
+      email: userRepo.user.email,
+    });
+  }, [window.analytics, userRepo.user]);
+
   const contextObject = { businessRepo, serviceRepo, userRepo, orderRepo };
 
   if (!businessRepo.business) return "Loading on BusinessApplication";

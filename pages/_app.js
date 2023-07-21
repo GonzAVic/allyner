@@ -66,6 +66,7 @@ export default function App({
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <Script src="/hotjarscript.js" />
+      <Script src="/juneso.js" />
       <ApolloProvider client={client}>
         <LocalizationProvider dateAdapter={AdapterMoment}>
           <ThemeProvider theme={theme()}>
