@@ -22,7 +22,7 @@ const QuestionResponse = ({ number, sentence, answer, type }) => {
               ? typeof answer === "string"
                 ? answer
                 : answer.join(", ")
-              : null}
+              : "[COPY] No answer from user"}
           </Typography>
         )}
       </ResponseContainer>

@@ -45,7 +45,6 @@ export const authOptions = {
         try {
           const signupData = JSON.parse(cred.email);
           const { userData, businessData, action } = signupData;
-          console.log("-> action: ", action);
           await connectDb();
 
           let user = null;

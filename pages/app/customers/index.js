@@ -13,12 +13,11 @@ const Page = () => {
   const router = useRouter();
   const { businessRepo } = useContext(BusinessContext);
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     businessRepo.findBusinessCustomers().then((result) => {
       const customersOrders = JSON.parse(result);
-      console.log("-> customersOrders: ", customersOrders);
 
       const customers = [];
       for (const [key, value] of Object.entries(customersOrders)) {
@@ -53,13 +52,14 @@ const Page = () => {
 
   return (
     <DefaultLayout title="Customers">
-      {!data.length && (
+      {data !== null && !data.length && (
         <NullState
           primaryText="No Customer Data Found"
           secondaryText="Google is waiting for some order."
         />
       )}
-      {Boolean(data.length) && (
+      {data == null && <DataGrid loading rows={[]} columns={columns} />}
+      {data !== null && Boolean(data.length) && (
         <DataGrid
           rows={data}
           columns={columns}

@@ -23,7 +23,7 @@ const Page = () => {
 
   const { findBusinessOrders } = orderRepo;
 
-  const [serviceReqs, setServiceReqs] = useState([]);
+  const [orders, setOrders] = useState(null);
   const [ordersSelected, setOrdersSelected] = useState([]);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const Page = () => {
           status: r.status,
         };
       });
-      setServiceReqs(serviceRequests);
+      setOrders(serviceRequests);
     };
     onMount();
   }, []);
@@ -79,15 +79,16 @@ const Page = () => {
       }
     >
       <Container className="pedro">
-        {!serviceReqs.length && (
+        {orders !== null && !orders.length && (
           <NullState
             primaryText="No Orders Found"
             secondaryText="Google is waiting for some order."
           />
         )}
-        {Boolean(serviceReqs.length) && (
+        {orders == null && <DataGrid loading rows={[]} columns={columns} />}
+        {orders !== null && Boolean(orders.length) && (
           <DataGrid
-            rows={serviceReqs}
+            rows={orders}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}

@@ -60,7 +60,7 @@ const BusinessSignin = () => {
 
       <img className="logo" src={AllynerLogo.src} />
       <Typography variant="h4" sx={{ mt: 4, textAlign: "center" }}>
-        Hi. Wlecome ✋
+        Hi. Welcome ✋
       </Typography>
       <Typography
         variant="body2"

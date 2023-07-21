@@ -36,7 +36,7 @@ const Page = () => {
       description: service?.description || "",
       cover: service?.cover || "",
       callToAction: service?.callToAction || "Book Now",
-      pricingType: service?.pricingType || "",
+      pricingType: service?.pricingType || "FIXED",
       durationHours: duration ? parseInt(duration) : 1,
       durationMinutes:
         service && service.pricingDuration

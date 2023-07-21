@@ -93,7 +93,16 @@ const OderOverview = ({ userType }) => {
                 )}
                 <OrderItem
                   label="Customer Email"
-                  value={user?.email || serviceReq.additionalInfo.clientEmail}
+                  value={
+                    <a
+                      href={
+                        "mailto:" + user?.email ||
+                        serviceReq.additionalInfo.clientEmail
+                      }
+                    >
+                      {user?.email || serviceReq.additionalInfo.clientEmail}
+                    </a>
+                  }
                 />
                 <OrderItem label="Client Account" value={user ? "Yes" : "No"} />
                 {user &&
