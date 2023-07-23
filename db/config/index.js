@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-const mongoDB =
-  "mongodb+srv://pedro:4321qwER@archticase.pzhcd.mongodb.net/archticase?retryWrites=true&w=majority";
+const mongoDB = process.env.MONGODB_URI;
+// "mongodb+srv://pedro:4321qwER@archticase.pzhcd.mongodb.net/archticase?retryWrites=true&w=majority";
 
 const connectDB = async () => {
   try {
